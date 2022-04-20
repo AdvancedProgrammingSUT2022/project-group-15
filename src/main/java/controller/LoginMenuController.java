@@ -24,6 +24,10 @@ public class LoginMenuController{
             return "user with nickname " + nickname + " already exists";
         }
 
+        if(password.length() >= 6 && password.matches(".*\\d.*") && password.matches(".*[a-zA-Z].*")){
+            return "password is weak!";
+        }
+
         User.addUser(username, password, nickname);
         return "user created successfully!";
     }
