@@ -18,10 +18,36 @@ public class User {
     }
 
     /**
+     * return the user with a specific username
+     * @author Parsa
+     */
+    public static User getUserByUsername(String username) {
+        for (User user : users) {
+            if(user.getUsername().equals(username)){
+                return user;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * return the user with a specific nickname
+     * @author Parsa
+     */
+    public static User getUserByNickname(String nickname) {
+        for (User user : users) {
+            if(user.getNickname().equals(nickname)){
+                return user;
+            }
+        }
+        return null;
+    }
+
+    /**
      * add a new user to the users list
      * @author Parsa
      */
-    public void addUser(String username, String password, String nickname){
+    public static void addUser(String username, String password, String nickname){
         users.add(new User(username, password, nickname));
     }
 
