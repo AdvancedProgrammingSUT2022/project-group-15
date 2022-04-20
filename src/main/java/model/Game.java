@@ -8,7 +8,7 @@ public class Game {
     private ArrayList<Civilization> civilizations = new ArrayList<>();
     private ArrayList<City> originalCapitals = new ArrayList<>();
     private int turn;
-    //map???
+    // TODO: 4/20/2022  map???
 
 
     private Game() {
@@ -26,6 +26,7 @@ public class Game {
         for (User user : users) {
             civilizations.add(new Civilization(user));
         }
+        // TODO: 4/20/2022 set map???
     }
 
     public Civilization getPlayingCivilization() {

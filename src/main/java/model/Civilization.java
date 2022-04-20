@@ -1,5 +1,6 @@
 package model;
 
+import enums.HexVisibility;
 import enums.Resource;
 import enums.Technology;
 
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 public class Civilization {
     private User user;
     private boolean isYourTurn;
-    //visibility map???
+    private ArrayList<ArrayList<HexVisibility>>  visibilityMap ;
     private ArrayList<Technology> technologies = new ArrayList<>();
     private Technology technologyInProgress;
     private ArrayList<Unit> openedUnits = new ArrayList<>();
