@@ -4,10 +4,11 @@ import model.User;
 
 import java.util.regex.Matcher;
 
-public class LoginMenuController{
+public class LoginMenuController {
 
     /**
      * creates a new user
+     *
      * @return the message to be shown on the screen
      * @author Parsa
      */
@@ -16,15 +17,15 @@ public class LoginMenuController{
         String password = matcher.group("password");
         String nickname = matcher.group("nickname");
 
-        if(User.getUserByUsername(username) != null){
+        if (User.getUserByUsername(username) != null) {
             return "user with username " + username + " already exists";
         }
 
-        if(User.getUserByNickname(nickname) != null){
+        if (User.getUserByNickname(nickname) != null) {
             return "user with nickname " + nickname + " already exists";
         }
 
-        if(password.length() >= 6 && password.matches(".*\\d.*") && password.matches(".*[a-zA-Z].*")){
+        if (!(password.length() >= 6 && password.matches(".*\\d.*") && password.matches(".*[a-zA-Z].*"))) {
             return "password is weak!";
         }
 
@@ -34,6 +35,7 @@ public class LoginMenuController{
 
     /**
      * log in user by getting username and password
+     *
      * @return the message to be shown on the screen
      * @author Parsa
      */
@@ -41,7 +43,7 @@ public class LoginMenuController{
         String username = matcher.group("username");
         String password = matcher.group("password");
 
-        if(User.getUserByUsername(username) == null || !User.getUserByUsername(username).getPassword().equals(password)){
+        if (User.getUserByUsername(username) == null || !User.getUserByUsername(username).getPassword().equals(password)) {
             return "Username and password didn't match!";
         }
         User.loggedInUser = User.getUserByUsername(username);
