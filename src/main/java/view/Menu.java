@@ -17,6 +17,13 @@ public abstract class Menu {
 
     protected abstract String checkCommand(String command);
 
+    /**
+     * check the command with a regex and return the output matcher
+     * @param command the command that we want to check
+     * @param regex the regex that we want to check command with
+     * @return null if doesn't match and else a matcher
+     * @author Parsa
+     */
     protected Matcher getMatcher(String command, String regex) {
         Matcher matcher = Pattern.compile(regex).matcher(command);
         return matcher.matches() ? matcher : null;
