@@ -6,7 +6,7 @@ import model.User;
 
 import java.util.ArrayList;
 
-public class MainMenuController extends Controller{
+public class MainMenuController{
     /**
      * create and start game
      * @param users users for the game

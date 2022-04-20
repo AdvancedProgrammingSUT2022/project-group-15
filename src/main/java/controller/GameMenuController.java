@@ -1,4 +1,4 @@
 package controller;
 
-public class GameMenuController extends Controller {
+public class GameMenuController{
 }

@@ -1,4 +1,4 @@
 package controller;
 
-public class ProfileMenuController extends Controller{
+public class ProfileMenuController{
 }

@@ -4,7 +4,7 @@ import model.User;
 
 import java.util.regex.Matcher;
 
-public class LoginMenuController extends Controller{
+public class LoginMenuController{
 
     /**
      * creates a new user
@@ -40,7 +40,7 @@ public class LoginMenuController extends Controller{
         if(User.getUserByUsername(username) == null || !User.getUserByUsername(username).getPassword().equals(password)){
             return "Username and password didn't match!";
         }
-        loggedInUser = User.getUserByUsername(username);
+        User.loggedInUser = User.getUserByUsername(username);
         return "user logged in successfully!";
     }
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class User {
     private static final ArrayList<User> users = new ArrayList<>();
+    public static User loggedInUser = null;
 
     private String username;
     private String password;

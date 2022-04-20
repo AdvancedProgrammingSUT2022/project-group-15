@@ -8,7 +8,6 @@ public class Controller {
     protected MainMenu mainMenu = new MainMenu();
     protected ProfileMenu profileMenu = new ProfileMenu();
     protected GameMenu gameMenu = new GameMenu();
-    public static User loggedInUser = null;
 
     public void run() {
         if (loginMenu.run().equals("exit")) return;

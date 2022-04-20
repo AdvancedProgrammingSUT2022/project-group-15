@@ -22,7 +22,7 @@ public class LoginMenu extends Menu {
                 ((matcher = getMatcher(command, "^user create (-p|--password) (?<password>\\S+) (-u|--username) (?<username>\\S+) (-n|--nickname) (?<nickname>\\S+)$")) != null) ||
                 ((matcher = getMatcher(command, "^user create (-p|--password) (?<password>\\S+) (-n|--nickname) (?<nickname>\\S+) (-u|--username) (?<username>\\S+)$")) != null) ||
                 ((matcher = getMatcher(command, "^user create (-n|--nickname) (?<nickname>\\S+) (-p|--password) (?<password>\\S+) (-u|--username) (?<username>\\S+)$")) != null) ||
-                ((matcher = getMatcher(command, "^user create (-n|--nickname) (?<nickname>\\S+) (-u|--username) (?<username>\\S+) (-p|--password) (?<password>\\S+$")) != null)) {
+                ((matcher = getMatcher(command, "^user create (-n|--nickname) (?<nickname>\\S+) (-u|--username) (?<username>\\S+) (-p|--password) (?<password>\\S+)$")) != null)) {
             System.out.println(controller.createUser(matcher));
         } else if (((matcher = getMatcher(command, "^user login (-u|--username) (?<username>\\S+) (-p|--password) (?<password>\\S+)$")) != null) ||
                 ((matcher = getMatcher(command, "^user login (-p|--password) (?<password>\\S+) (-u|--username) (?<username>\\S+)$")) != null)) {
@@ -31,8 +31,6 @@ public class LoginMenu extends Menu {
         } else {
             System.out.println("invalid command!");
         }
-
-
         return "continue";
     }
 }
