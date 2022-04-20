@@ -7,11 +7,11 @@ import java.util.regex.Pattern;
 public abstract class Menu {
     private static final Scanner scanner = new Scanner(System.in);
 
-    public String run(){
+    public String run() {
         String output;
         while (true) {
             output = checkCommand(scanner.nextLine());
-            if(!output.equals("continue")) return output;
+            if (!output.equals("continue")) return output;
         }
     }
 
@@ -19,8 +19,9 @@ public abstract class Menu {
 
     /**
      * check the command with a regex and return the output matcher
+     *
      * @param command the command that we want to check
-     * @param regex the regex that we want to check command with
+     * @param regex   the regex that we want to check command with
      * @return null if doesn't match and else a matcher
      * @author Parsa
      */

@@ -13,7 +13,7 @@ public class Controller {
         if (loginMenu.run().equals("exit")) return;
 
         while (true) {
-            switch (mainMenu.run()){
+            switch (mainMenu.run()) {
                 case "game menu":
                     gameMenu.run();
                     break;

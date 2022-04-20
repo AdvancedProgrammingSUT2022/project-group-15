@@ -20,7 +20,7 @@ public class City {
     private RangedMilitary cityUnit;
     //rangedmilitary not added
 
-    public City(String name, int x, int y){
+    public City(String name, int x, int y) {
         this.name = name;
         // complete coordinate
     }
