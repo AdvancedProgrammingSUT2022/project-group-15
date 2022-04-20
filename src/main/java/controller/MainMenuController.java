@@ -13,9 +13,6 @@ public class MainMenuController extends Controller{
      * @author amir
      */
     public void startGame (ArrayList<User> users){
-        for (User user : users) {
-            Civilization tmp = new Civilization(user);
-            Game.getGame().getCivilizations().add(tmp);
-        }
+        Game.getGame().startNewGame(users);
     }
 }

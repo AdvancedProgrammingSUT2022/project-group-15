@@ -6,7 +6,7 @@ public class Game {
     private static Game game;
 
     private ArrayList<Civilization> civilizations = new ArrayList<>();
-    //city???
+    private ArrayList<City> originalCapitals = new ArrayList<>();
     private int turn;
     //map???
 
@@ -22,8 +22,14 @@ public class Game {
         return game;
     }
 
-    public ArrayList<Civilization> getCivilizations() {
-        return civilizations;
+    public void startNewGame(ArrayList<User> users) {
+        for (User user : users) {
+            civilizations.add(new Civilization(user));
+        }
+    }
+
+    public Civilization getPlayingCivilization() {
+        return civilizations.get(turn % civilizations.size());
     }
 
 }
