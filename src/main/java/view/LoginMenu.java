@@ -2,7 +2,7 @@ package view;
 
 import controller.LoginMenuController;
 
-public class LoginMenu extends Menu{
+public class LoginMenu extends Menu {
     private LoginMenuController controller = new LoginMenuController();
 
     @Override
