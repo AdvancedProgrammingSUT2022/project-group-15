@@ -1,5 +1,7 @@
 package model;
 
+import enums.HexVisibility;
+
 import java.util.ArrayList;
 
 public class Game {
@@ -8,11 +10,12 @@ public class Game {
     private ArrayList<Civilization> civilizations = new ArrayList<>();
     private ArrayList<City> originalCapitals = new ArrayList<>();
     private int turn;
-    // TODO: 4/20/2022  map???
+    public ArrayList<ArrayList<Hex>> map ;
 
 
     private Game() {
         turn = 0;
+        // TODO: 4/21/2022create map
     }
 
 

@@ -11,4 +11,20 @@ public class MilitaryUnit extends Unit {
     public MilitaryUnit(int x, int y, Civilization owner, int movementSpeed, int health, UnitName name) {
         super(x, y, owner, movementSpeed, health, name);
     }
+
+    public void attackTo(Unit unit) {
+
+    }
+
+    public void garrisonCity() {
+
+    }
+
+    public boolean enemyIsNear() {
+        return true;
+    }
+
+    public boolean needsCommand() {
+        return  true;
+    }
 }

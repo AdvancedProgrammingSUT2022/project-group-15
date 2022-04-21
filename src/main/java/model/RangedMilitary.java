@@ -10,4 +10,8 @@ public class RangedMilitary extends MilitaryUnit {
     public RangedMilitary(int x, int y, Civilization owner, int movementSpeed, int health, UnitName name) {
         super(x, y, owner, movementSpeed, health, name);
     }
+
+    public void attackTo(Unit unit){
+
+    }
 }
