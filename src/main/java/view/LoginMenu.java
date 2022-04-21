@@ -7,6 +7,9 @@ import java.util.regex.Matcher;
 public class LoginMenu extends Menu {
     private final LoginMenuController controller = new LoginMenuController();
 
+    /**
+     * @author Parsa
+     */
     @Override
     protected String checkCommand(String command) {
         Matcher matcher;

@@ -1,4 +1,29 @@
 package enums;
 
 public enum UnitName {
+    ARCHER,
+    CHARIOT_ARCHER,
+    SCOUT,
+    SETTLER,
+    SPEARMAN,
+    WARRIOR,
+    WORKER,
+    CATAPULT,
+    HORSEMAN,
+    SWORDSMAN,
+    CROSSBOWMAN,
+    KNIGHT,
+    LONGSWORDSMAN,
+    PIKEMAN,
+    TREBUCHET,
+    CANON,
+    CAVALRY,
+    LANCER,
+    MUSKETMAN,
+    RIFLEMAN,
+    ANTITANK_GUN,
+    ARTILLERY,
+    INFANTRY,
+    PANZER,
+    TANK;
 }

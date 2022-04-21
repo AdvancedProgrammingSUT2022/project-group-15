@@ -3,6 +3,7 @@ package model;
 import enums.HexVisibility;
 import enums.Resource;
 import enums.Technology;
+import enums.UnitName;
 
 import java.util.ArrayList;
 
@@ -12,7 +13,7 @@ public class Civilization {
     private ArrayList<ArrayList<HexVisibility>>  visibilityMap ;
     private ArrayList<Technology> technologies = new ArrayList<>();
     private Technology technologyInProgress;
-    private ArrayList<Unit> openedUnits = new ArrayList<>();
+    private ArrayList<UnitName> openedUnits = new ArrayList<>();
     private ArrayList<Resource> openedResources = new ArrayList<>();
     private City capital;
     private ArrayList<Unit> units = new ArrayList<>();

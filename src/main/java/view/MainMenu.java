@@ -9,6 +9,9 @@ import java.util.regex.Pattern;
 public class MainMenu extends Menu {
     private final MainMenuController controller = new MainMenuController();
 
+    /**
+     * @author Parsa
+     */
     @Override
     protected String checkCommand(String command) {
         Matcher matcher;

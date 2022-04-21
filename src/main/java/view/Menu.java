@@ -7,6 +7,9 @@ import java.util.regex.Pattern;
 public abstract class Menu {
     private static final Scanner scanner = new Scanner(System.in);
 
+    /**
+     * @author Parsa
+     */
     public String run() {
         String output;
         while (true) {
