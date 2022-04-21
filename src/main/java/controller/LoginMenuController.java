@@ -8,7 +8,6 @@ public class LoginMenuController {
 
     /**
      * creates a new user
-     *
      * @return the message to be shown on the screen
      * @author Parsa
      */
@@ -35,7 +34,6 @@ public class LoginMenuController {
 
     /**
      * log in user by getting username and password
-     *
      * @return the message to be shown on the screen
      * @author Parsa
      */
@@ -48,5 +46,13 @@ public class LoginMenuController {
         }
         User.loggedInUser = User.getUserByUsername(username);
         return "user logged in successfully!";
+    }
+
+    /**
+     * @return true if a user is logged in
+     * @author Parsa
+     */
+    public boolean isUserLoggedIn() {
+        return User.loggedInUser != null;
     }
 }

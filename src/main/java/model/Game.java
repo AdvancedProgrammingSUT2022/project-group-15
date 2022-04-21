@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 
 public class Game {
-    private static Game game;
+    private static Game game = null;
 
     private ArrayList<Civilization> civilizations = new ArrayList<>();
     private ArrayList<City> originalCapitals = new ArrayList<>();
