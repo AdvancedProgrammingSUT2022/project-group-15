@@ -23,7 +23,7 @@ public class MainMenuController {
 
         for (Integer number : usernames.keySet()) {
             if (number > users.size()) return "invalid player numbers";
-            users.set(number, User.getUserByUsername(usernames.get(number)));
+            users.set(number - 1, User.getUserByUsername(usernames.get(number)));
         }
 
         Game.getGame().startNewGame(users);

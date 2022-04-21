@@ -13,10 +13,10 @@ public class LoginMenu extends Menu {
         if (command.equals("menu show-current")) {
             System.out.println("Login Menu");
         } else if (command.equals("menu exit")) {
-            System.out.println("Program Closed");
+            System.out.println("Program terminated");
             return "exit";
         } else if (command.equals("menu enter main menu")) {
-            if(controller.isUserLoggedIn()) System.out.println("please login first");
+            if(!controller.isUserLoggedIn()) System.out.println("please login first");
             else return "main menu";
         } else if (command.equals("menu enter profile menu") || command.equals("menu enter game menu")) {
             System.out.println("menu navigation is not possible");
