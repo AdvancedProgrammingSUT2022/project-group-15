@@ -25,6 +25,15 @@ public enum Improvement {
         this.production = production;
     }
 
+    public static Improvement getImprovementByName(String improvementName) {
+        for (Improvement improvement : Improvement.values()) {
+            if(improvement.name.equals(improvementName)){
+                return improvement;
+            }
+        }
+        return null;
+    }
+
     @Override
     public String toString() {
         return name;
