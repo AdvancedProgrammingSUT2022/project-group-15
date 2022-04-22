@@ -12,6 +12,7 @@ public class LoginMenuController {
      * @author Parsa
      */
     public String createUser(Matcher matcher) {
+        User.loadUsers();
         String username = matcher.group("username");
         String password = matcher.group("password");
         String nickname = matcher.group("nickname");
@@ -28,7 +29,7 @@ public class LoginMenuController {
             return "password is weak!";
         }
 
-        User.addUser(username, password, nickname);
+            User.addUser(username, password, nickname);
         return "user created successfully!";
     }
 
@@ -38,6 +39,7 @@ public class LoginMenuController {
      * @author Parsa
      */
     public String login(Matcher matcher) {
+        User.loadUsers();
         String username = matcher.group("username");
         String password = matcher.group("password");
 
