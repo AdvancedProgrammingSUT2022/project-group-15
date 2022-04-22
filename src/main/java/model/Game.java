@@ -10,12 +10,24 @@ public class Game {
     private ArrayList<Civilization> civilizations = new ArrayList<>();
     private ArrayList<City> originalCapitals = new ArrayList<>();
     private int turn;
-    public ArrayList<ArrayList<Hex>> map ;
 
+    private int xMap = 20;
+    private int yMap = 20;
+    public ArrayList<ArrayList<Hex>> map;
+ /*
+    structure of map:
+              y=0      y=1       y=2      y=3
+    x=0      [0][0]   [0][1]   [0][2]   [0][3]
+
+    x=1          [1][0]   [1][1]   [1][2]   [0][3]
+
+    x=2      [2][0]   [2][1]   [2][2]   [0][3]
+
+    x=3          [3][0]   [3][1]   [3][2]   [0][3]
+*/
 
     private Game() {
         turn = 0;
-        // TODO: 4/21/2022create map
     }
 
 
@@ -29,11 +41,31 @@ public class Game {
         for (User user : users) {
             civilizations.add(new Civilization(user));
         }
-        // TODO: 4/20/2022 set map???
+
+        createMap();
+
     }
+
 
     public Civilization getPlayingCivilization() {
         return civilizations.get(turn % civilizations.size());
+    }
+
+
+    private void createMap() {
+        map = new ArrayList<>();
+        for (int i = 0; i < xMap; i++) {
+            ArrayList<Hex> row = new ArrayList<>();
+            for (int j = 0; j < yMap; j++) {
+                Hex hex = createRandomHex(i, j);
+                row.add(hex);
+            }
+            map.add(row);
+        }
+    }
+
+    private Hex createRandomHex(int x, int y) {
+        return new Hex();
     }
 
 }
