@@ -5,6 +5,11 @@ import enums.Improvement;
 
 public class GameMenuController {
 
+    public String changeTurn(){
+        // TODO : implement
+        return null;
+    }
+
     public String showTechnologyInfo() {
         // TODO : implement
         return null;
@@ -146,6 +151,8 @@ public class GameMenuController {
     }
 
     public String removeJungle() {
+        // remove dense-forests requires Bronze-Working Technology
+        // remove jungles requires Mining Technology
         // TODO : implement
         return null;
     }
@@ -179,4 +186,6 @@ public class GameMenuController {
         // TODO : implement
         return null;
     }
+
+    // TODO : implement removing Swamp ( that requires Masonry Technology )
 }

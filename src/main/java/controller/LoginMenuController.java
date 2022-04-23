@@ -29,7 +29,7 @@ public class LoginMenuController {
             return "password is weak!";
         }
 
-            User.addUser(username, password, nickname);
+        User.addUser(username, password, nickname);
         return "user created successfully!";
     }
 
