@@ -6,12 +6,10 @@ import model.Game;
 
 public class GameMenuController {
 
-    
     public static boolean validCoordinate(int x, int y) {
-        if (x < 0 || y < 0 || x > Game.getGame().getRows() || y > Game.getGame().getColumns())
-            return false;
-        return true;
+        return x >= 0 && y >= 0 && x <= Game.getGame().getRows() && y <= Game.getGame().getColumns();
     }
+
     public String changeTurn(){
         // TODO : implement
         return null;

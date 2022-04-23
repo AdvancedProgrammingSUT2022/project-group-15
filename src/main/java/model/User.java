@@ -74,7 +74,7 @@ public class User {
      */
     public static void saveUsers() {
         try {
-            FileWriter fileWriter = new FileWriter("./src/main/java/resources/UserDatabase.json");
+            FileWriter fileWriter = new FileWriter("./src/main/resources/UserDatabase.json");
             fileWriter.write(new Gson().toJson(users));
             fileWriter.close();
         } catch (IOException e) {
@@ -90,7 +90,7 @@ public class User {
     public static void loadUsers() {
 
         try {
-            String json = new String(Files.readAllBytes(Paths.get("./src/main/java/resources/UserDatabase.json")));
+            String json = new String(Files.readAllBytes(Paths.get("./src/main/resources/UserDatabase.json")));
             ArrayList<User> createdUsers;
             createdUsers = new Gson().fromJson(json, new TypeToken<List<User>>() {
             }.getType());
