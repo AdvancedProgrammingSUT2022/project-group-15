@@ -9,16 +9,22 @@ public class SettlerUnit extends CivilUnit {
 
     @Override
     public boolean needsCommand() {
-        return false;
+        if (PlanedToGo != null){
+            doPlanedMovement();
+            if (remainingMovement>0)
+                return true;
+            return false;
+        }
+        return true;
     }
 
     @Override
     public void cancelMission() {
-
+        PlanedToGo = null;
     }
 
     public void foundCity() {
-
+        // TODO: 4/23/2022
     }
 
 }

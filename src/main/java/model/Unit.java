@@ -5,20 +5,20 @@ import enums.UnitName;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.regex.Matcher;
 
 public abstract class Unit {
-    private HashMap<Character, Integer> coordinates = new HashMap<>();
-    private ArrayList<Hex> PlanedToGo = new ArrayList<>();
-    private Civilization owner;
-    private int movementSpeed;
-    private int remainingMovement;
-    private int experience;
-    private int cost;
-    private UnitName name;
-    private int nowHealth;
-    private int totalHealth;
-    private boolean isSleep;
+    protected HashMap<Character, Integer> coordinates = new HashMap<>();
+    protected ArrayList<Hex> PlanedToGo = new ArrayList<>();
+    protected Civilization owner;
+    protected int movementSpeed;
+    protected int remainingMovement;
+    protected int experience;
+    protected int cost;
+    protected UnitName name;
+    protected int nowHealth;
+    protected int totalHealth;
+    protected boolean isSleep;
+    protected int meleePower;//add to constructor
 
     public Unit(int x, int y, Civilization owner, int movementSpeed, int totalHealth, UnitName name) {
         coordinates.put('x', x);
@@ -31,12 +31,21 @@ public abstract class Unit {
 
     public void move(int x, int y) {
         findShortestPathByDijkstra(x, y);
-        Hex nextHex = PlanedToGo.get(0);
-        moveToHex(nextHex.getCoordinates().get('x'), nextHex.getCoordinates().get('y'));
-        PlanedToGo.remove(0);
+        doPlanedMovement();
     }
 
-    private void moveToHex(int x, int y) {
+    protected void doPlanedMovement() {
+        Hex nextHex;
+        while (remainingMovement > 0 || !PlanedToGo.isEmpty()) {
+            nextHex = PlanedToGo.get(0);
+            moveToHex(nextHex.getCoordinates().get('x'), nextHex.getCoordinates().get('y'));
+            PlanedToGo.remove(0);
+        }
+        if (PlanedToGo.isEmpty())
+            PlanedToGo = null;
+    }
+
+    protected void moveToHex(int x, int y) {
         if (this instanceof MilitaryUnit) {
             Game.getGame().map.get(this.coordinates.get('x')).get(this.coordinates.get('y')).setMilitaryUnit(null);
         } else {
@@ -45,7 +54,7 @@ public abstract class Unit {
 
         this.coordinates.replace('x', x);
         this.coordinates.replace('y', y);
-        this.movementSpeed -= Game.getGame().map.get(this.coordinates.get('x')).get(this.coordinates.get('y')).getMovementPrice();
+        this.remainingMovement -= Game.getGame().map.get(this.coordinates.get('x')).get(this.coordinates.get('y')).getMovementPrice();
 
         if (this instanceof MilitaryUnit) {
             Game.getGame().map.get(this.coordinates.get('x')).get(this.coordinates.get('y')).setMilitaryUnit((MilitaryUnit) this);
@@ -149,7 +158,6 @@ public abstract class Unit {
     }
 
 
-    //override in children
     abstract public boolean needsCommand();
 
     abstract public void cancelMission();

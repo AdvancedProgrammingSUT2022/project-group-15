@@ -12,22 +12,34 @@ public class WorkerUnit extends CivilUnit {
 
     @Override
     public boolean needsCommand() {
-        return false;
+        if (isWorking) {
+            // TODO: 4/23/2022
+            return false;
+        }
+        if (PlanedToGo != null){
+            doPlanedMovement();
+            if (remainingMovement>0)
+                return true;
+            return false;
+        }
+        return true;
     }
 
     public void buildImprovement(Improvement improvement) {
-
+        // TODO: 4/23/2022
     }
 
     public void removeJungle() {
-
+        // TODO: 4/23/2022
     }
 
     public void cancelMission() {
-
+        isWorking = false;
+        PlanedToGo = null;
     }
 
     public void removeRoute() {
+        // TODO: 4/23/2022
     }
 
 }

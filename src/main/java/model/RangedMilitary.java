@@ -11,7 +11,12 @@ public class RangedMilitary extends MilitaryUnit {
         super(x, y, owner, movementSpeed, health, name);
     }
 
+    @Override
     public void attackTo(Unit unit){
-
+        unit.nowHealth -= this.rangedPower;
+        if (unit.nowHealth<=0) {
+            unit.deleteUnit(false);
+        }
     }
+
 }

@@ -7,5 +7,4 @@ public abstract class CivilUnit extends Unit {
         super(x, y, owner, movementSpeed, health, name);
     }
 
-
 }

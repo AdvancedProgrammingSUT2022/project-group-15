@@ -7,7 +7,26 @@ public class MeleeMilitary extends MilitaryUnit{
         super(x, y, owner, movementSpeed, health, name);
     }
 
-    public void attackTo(Unit unit){
+    @Override
+    public void attackTo(Unit unit) {// priority with military unit
+        if (unit instanceof CivilUnit){
+            moveToHex(unit.coordinates.get('x'),unit.coordinates.get('y'));
+            unit.deleteUnit(false);
+            // TODO: 4/23/2022 build worker here for attacker
+            return;
+        }
+        unit.nowHealth -= this.meleePower;
+        this.nowHealth -= unit.meleePower;
+
+        if (unit.nowHealth<=0) {
+            moveToHex(unit.coordinates.get('x'),unit.coordinates.get('y'));
+            unit.deleteUnit(false);
+        }
+
+        if (this.nowHealth <=0 ){
+            this.deleteUnit(false);
+        }
 
     }
+
 }
