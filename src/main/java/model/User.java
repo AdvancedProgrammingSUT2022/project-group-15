@@ -6,6 +6,7 @@ import com.google.gson.reflect.TypeToken;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,13 +68,13 @@ public class User {
     }
 
     /**
-     * save users in Database.txt
+     * save users in UserDatabase.json
      *
      * @author Erfan
      */
     public static void saveUsers() {
         try {
-            FileWriter fileWriter = new FileWriter("Database.txt");
+            FileWriter fileWriter = new FileWriter("./src/main/java/resources/UserDatabase.json");
             fileWriter.write(new Gson().toJson(users));
             fileWriter.close();
         } catch (IOException e) {
@@ -82,14 +83,14 @@ public class User {
     }
 
     /**
-     * load users created before(Saved in Database.txt)
+     * load users created before(Saved in UserDatabase.json)
      *
      * @author Erfan
      */
     public static void loadUsers() {
 
         try {
-            String json = new String(Files.readAllBytes(Paths.get("Database.txt")));
+            String json = new String(Files.readAllBytes(Paths.get("./src/main/java/resources/UserDatabase.json")));
             ArrayList<User> createdUsers;
             createdUsers = new Gson().fromJson(json, new TypeToken<List<User>>() {
             }.getType());
