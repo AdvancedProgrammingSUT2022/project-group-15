@@ -2,8 +2,15 @@ package controller;
 
 import enums.Direction;
 import enums.Improvement;
+import model.Game;
 
 public class GameMenuController {
+
+    public static boolean validCoordinate(int x, int y) {
+        if (x < 0 || y < 0 || x > Game.getGame().getRows() || y > Game.getGame().getColumns())
+            return false;
+        return true;
+    }
 
     public String showTechnologyInfo() {
         // TODO : implement

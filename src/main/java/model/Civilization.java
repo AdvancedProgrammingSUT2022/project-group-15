@@ -27,6 +27,19 @@ public class Civilization {
     public Civilization(User user) {
         this.user = user;
     }
+
+    public void deleteUnit(Unit unit){
+        units.remove(unit);
+    }
+
+    public int getGoldStorage() {
+        return goldStorage;
+    }
+
+    public void setGoldStorage(int goldStorage) {
+        this.goldStorage = goldStorage;
+    }
     // TODO: 4/20/2022  getmap() adjustvisibility();
+
 
 }

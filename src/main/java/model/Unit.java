@@ -1,5 +1,6 @@
 package model;
 
+import controller.GameMenuController;
 import enums.UnitName;
 
 import java.util.ArrayList;
@@ -119,9 +120,8 @@ public abstract class Unit {
         int x = NodeNumber / (Game.getGame().getColumns() + 1) + xDiff;
         int y = NodeNumber % (Game.getGame().getColumns() + 1) + yDiff;
         int destinationNodeNumber = x * (Game.getGame().getColumns() + 1) + y;
-        if (!validCoordinate(x, y))
+        if (!GameMenuController.validCoordinate(x, y))
             return;
-
         int moveCost = Game.getGame().map.get(x).get(y).getMovementPrice();
         if (Game.getGame().map.get(x).get(y).doesHaveRiver() && Game.getGame().map.get(x - xDiff).get(y - yDiff).doesHaveRiver())
             moveCost = this.movementSpeed;
@@ -134,11 +134,6 @@ public abstract class Unit {
         }
     }
 
-    private boolean validCoordinate(int x, int y) {
-        if (x < 0 || y < 0 || x > Game.getGame().getRows() || y > Game.getGame().getColumns())
-            return false;
-        return true;
-    }
 
     private int minKey(int[] key, Boolean[] mstSet, int numberOfNodes) {
         // Initialize min value
@@ -157,14 +152,12 @@ public abstract class Unit {
     //override in children
     abstract public boolean needsCommand();
 
-
-    public void cancelMission() {
-
-    }
+    abstract public void cancelMission();
 
     public void deleteUnit(boolean isSelling) {
-
+        if (isSelling)
+            this.owner.setGoldStorage(this.owner.getGoldStorage() + this.cost / 5);//is 5 ok?
+        this.owner.deleteUnit(this);
     }
-
 
 }

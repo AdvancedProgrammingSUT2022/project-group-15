@@ -7,6 +7,16 @@ public class SettlerUnit extends CivilUnit {
         super(x, y, owner, movementSpeed, health, name);
     }
 
+    @Override
+    public boolean needsCommand() {
+        return false;
+    }
+
+    @Override
+    public void cancelMission() {
+
+    }
+
     public void foundCity() {
 
     }
