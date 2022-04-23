@@ -50,7 +50,12 @@ public class Game {
     public Civilization getPlayingCivilization() {
         return civilizations.get(turn % civilizations.size());
     }
-
+    public int getRows(){
+        return xMap;
+    }
+    public int getColumns(){
+        return yMap;
+    }
 
     private void createMap() {
         map = new ArrayList<>();

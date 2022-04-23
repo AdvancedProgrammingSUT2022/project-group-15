@@ -29,9 +29,31 @@ public class Hex {
 
     }
 
-    public Unit getUnitInside() {
-        //return unit
-        return null;
+    public MilitaryUnit getMilitaryUnit() {
+        return militaryUnit;
     }
 
+    public void setMilitaryUnit(MilitaryUnit militaryUnit) {
+        this.militaryUnit = militaryUnit;
+    }
+
+    public CivilUnit getCivilUnit() {
+        return civilUnit;
+    }
+
+    public void setCivilUnit(CivilUnit civilUnit) {
+        this.civilUnit = civilUnit;
+    }
+
+    public HashMap<Character, Integer> getCoordinates() {
+        return coordinates;
+    }
+
+    public int getMovementPrice() {
+        return movementPrice;
+    }
+
+    public void setMovementPrice(int movementPrice) {
+        this.movementPrice = movementPrice;
+    }
 }
