@@ -6,10 +6,15 @@ import model.Game;
 
 public class GameMenuController {
 
+    
     public static boolean validCoordinate(int x, int y) {
         if (x < 0 || y < 0 || x > Game.getGame().getRows() || y > Game.getGame().getColumns())
             return false;
         return true;
+    }
+    public String changeTurn(){
+        // TODO : implement
+        return null;
     }
 
     public String showTechnologyInfo() {
@@ -153,6 +158,8 @@ public class GameMenuController {
     }
 
     public String removeJungle() {
+        // remove dense-forests requires Bronze-Working Technology
+        // remove jungles requires Mining Technology
         // TODO : implement
         return null;
     }
@@ -186,4 +193,6 @@ public class GameMenuController {
         // TODO : implement
         return null;
     }
+
+    // TODO : implement removing Swamp ( that requires Masonry Technology )
 }
