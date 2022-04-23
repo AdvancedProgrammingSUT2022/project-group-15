@@ -56,4 +56,8 @@ public class Hex {
     public void setMovementPrice(int movementPrice) {
         this.movementPrice = movementPrice;
     }
+
+    public boolean doesHaveRiver() {
+        return hasRiver;
+    }
 }
