@@ -70,4 +70,28 @@ public class Hex {
     public boolean doesHaveRiver() {
         return hasRiver;
     }
+
+    public void setHasRiver(boolean hasRiver) {
+        this.hasRiver = hasRiver;
+    }
+
+    public Resource getResource() {
+        return resource;
+    }
+
+    public void setResource(Resource resource) {
+        this.resource = resource;
+    }
+
+    public Terrain getTerrain() {
+        return terrain;
+    }
+
+    public Feature getFeature() {
+        return feature;
+    }
+
+    public void setFeature(Feature feature) {
+        this.feature = feature;
+    }
 }

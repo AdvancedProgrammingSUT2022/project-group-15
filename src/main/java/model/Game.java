@@ -1,11 +1,8 @@
 package model;
 
 import enums.Feature;
-import enums.HexVisibility;
-import enums.Improvement;
 import enums.Terrain;
 
-import javax.sql.XAConnection;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -75,7 +72,33 @@ public class Game {
             map.add(row);
         }
 
-        // TODO: 4/24/2022 flat and river oisess resorces
+        Random random = new Random();
+        for (ArrayList<Hex> hexes : map) {
+            for (Hex hex : hexes) {
+                if (random.nextInt() < 20) {
+                    hex.setHasRiver(true);
+                }
+                if (hex.getTerrain().equals(Terrain.DESERT)) {
+                    if (random.nextInt(100) < 15) {
+                        hex.setFeature(Feature.OASIS);
+                    }
+                }
+            }
+        }
+
+        for (ArrayList<Hex> hexes : map) {
+            for (Hex hex : hexes) {
+                if (hex.doesHaveRiver()){
+                    if (!riverAround()){
+                        hex.setHasRiver(false);
+                    }
+                }
+            }
+        }
+
+
+        // TODO: 4/24/2022 flat and river
+        //  resorces
     }
 
     private Hex createRandomHex(int x, int y) {
