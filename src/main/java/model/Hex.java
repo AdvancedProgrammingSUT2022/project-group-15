@@ -24,9 +24,19 @@ public class Hex {
     private MilitaryUnit militaryUnit;
     private CivilUnit civilUnit;
 
-    //constructor
-    public Hex() {
+    public Hex(Terrain terrain, Feature feature, Resource resource, boolean hasRiver, int x, int y) {
+        this.terrain = terrain;
+        this.feature = feature;
+        this.resource = resource;
+        this.hasRiver = hasRiver;
+        this.coordinates.put('x', x);
+        this.coordinates.put('y', y);
+        this.movementPrice = calculateMovementPrice();
+    }
 
+    private int calculateMovementPrice() {
+        // TODO: 4/24/2022
+        return 0;
     }
 
     public MilitaryUnit getMilitaryUnit() {
