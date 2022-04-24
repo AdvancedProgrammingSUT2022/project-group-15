@@ -1,6 +1,7 @@
 package model;
 
 import controller.GameMenuController;
+import enums.NeighborHex;
 import enums.UnitName;
 
 import java.util.ArrayList;
@@ -97,12 +98,9 @@ public abstract class Unit {
             // graph[u][v] is non zero only for adjacent vertices of m
             // mstSet[v] is false for vertices not yet included in MST
             // Update the distance only if graph[u][v] is smaller than distance[v]
-            updateAdjacentNode(0, 1, distance, mstSet, u, parent);
-            updateAdjacentNode(0, -1, distance, mstSet, u, parent);
-            updateAdjacentNode(1, 0, distance, mstSet, u, parent);
-            updateAdjacentNode(-1, 0, distance, mstSet, u, parent);
-            updateAdjacentNode(1, 1, distance, mstSet, u, parent);
-            updateAdjacentNode(-1, 1, distance, mstSet, u, parent);
+            for (NeighborHex neighborHex : NeighborHex.values()) {
+                updateAdjacentNode(neighborHex.xDiff, neighborHex.yDiff, distance, mstSet, u, parent);
+            }
 
         }
         createArraylistForRoute(parent, destinationNode);
