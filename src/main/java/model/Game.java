@@ -18,9 +18,9 @@ public class Game {
     private ArrayList<City> originalCapitals = new ArrayList<>();
     private int turn;
 
-    private int xMap = 20;
-    private int yMap = 20;
-    public ArrayList<ArrayList<Hex>> map;
+    private int xMap = 10;
+    private int yMap = 10;
+    public static ArrayList<ArrayList<Hex>> map;
  /*
     structure of map:
               y=0      y=1       y=2      y=3
@@ -32,7 +32,6 @@ public class Game {
 
     x=3          [3][0]   [3][1]   [3][2]   [0][3]
 */
-
     private Game() {
         turn = 0;
     }

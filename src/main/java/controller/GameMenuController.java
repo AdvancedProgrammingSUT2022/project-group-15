@@ -3,14 +3,17 @@ package controller;
 import enums.Direction;
 import enums.Improvement;
 import model.Game;
+import model.GlobalThings;
+import model.GlobalThings;
+
+import java.util.ArrayList;
 
 public class GameMenuController {
-
     public static boolean validCoordinate(int x, int y) {
         return x >= 0 && y >= 0 && x <= Game.getGame().getRows() && y <= Game.getGame().getColumns();
     }
 
-    public String changeTurn(){
+    public String changeTurn() {
         // TODO : implement
         return null;
     }
@@ -172,15 +175,63 @@ public class GameMenuController {
         return null;
     }
 
-    public String showMap(int x, int y) {
+    public String showMap() {
         // TODO : implement
-        return null;
+        String[][] str = new String[GlobalThings.height][GlobalThings.width];
+        for (int i = 0; i < GlobalThings.height; i++) {
+            for (int j = 0; j < GlobalThings.width; j++) {
+                str[i][j] = GlobalThings.black + '█';
+            }
+        }
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                int x = (i + 1) * GlobalThings.arz / 2;
+                int y = j * GlobalThings.tool * 2 + GlobalThings.tool;
+                if (i % 2 == 1) y += GlobalThings.tool;
+                for (int k = 0; k < GlobalThings.arz / 2; k++) {
+                    for (int l = 0; l <= 9 - k; l++) {
+                        for (int z = y - l; z <= y + l; z++) {
+                            if (z == y - l) str[x - k][z - 1] = "/";
+                            if (z == y + l) str[x - k][z + 1] = "\\";
+                            str[x - k][z] = GlobalThings.red + '█';
+                            str[x + k][z] = GlobalThings.red + '█';
+                        }
+                    }
+                }
+                str[x][y] = "*";
+                str[x + 4][y] = "-";
+                str[x + 4][y + 1] = "-";
+                str[x + 4][y + 2] = "-";
+                str[x + 4][y + 3] = "-";
+                str[x + 4][y + 4] = "-";
+                str[x + 4][y + 5] = "-";
+                str[x - 4][y] = "-";
+                str[x - 4][y + 1] = "-";
+                str[x - 4][y + 2] = "-";
+                str[x - 4][y + 3] = "-";
+                str[x - 4][y + 4] = "-";
+                str[x - 4][y + 5] = "-";
+                str[x + 4][y - 1] = "-";
+                str[x + 4][y - 2] = "-";
+                str[x + 4][y - 3] = "-";
+                str[x + 4][y - 4] = "-";
+                str[x + 4][y - 5] = "-";
+                str[x - 4][y - 1] = "-";
+                str[x - 4][y - 2] = "-";
+                str[x - 4][y - 3] = "-";
+                str[x - 4][y - 4] = "-";
+                str[x - 4][y - 5] = "-";
+            }
+        }
+        for (int i = 0; i < GlobalThings.height; i++) {
+            for (int j = 0; j < GlobalThings.width; j++) {
+                System.out.print(str[i][j]);
+            }
+            System.out.println("");
+        }
+        return "print map successfully";
     }
 
-    public String showMap(String cityName) {
-        // TODO : implement
-        return null;
-    }
 
     public String moveMap(String directionName, int amount) {
         Direction direction = Direction.getDirectionByName(directionName);

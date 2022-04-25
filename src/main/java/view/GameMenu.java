@@ -97,12 +97,12 @@ public class GameMenu extends Menu {
             System.out.println(controller.removeRoute());
         } else if (command.equals("unit repair")) {
             System.out.println(controller.repair());
-        } else if ((matcher = getMatcher(command, "^map show (?<x>\\d+) (?<y>\\d+)$")) != null) {
-            System.out.println(controller.showMap(Integer.parseInt(matcher.group("x")), Integer.parseInt(matcher.group("y"))));
-        } else if ((matcher = getMatcher(command, "^map show (?<cityName>\\w+)$")) != null) {
-            System.out.println(controller.showMap(matcher.group("cityName")));
+        } else if ((matcher = getMatcher(command, "^map show$")) != null) {
+                   System.out.println(controller.showMap());
         } else if ((matcher = getMatcher(command, "^map move (?<direction>\\w+) (?<amount>\\d+)$")) != null) {
             System.out.println(controller.moveMap(matcher.group("direction"), Integer.parseInt(matcher.group("amount"))));
+        } else if (command.equals("next turn")) {
+            System.out.println(controller.changeTurn());
         } else {
             System.out.println("invalid command!");
         }
