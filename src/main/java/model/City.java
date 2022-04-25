@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class City {
@@ -14,8 +15,8 @@ public class City {
     private int productionPerTurn;
     private int goldPerTurn;
     private int sciencePerTurn;
-    //private ArrayList<Hex> cityHexes = new ArrayList<>();
-    //hex not added
+    private final ArrayList<Hex> cityHexes = new ArrayList<>();
+
     private RangedMilitary cityUnit;
     //rangedmilitary not added
 
@@ -24,4 +25,7 @@ public class City {
         // complete coordinate
     }
 
+    public ArrayList<Hex> getCityHexes() {
+        return cityHexes;
+    }
 }

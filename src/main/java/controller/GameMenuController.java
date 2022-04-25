@@ -210,12 +210,12 @@ public class GameMenuController {
                         for (int z = y - l; z <= y + l; z++) {
                             if (z == y - l) printMap[x - k][z - 1] = "/";
                             if (z == y + l) printMap[x - k][z + 1] = "\\";
-                            printMap[x - k][z] = GlobalThings.RED + '█';
-                            printMap[x + k][z] = GlobalThings.RED + '█';
+                            printMap[x - k][z] = GlobalThings.GREEN + '█';
+                            printMap[x + k][z] = GlobalThings.GREEN + '█';
                         }
                     }
                 }
-                printMap[x + 1][y - 2] = "RI";
+                printMap[x + 1][y - 2] = GlobalThings.BLUE+ "RI";
                 printMap[x + 1][y - 1] = "";
                 printMap[x + 1][y] = ":";
                 if (Game.getGame().map.get(i / 2).get(2 * j + i % 2).doesHaveRiver())
@@ -224,13 +224,13 @@ public class GameMenuController {
                     printMap[x + 1][y + 1] = "no";
                 printMap[x + 1][y + 2] = "";
 
-                printMap[x][y - 2] = GlobalThings.BLUE + "T";
+                printMap[x][y - 2] = GlobalThings.YELLOW +"T";
                 printMap[x][y - 1] = "R";
                 printMap[x][y] = ":";
                 printMap[x][y + 1] = Game.getGame().map.get(i / 2).get(2 * j + i % 2).getTerrain().name.substring(0, 1);
                 printMap[x][y + 2] = Game.getGame().map.get(i / 2).get(2 * j + i % 2).getTerrain().name.substring(1, 2);
 
-                printMap[x - 1][y - 2] = "FE";
+                printMap[x - 1][y - 2] = GlobalThings.RED + "FE";
                 printMap[x - 1][y - 1] = "";
                 printMap[x - 1][y] = ":";
                 printMap[x - 1][y + 1] = Game.getGame().map.get(i / 2).get(2 * j + i % 2).getFeature().name.substring(0, 1);

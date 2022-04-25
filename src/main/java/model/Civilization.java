@@ -1,16 +1,13 @@
 package model;
 
-import enums.HexVisibility;
-import enums.Resource;
-import enums.Technology;
-import enums.UnitName;
+import enums.*;
 
 import java.util.ArrayList;
 
 public class Civilization {
     private User user;
     private boolean isYourTurn;
-    private ArrayList<ArrayList<HexVisibility>>  visibilityMap ;
+    private ArrayList<ArrayList<HexVisibility>> visibilityMap;
     private ArrayList<Technology> technologies = new ArrayList<>();
     private Technology technologyInProgress;
     private ArrayList<UnitName> openedUnits = new ArrayList<>();
@@ -28,7 +25,7 @@ public class Civilization {
         this.user = user;
     }
 
-    public void deleteUnit(Unit unit){
+    public void deleteUnit(Unit unit) {
         units.remove(unit);
     }
 
@@ -45,9 +42,48 @@ public class Civilization {
     }
     // TODO: 4/20/2022  getmap()
 
-    public void adjustVisibility(){
+    public void adjustVisibility() {
 
+        for (int i = 0; i < visibilityMap.size(); i++) {
+            for (int j = 0; j < visibilityMap.get(0).size(); j++) {
+                if (visibilityMap.get(i).get(j) != HexVisibility.FOG_OF_WAR) {
+                    visibilityMap.get(i).set(j, HexVisibility.DETERMINED);
+                }
+            }
+        }
+        adjustVisibilityUnits();
+        adjustVisibilityCities();
     }
 
+    private void adjustVisibilityCities() {
+        for (City city : cities) {
+            for (Hex cityHex : city.getCityHexes()) {
+                seeNeighbors(cityHex.getCoordinates().get('x'), cityHex.getCoordinates().get('y'));
+            }
+        }
+    }
+
+    private void adjustVisibilityUnits() {
+
+        for (Unit unit : units) {
+            int x = unit.coordinates.get('x');
+            int y = unit.coordinates.get('y');
+            visibilityMap.get(x).set(y, HexVisibility.TRANSPARENT);
+            seeNeighbors(x, y);
+            for (NeighborHex neighborHex : NeighborHex.values()) {
+                if (!(Game.getGame().map.get(x).get(y).getTerrain().name.equals(Terrain.HILL.name) ||
+                        Game.getGame().map.get(x).get(y).getTerrain().name.equals(Terrain.MOUNTAIN.name) ||
+                        Game.getGame().map.get(x).get(y).getFeature().name.equals(Feature.JUNGLE.name) ||
+                        Game.getGame().map.get(x).get(y).getFeature().name.equals(Feature.DENSE_FOREST.name)))
+                    seeNeighbors(x + neighborHex.xDiff, y + neighborHex.yDiff);
+            }
+        }
+    }
+
+    private void seeNeighbors(int x, int y) {
+        for (NeighborHex neighborHex : NeighborHex.values()) {
+            visibilityMap.get(x + neighborHex.xDiff).set(y + neighborHex.yDiff, HexVisibility.TRANSPARENT);
+        }
+    }
 
 }
