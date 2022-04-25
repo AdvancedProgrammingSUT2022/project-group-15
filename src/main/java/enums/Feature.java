@@ -12,7 +12,8 @@ public enum Feature {
     DENSE_FOREST("dense forest", 1, -1, 0, 25, 2),
     SWAMP("swamp", -1, 0, 0, -33, 2),
     OASIS("oasis", 3, 0, 1, -33, 1),
-    RIVER("river", 0, 0, 0, 0, -2);
+    RIVER("river", 0, 0, 0, 0, -2),
+    NULL("null",0,0,0,0,0);
 
     public final String name;
     public final int food;

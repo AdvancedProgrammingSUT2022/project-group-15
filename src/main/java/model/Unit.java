@@ -66,6 +66,7 @@ public abstract class Unit {
         } else {
             Game.getGame().map.get(this.coordinates.get('x')).get(this.coordinates.get('y')).setCivilUnit((CivilUnit) this);
         }
+        this.owner.adjustVisibility();
     }
 
 

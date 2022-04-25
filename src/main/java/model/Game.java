@@ -12,15 +12,15 @@ import java.util.Random;
 import static java.lang.Math.abs;
 
 public class Game {
-    private static Game game = null;
+    private static Game game = new Game();
 
     private ArrayList<Civilization> civilizations = new ArrayList<>();
     private ArrayList<City> originalCapitals = new ArrayList<>();
     private int turn;
     private Civilization selectedCivilization;
 
-    private int xMap = 10;
-    private int yMap = 10;
+    private int xMap = 12;
+    private int yMap = 12;
     public static ArrayList<ArrayList<Hex>> map;
 
     /*
@@ -46,7 +46,7 @@ public class Game {
         return selectedCivilization;
     }
 
-    public static void startNewGame(ArrayList<User> users) {
+    public void startNewGame(ArrayList<User> users) {
         for (User user : users) {
             game.civilizations.add(new Civilization(user));
         }
@@ -142,16 +142,17 @@ public class Game {
 
         int randomNumber = random.nextInt(100);
         if (inPoles(x)) {
+
             if (randomNumber < 80)
                 return new Hex(Terrain.SNOWLAND, Feature.ICE, null, false, x, y);
             else
-                return new Hex(Terrain.SNOWLAND, null, null, false, x, y);
+                return new Hex(Terrain.SNOWLAND, Feature.NULL, null, false, x, y);
         }
         if (inAroundOcean(x, y)) {
             if (randomNumber < 90)
-                return new Hex(Terrain.OCEAN, null, null, false, x, y);
+                return new Hex(Terrain.OCEAN, Feature.NULL, null, false, x, y);
             else if (randomNumber < 95)
-                return new Hex(Terrain.MOUNTAIN, null, null, false, x, y);
+                return new Hex(Terrain.MOUNTAIN, Feature.NULL, null, false, x, y);
             else
                 return new Hex(Terrain.PLAIN, Feature.DENSE_FOREST, null, false, x, y);
         }
@@ -191,7 +192,7 @@ public class Game {
     private Feature randomFeatureTropical(Random random) {
         int randomNumber = random.nextInt(100);
         if (randomNumber < 25)
-            return null;
+            return Feature.NULL;
         else if (randomNumber < 40)
             return Feature.SWAMP;
         else if (randomNumber < 55)
@@ -203,7 +204,7 @@ public class Game {
     private Feature randomFeatureNearPole(Random random) {
         int randomNumber = random.nextInt(100);
         if (randomNumber < 35)
-            return null;
+            return Feature.NULL;
         else if (randomNumber < 50)
             return Feature.SWAMP;
         else if (randomNumber < 68)
@@ -217,7 +218,7 @@ public class Game {
     private Feature randomFeatureInBetween(Random random) {
         int randomNumber = random.nextInt(100);
         if (randomNumber < 70)//oasis flat
-            return null;
+            return Feature.NULL;
         else if (randomNumber < 85)
             return Feature.JUNGLE;
         else if (randomNumber < 90)
@@ -232,7 +233,7 @@ public class Game {
     }
 
     private boolean inAroundOcean(int x, int y) {
-        return percentInMiddleX(x) * 1.5 + percentInMiddleY(y) < 20;
+        return percentInMiddleX(x) * 1.5 + percentInMiddleY(y) < 30;
     }
 
     private int percentInMiddleX(int x) {

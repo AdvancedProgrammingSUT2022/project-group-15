@@ -43,7 +43,11 @@ public class Civilization {
     public void setGoldStorage(int goldStorage) {
         this.goldStorage = goldStorage;
     }
-    // TODO: 4/20/2022  getmap() adjustvisibility();
+    // TODO: 4/20/2022  getmap()
+
+    public void adjustVisibility(){
+
+    }
 
 
 }
