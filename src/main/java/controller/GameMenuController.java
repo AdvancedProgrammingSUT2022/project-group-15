@@ -194,77 +194,77 @@ public class GameMenuController {
     }
 
     public String showMap() {
-        String[][] str = new String[GlobalThings.height][GlobalThings.width];
-        for (int i = 0; i < GlobalThings.height; i++) {
-            for (int j = 0; j < GlobalThings.width; j++) {
-                str[i][j] = GlobalThings.black + '█';
+        String[][] printMap = new String[GlobalThings.mapHeight][GlobalThings.mapWidth];
+        for (int i = 0; i < GlobalThings.mapHeight; i++) {
+            for (int j = 0; j < GlobalThings.mapWidth; j++) {
+                printMap[i][j] = GlobalThings.black + '█';
             }
         }
         for (int i = 0; i < 24; i++) {
             for (int j = 0; j < 6; j++) {
-                int x = (i + 1) * GlobalThings.arz / 2;
-                int y = j * GlobalThings.tool * 2 + GlobalThings.tool;
-                if (i % 2 == 1) y += GlobalThings.tool;
-                for (int k = 0; k < GlobalThings.arz / 2; k++) {
+                int x = (i + 1) * GlobalThings.widthOfGrid / 2;
+                int y = j * GlobalThings.lengthOfGrid * 2 + GlobalThings.lengthOfGrid;
+                if (i % 2 == 1) y += GlobalThings.lengthOfGrid;
+                for (int k = 0; k < GlobalThings.widthOfGrid / 2; k++) {
                     for (int l = 0; l <= 9 - k; l++) {
                         for (int z = y - l; z <= y + l; z++) {
-                            if (z == y - l) str[x - k][z - 1] = "/";
-                            if (z == y + l) str[x - k][z + 1] = "\\";
-                            str[x - k][z] = GlobalThings.red + '█';
-                            str[x + k][z] = GlobalThings.red + '█';
+                            if (z == y - l) printMap[x - k][z - 1] = "/";
+                            if (z == y + l) printMap[x - k][z + 1] = "\\";
+                            printMap[x - k][z] = GlobalThings.red + '█';
+                            printMap[x + k][z] = GlobalThings.red + '█';
                         }
                     }
                 }
-                str[x + 1][y - 2] = "RI";
-                str[x + 1][y - 1] = "";
-                str[x + 1][y] = ":";
+                printMap[x + 1][y - 2] = "RI";
+                printMap[x + 1][y - 1] = "";
+                printMap[x + 1][y] = ":";
                 if (Game.getGame().map.get(i / 2).get(2 * j + i % 2).doesHaveRiver())
-                    str[x + 1][y + 1] = "ys";
+                    printMap[x + 1][y + 1] = "ys";
                 else
-                    str[x + 1][y + 1] = "no";
-                str[x + 1][y + 2] = "";
+                    printMap[x + 1][y + 1] = "no";
+                printMap[x + 1][y + 2] = "";
 
-                str[x][y - 2] = GlobalThings.blue + "T";
-                str[x][y - 1] = "R";
-                str[x][y] = ":";
-                str[x][y + 1] = Game.getGame().map.get(i / 2).get(2 * j + i % 2).getTerrain().name.substring(0, 1);
-                str[x][y + 2] = Game.getGame().map.get(i / 2).get(2 * j + i % 2).getTerrain().name.substring(1, 2);
+                printMap[x][y - 2] = GlobalThings.blue + "T";
+                printMap[x][y - 1] = "R";
+                printMap[x][y] = ":";
+                printMap[x][y + 1] = Game.getGame().map.get(i / 2).get(2 * j + i % 2).getTerrain().name.substring(0, 1);
+                printMap[x][y + 2] = Game.getGame().map.get(i / 2).get(2 * j + i % 2).getTerrain().name.substring(1, 2);
 
-                str[x - 1][y - 2] = "FE";
-                str[x - 1][y - 1] = "";
-                str[x - 1][y] = ":";
-                str[x - 1][y + 1] = Game.getGame().map.get(i / 2).get(2 * j + i % 2).getFeature().name.substring(0, 1);
-                str[x - 1][y + 2] = Game.getGame().map.get(i / 2).get(2 * j + i % 2).getFeature().name.substring(1, 2);
+                printMap[x - 1][y - 2] = "FE";
+                printMap[x - 1][y - 1] = "";
+                printMap[x - 1][y] = ":";
+                printMap[x - 1][y + 1] = Game.getGame().map.get(i / 2).get(2 * j + i % 2).getFeature().name.substring(0, 1);
+                printMap[x - 1][y + 2] = Game.getGame().map.get(i / 2).get(2 * j + i % 2).getFeature().name.substring(1, 2);
 
 
 
-                str[x + 4][y] = "-";
-                str[x + 4][y + 1] = "-";
-                str[x + 4][y + 2] = "-";
-                str[x + 4][y + 3] = "-";
-                str[x + 4][y + 4] = "-";
-                str[x + 4][y + 5] = "-";
-                str[x - 4][y] = "-";
-                str[x - 4][y + 1] = "-";
-                str[x - 4][y + 2] = "-";
-                str[x - 4][y + 3] = "-";
-                str[x - 4][y + 4] = "-";
-                str[x - 4][y + 5] = "-";
-                str[x + 4][y - 1] = "-";
-                str[x + 4][y - 2] = "-";
-                str[x + 4][y - 3] = "-";
-                str[x + 4][y - 4] = "-";
-                str[x + 4][y - 5] = "-";
-                str[x - 4][y - 1] = "-";
-                str[x - 4][y - 2] = "-";
-                str[x - 4][y - 3] = "-";
-                str[x - 4][y - 4] = "-";
-                str[x - 4][y - 5] = "-";
+                printMap[x + 4][y] = "-";
+                printMap[x + 4][y + 1] = "-";
+                printMap[x + 4][y + 2] = "-";
+                printMap[x + 4][y + 3] = "-";
+                printMap[x + 4][y + 4] = "-";
+                printMap[x + 4][y + 5] = "-";
+                printMap[x - 4][y] = "-";
+                printMap[x - 4][y + 1] = "-";
+                printMap[x - 4][y + 2] = "-";
+                printMap[x - 4][y + 3] = "-";
+                printMap[x - 4][y + 4] = "-";
+                printMap[x - 4][y + 5] = "-";
+                printMap[x + 4][y - 1] = "-";
+                printMap[x + 4][y - 2] = "-";
+                printMap[x + 4][y - 3] = "-";
+                printMap[x + 4][y - 4] = "-";
+                printMap[x + 4][y - 5] = "-";
+                printMap[x - 4][y - 1] = "-";
+                printMap[x - 4][y - 2] = "-";
+                printMap[x - 4][y - 3] = "-";
+                printMap[x - 4][y - 4] = "-";
+                printMap[x - 4][y - 5] = "-";
             }
         }
-        for (int i = 0; i < GlobalThings.height; i++) {
-            for (int j = 0; j < GlobalThings.width; j++) {
-                System.out.print(str[i][j]);
+        for (int i = 0; i < GlobalThings.mapHeight; i++) {
+            for (int j = 0; j < GlobalThings.mapWidth; j++) {
+                System.out.print(printMap[i][j]);
             }
             System.out.println("");
         }
