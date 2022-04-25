@@ -17,9 +17,9 @@ public class Game {
     private ArrayList<City> originalCapitals = new ArrayList<>();
     private int turn;
 
-    private int xMap = 20;
-    private int yMap = 20;
-    public ArrayList<ArrayList<Hex>> map;
+    private int xMap = 10;
+    private int yMap = 10;
+    public static ArrayList<ArrayList<Hex>> map;
  /*
     structure of map:
               y=0      y=1       y=2      y=3
@@ -31,7 +31,6 @@ public class Game {
 
     x=3          [3][0]   [3][1]   [3][2]   [0][3]
 */
-
     private Game() {
         turn = 0;
     }
@@ -81,12 +80,12 @@ public class Game {
         Random random = new Random();
         for (ArrayList<Hex> hexes : map) {
             for (Hex hex : hexes) {
-                if (hex.getFeature().equals(Feature.DENSE_FOREST)){
-                    if (random.nextInt(100)<10)
+                if (hex.getFeature().equals(Feature.DENSE_FOREST)) {
+                    if (random.nextInt(100) < 10)
                         hex.setResource(Resource.BANANA);
                 }
-                if (hex.getTerrain().equals(Terrain.GRASSLAND)){
-                    if (random.nextInt(100)<10)
+                if (hex.getTerrain().equals(Terrain.GRASSLAND)) {
+                    if (random.nextInt(100) < 10)
                         hex.setResource(Resource.BANANA);
                 }
                 // TODO: 4/24/2022 other resources 
@@ -98,7 +97,7 @@ public class Game {
         Random random = new Random();
         for (ArrayList<Hex> hexes : map) {
             for (Hex hex : hexes) {
-                if (random.nextInt() < 20 & !inAroundOcean(hex.getCoordinates().get('x'),hex.getCoordinates().get('y'))) {
+                if (random.nextInt() < 20 & !inAroundOcean(hex.getCoordinates().get('x'), hex.getCoordinates().get('y'))) {
                     hex.setHasRiver(true);
                 }
                 if (hex.getTerrain().equals(Terrain.DESERT)) {
@@ -112,7 +111,7 @@ public class Game {
         for (ArrayList<Hex> hexes : map) {
             for (Hex hex : hexes) {
                 if (hex.doesHaveRiver()) {
-                    if (!riverAround(hex.getCoordinates().get('x'),hex.getCoordinates().get('y'))) {
+                    if (!riverAround(hex.getCoordinates().get('x'), hex.getCoordinates().get('y'))) {
                         hex.setHasRiver(false);
                     } else {
                         if (random.nextInt(100) < 20) {
@@ -124,9 +123,9 @@ public class Game {
         }
     }
 
-    private boolean riverAround(int x , int y) {
+    private boolean riverAround(int x, int y) {
         for (NeighborHex neighborHex : NeighborHex.values()) {
-            if (map.get(x+neighborHex.xDiff).get(y+neighborHex.yDiff).doesHaveRiver())
+            if (map.get(x + neighborHex.xDiff).get(y + neighborHex.yDiff).doesHaveRiver())
                 return true;
         }
         return false;

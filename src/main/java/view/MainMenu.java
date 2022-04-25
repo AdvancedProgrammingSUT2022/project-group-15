@@ -1,6 +1,8 @@
 package view;
 
+import controller.GameMenuController;
 import controller.MainMenuController;
+import model.Game;
 
 import java.util.HashMap;
 import java.util.regex.Matcher;
@@ -51,3 +53,7 @@ public class MainMenu extends Menu {
         return "continue";
     }
 }
+/*user login -u erfan -p 123erfan
+menu enter game menu
+show map 20 20
+ */
