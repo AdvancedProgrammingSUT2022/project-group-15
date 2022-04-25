@@ -37,16 +37,14 @@ public class Game {
 
 
     public static Game getGame() {
-        if (game == null)
-            game = new Game();
         return game;
     }
 
-    public void startNewGame(ArrayList<User> users) {
+    public static void startNewGame(ArrayList<User> users) {
         for (User user : users) {
-            civilizations.add(new Civilization(user));
+            game.civilizations.add(new Civilization(user));
         }
-        createMap();
+        game.createMap();
     }
 
 
@@ -222,15 +220,11 @@ public class Game {
 
 
     private boolean inPoles(int x) {
-        if (x < 2 || x > xMap - 2)
-            return true;
-        return false;
+        return x < 2 || x > xMap - 2;
     }
 
     private boolean inAroundOcean(int x, int y) {
-        if (percentInMiddleX(x) * 1.5 + percentInMiddleY(y) < 20)
-            return true;
-        return false;
+        return percentInMiddleX(x) * 1.5 + percentInMiddleY(y) < 20;
     }
 
     private int percentInMiddleX(int x) {

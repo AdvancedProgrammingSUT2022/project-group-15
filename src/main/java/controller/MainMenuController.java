@@ -26,7 +26,7 @@ public class MainMenuController {
             users.set(number - 1, User.getUserByUsername(usernames.get(number)));
         }
 
-        Game.getGame().startNewGame(users);
+        Game.startNewGame(users);
         return "a new game started with " + users.size() + " players";
     }
 
