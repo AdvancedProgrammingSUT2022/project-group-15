@@ -1,5 +1,6 @@
 package model;
 
+import controller.GameMenuController;
 import enums.Feature;
 import enums.NeighborHex;
 import enums.Resource;
@@ -86,7 +87,7 @@ public class Game {
                     if (random.nextInt(100) < 10)
                         hex.setResource(Resource.BANANA);
                 }
-                // TODO: 4/24/2022 other resources 
+                // TODO: 4/24/2022 other resources
             }
         }
     }
@@ -123,8 +124,10 @@ public class Game {
 
     private boolean riverAround(int x, int y) {
         for (NeighborHex neighborHex : NeighborHex.values()) {
-            if (map.get(x + neighborHex.xDiff).get(y + neighborHex.yDiff).doesHaveRiver())
-                return true;
+            if (GameMenuController.validCoordinate(x + neighborHex.xDiff, y + neighborHex.yDiff)) {
+                if (map.get(x + neighborHex.xDiff).get(y + neighborHex.yDiff).doesHaveRiver())
+                    return true;
+            }
         }
         return false;
     }
