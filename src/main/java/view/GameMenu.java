@@ -103,6 +103,8 @@ public class GameMenu extends Menu {
             System.out.println(controller.showMap(matcher.group("cityName")));
         } else if ((matcher = getMatcher(command, "^map move (?<direction>\\w+) (?<amount>\\d+)$")) != null) {
             System.out.println(controller.moveMap(matcher.group("direction"), Integer.parseInt(matcher.group("amount"))));
+        } else if (command.equals("next turn")) {
+            System.out.println(controller.changeTurn());
         } else {
             System.out.println("invalid command!");
         }
