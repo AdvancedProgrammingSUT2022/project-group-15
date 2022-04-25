@@ -5,17 +5,23 @@ import enums.Improvement;
 import model.Game;
 import model.GlobalThings;
 import model.GlobalThings;
+import model.Unit;
 
 import java.util.ArrayList;
 
 public class GameMenuController {
+    Unit selectedUnit =null;
     public static boolean validCoordinate(int x, int y) {
         return x >= 0 && y >= 0 && x <= Game.getGame().getRows() && y <= Game.getGame().getColumns();
     }
 
     public String changeTurn() {
-        // TODO : implement
-        return null;
+        for (Unit unit : Game.getGame().getSelectedCivilization().getUnits()) {
+            if(unit.needsCommand())
+               return "some Units Need Command" ;
+        }
+        Game.getGame().nextTurn();
+        return "done";
     }
 
     public String showTechnologyInfo() {
@@ -89,8 +95,19 @@ public class GameMenuController {
     }
 
     public String moveSelectedUnitTo(int x, int y) {
-        // TODO : implement
-        return null;
+        if (selectedUnit == null)
+            return "no selected unit";
+        if (!selectedUnit.getOwner().equals(Game.getGame().getSelectedCivilization())){
+            return "unit not yours";
+        }
+        int distance = selectedUnit.findShortestPathByDijkstra(x, y);
+        if (distance > 999999){
+            return "cant go to destination (mountain or ice or sea ) or blocked by other units";
+        }
+        selectedUnit.doPlanedMovement();
+        if (selectedUnit.getPlanedToGo() == null)
+            return "move done";
+        return "planed move will be done";
     }
 
     public String sleepSelectedUnit() {

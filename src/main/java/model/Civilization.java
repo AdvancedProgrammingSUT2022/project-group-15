@@ -32,6 +32,10 @@ public class Civilization {
         units.remove(unit);
     }
 
+    public ArrayList<Unit> getUnits() {
+        return units;
+    }
+
     public int getGoldStorage() {
         return goldStorage;
     }

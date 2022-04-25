@@ -4,6 +4,7 @@ import controller.GameMenuController;
 import enums.NeighborHex;
 import enums.UnitName;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -30,12 +31,15 @@ public abstract class Unit {
         this.name = name;
     }
 
-    public void move(int x, int y) {
-        findShortestPathByDijkstra(x, y);
-        doPlanedMovement();
+    public Civilization getOwner() {
+        return owner;
     }
 
-    protected void doPlanedMovement() {
+    public ArrayList<Hex> getPlanedToGo() {
+        return PlanedToGo;
+    }
+
+    public void doPlanedMovement() {
         Hex nextHex;
         while (remainingMovement > 0 || !PlanedToGo.isEmpty()) {
             nextHex = PlanedToGo.get(0);
@@ -65,7 +69,7 @@ public abstract class Unit {
     }
 
 
-    private void findShortestPathByDijkstra(int x, int y) {
+    public int findShortestPathByDijkstra(int x, int y) {
         int numberOfRows = Game.getGame().getRows() + 1;
         int numberColumns = Game.getGame().getColumns() + 1;
         int numberOfNodes = numberColumns * numberOfRows;
@@ -104,6 +108,9 @@ public abstract class Unit {
 
         }
         createArraylistForRoute(parent, destinationNode);
+        if (distance[destinationNode] > 999999)
+            PlanedToGo = null;
+        return distance[destinationNode];
     }
 
     private void createArraylistForRoute(int[] parent, int destinationNode) {
@@ -135,11 +142,22 @@ public abstract class Unit {
         if (moveCost == -1)
             moveCost = Integer.MAX_VALUE / 2;
 
-        if (mstSet[destinationNodeNumber] == false && distance[NodeNumber] + moveCost < distance[destinationNodeNumber]) {
+        if (mstSet[destinationNodeNumber] == false && distance[NodeNumber] + moveCost < distance[destinationNodeNumber] &&
+                !hasSameUnitInHex(x, y)) {
             parent[destinationNodeNumber] = NodeNumber;
             distance[destinationNodeNumber] = distance[NodeNumber] + moveCost;
         }
     }
+
+    private boolean hasSameUnitInHex(int x, int y) {
+        if (this instanceof CivilUnit) {
+            if (Game.getGame().map.get(x).get(y).getCivilUnit() == null)
+                return false;
+        } else if (Game.getGame().map.get(x).get(y).getMilitaryUnit() == null)
+            return false;
+        return true;
+    }
+
 
 
     private int minKey(int[] key, Boolean[] mstSet, int numberOfNodes) {

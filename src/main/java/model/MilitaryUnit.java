@@ -24,6 +24,8 @@ public abstract class MilitaryUnit extends Unit {
     }
 
     public boolean needsCommand() {
+        if (this.remainingMovement < 0)
+            return false;
         if (PlanedToGo != null) {
             doPlanedMovement();
             if (remainingMovement > 0)

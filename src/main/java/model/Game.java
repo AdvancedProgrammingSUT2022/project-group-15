@@ -17,28 +17,33 @@ public class Game {
     private ArrayList<Civilization> civilizations = new ArrayList<>();
     private ArrayList<City> originalCapitals = new ArrayList<>();
     private int turn;
+    private Civilization selectedCivilization;
 
     private int xMap = 10;
     private int yMap = 10;
     public static ArrayList<ArrayList<Hex>> map;
- /*
-    structure of map:
-              y=0      y=1       y=2      y=3
-    x=0      [0][0]   [0][1]   [0][2]   [0][3]
 
-    x=1          [1][0]   [1][1]   [1][2]   [0][3]
+    /*
+       structure of map:
+                 y=0      y=1       y=2      y=3
+       x=0      [0][0]   [0][1]   [0][2]   [0][3]
 
-    x=2      [2][0]   [2][1]   [2][2]   [0][3]
+       x=1          [1][0]   [1][1]   [1][2]   [0][3]
 
-    x=3          [3][0]   [3][1]   [3][2]   [0][3]
-*/
+       x=2      [2][0]   [2][1]   [2][2]   [0][3]
+
+       x=3          [3][0]   [3][1]   [3][2]   [0][3]
+   */
     private Game() {
         turn = 0;
     }
 
-
     public static Game getGame() {
         return game;
+    }
+
+    public Civilization getSelectedCivilization() {
+        return selectedCivilization;
     }
 
     public static void startNewGame(ArrayList<User> users) {
@@ -241,4 +246,8 @@ public class Game {
     }
 
 
+    public void nextTurn() {
+        turn++;
+        selectedCivilization = civilizations.get(turn % civilizations.size());
+    }
 }
