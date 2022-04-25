@@ -197,7 +197,7 @@ public class GameMenuController {
         String[][] printMap = new String[GlobalThings.mapHeight][GlobalThings.mapWidth];
         for (int i = 0; i < GlobalThings.mapHeight; i++) {
             for (int j = 0; j < GlobalThings.mapWidth; j++) {
-                printMap[i][j] = GlobalThings.black + '█';
+                printMap[i][j] = GlobalThings.BLACK + '█';
             }
         }
         for (int i = 0; i < 24; i++) {
@@ -210,8 +210,8 @@ public class GameMenuController {
                         for (int z = y - l; z <= y + l; z++) {
                             if (z == y - l) printMap[x - k][z - 1] = "/";
                             if (z == y + l) printMap[x - k][z + 1] = "\\";
-                            printMap[x - k][z] = GlobalThings.red + '█';
-                            printMap[x + k][z] = GlobalThings.red + '█';
+                            printMap[x - k][z] = GlobalThings.RED + '█';
+                            printMap[x + k][z] = GlobalThings.RED + '█';
                         }
                     }
                 }
@@ -224,7 +224,7 @@ public class GameMenuController {
                     printMap[x + 1][y + 1] = "no";
                 printMap[x + 1][y + 2] = "";
 
-                printMap[x][y - 2] = GlobalThings.blue + "T";
+                printMap[x][y - 2] = GlobalThings.BLUE + "T";
                 printMap[x][y - 1] = "R";
                 printMap[x][y] = ":";
                 printMap[x][y + 1] = Game.getGame().map.get(i / 2).get(2 * j + i % 2).getTerrain().name.substring(0, 1);
@@ -235,7 +235,6 @@ public class GameMenuController {
                 printMap[x - 1][y] = ":";
                 printMap[x - 1][y + 1] = Game.getGame().map.get(i / 2).get(2 * j + i % 2).getFeature().name.substring(0, 1);
                 printMap[x - 1][y + 2] = Game.getGame().map.get(i / 2).get(2 * j + i % 2).getFeature().name.substring(1, 2);
-
 
 
                 printMap[x + 4][y] = "-";
