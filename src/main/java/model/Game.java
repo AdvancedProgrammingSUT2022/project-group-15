@@ -21,7 +21,7 @@ public class Game {
 
     private int xMap = 12;
     private int yMap = 12;
-    public static ArrayList<ArrayList<Hex>> map;
+    public ArrayList<ArrayList<Hex>> map;
 
     /*
        structure of map:
@@ -46,13 +46,13 @@ public class Game {
         return selectedCivilization;
     }
 
-    public void startNewGame(ArrayList<User> users) {
+    public static void startNewGame(ArrayList<User> users) {
+        game = new Game();
         for (User user : users) {
             game.civilizations.add(new Civilization(user));
         }
         game.createMap();
     }
-
 
     public Civilization getPlayingCivilization() {
         return civilizations.get(turn % civilizations.size());

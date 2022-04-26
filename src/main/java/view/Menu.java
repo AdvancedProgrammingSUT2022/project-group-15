@@ -25,7 +25,7 @@ public abstract class Menu {
      *
      * @param command the command that we want to check
      * @param regex   the regex that we want to check command with
-     * @return null if doesn't match and else a matcher
+     * @return null if it doesn't match and else a matcher
      * @author Parsa
      */
     protected Matcher getMatcher(String command, String regex) {
