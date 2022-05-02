@@ -1,9 +1,6 @@
 package model;
 
-import enums.Feature;
-import enums.Improvement;
-import enums.Resource;
-import enums.Terrain;
+import enums.*;
 
 import java.util.HashMap;
 
@@ -20,7 +17,9 @@ public class Hex {
     private boolean hasRiver;
     private boolean hasRoad;
     private boolean hasRailRoad;
-    private HashMap<Character, Integer> coordinates = new HashMap<>();
+    private HexVisibility hexVisibility=HexVisibility.FOG_OF_WAR;
+    private HashMap<Character, Integer> coordinatesInArray = new HashMap<>();
+    private HashMap<Character, Integer> coordinatesInMap = new HashMap<>();
     private MilitaryUnit militaryUnit;
     private CivilUnit civilUnit;
 
@@ -29,14 +28,24 @@ public class Hex {
         this.feature = feature;
         this.resource = resource;
         this.hasRiver = hasRiver;
-        this.coordinates.put('x', x);
-        this.coordinates.put('y', y);
+        this.coordinatesInArray.put('x', x);
+        this.coordinatesInArray.put('y', y);
+        this.coordinatesInMap.put('x', x);
+        this.coordinatesInMap.put('y', y*2 + x%2);
         this.movementPrice = calculateMovementPrice();
     }
 
     private int calculateMovementPrice() {
         // TODO: 4/24/2022
         return 0;
+    }
+
+    public HexVisibility getHexVisibility() {
+        return hexVisibility;
+    }
+
+    public void setHexVisibility(HexVisibility hexVisibility) {
+        this.hexVisibility = hexVisibility;
     }
 
     public MilitaryUnit getMilitaryUnit() {
@@ -55,8 +64,12 @@ public class Hex {
         this.civilUnit = civilUnit;
     }
 
-    public HashMap<Character, Integer> getCoordinates() {
-        return coordinates;
+    public HashMap<Character, Integer> getCoordinatesInArray() {
+        return coordinatesInArray;
+    }
+
+    public HashMap<Character, Integer> getCoordinatesInMap() {
+        return coordinatesInMap;
     }
 
     public int getMovementPrice() {

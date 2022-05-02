@@ -200,8 +200,8 @@ public class GameMenuController {
                 printMap[i][j] = GlobalThings.BLACK + '█';
             }
         }
-        for (int i = 0; i < 24; i++) {
-            for (int j = 0; j < 6; j++) {
+        for (int i = 0; i < 12; i++) {
+            for (int j = 0; j < 3; j++) {
                 int x = (i + 1) * GlobalThings.widthOfGrid / 2;
                 int y = j * GlobalThings.lengthOfGrid * 2 + GlobalThings.lengthOfGrid;
                 if (i % 2 == 1) y += GlobalThings.lengthOfGrid;
@@ -218,7 +218,7 @@ public class GameMenuController {
                 printMap[x + 1][y - 2] = GlobalThings.BLUE+ "RI";
                 printMap[x + 1][y - 1] = "";
                 printMap[x + 1][y] = ":";
-                if (Game.getGame().map.get(i / 2).get(2 * j + i % 2).doesHaveRiver())
+                if (Game.getGame().map.map.get(i / 2).get(2 * j + i % 2).doesHaveRiver())
                     printMap[x + 1][y + 1] = "ys";
                 else
                     printMap[x + 1][y + 1] = "no";
@@ -227,14 +227,14 @@ public class GameMenuController {
                 printMap[x][y - 2] = GlobalThings.YELLOW +"T";
                 printMap[x][y - 1] = "R";
                 printMap[x][y] = ":";
-                printMap[x][y + 1] = Game.getGame().map.get(i / 2).get(2 * j + i % 2).getTerrain().name.substring(0, 1);
-                printMap[x][y + 2] = Game.getGame().map.get(i / 2).get(2 * j + i % 2).getTerrain().name.substring(1, 2);
+                printMap[x][y + 1] = Game.getGame().map.map.get(i / 2).get(2 * j + i % 2).getTerrain().name.substring(0, 1);
+                printMap[x][y + 2] = Game.getGame().map.map.get(i / 2).get(2 * j + i % 2).getTerrain().name.substring(1, 2);
 
                 printMap[x - 1][y - 2] = GlobalThings.RED + "FE";
                 printMap[x - 1][y - 1] = "";
                 printMap[x - 1][y] = ":";
-                printMap[x - 1][y + 1] = Game.getGame().map.get(i / 2).get(2 * j + i % 2).getFeature().name.substring(0, 1);
-                printMap[x - 1][y + 2] = Game.getGame().map.get(i / 2).get(2 * j + i % 2).getFeature().name.substring(1, 2);
+                printMap[x - 1][y + 1] = Game.getGame().map.map.get(i / 2).get(2 * j + i % 2).getFeature().name.substring(0, 1);
+                printMap[x - 1][y + 2] = Game.getGame().map.map.get(i / 2).get(2 * j + i % 2).getFeature().name.substring(1, 2);
 
 
                 printMap[x + 4][y] = "-";

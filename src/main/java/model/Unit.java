@@ -4,12 +4,11 @@ import controller.GameMenuController;
 import enums.NeighborHex;
 import enums.UnitName;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public abstract class Unit {
-    protected HashMap<Character, Integer> coordinates = new HashMap<>();
+    protected HashMap<Character, Integer> coordinatesInMap = new HashMap<>();
     protected ArrayList<Hex> PlanedToGo = new ArrayList<>();
     protected Civilization owner;
     protected int movementSpeed;
@@ -23,8 +22,8 @@ public abstract class Unit {
     protected int meleePower;//add to constructor
 
     public Unit(int x, int y, Civilization owner, int movementSpeed, int totalHealth, UnitName name) {
-        coordinates.put('x', x);
-        coordinates.put('y', y);
+        coordinatesInMap.put('x', x);
+        coordinatesInMap.put('y', y);
         this.owner = owner;
         this.movementSpeed = movementSpeed;
         this.totalHealth = totalHealth;
@@ -43,7 +42,7 @@ public abstract class Unit {
         Hex nextHex;
         while (remainingMovement > 0 || !PlanedToGo.isEmpty()) {
             nextHex = PlanedToGo.get(0);
-            moveToHex(nextHex.getCoordinates().get('x'), nextHex.getCoordinates().get('y'));
+            moveToHex(nextHex.getCoordinatesInArray().get('x'), nextHex.getCoordinatesInArray().get('y'));
             PlanedToGo.remove(0);
         }
         if (PlanedToGo.isEmpty())
@@ -52,30 +51,30 @@ public abstract class Unit {
 
     protected void moveToHex(int x, int y) {
         if (this instanceof MilitaryUnit) {
-            Game.getGame().map.get(this.coordinates.get('x')).get(this.coordinates.get('y')).setMilitaryUnit(null);
+            Game.getGame().map.map.get(this.coordinatesInMap.get('x')).get(this.coordinatesInMap.get('y') / 2).setMilitaryUnit(null);
         } else {
-            Game.getGame().map.get(this.coordinates.get('x')).get(this.coordinates.get('y')).setCivilUnit(null);
+            Game.getGame().map.map.get(this.coordinatesInMap.get('x')).get(this.coordinatesInMap.get('y') / 2).setCivilUnit(null);
         }
 
-        this.coordinates.replace('x', x);
-        this.coordinates.replace('y', y);
-        this.remainingMovement -= Game.getGame().map.get(this.coordinates.get('x')).get(this.coordinates.get('y')).getMovementPrice();
+        this.coordinatesInMap.replace('x', x);
+        this.coordinatesInMap.replace('y', 2 * y + x % 2);
+        this.remainingMovement -= Game.getGame().map.map.get(this.coordinatesInMap.get('x')).get(this.coordinatesInMap.get('y') / 2).getMovementPrice();
 
         if (this instanceof MilitaryUnit) {
-            Game.getGame().map.get(this.coordinates.get('x')).get(this.coordinates.get('y')).setMilitaryUnit((MilitaryUnit) this);
+            Game.getGame().map.map.get(this.coordinatesInMap.get('x')).get(this.coordinatesInMap.get('y') / 2).setMilitaryUnit((MilitaryUnit) this);
         } else {
-            Game.getGame().map.get(this.coordinates.get('x')).get(this.coordinates.get('y')).setCivilUnit((CivilUnit) this);
+            Game.getGame().map.map.get(this.coordinatesInMap.get('x')).get(this.coordinatesInMap.get('y') / 2).setCivilUnit((CivilUnit) this);
         }
         this.owner.adjustVisibility();
     }
 
 
     public int findShortestPathByDijkstra(int x, int y) {
-        int numberOfRows = Game.getGame().getRows() + 1;
-        int numberColumns = Game.getGame().getColumns() + 1;
+        int numberOfRows = Game.getGame().getRows();
+        int numberColumns = Game.getGame().getColumns();
         int numberOfNodes = numberColumns * numberOfRows;
         int[] parent = new int[numberOfNodes];
-        int startNodeNumber = this.coordinates.get('x') * numberColumns + this.coordinates.get('y');
+        int startNodeNumber = this.coordinatesInMap.get('x') * numberColumns + this.coordinatesInMap.get('y') / 2;
         int destinationNode = x * numberColumns + y;
         // Key values used to pick minimum weight edge in cut
         int[] distance = new int[numberOfNodes];
@@ -117,28 +116,33 @@ public abstract class Unit {
     private void createArraylistForRoute(int[] parent, int destinationNode) {
         ArrayList<Hex> answer = new ArrayList<>();
 
-        int x = destinationNode / (Game.getGame().getColumns() + 1);
-        int y = destinationNode % (Game.getGame().getColumns() + 1);
-        answer.add(0, Game.getGame().map.get(x).get(y));
+        int x = destinationNode / (Game.getGame().getColumns());
+        int y = destinationNode % (Game.getGame().getColumns());
+        answer.add(0, Game.getGame().map.map.get(x).get(y));
 
         destinationNode = parent[destinationNode];
         while (parent[destinationNode] != -1) {
-            x = destinationNode / (Game.getGame().getColumns() + 1);
-            y = destinationNode % (Game.getGame().getColumns() + 1);
-            answer.add(0, Game.getGame().map.get(x).get(y));
+            x = destinationNode / (Game.getGame().getColumns());
+            y = destinationNode % (Game.getGame().getColumns());
+            answer.add(0, Game.getGame().map.map.get(x).get(y));
         }
 
         PlanedToGo = answer;
     }
 
     private void updateAdjacentNode(int xDiff, int yDiff, int[] distance, Boolean[] mstSet, int NodeNumber, int[] parent) {
-        int x = NodeNumber / (Game.getGame().getColumns() + 1) + xDiff;
-        int y = NodeNumber % (Game.getGame().getColumns() + 1) + yDiff;
-        int destinationNodeNumber = x * (Game.getGame().getColumns() + 1) + y;
+        int x = NodeNumber / (Game.getGame().getColumns());
+        int y = NodeNumber % (Game.getGame().getColumns());
+        y = 2 * y + x % 2 + yDiff;
+        y = y / 2;
+        x += xDiff;
+
+        int destinationNodeNumber = x * (Game.getGame().getColumns()) + y;
         if (!GameMenuController.validCoordinate(x, y))
             return;
-        int moveCost = Game.getGame().map.get(x).get(y).getMovementPrice();
-        if (Game.getGame().map.get(x).get(y).doesHaveRiver() && Game.getGame().map.get(x - xDiff).get(y - yDiff).doesHaveRiver())
+        int moveCost = Game.getGame().map.map.get(x).get(y).getMovementPrice();
+        if (Game.getGame().map.map.get(x).get(y).doesHaveRiver() && Game.getGame().map.map.
+                get(NodeNumber / (Game.getGame().getColumns())).get(NodeNumber % (Game.getGame().getColumns())).doesHaveRiver())
             moveCost = this.movementSpeed;
         if (moveCost == -1)
             moveCost = Integer.MAX_VALUE / 2;
@@ -152,13 +156,12 @@ public abstract class Unit {
 
     private boolean hasSameUnitInHex(int x, int y) {
         if (this instanceof CivilUnit) {
-            if (Game.getGame().map.get(x).get(y).getCivilUnit() == null)
+            if (Game.getGame().map.map.get(x).get(y).getCivilUnit() == null)
                 return false;
-        } else if (Game.getGame().map.get(x).get(y).getMilitaryUnit() == null)
+        } else if (Game.getGame().map.map.get(x).get(y).getMilitaryUnit() == null)
             return false;
         return true;
     }
-
 
 
     private int minKey(int[] key, Boolean[] mstSet, int numberOfNodes) {
