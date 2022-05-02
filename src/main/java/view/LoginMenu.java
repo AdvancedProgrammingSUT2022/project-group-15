@@ -19,11 +19,10 @@ public class LoginMenu extends Menu {
             System.out.println("Program terminated");
             return "exit";
         } else if (command.equals("menu enter main menu")) {
-            if(!controller.isUserLoggedIn()) System.out.println("please login first");
+            if (!controller.isUserLoggedIn()) System.out.println("please login first");
             else return "main menu";
         } else if (command.equals("menu enter profile menu") || command.equals("menu enter game menu")) {
             System.out.println("menu navigation is not possible");
-
         } else if (((matcher = getMatcher(command, "^user create (-u|--username) (?<username>\\S+) (-p|--password) (?<password>\\S+) (-n|--nickname) (?<nickname>\\S+)$")) != null) ||
                 ((matcher = getMatcher(command, "^user create (-u|--username) (?<username>\\S+) (-n|--nickname) (?<nickname>\\S+) (-p|--password) (?<password>\\S+)$")) != null) ||
                 ((matcher = getMatcher(command, "^user create (-p|--password) (?<password>\\S+) (-u|--username) (?<username>\\S+) (-n|--nickname) (?<nickname>\\S+)$")) != null) ||
@@ -33,8 +32,9 @@ public class LoginMenu extends Menu {
             System.out.println(controller.createUser(matcher));
         } else if (((matcher = getMatcher(command, "^user login (-u|--username) (?<username>\\S+) (-p|--password) (?<password>\\S+)$")) != null) ||
                 ((matcher = getMatcher(command, "^user login (-p|--password) (?<password>\\S+) (-u|--username) (?<username>\\S+)$")) != null)) {
-            System.out.println(controller.login(matcher));
-            return "main menu";
+            String message = controller.login(matcher);
+            System.out.println(message);
+            if (message.equals("user logged in successfully!")) return "main menu";
         } else {
             System.out.println("invalid command!");
         }
