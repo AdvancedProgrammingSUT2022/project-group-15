@@ -1,6 +1,7 @@
 package model.unit;
 
 import enums.UnitName;
+import model.City;
 import model.Civilization;
 import model.unit.CivilUnit;
 
@@ -26,7 +27,10 @@ public class SettlerUnit extends CivilUnit {
     }
 
     public void foundCity() {
-        // TODO: 4/23/2022
+        City city = new City(owner.getUser().getNickname()+Integer.toString(this.owner.getCities().size()+1),
+                this.coordinatesInMap.get('x'),this.coordinatesInMap.get('y')/2);
+        this.owner.getCities().add(city);
+        this.deleteUnit(false);
     }
 
 }

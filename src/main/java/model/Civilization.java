@@ -1,9 +1,11 @@
 package model;
 
 import enums.*;
+import model.unit.SettlerUnit;
 import model.unit.Unit;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Civilization {
     private User user;
@@ -33,6 +35,14 @@ public class Civilization {
 
     public ArrayList<Unit> getUnits() {
         return units;
+    }
+
+    public ArrayList<City> getCities() {
+        return cities;
+    }
+
+    public User getUser() {
+        return user;
     }
 
     public int getGoldStorage() {
@@ -88,4 +98,19 @@ public class Civilization {
         }
     }
 
+    public void setUp() {
+        Random random = new Random();
+        int xRand;
+        int yRand;
+        while (true){
+            xRand=random.nextInt(Game.getGame().getRows());
+            yRand=random.nextInt(Game.getGame().getColumns());
+            if (Game.getGame().map.map.get(xRand).get(yRand).getMovementPrice()>=0 &
+                    Game.getGame().map.map.get(xRand).get(yRand).getMilitaryUnit() == null &
+                    Game.getGame().map.map.get(xRand).get(yRand).getCivilUnit()==null)
+                break;
+        }
+        SettlerUnit settlerUnit = new SettlerUnit(xRand,2*yRand+xRand%2,this,2,5,UnitName.SETTLER);
+        units.add(settlerUnit);
+    }
 }
