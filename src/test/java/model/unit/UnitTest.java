@@ -1,28 +1,13 @@
 package model.unit;
 
-import enums.UnitName;
 import junit.framework.TestCase;
 import model.Game;
-import model.Hex;
 import org.junit.Test;
-
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-
-
-import java.util.List;
-
-import org.junit.Test;
-import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import static org.mockito.Mockito.*;
-import static org.junit.Assert.*;
-
 import java.util.ArrayList;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UnitTest extends TestCase {

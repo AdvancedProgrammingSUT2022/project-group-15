@@ -29,6 +29,10 @@ public abstract class Unit {
         this.movementSpeed = movementSpeed;
         this.totalHealth = totalHealth;
         this.name = name;
+        if (this instanceof CivilUnit)
+            Game.getGame().map.map.get(x).get(y).setCivilUnit((CivilUnit) this);
+        else
+            Game.getGame().map.map.get(x).get(y).setMilitaryUnit((MilitaryUnit) this);
     }
 
     public Civilization getOwner() {
@@ -37,6 +41,10 @@ public abstract class Unit {
 
     public HashMap<Character, Integer> getCoordinatesInMap() {
         return coordinatesInMap;
+    }
+
+    public UnitName getName() {
+        return name;
     }
 
     public ArrayList<Hex> getPlanedToGo() {

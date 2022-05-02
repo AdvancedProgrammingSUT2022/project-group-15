@@ -5,10 +5,10 @@ import enums.Improvement;
 import model.Game;
 import model.GlobalThings;
 import model.unit.Unit;
+import model.unit.WorkerUnit;
 
 public class GameMenuController {
     Unit selectedUnit = null;
-
 
 
     public String changeTurn() {
@@ -17,6 +17,7 @@ public class GameMenuController {
                 return "some Units Need Command";
         }
         Game.getGame().nextTurn();
+        selectedUnit = null;
         return "done";
     }
 
@@ -195,8 +196,8 @@ public class GameMenuController {
                 printMap[i][j] = GlobalThings.BLACK + '█';
             }
         }
-        for (int i = 0; i < Game.getGame().getRows()*2; i++) {
-            for (int j = 0; j < Game.getGame().getColumns()/2; j++) {
+        for (int i = 0; i < Game.getGame().getRows() * 2; i++) {
+            for (int j = 0; j < Game.getGame().getColumns() / 2; j++) {
                 int x = (i + 1) * GlobalThings.widthOfGrid / 2;
                 int y = j * GlobalThings.lengthOfGrid * 2 + GlobalThings.lengthOfGrid;
                 if (i % 2 == 1) y += GlobalThings.lengthOfGrid;
@@ -210,7 +211,7 @@ public class GameMenuController {
                         }
                     }
                 }
-                printMap[x + 1][y - 2] = GlobalThings.BLUE+ "RI";
+                printMap[x + 1][y - 2] = GlobalThings.BLUE + "RI";
                 printMap[x + 1][y - 1] = "";
                 printMap[x + 1][y] = ":";
                 if (Game.getGame().map.map.get(i / 2).get(2 * j + i % 2).doesHaveRiver())
@@ -219,7 +220,7 @@ public class GameMenuController {
                     printMap[x + 1][y + 1] = "no";
                 printMap[x + 1][y + 2] = "";
 
-                printMap[x][y - 2] = GlobalThings.YELLOW +"T";
+                printMap[x][y - 2] = GlobalThings.YELLOW + "T";
                 printMap[x][y - 1] = "R";
                 printMap[x][y] = ":";
                 printMap[x][y + 1] = Game.getGame().map.map.get(i / 2).get(2 * j + i % 2).getTerrain().name.substring(0, 1);
@@ -230,6 +231,22 @@ public class GameMenuController {
                 printMap[x - 1][y] = ":";
                 printMap[x - 1][y + 1] = Game.getGame().map.map.get(i / 2).get(2 * j + i % 2).getFeature().name.substring(0, 1);
                 printMap[x - 1][y + 2] = Game.getGame().map.map.get(i / 2).get(2 * j + i % 2).getFeature().name.substring(1, 2);
+
+
+                if (Game.getGame().map.map.get(i / 2).get(2 * j + i % 2).getCivilUnit() == null) {
+                    replaceText(printMap,x,y,-2,"CU","NA");
+                } else if(Game.getGame().map.map.get(i / 2).get(2 * j + i % 2).getCivilUnit() instanceof WorkerUnit){
+                    replaceText(printMap,x,y,-2,"CU","WO");
+                }else {
+                    replaceText(printMap,x,y,-2,"CU","SE");
+                }
+
+                if (Game.getGame().map.map.get(i / 2).get(2 * j + i % 2).getMilitaryUnit()== null) {
+                    replaceText(printMap,x,y,+2,"MU","NA");
+                } else {
+                    replaceText(printMap, x, y, +2, "MU",
+                            Game.getGame().map.map.get(i / 2).get(2 * j + i % 2).getMilitaryUnit().getName().toString().substring(0,2) );
+                }
 
 
                 printMap[x + 4][y] = "-";
@@ -263,6 +280,14 @@ public class GameMenuController {
             System.out.println("");
         }
         return "print map successfully";
+    }
+
+    private void replaceText(String[][] map, int x, int y, int xDiff, String firstTwo, String secondTwo) {
+        map[x + xDiff][y] = ":";
+        map[x + xDiff][y-1] = "";
+        map[x + xDiff][y-2] = firstTwo;
+        map[x + xDiff][y+1] = secondTwo;
+        map[x + xDiff][y+2] = "";
     }
 
 

@@ -23,6 +23,7 @@ public class Game {
 
     private Game() {
         turn = 0;
+        selectedCivilization = civilizations.get(0);
     }
 
     public static Game getGame() {
@@ -35,11 +36,14 @@ public class Game {
 
     public static void startNewGame(ArrayList<User> users) {
         game = new Game();
-        game.map = new Map(4 ,4 );//this constants might change later or be given by user
+        game.map = new Map(8 ,8 );//this constants might change later or be given by user
         //System.out.println(Game.getGame().getRows());
         game.map.fillMap();
         for (User user : users) {
             game.civilizations.add(new Civilization(user));
+        }
+        for (Civilization civilization : game.civilizations) {
+            civilization.setUp();
         }
     }
 
