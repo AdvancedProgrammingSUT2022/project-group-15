@@ -41,9 +41,18 @@ public class Hex {
         return new Hex(terrain,feature,resource,hasRiver,coordinatesInArray.get('x'),coordinatesInArray.get('y'));
     }
 
+    /**
+     * calculates the net movement price of this hex. <br>
+     * returns -1 if that units cannot pass by this hex <br>
+     * returns -2 if that units should spend all of their remained moves to pass by this hex
+     * @return the final movement price of this hex
+     * @author Parsa
+     */
     private int calculateMovementPrice() {
-        // TODO: 4/24/2022
-        return 0;
+        if (feature != null){
+            return feature.movementPrice;
+        }
+        return terrain.movementPrice;
     }
 
     public HexVisibility getHexVisibility() {
