@@ -1,6 +1,9 @@
-package model;
+package model.unit;
 
 import enums.UnitName;
+import model.Civilization;
+import model.unit.MilitaryUnit;
+import model.unit.Unit;
 
 public class RangedMilitary extends MilitaryUnit {
     private int rangedPower;

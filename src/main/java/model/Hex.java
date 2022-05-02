@@ -1,6 +1,8 @@
 package model;
 
 import enums.*;
+import model.unit.CivilUnit;
+import model.unit.MilitaryUnit;
 
 import java.util.HashMap;
 
@@ -33,6 +35,10 @@ public class Hex {
         this.coordinatesInMap.put('x', x);
         this.coordinatesInMap.put('y', y*2 + x%2);
         this.movementPrice = calculateMovementPrice();
+    }
+
+    public Hex clone(){
+        return new Hex(terrain,feature,resource,hasRiver,coordinatesInArray.get('x'),coordinatesInArray.get('y'));
     }
 
     private int calculateMovementPrice() {
@@ -73,7 +79,7 @@ public class Hex {
     }
 
     public int getMovementPrice() {
-        return movementPrice;
+        return movementPrice=2 ;
     }
 
     public void setMovementPrice(int movementPrice) {

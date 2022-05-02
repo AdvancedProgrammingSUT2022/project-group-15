@@ -1,7 +1,9 @@
-package model;
+package model.unit;
 
 import enums.Improvement;
 import enums.UnitName;
+import model.Civilization;
+import model.unit.CivilUnit;
 
 public class WorkerUnit extends CivilUnit {
     private boolean isWorking;

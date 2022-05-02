@@ -31,10 +31,16 @@ public class Map {
    x=6      [6][0]   [6][2]   [6][4]     [6][6]
    */
 
+    public boolean validCoordinateInArray(int x, int y) {
+        return x >= 0 && y >= 0 && x < this.rowsNumber && y < this.columnsNumber;
+    }
+
+
     public Map(int rowsNumber, int columnsNumber) {
         this.rowsNumber = rowsNumber;
         this.columnsNumber = columnsNumber;
     }
+
 
     public int getRowsNumber() {
         return rowsNumber;
@@ -44,9 +50,18 @@ public class Map {
         return columnsNumber;
     }
 
+
     public Map clone(){
         Map newMap = new Map(rowsNumber,columnsNumber);
-        newMap.map= (ArrayList<ArrayList<Hex>>) this.map.clone();//hex are new hexes or references???
+        newMap.map = new ArrayList<>();
+        for (int i = 0; i < rowsNumber; i++) {
+            ArrayList<Hex> row = new ArrayList<>();
+            for (int j = 0; j < columnsNumber; j++) {
+                Hex hex = this.map.get(i).get(j).clone();
+                row.add(hex);
+            }
+            newMap.map.add(row);
+        }
         return newMap;
     }
 
@@ -114,11 +129,17 @@ public class Map {
 
     private boolean riverAround(int x, int y) {
         for (NeighborHex neighborHex : NeighborHex.values()) {
-            if (GameMenuController.validCoordinate(x + neighborHex.xDiff, y + neighborHex.yDiff)) {
-                if (map.get(x + neighborHex.xDiff).get(y + neighborHex.yDiff).doesHaveRiver())
+            y=2*y + x%2 + neighborHex.yDiff;
+            y/=2;
+            x = x+neighborHex.xDiff;
+
+
+            if (this.validCoordinateInArray(x , y  )) {
+                if (map.get(x).get(y).doesHaveRiver())
                     return true;
             }
         }
+
         return false;
     }
 
@@ -218,7 +239,7 @@ public class Map {
     }
 
     private boolean inAroundOcean(int x, int y) {
-        return percentInMiddleX(x) * 1.5 + percentInMiddleY(y) < 30;
+        return percentInMiddleX(x) * 1.5 + percentInMiddleY(y) < 80;
     }
 
     private int percentInMiddleX(int x) {

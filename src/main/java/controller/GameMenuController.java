@@ -4,17 +4,12 @@ import enums.Direction;
 import enums.Improvement;
 import model.Game;
 import model.GlobalThings;
-import model.GlobalThings;
-import model.Unit;
-
-import java.util.ArrayList;
+import model.unit.Unit;
 
 public class GameMenuController {
     Unit selectedUnit = null;
 
-    public static boolean validCoordinate(int x, int y) {
-        return x >= 0 && y >= 0 && x < Game.getGame().getRows() && y < Game.getGame().getColumns();
-    }
+
 
     public String changeTurn() {
         for (Unit unit : Game.getGame().getSelectedCivilization().getUnits()) {
@@ -200,8 +195,8 @@ public class GameMenuController {
                 printMap[i][j] = GlobalThings.BLACK + '█';
             }
         }
-        for (int i = 0; i < 12; i++) {
-            for (int j = 0; j < 3; j++) {
+        for (int i = 0; i < Game.getGame().getRows()*2; i++) {
+            for (int j = 0; j < Game.getGame().getColumns()/2; j++) {
                 int x = (i + 1) * GlobalThings.widthOfGrid / 2;
                 int y = j * GlobalThings.lengthOfGrid * 2 + GlobalThings.lengthOfGrid;
                 if (i % 2 == 1) y += GlobalThings.lengthOfGrid;

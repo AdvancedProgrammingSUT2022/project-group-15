@@ -1,6 +1,7 @@
 package model;
 
 import enums.*;
+import model.unit.Unit;
 
 import java.util.ArrayList;
 
@@ -67,8 +68,8 @@ public class Civilization {
     private void adjustVisibilityUnits() {
 
         for (Unit unit : units) {
-            int x = unit.coordinatesInMap.get('x');
-            int y = unit.coordinatesInMap.get('y');
+            int x = unit.getCoordinatesInMap().get('x');
+            int y = unit.getCoordinatesInMap().get('y');
             visibilityMap.map.get(x).get(y / 2).setHexVisibility(HexVisibility.TRANSPARENT);
             seeNeighbors(x, y);
             for (NeighborHex neighborHex : NeighborHex.values()) {

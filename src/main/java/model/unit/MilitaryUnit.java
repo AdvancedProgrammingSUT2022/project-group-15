@@ -1,6 +1,8 @@
-package model;
+package model.unit;
 
 import enums.UnitName;
+import model.Civilization;
+import model.unit.Unit;
 
 public abstract class MilitaryUnit extends Unit {
 

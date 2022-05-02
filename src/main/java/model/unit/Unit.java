@@ -1,8 +1,9 @@
-package model;
+package model.unit;
 
 import controller.GameMenuController;
 import enums.NeighborHex;
 import enums.UnitName;
+import model.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,6 +33,10 @@ public abstract class Unit {
 
     public Civilization getOwner() {
         return owner;
+    }
+
+    public HashMap<Character, Integer> getCoordinatesInMap() {
+        return coordinatesInMap;
     }
 
     public ArrayList<Hex> getPlanedToGo() {
@@ -125,6 +130,7 @@ public abstract class Unit {
             x = destinationNode / (Game.getGame().getColumns());
             y = destinationNode % (Game.getGame().getColumns());
             answer.add(0, Game.getGame().map.map.get(x).get(y));
+            destinationNode = parent[destinationNode];
         }
 
         PlanedToGo = answer;
@@ -138,7 +144,7 @@ public abstract class Unit {
         x += xDiff;
 
         int destinationNodeNumber = x * (Game.getGame().getColumns()) + y;
-        if (!GameMenuController.validCoordinate(x, y))
+        if (!Game.getGame().map.validCoordinateInArray(x, y))
             return;
         int moveCost = Game.getGame().map.map.get(x).get(y).getMovementPrice();
         if (Game.getGame().map.map.get(x).get(y).doesHaveRiver() && Game.getGame().map.map.

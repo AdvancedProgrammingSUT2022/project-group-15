@@ -1,6 +1,8 @@
-package model;
+package model.unit;
 
 import enums.UnitName;
+import model.Civilization;
+import model.unit.CivilUnit;
 
 public class SettlerUnit extends CivilUnit {
     public SettlerUnit(int x, int y, Civilization owner, int movementSpeed, int health, UnitName name) {

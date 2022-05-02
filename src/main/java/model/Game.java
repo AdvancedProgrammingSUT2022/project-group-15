@@ -35,7 +35,7 @@ public class Game {
 
     public static void startNewGame(ArrayList<User> users) {
         game = new Game();
-        game.map = new Map(6 , 6 );//this constants might change later or be given by user
+        game.map = new Map(4 ,4 );//this constants might change later or be given by user
         //System.out.println(Game.getGame().getRows());
         game.map.fillMap();
         for (User user : users) {
