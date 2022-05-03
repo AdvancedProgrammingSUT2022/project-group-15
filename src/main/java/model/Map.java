@@ -60,8 +60,8 @@ public class Map {
     }
 
 
-    public Map clone(){
-        Map newMap = new Map(rowsNumber,columnsNumber);
+    public Map clone() {
+        Map newMap = new Map(rowsNumber, columnsNumber);
         newMap.map = new ArrayList<>();
         for (int i = 0; i < rowsNumber; i++) {
             ArrayList<Hex> row = new ArrayList<>();
@@ -92,15 +92,90 @@ public class Map {
         Random random = new Random();
         for (ArrayList<Hex> hexes : map) {
             for (Hex hex : hexes) {
+                if (hex.getTerrain().equals(Terrain.MOUNTAIN) || hex.getTerrain().equals(Terrain.SNOWLAND) || hex.getTerrain().equals(Terrain.OCEAN))
+                    continue;
+                int percent = 10;
+                //SCORING
                 if (hex.getFeature().equals(Feature.DENSE_FOREST)) {
-                    if (random.nextInt(100) < 10)
+                    if (random.nextInt(100) < percent)
                         hex.setResource(Resource.BANANA);
                 }
                 if (hex.getTerrain().equals(Terrain.GRASSLAND)) {
-                    if (random.nextInt(100) < 10)
-                        hex.setResource(Resource.BANANA);
+                    if (random.nextInt(100) < percent)
+                        hex.setResource(Resource.COW);
                 }
-                // TODO: 4/24/2022 other resources
+                if (hex.getTerrain().equals(Terrain.TUNDRA) || hex.getTerrain().equals(Terrain.HILL) || hex.getFeature().equals(Feature.JUNGLE)) {
+                    if (random.nextInt(100) < percent)
+                        hex.setResource(Resource.GAZELLE);
+                }
+                if (hex.getTerrain().equals(Terrain.GRASSLAND) || hex.getTerrain().equals(Terrain.DESERT) ||
+                        hex.getTerrain().equals(Terrain.HILL) || hex.getTerrain().equals(Terrain.PLAIN)) {
+                    if (random.nextInt(100) < percent)
+                        hex.setResource(Resource.SHEEP);
+                }
+                if (hex.getTerrain().equals(Terrain.PLAIN) || hex.getFeature().equals(Feature.FLAT)) {
+                    if (random.nextInt(100) < percent)
+                        hex.setResource(Resource.WHEAT);
+                }
+                //luxury
+                if (hex.getTerrain().equals(Terrain.PLAIN) || hex.getTerrain().equals(Terrain.DESERT) || hex.getTerrain().equals(Terrain.GRASSLAND)) {
+                    if (random.nextInt(100) < percent)
+                        hex.setResource(Resource.COTTON);
+                }
+                if (hex.getFeature().equals(Feature.JUNGLE) || hex.getFeature().equals(Feature.DENSE_FOREST)) {
+                    if (random.nextInt(100) < percent)
+                        hex.setResource(Resource.COLOR);
+                }
+                if (hex.getFeature().equals(Feature.JUNGLE) || hex.getTerrain().equals(Terrain.TUNDRA)) {
+                    if (random.nextInt(100) < percent)
+                        hex.setResource(Resource.FUR);
+                }
+                if (true) {
+                    if (random.nextInt(100) < percent)
+                        hex.setResource(Resource.GEM);
+                }
+                if (!hex.getTerrain().equals(Terrain.TUNDRA)) {
+                    if (random.nextInt(100) < percent)
+                        hex.setResource(Resource.GOLD);
+                }
+                if (hex.getTerrain().equals(Terrain.PLAIN) || hex.getTerrain().equals(Terrain.DESERT)) {
+                    if (random.nextInt(100) < percent)
+                        hex.setResource(Resource.FUMIGATION);
+                }
+                if (hex.getTerrain().equals(Terrain.PLAIN)) {
+                    if (random.nextInt(100) < percent)
+                        hex.setResource(Resource.TUSK);
+                }
+                if (true) {
+                    if (random.nextInt(100) < percent)
+                        hex.setResource(Resource.MARBLE);
+                }
+                if (hex.getFeature().equals(Feature.JUNGLE)) {
+                    if (random.nextInt(100) < percent)
+                        hex.setResource(Resource.SILK);
+                }
+                if (hex.getTerrain().equals(Terrain.TUNDRA) || hex.getTerrain().equals(Terrain.HILL) || hex.getTerrain().equals(Terrain.DESERT)) {
+                    if (random.nextInt(100) < percent)
+                        hex.setResource(Resource.SILVER);
+                }
+                if (hex.getFeature().equals(Feature.SWAMP) || hex.getFeature().equals(Feature.FLAT)) {
+                    if (random.nextInt(100) < percent)
+                        hex.setResource(Resource.SUGAR);
+                }
+                //strategic
+                if (hex.getTerrain().equals(Terrain.GRASSLAND) || hex.getTerrain().equals(Terrain.HILL) || hex.getTerrain().equals(Terrain.PLAIN)) {
+                    if (random.nextInt(100) < percent)
+                        hex.setResource(Resource.COAL);
+                }
+                if (hex.getTerrain().equals(Terrain.TUNDRA)||hex.getTerrain().equals(Terrain.PLAIN)|| hex.getTerrain().equals(Terrain.GRASSLAND)){
+                    if (random.nextInt(100) < percent)
+                        hex.setResource(Resource.HORSE);
+                }
+                if (true){
+                    if (random.nextInt(100) < percent)
+                        hex.setResource(Resource.IRON);
+                }
+
             }
         }
     }
@@ -138,12 +213,12 @@ public class Map {
 
     private boolean riverAround(int x, int y) {
         for (NeighborHex neighborHex : NeighborHex.values()) {
-            y=2*y + x%2 + neighborHex.yDiff;
-            y/=2;
-            x = x+neighborHex.xDiff;
+            y = 2 * y + x % 2 + neighborHex.yDiff;
+            y /= 2;
+            x = x + neighborHex.xDiff;
 
 
-            if (this.validCoordinateInArray(x , y  )) {
+            if (this.validCoordinateInArray(x, y)) {
                 if (map.get(x).get(y).doesHaveRiver())
                     return true;
             }

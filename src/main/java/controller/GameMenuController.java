@@ -268,6 +268,7 @@ public class GameMenuController {
         return null;
     }
 
+    /////////////////////////////////////////////////////////////////////////////////////////////////show whole map////////////////////////////////////////////////////////////////////////
     public String showMap() {
         String[][] printMap = new String[GlobalThings.mapHeight][GlobalThings.mapWidth];
         for (int i = 0; i < GlobalThings.mapHeight; i++) {
@@ -290,66 +291,7 @@ public class GameMenuController {
                         }
                     }
                 }
-                printMap[x + 1][y - 2] = GlobalThings.BLUE + "RI";
-                printMap[x + 1][y - 1] = "";
-                printMap[x + 1][y] = ":";
-                if (Game.getGame().map.map.get(i / 2).get(2 * j + i % 2).doesHaveRiver())
-                    printMap[x + 1][y + 1] = "ys";
-                else
-                    printMap[x + 1][y + 1] = "no";
-                printMap[x + 1][y + 2] = "";
-
-                printMap[x][y - 2] = GlobalThings.YELLOW + "T";
-                printMap[x][y - 1] = "R";
-                printMap[x][y] = ":";
-                printMap[x][y + 1] = Game.getGame().map.map.get(i / 2).get(2 * j + i % 2).getTerrain().name.substring(0, 1);
-                printMap[x][y + 2] = Game.getGame().map.map.get(i / 2).get(2 * j + i % 2).getTerrain().name.substring(1, 2);
-
-                printMap[x - 1][y - 2] = GlobalThings.RED + "FE";
-                printMap[x - 1][y - 1] = "";
-                printMap[x - 1][y] = ":";
-                printMap[x - 1][y + 1] = Game.getGame().map.map.get(i / 2).get(2 * j + i % 2).getFeature().name.substring(0, 1);
-                printMap[x - 1][y + 2] = Game.getGame().map.map.get(i / 2).get(2 * j + i % 2).getFeature().name.substring(1, 2);
-
-
-                if (Game.getGame().map.map.get(i / 2).get(2 * j + i % 2).getCivilUnit() == null) {
-                    replaceText(printMap, x, y, -2, "CU", "NA");
-                } else if (Game.getGame().map.map.get(i / 2).get(2 * j + i % 2).getCivilUnit() instanceof WorkerUnit) {
-                    replaceText(printMap, x, y, -2, "CU", "WO");
-                } else {
-                    replaceText(printMap, x, y, -2, "CU", "SE");
-                }
-
-                if (Game.getGame().map.map.get(i / 2).get(2 * j + i % 2).getMilitaryUnit() == null) {
-                    replaceText(printMap, x, y, +2, "MU", "NA");
-                } else {
-                    replaceText(printMap, x, y, +2, "MU",
-                            Game.getGame().map.map.get(i / 2).get(2 * j + i % 2).getMilitaryUnit().getName().toString().substring(0, 2));
-                }
-
-
-                printMap[x + 4][y] = "-";
-                printMap[x + 4][y + 1] = "-";
-                printMap[x + 4][y + 2] = "-";
-                printMap[x + 4][y + 3] = "-";
-                printMap[x + 4][y + 4] = "-";
-                printMap[x + 4][y + 5] = "-";
-                printMap[x - 4][y] = "-";
-                printMap[x - 4][y + 1] = "-";
-                printMap[x - 4][y + 2] = "-";
-                printMap[x - 4][y + 3] = "-";
-                printMap[x - 4][y + 4] = "-";
-                printMap[x - 4][y + 5] = "-";
-                printMap[x + 4][y - 1] = "-";
-                printMap[x + 4][y - 2] = "-";
-                printMap[x + 4][y - 3] = "-";
-                printMap[x + 4][y - 4] = "-";
-                printMap[x + 4][y - 5] = "-";
-                printMap[x - 4][y - 1] = "-";
-                printMap[x - 4][y - 2] = "-";
-                printMap[x - 4][y - 3] = "-";
-                printMap[x - 4][y - 4] = "-";
-                printMap[x - 4][y - 5] = "-";
+                fillHexWithInfo(printMap, x, y,  i / 2, 2 * j + i % 2);
             }
         }
         for (int i = 0; i < GlobalThings.mapHeight; i++) {
@@ -360,14 +302,89 @@ public class GameMenuController {
         }
         return "print map successfully";
     }
+    private void fillHexWithInfo(String[][] printMap, int x, int y, int mapArrayX, int mapArrayY) {
+        preliminaryInfo(printMap, x, y, mapArrayX, mapArrayY);
 
-    private void replaceText(String[][] map, int x, int y, int xDiff, String firstTwo, String secondTwo) {
+        if (Game.getGame().map.map.get(mapArrayX).get(mapArrayY).getCivilUnit() == null) {
+            replaceText(printMap, x, y, -2, "CiU", "N/A", GlobalThings.RED);
+        } else if (Game.getGame().map.map.get(mapArrayX).get(mapArrayY).getCivilUnit() instanceof WorkerUnit) {
+            replaceText(printMap, x, y, -2, "CiU", "WOR", GlobalThings.RED);
+        } else {
+            replaceText(printMap, x, y, -2, "CiU", "SET", GlobalThings.RED);
+        }
+
+        if (Game.getGame().map.map.get(mapArrayX).get(mapArrayY).getMilitaryUnit() == null) {
+            replaceText(printMap, x, y, -1, "MiU", "N/A", GlobalThings.RED);
+        } else {
+            replaceText(printMap, x, y, -1, "MiU", Game.getGame().map.map.get(mapArrayX).get(mapArrayY)
+                    .getMilitaryUnit().getName().toString().substring(0, 3), GlobalThings.RED);
+        }
+
+        replaceText(printMap, x, y, 0, "TER",
+                Game.getGame().map.map.get(mapArrayX).get(mapArrayY).getTerrain().name.substring(0, 3), GlobalThings.YELLOW);
+
+
+        replaceText(printMap, x, y, +1, "FET",
+                Game.getGame().map.map.get(mapArrayX).get(mapArrayY).getFeature().name.substring(0, 3), GlobalThings.YELLOW);
+
+        replaceText(printMap, x, y, +2, "RES",
+                Game.getGame().map.map.get(mapArrayX).get(mapArrayY).getResource().name.substring(0, 3), GlobalThings.YELLOW);
+
+
+        if (Game.getGame().map.map.get(mapArrayX).get(mapArrayY).isHasRoad()) {
+            if (Game.getGame().map.map.get(mapArrayX).get(mapArrayY).isHasRailRoad())
+                replaceText(printMap, x, y, +3, "ROD", "RAL", GlobalThings.BLACK);
+            else
+                replaceText(printMap, x, y, +3, "ROD", "ROD", GlobalThings.BLACK);
+        } else {
+            replaceText(printMap, x, y, +3, "ROD", "N/A", GlobalThings.WHITE_BACKGROUND + GlobalThings.BLACK);
+        }
+// TODO: 5/3/2022 river???
+
+
+    }
+
+    private void preliminaryInfo(String[][] printMap, int x, int y, int mapArrayX, int mapArrayY) {
+        printMap[x + 4][y] = "-";
+        printMap[x + 4][y + 1] = "-";
+        printMap[x + 4][y + 2] = "-";
+        printMap[x + 4][y + 3] = "-";
+        printMap[x + 4][y + 4] = "-";
+        printMap[x + 4][y + 5] = "-";
+        printMap[x - 4][y] = "-";
+        printMap[x - 4][y + 1] = "-";
+        printMap[x - 4][y + 2] = "-";
+        printMap[x - 4][y + 3] = "-";
+        printMap[x - 4][y + 4] = "-";
+        printMap[x - 4][y + 5] = "-";
+        printMap[x + 4][y - 1] = "-";
+        printMap[x + 4][y - 2] = "-";
+        printMap[x + 4][y - 3] = "-";
+        printMap[x + 4][y - 4] = "-";
+        printMap[x + 4][y - 5] = "-";
+        printMap[x - 4][y - 1] = "-";
+        printMap[x - 4][y - 2] = "-";
+        printMap[x - 4][y - 3] = "-";
+        printMap[x - 4][y - 4] = "-";
+        printMap[x - 4][y - 5] = "-";
+
+        printMap[x - 3][y] = ",";
+        printMap[x - 3][y - 1] = "";
+        printMap[x - 3][y + 2] = "";
+        printMap[x - 3][y - 2] = GlobalThings.BLUE + String.format("%02d", mapArrayX);
+        printMap[x - 3][y + 1] = String.format("%02d", mapArrayY);
+    }
+
+    private void replaceText(String[][] map, int x, int y, int xDiff, String firstThree, String secondThree, String color) {
         map[x + xDiff][y] = ":";
         map[x + xDiff][y - 1] = "";
-        map[x + xDiff][y - 2] = firstTwo;
-        map[x + xDiff][y + 1] = secondTwo;
+        map[x + xDiff][y - 2] = "";
+        map[x + xDiff][y - 3] = color + firstThree;
+        map[x + xDiff][y + 1] = secondThree;
         map[x + xDiff][y + 2] = "";
+        map[x + xDiff][y + 3] = "";
     }
+    /////////////////////////////////////////////////////////////////////////////////////////////////^^^show whole map^^^//////////////////////////
 
 
     public String moveMap(String directionName, int amount) {
@@ -376,7 +393,6 @@ public class GameMenuController {
             return "invalid direction";
         }
 
-        // TODO : implement
         return null;
     }
 
