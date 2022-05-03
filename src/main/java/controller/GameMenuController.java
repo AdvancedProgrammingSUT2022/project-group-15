@@ -1,16 +1,9 @@
 package controller;
 
-import enums.Direction;
-import enums.HexVisibility;
-import enums.Improvement;
-import model.City;
-import model.Civilization;
-import enums.Technology;
+import enums.*;
+import model.*;
 
-import model.Game;
-import model.GlobalThings;
-import model.unit.Unit;
-import model.unit.WorkerUnit;
+import model.unit.*;
 
 import java.util.ArrayList;
 
@@ -67,7 +60,7 @@ public class GameMenuController {
             return "Invalid technology name!";
         }
 
-        if (!Game.getGame().getSelectedCivilization().getAvailableTechnologies().contains(technology)){
+        if (!Game.getGame().getSelectedCivilization().getAvailableTechnologies().contains(technology)) {
             return "This technology is not available for you! (Open prerequisites first)";
         }
 
@@ -199,6 +192,43 @@ public class GameMenuController {
     public String wakeUpSelectedUnit() {
         // TODO : implement
         return null;
+    }
+
+    public static void buildUnit(City city, Civilization civilization, UnitName unitName) {
+        User user = civilization.getUser();
+        if (city.getRemainedTurns() > 0) {
+            System.out.println("Not Enough turn");
+            return;
+        }
+        if (civilization.getGoldStorage() < unitName.getCost()) {
+            System.out.println("Not Enough Money");
+            return;
+        }
+        city.setRemainedTurns(unitName.getTurn());
+        city.setProgresssUnit(unitName);
+        civilization.payMoney(unitName.getCost());
+    }
+
+    public static void addUnit(Civilization civilization, City city, UnitName unitName, Hex hex) {
+        if (unitName.equals(unitName.SETTLER)) {
+            //movementspeed va health monde
+            //TODO
+            SettlerUnit settlerUnit = new SettlerUnit(hex.getCoordinatesInArray().get('x'), hex.getCoordinatesInArray().get('y'), city.getOwner(), 1, 1, unitName);
+            civilization.getUnits().add(settlerUnit);
+            return;
+        }
+        if (unitName.equals(unitName.WORKER)) {
+            WorkerUnit worker = new WorkerUnit(hex.getCoordinatesInArray().get('x'), hex.getCoordinatesInArray().get('y'), city.getOwner(), 1, 1, unitName);
+            civilization.getUnits().add(worker);
+            return;
+        }
+        if (unitName.getCombatType().equals("Archery") || unitName.getCombatType().equals("Siege") || unitName.equals(unitName.CHARIOTARCHER)) {
+            RangedMilitary rangedMilitary = new RangedMilitary(hex.getCoordinatesInArray().get('x'), hex.getCoordinatesInArray().get('y'), city.getOwner(), 1, 1, unitName);
+            civilization.getUnits().add(rangedMilitary);
+            return;
+        }
+        MeleeMilitary meleeMilitary = new MeleeMilitary(hex.getCoordinatesInArray().get('x'), hex.getCoordinatesInArray().get('y'), city.getOwner(), 1, 1, unitName);
+        civilization.getUnits().add(meleeMilitary);
     }
 
     public String deleteSelectedUnit() {

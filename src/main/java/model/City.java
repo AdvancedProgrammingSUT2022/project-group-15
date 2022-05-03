@@ -1,5 +1,6 @@
 package model;
 
+import enums.UnitName;
 import model.unit.RangedMilitary;
 import model.unit.Unit;
 
@@ -10,6 +11,17 @@ public class City {
     private String name;
     private Civilization owner;
     private int neededProduction;
+    private int remainedTurns;
+    private UnitName progresssUnit;
+
+    public UnitName getProgresssUnit() {
+        return progresssUnit;
+    }
+
+    public void setProgresssUnit(UnitName progresssUnit) {
+        this.progresssUnit = progresssUnit;
+    }
+
     private Unit unitInProgress;
     private int numberOfCitizen;
     private HashMap<Character, Integer> coordinatesOfCenterInArray = new HashMap<>();
@@ -19,14 +31,12 @@ public class City {
     private int goldPerTurn;
     private int sciencePerTurn;
     private final ArrayList<Hex> cityHexes = new ArrayList<>();
-
     private RangedMilitary cityUnit;
-    //rangedmilitary not added
 
     public City(String name, int x, int y) {
         this.name = name;
-        coordinatesOfCenterInArray.put('x',x);
-        coordinatesOfCenterInArray.put('y',y);
+        coordinatesOfCenterInArray.put('x', x);
+        coordinatesOfCenterInArray.put('y', y);
     }
 
     public ArrayList<Hex> getCityHexes() {
@@ -39,6 +49,14 @@ public class City {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getRemainedTurns() {
+        return remainedTurns;
+    }
+
+    public void setRemainedTurns(int remainedTurns) {
+        this.remainedTurns = remainedTurns;
     }
 
     public Civilization getOwner() {

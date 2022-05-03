@@ -15,7 +15,7 @@ public enum Technology {
     POTTERY("pottery", 35, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(Arrays.asList(AGRICULTURE))),
     CALENDAR("calendar", 70, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(Arrays.asList(Improvement.PLANTATION)), new ArrayList<>(Arrays.asList(POTTERY))),
     MASONRY("masonry", 55, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(Arrays.asList(Improvement.QUARRY)), new ArrayList<>(Arrays.asList(MINING))),
-    WHEEL("wheel", 55, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(Arrays.asList(UnitName.CHARIOT_ARCHER)), new ArrayList<>(Arrays.asList(Improvement.ROAD)), new ArrayList<>(Arrays.asList(ANIMAL_HUSBANDRY))),
+    WHEEL("wheel", 55, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(Arrays.asList(UnitName.CHARIOTARCHER)), new ArrayList<>(Arrays.asList(Improvement.ROAD)), new ArrayList<>(Arrays.asList(ANIMAL_HUSBANDRY))),
     TRAPPING("trapping", 55, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(Arrays.asList(Improvement.TRADING_POST, Improvement.CAMP)), new ArrayList<>(Arrays.asList(ANIMAL_HUSBANDRY))),
     WRITING("writing", 55, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(Arrays.asList(POTTERY))),
     CONSTRUCTION("construction", 100, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(Arrays.asList(MASONRY))),
@@ -50,7 +50,7 @@ public enum Technology {
     RAILROAD("railroad", 1900, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(Arrays.asList(Improvement.RAILROAD)), new ArrayList<>(Arrays.asList(STEAM_POWER))),
     DYNAMITE("dynamite", 1900, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(Arrays.asList(UnitName.ARTILLERY)), new ArrayList<>(), new ArrayList<>(Arrays.asList(FERTILIZER, RIFLING))),
     ELECTRICITY("electricity", 1900, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(Arrays.asList(BIOLOGY, STEAM_POWER))),
-    REPLACEABLE_PARTS("replaceable parts", 1900, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(Arrays.asList(UnitName.ANTITANK_GUN, UnitName.INFANTRY)), new ArrayList<>(), new ArrayList<>(Arrays.asList(STEAM_POWER))),
+    REPLACEABLE_PARTS("replaceable parts", 1900, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(Arrays.asList(UnitName.ANTITANKGUN, UnitName.INFANTRY)), new ArrayList<>(), new ArrayList<>(Arrays.asList(STEAM_POWER))),
     COMBUSTION("combustion", 2200, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(Arrays.asList(REPLACEABLE_PARTS, RAILROAD, DYNAMITE))),
     RADIO("radio", 2200, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(Arrays.asList(ELECTRICITY))),
     TELEGRAPH("telegraph", 2200, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(Arrays.asList(ELECTRICITY)));

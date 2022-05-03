@@ -321,6 +321,9 @@ public class Civilization {
         map[x + xDiff][y + 3] = "";
     }
 
+    public void payMoney(int money) {
+        this.goldStorage -= money;
+    }
 
     public void setUser(User user) {
         this.user = user;
