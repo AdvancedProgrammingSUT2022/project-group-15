@@ -32,8 +32,8 @@ public class Hex {
         this.hasRiver = hasRiver;
         this.coordinatesInArray.put('x', x);
         this.coordinatesInArray.put('y', y);
-        this.coordinatesInMap.put('x', x);
-        this.coordinatesInMap.put('y', y*2 + x%2);
+        this.coordinatesInMap.put('x', x*2 + y%2);
+        this.coordinatesInMap.put('y', y);
         this.movementPrice = calculateMovementPrice();
     }
 

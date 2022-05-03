@@ -98,7 +98,7 @@ public class Civilization {
     public void setGoldStorage(int goldStorage) {
         this.goldStorage = goldStorage;
     }
-    // TODO: 4/20/2022  getmap()
+
 
     public void adjustVisibility() {
 
@@ -126,21 +126,23 @@ public class Civilization {
         for (Unit unit : units) {
             int x = unit.getCoordinatesInMap().get('x');
             int y = unit.getCoordinatesInMap().get('y');
-            visibilityMap.map.get(x).get(y / 2).setHexVisibility(HexVisibility.TRANSPARENT);
+            visibilityMap.map.get(x / 2).get(y).setHexVisibility(HexVisibility.TRANSPARENT);
             seeNeighbors(x, y);
             for (NeighborHex neighborHex : NeighborHex.values()) {
-                if (!(Game.getGame().map.map.get(x).get(y).getTerrain().name.equals(Terrain.HILL.name) ||
-                        Game.getGame().map.map.get(x).get(y).getTerrain().name.equals(Terrain.MOUNTAIN.name) ||
-                        Game.getGame().map.map.get(x).get(y).getFeature().name.equals(Feature.JUNGLE.name) ||
-                        Game.getGame().map.map.get(x).get(y).getFeature().name.equals(Feature.DENSE_FOREST.name)))
-                    seeNeighbors(x + neighborHex.xDiff, y + neighborHex.yDiff);
+                if (visibilityMap.validCoordinateInArray((x + neighborHex.xDiff) / 2, y + neighborHex.yDiff))
+                    if (!(Game.getGame().map.map.get((x + neighborHex.xDiff) / 2).get(y + neighborHex.yDiff).getTerrain().name.equals(Terrain.HILL.name) ||
+                            Game.getGame().map.map.get((x + neighborHex.xDiff) / 2).get(y + neighborHex.yDiff).getTerrain().name.equals(Terrain.MOUNTAIN.name) ||
+                            Game.getGame().map.map.get((x + neighborHex.xDiff) / 2).get(y + neighborHex.yDiff).getFeature().name.equals(Feature.JUNGLE.name) ||
+                            Game.getGame().map.map.get((x + neighborHex.xDiff) / 2).get(y + neighborHex.yDiff).getFeature().name.equals(Feature.DENSE_FOREST.name)))
+                        seeNeighbors(x + neighborHex.xDiff, y + neighborHex.yDiff);
             }
         }
     }
 
     private void seeNeighbors(int x, int y) {
         for (NeighborHex neighborHex : NeighborHex.values()) {
-            visibilityMap.map.get(x + neighborHex.xDiff).get((y + neighborHex.yDiff) / 2).setHexVisibility(HexVisibility.TRANSPARENT);
+            if (visibilityMap.validCoordinateInArray((x + neighborHex.xDiff) / 2, (y + neighborHex.yDiff)))
+                visibilityMap.map.get((x + neighborHex.xDiff) / 2).get((y + neighborHex.yDiff)).setHexVisibility(HexVisibility.TRANSPARENT);
         }
     }
 
@@ -158,6 +160,7 @@ public class Civilization {
         }
         SettlerUnit settlerUnit = new SettlerUnit(xRand, yRand, this, 2, 5, UnitName.SETTLER);
         units.add(settlerUnit);
+        adjustVisibility();
     }
 
     public int getScienceStorage() {
@@ -177,6 +180,8 @@ public class Civilization {
     }
 
     private int adjust(int xOry, boolean forX) {
+        if (!forX & xOry % 2 == 1)
+            xOry -= 1;
         int ans = xOry - 2;
         if (ans < 0)
             return 0;
@@ -184,12 +189,13 @@ public class Civilization {
             if (xOry + 3 >= Game.getGame().getRows())
 
                 return Game.getGame().getRows() - 6;
+            return ans;
         } else {
             if (xOry + 3 >= Game.getGame().getColumns())
                 return Game.getGame().getColumns() - 6;
-
+            return ans;
         }
-        return ans;
+
     }
 
     public String showMapOn(int xOfCenter, int yOfCenter) {
@@ -232,7 +238,8 @@ public class Civilization {
 
     private void fillHexWithInfo(String[][] printMap, int x, int y, int mapArrayX, int mapArrayY) {
         preliminaryInfo(printMap, x, y, mapArrayX, mapArrayY);
-
+        if (this.visibilityMap.map.get(mapArrayX).get(mapArrayY).getHexVisibility().equals(HexVisibility.FOG_OF_WAR))
+            return;
 
         if (Game.getGame().map.map.get(mapArrayX).get(mapArrayY).getCivilUnit() == null) {
             replaceText(printMap, x, y, -2, "CiU", "N/A", GlobalThings.RED);

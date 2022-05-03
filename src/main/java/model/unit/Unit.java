@@ -23,8 +23,8 @@ public abstract class Unit {
     protected int meleePower;//add to constructor
 
     public Unit(int x, int y, Civilization owner, int movementSpeed, int totalHealth, UnitName name) {
-        coordinatesInMap.put('x', x);
-        coordinatesInMap.put('y', y*2 + x%2);
+        coordinatesInMap.put('x', x * 2 + y % 2);
+        coordinatesInMap.put('y', y);
         this.owner = owner;
         this.movementSpeed = movementSpeed;
         this.totalHealth = totalHealth;
@@ -64,19 +64,19 @@ public abstract class Unit {
 
     protected void moveToHex(int x, int y) {
         if (this instanceof MilitaryUnit) {
-            Game.getGame().map.map.get(this.coordinatesInMap.get('x')).get(this.coordinatesInMap.get('y') / 2).setMilitaryUnit(null);
+            Game.getGame().map.map.get(this.coordinatesInMap.get('x') / 2).get(this.coordinatesInMap.get('y')).setMilitaryUnit(null);
         } else {
-            Game.getGame().map.map.get(this.coordinatesInMap.get('x')).get(this.coordinatesInMap.get('y') / 2).setCivilUnit(null);
+            Game.getGame().map.map.get(this.coordinatesInMap.get('x') / 2).get(this.coordinatesInMap.get('y')).setCivilUnit(null);
         }
 
         this.coordinatesInMap.replace('x', x);
         this.coordinatesInMap.replace('y', 2 * y + x % 2);
-        this.remainingMovement -= Game.getGame().map.map.get(this.coordinatesInMap.get('x')).get(this.coordinatesInMap.get('y') / 2).getMovementPrice();
+        this.remainingMovement -= Game.getGame().map.map.get(this.coordinatesInMap.get('x') / 2).get(this.coordinatesInMap.get('y')).getMovementPrice();
 
         if (this instanceof MilitaryUnit) {
-            Game.getGame().map.map.get(this.coordinatesInMap.get('x')).get(this.coordinatesInMap.get('y') / 2).setMilitaryUnit((MilitaryUnit) this);
+            Game.getGame().map.map.get(this.coordinatesInMap.get('x') / 2).get(this.coordinatesInMap.get('y')).setMilitaryUnit((MilitaryUnit) this);
         } else {
-            Game.getGame().map.map.get(this.coordinatesInMap.get('x')).get(this.coordinatesInMap.get('y') / 2).setCivilUnit((CivilUnit) this);
+            Game.getGame().map.map.get(this.coordinatesInMap.get('x') / 2).get(this.coordinatesInMap.get('y')).setCivilUnit((CivilUnit) this);
         }
         this.owner.adjustVisibility();
     }
@@ -87,7 +87,7 @@ public abstract class Unit {
         int numberColumns = Game.getGame().getColumns();
         int numberOfNodes = numberColumns * numberOfRows;
         int[] parent = new int[numberOfNodes];
-        int startNodeNumber = this.coordinatesInMap.get('x') * numberColumns + this.coordinatesInMap.get('y') / 2;
+        int startNodeNumber = (this.coordinatesInMap.get('x') / 2) * numberColumns + this.coordinatesInMap.get('y');
         int destinationNode = x * numberColumns + y;
         // Key values used to pick minimum weight edge in cut
         int[] distance = new int[numberOfNodes];
@@ -147,9 +147,9 @@ public abstract class Unit {
     private void updateAdjacentNode(int xDiff, int yDiff, int[] distance, Boolean[] mstSet, int NodeNumber, int[] parent) {
         int x = NodeNumber / (Game.getGame().getColumns());
         int y = NodeNumber % (Game.getGame().getColumns());
-        y = 2 * y + x % 2 + yDiff;
-        y = y / 2;
-        x += xDiff;
+        x = 2 * x + y % 2 + xDiff;
+        x = x / 2;
+        y += yDiff;
 
         int destinationNodeNumber = x * (Game.getGame().getColumns()) + y;
         if (!Game.getGame().map.validCoordinateInArray(x, y))
@@ -167,6 +167,7 @@ public abstract class Unit {
             distance[destinationNodeNumber] = distance[NodeNumber] + moveCost;
         }
     }
+
 
     private boolean hasSameUnitInHex(int x, int y) {
         if (this instanceof CivilUnit) {
