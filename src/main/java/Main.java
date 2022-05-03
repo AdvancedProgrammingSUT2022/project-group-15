@@ -14,6 +14,7 @@ public class Main {
         users.add(new User("","",""));
         users.add(new User("","",""));
         Game.startNewGame(users);
+        System.out.println(gameMenuController.showMapOnPosition(7,7));
         gameMenuController.showMap();
         GameMenuController controller2 = new GameMenuController();
         System.out.println(controller2.showTechnologyInfo());

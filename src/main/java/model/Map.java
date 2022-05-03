@@ -150,49 +150,49 @@ public class Map {
         if (inPoles(x)) {
 
             if (randomNumber < 80)
-                return new Hex(Terrain.SNOWLAND, Feature.ICE, null, false, x, y);
+                return new Hex(Terrain.SNOWLAND, Feature.ICE, Resource.NULL, false, x, y);
             else
-                return new Hex(Terrain.SNOWLAND, Feature.NULL, null, false, x, y);
+                return new Hex(Terrain.SNOWLAND, Feature.NULL, Resource.NULL, false, x, y);
         }
         if (inAroundOcean(x, y)) {
             if (randomNumber < 90)
-                return new Hex(Terrain.OCEAN, Feature.NULL, null, false, x, y);
+                return new Hex(Terrain.OCEAN, Feature.NULL, Resource.NULL, false, x, y);
             else if (randomNumber < 95)
-                return new Hex(Terrain.MOUNTAIN, Feature.NULL, null, false, x, y);
+                return new Hex(Terrain.MOUNTAIN, Feature.NULL, Resource.NULL, false, x, y);
             else
-                return new Hex(Terrain.PLAIN, Feature.DENSE_FOREST, null, false, x, y);
+                return new Hex(Terrain.PLAIN, Feature.DENSE_FOREST, Resource.NULL, false, x, y);
         }
         if (percentInMiddleX(x) > 80) { // tropical
             if (randomNumber < 33)
-                return new Hex(Terrain.PLAIN, randomFeatureTropical(random), null, false, x, y);
+                return new Hex(Terrain.PLAIN, randomFeatureTropical(random), Resource.NULL, false, x, y);
             else if (randomNumber < 66)
-                return new Hex(Terrain.HILL, randomFeatureTropical(random), null, false, x, y);
+                return new Hex(Terrain.HILL, randomFeatureTropical(random), Resource.NULL, false, x, y);
             else
-                return new Hex(Terrain.GRASSLAND, randomFeatureTropical(random), null, false, x, y);
+                return new Hex(Terrain.GRASSLAND, randomFeatureTropical(random), Resource.NULL, false, x, y);
         }
         if (percentInMiddleX(x) < 20) { // near poles
             if (randomNumber < 33)
-                return new Hex(Terrain.PLAIN, randomFeatureNearPole(random), null, false, x, y);
+                return new Hex(Terrain.PLAIN, randomFeatureNearPole(random), Resource.NULL, false, x, y);
             else if (randomNumber < 60)
-                return new Hex(Terrain.TUNDRA, randomFeatureNearPole(random), null, false, x, y);
+                return new Hex(Terrain.TUNDRA, randomFeatureNearPole(random), Resource.NULL, false, x, y);
             else if (randomNumber < 70)
-                return new Hex(Terrain.MOUNTAIN, randomFeatureNearPole(random), null, false, x, y);
+                return new Hex(Terrain.MOUNTAIN, randomFeatureNearPole(random), Resource.NULL, false, x, y);
             else if (randomNumber < 80)
-                return new Hex(Terrain.SNOWLAND, randomFeatureNearPole(random), null, false, x, y);
+                return new Hex(Terrain.SNOWLAND, randomFeatureNearPole(random), Resource.NULL, false, x, y);
             else
-                return new Hex(Terrain.HILL, randomFeatureNearPole(random), null, false, x, y);
+                return new Hex(Terrain.HILL, randomFeatureNearPole(random), Resource.NULL, false, x, y);
         }
         //between pole and tropical
         if (randomNumber < 30)
-            return new Hex(Terrain.DESERT, randomFeatureInBetween(random), null, false, x, y);
+            return new Hex(Terrain.DESERT, randomFeatureInBetween(random), Resource.NULL, false, x, y);
         else if (randomNumber < 60)
-            return new Hex(Terrain.GRASSLAND, randomFeatureInBetween(random), null, false, x, y);
+            return new Hex(Terrain.GRASSLAND, randomFeatureInBetween(random), Resource.NULL, false, x, y);
         else if (randomNumber < 67)
-            return new Hex(Terrain.MOUNTAIN, randomFeatureInBetween(random), null, false, x, y);
+            return new Hex(Terrain.MOUNTAIN, randomFeatureInBetween(random), Resource.NULL, false, x, y);
         else if (randomNumber < 80)
-            return new Hex(Terrain.HILL, randomFeatureInBetween(random), null, false, x, y);
+            return new Hex(Terrain.HILL, randomFeatureInBetween(random), Resource.NULL, false, x, y);
         else
-            return new Hex(Terrain.PLAIN, randomFeatureInBetween(random), null, false, x, y);
+            return new Hex(Terrain.PLAIN, randomFeatureInBetween(random), Resource.NULL, false, x, y);
     }
 
     private Feature randomFeatureTropical(Random random) {

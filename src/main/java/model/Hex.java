@@ -122,4 +122,20 @@ public class Hex {
     public void setFeature(Feature feature) {
         this.feature = feature;
     }
+
+    public boolean isHasRoad() {
+        return hasRoad;
+    }
+
+    public void setHasRoad(boolean hasRoad) {
+        this.hasRoad = hasRoad;
+    }
+
+    public boolean isHasRailRoad() {
+        return hasRailRoad;
+    }
+
+    public void setHasRailRoad(boolean hasRailRoad) {
+        this.hasRailRoad = hasRailRoad;
+    }
 }
