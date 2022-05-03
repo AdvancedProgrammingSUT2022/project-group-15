@@ -4,6 +4,7 @@ package enums;
  * @author Parsa
  */
 public enum Resource {
+    NULL("null",0,0,0,"null"),
     BANANA("banana", 1, 0, 0, "scoring"),
     COW("cow", 1, 0, 0, "scoring"),
     GAZELLE("gazelle", 1, 0, 0, "scoring"),
