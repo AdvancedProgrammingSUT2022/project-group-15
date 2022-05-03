@@ -49,7 +49,7 @@ public class Hex {
      * @author Parsa
      */
     private int calculateMovementPrice() {
-        if (feature != null){
+        if (feature != Feature.NULL){
             return feature.movementPrice;
         }
         return terrain.movementPrice;
