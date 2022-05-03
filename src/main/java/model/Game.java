@@ -33,6 +33,10 @@ public class Game {
         return selectedCivilization;
     }
 
+    public ArrayList<Civilization> getCivilizations() {
+        return civilizations;
+    }
+
     public static void startNewGame(ArrayList<User> users) {
         game = new Game();
         game.map = new Map(8, 8);//this constants might change later or be given by user

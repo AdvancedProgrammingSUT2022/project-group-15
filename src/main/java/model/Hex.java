@@ -88,7 +88,7 @@ public class Hex {
     }
 
     public int getMovementPrice() {
-        return movementPrice=2 ;
+        return movementPrice ;
     }
 
     public void setMovementPrice(int movementPrice) {

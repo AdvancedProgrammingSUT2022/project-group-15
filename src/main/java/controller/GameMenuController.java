@@ -1,7 +1,10 @@
 package controller;
 
 import enums.Direction;
+import enums.HexVisibility;
 import enums.Improvement;
+import model.City;
+import model.Civilization;
 import model.Game;
 import model.GlobalThings;
 import model.unit.Unit;
@@ -299,6 +302,31 @@ public class GameMenuController {
         // TODO : implement
         return null;
     }
+
+    public String showMapOnPosition(int x, int y){
+        if (!Game.getGame().map.validCoordinateInArray(x,y))
+            return "Coordinate not valid";
+        return Game.getGame().getSelectedCivilization().showMapOn(x,y);
+    }
+
+    public String showMapOnCity(String cityName){
+        for (Civilization civilization : Game.getGame().getCivilizations()) {
+            for (City city : civilization.getCities()) {
+                if (city.getName().equals(cityName)){
+                    int xOfCity = city.getCoordinatesOfCenterInArray().get('x');
+                    int yOfCity = city.getCoordinatesOfCenterInArray().get('y');
+                    if (Game.getGame().getSelectedCivilization().getVisibilityMap().map.get(xOfCity).get(yOfCity)
+                            .getHexVisibility().equals(HexVisibility.FOG_OF_WAR))
+                        return "you haven't seen "+cityName;
+                    else
+                        return Game.getGame().getSelectedCivilization().showMapOn(xOfCity,yOfCity);
+                }
+            }
+        }
+
+        return "No city with this name";
+    }
+
 
     // TODO : implement removing Swamp ( that requires Masonry Technology )
 }

@@ -12,7 +12,7 @@ public class City {
     private int neededProduction;
     private Unit unitInProgress;
     private int numberOfCitizen;
-    private HashMap<Character, Integer> coordinatesOfCenter = new HashMap<>();
+    private HashMap<Character, Integer> coordinatesOfCenterInArray = new HashMap<>();
     private int foodStorage;
     private int foodPerTurn;
     private int productionPerTurn;
@@ -25,7 +25,8 @@ public class City {
 
     public City(String name, int x, int y) {
         this.name = name;
-        // complete coordinate
+        coordinatesOfCenterInArray.put('x',x);
+        coordinatesOfCenterInArray.put('y',y);
     }
 
     public ArrayList<Hex> getCityHexes() {
@@ -72,12 +73,12 @@ public class City {
         this.numberOfCitizen = numberOfCitizen;
     }
 
-    public HashMap<Character, Integer> getCoordinatesOfCenter() {
-        return coordinatesOfCenter;
+    public HashMap<Character, Integer> getCoordinatesOfCenterInArray() {
+        return coordinatesOfCenterInArray;
     }
 
-    public void setCoordinatesOfCenter(HashMap<Character, Integer> coordinatesOfCenter) {
-        this.coordinatesOfCenter = coordinatesOfCenter;
+    public void setCoordinatesOfCenterInArray(HashMap<Character, Integer> coordinatesOfCenterInArray) {
+        this.coordinatesOfCenterInArray = coordinatesOfCenterInArray;
     }
 
     public int getFoodStorage() {
