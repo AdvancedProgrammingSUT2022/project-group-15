@@ -23,6 +23,7 @@ public class GameMenuController {
             if (unit.needsCommand()) return "some Units Need Command";
         }
         Game.getGame().nextTurn();
+        Game.getGame().getSelectedCivilization().nextTurn();
         selectedUnit = null;
         return "done";
     }
@@ -45,6 +46,7 @@ public class GameMenuController {
         }
 
         // available technologies
+        Game.getGame().getSelectedCivilization().updateAvailableTechnologies();
         ArrayList<Technology> availableTechs = Game.getGame().getSelectedCivilization().getAvailableTechnologies();
         message += "Available Technologies :\n";
         for (int i = 0; i < availableTechs.size(); i++) {

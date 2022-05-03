@@ -33,22 +33,20 @@ public class Civilization {
         visibilityMap = Game.getGame().map.clone();
     }
 
-
-    public void nextTurn(){
+    public void nextTurn() {
         scienceStorage += sciencePerTurn;
-        if(technologyInProgress != null && scienceStorage >= technologyInProgress.cost){
+        if (technologyInProgress != null && scienceStorage >= technologyInProgress.cost) {
             openNewTechnology();
             updateAvailableTechnologies();
-
         }
         sciencePerTurn = calculateSciencePerTurn();
         goldStorage += calculateGoldPerTurn();
     }
 
-    private void updateAvailableTechnologies() {
+    public void updateAvailableTechnologies() {
         availableTechnologies.clear();
         for (Technology tech : Technology.values()) {
-            if(Game.getGame().getSelectedCivilization().getTechnologies().containsAll(tech.prerequisiteTechnologies))
+            if (tech.prerequisiteTechnologies.isEmpty() || Game.getGame().getSelectedCivilization().getTechnologies().containsAll(tech.prerequisiteTechnologies))
                 availableTechnologies.add(tech);
         }
     }
@@ -178,25 +176,24 @@ public class Civilization {
         this.sciencePerTurn = sciencePerTurn;
     }
 
-    private int adjust(int xOry ,boolean forX){
-        int ans= xOry - 2;
-        if (ans<0)
+    private int adjust(int xOry, boolean forX) {
+        int ans = xOry - 2;
+        if (ans < 0)
             return 0;
-        if (forX){
-            if (xOry+3>=Game.getGame().getRows())
-                return Game.getGame().getRows()-4;
-        }
-        else {
-            if (xOry+3>=Game.getGame().getColumns())
-                return Game.getGame().getColumns()-4;
+        if (forX) {
+            if (xOry + 3 >= Game.getGame().getRows())
+                return Game.getGame().getRows() - 4;
+        } else {
+            if (xOry + 3 >= Game.getGame().getColumns())
+                return Game.getGame().getColumns() - 4;
         }
         return ans;
     }
 
     public String showMapOn(int xOfCenter, int yOfCenter) {
-        int adjustedXOfUp = adjust(xOfCenter,true);
-        int adjustedYOfLeft = adjust(yOfCenter , false);
-        System.out.println("x:"+adjustedXOfUp+" y:"+adjustedYOfLeft);
+        int adjustedXOfUp = adjust(xOfCenter, true);
+        int adjustedYOfLeft = adjust(yOfCenter, false);
+        System.out.println("x:" + adjustedXOfUp + " y:" + adjustedYOfLeft);
         String[][] printMap = new String[60][120];
         for (int i = 0; i < 60; i++) {
             for (int j = 0; j < 120; j++) {
@@ -218,10 +215,10 @@ public class Civilization {
                         }
                     }
                 }
-                fillHexWithInfo(printMap, x, y, adjustedXOfUp+i / 2,adjustedYOfLeft+2 * j + i % 2);
+                fillHexWithInfo(printMap, x, y, adjustedXOfUp + i / 2, adjustedYOfLeft + 2 * j + i % 2);
             }
         }
-        StringBuilder ans= new StringBuilder();
+        StringBuilder ans = new StringBuilder();
         for (int i = 0; i < 60; i++) {
             for (int j = 0; j < 120; j++) {
                 ans.append(printMap[i][j]);
