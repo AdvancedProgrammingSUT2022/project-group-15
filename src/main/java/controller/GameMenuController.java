@@ -2,10 +2,13 @@ package controller;
 
 import enums.Direction;
 import enums.Improvement;
+import enums.Technology;
 import model.Game;
 import model.GlobalThings;
 import model.unit.Unit;
 import model.unit.WorkerUnit;
+
+import java.util.ArrayList;
 
 public class GameMenuController {
     Unit selectedUnit = null;
@@ -20,10 +23,28 @@ public class GameMenuController {
         return "done";
     }
 
+    /**
+     * shows the technology info and the available technologies
+     * @return message to be shown
+     * @author Parsa
+     */
     public String showTechnologyInfo() {
-        String result = "";
-        // TODO : implement
-        return null;
+        // current technology
+        Technology technology = Game.getGame().getSelectedCivilization().getTechnologyInProgress();
+        int remainingTurns = (int) Math.ceil((technology.cost - Game.getGame().getSelectedCivilization().getScienceStorage()) / (double) Game.getGame().getSelectedCivilization().getSciencePerTurn());
+        String result = "Current Technology : " + technology + "( " + remainingTurns + " turns remaining to achieve )";
+
+        // available technologies
+        ArrayList<Technology> availableTechs = new ArrayList<>();
+        for (Technology tech : Technology.values()) {
+            if(Game.getGame().getSelectedCivilization().getTechnologies().containsAll(tech.prerequisiteTechnologies))
+                availableTechs.add(tech);
+        }
+        result += "Available Technologies : \n";
+        for (int i = 0; i < availableTechs.size(); i++) {
+            result += (i+1) + ") " + availableTechs.get(i) + " - cost : " + availableTechs.get(i).cost + "\n";
+        }
+        return result;
     }
 
     public String showUnitsPanel() {

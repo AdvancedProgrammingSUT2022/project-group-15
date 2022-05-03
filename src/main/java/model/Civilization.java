@@ -164,4 +164,96 @@ public class Civilization {
     public void setSciencePerTurn(int sciencePerTurn) {
         this.sciencePerTurn = sciencePerTurn;
     }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public boolean isYourTurn() {
+        return isYourTurn;
+    }
+
+    public void setYourTurn(boolean yourTurn) {
+        isYourTurn = yourTurn;
+    }
+
+    public Map getVisibilityMap() {
+        return visibilityMap;
+    }
+
+    public void setVisibilityMap(Map visibilityMap) {
+        this.visibilityMap = visibilityMap;
+    }
+
+    public ArrayList<Technology> getTechnologies() {
+        return technologies;
+    }
+
+    public void setTechnologies(ArrayList<Technology> technologies) {
+        this.technologies = technologies;
+    }
+
+    public Technology getTechnologyInProgress() {
+        return technologyInProgress;
+    }
+
+    public void setTechnologyInProgress(Technology technologyInProgress) {
+        this.technologyInProgress = technologyInProgress;
+    }
+
+    public ArrayList<UnitName> getOpenedUnits() {
+        return openedUnits;
+    }
+
+    public void setOpenedUnits(ArrayList<UnitName> openedUnits) {
+        this.openedUnits = openedUnits;
+    }
+
+    public ArrayList<Resource> getOpenedResources() {
+        return openedResources;
+    }
+
+    public void setOpenedResources(ArrayList<Resource> openedResources) {
+        this.openedResources = openedResources;
+    }
+
+    public ArrayList<Feature> getOpenedFeatures() {
+        return openedFeatures;
+    }
+
+    public void setOpenedFeatures(ArrayList<Feature> openedFeatures) {
+        this.openedFeatures = openedFeatures;
+    }
+
+    public ArrayList<Improvement> getOpenedImprovements() {
+        return openedImprovements;
+    }
+
+    public void setOpenedImprovements(ArrayList<Improvement> openedImprovements) {
+        this.openedImprovements = openedImprovements;
+    }
+
+    public City getCapital() {
+        return capital;
+    }
+
+    public void setCapital(City capital) {
+        this.capital = capital;
+    }
+
+    public void setUnits(ArrayList<Unit> units) {
+        this.units = units;
+    }
+
+    public void setCities(ArrayList<City> cities) {
+        this.cities = cities;
+    }
+
+    public int getHappiness() {
+        return happiness;
+    }
+
+    public void setHappiness(int happiness) {
+        this.happiness = happiness;
+    }
 }
