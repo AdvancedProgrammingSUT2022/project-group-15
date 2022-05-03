@@ -21,6 +21,7 @@ public class GameMenuController {
     }
 
     public String showTechnologyInfo() {
+        String result = "";
         // TODO : implement
         return null;
     }

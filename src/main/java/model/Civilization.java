@@ -15,6 +15,8 @@ public class Civilization {
     private Technology technologyInProgress;
     private ArrayList<UnitName> openedUnits = new ArrayList<>();
     private ArrayList<Resource> openedResources = new ArrayList<>();
+    private ArrayList<Feature> openedFeatures = new ArrayList<>();
+    private ArrayList<Improvement> openedImprovements = new ArrayList<>();
     private City capital;
     private ArrayList<Unit> units = new ArrayList<>();
     private ArrayList<City> cities = new ArrayList<>();
@@ -30,11 +32,22 @@ public class Civilization {
     }
 
     public void nextTurn(){
-        if(technologyInProgress == null){
-            scienceStorage += sciencePerTurn;
+        scienceStorage += sciencePerTurn;
+        if(technologyInProgress != null && scienceStorage >= technologyInProgress.cost){
+            openNewTechnology();
         }
         sciencePerTurn = calculateSciencePerTurn();
         goldStorage += calculateGoldPerTurn();
+    }
+
+    private void openNewTechnology() {
+        scienceStorage = 0;
+        technologies.add(technologyInProgress);
+        openedUnits.addAll(technologyInProgress.openingUnits);
+        openedFeatures.addAll(technologyInProgress.openingFeatures);
+        openedImprovements.addAll(technologyInProgress.openingImprovements);
+        openedResources.addAll(technologyInProgress.openingResources);
+        technologyInProgress = null;
     }
 
     private int calculateGoldPerTurn() {
