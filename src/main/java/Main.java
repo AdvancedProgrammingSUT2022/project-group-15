@@ -15,7 +15,7 @@ public class Main {
         users.add(new User("","","3"));
         Game.startNewGame(users);
         System.out.println(Game.getGame().getSelectedCivilization().getUnits().get(0).getCoordinatesInMap().get('x')+ " "+
-                Game.getGame().getSelectedCivilization().getUnits().get(0).getCoordinatesInMap().get('x'));
+                Game.getGame().getSelectedCivilization().getUnits().get(0).getCoordinatesInMap().get('y'));
         System.out.println(gameMenuController.showMapOnPosition(3,3));
         gameMenuController.showMap();
         GameMenuController controller2 = new GameMenuController();

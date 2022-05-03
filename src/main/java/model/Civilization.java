@@ -126,7 +126,7 @@ public class Civilization {
         for (Unit unit : units) {
             int x = unit.getCoordinatesInMap().get('x');
             int y = unit.getCoordinatesInMap().get('y');
-            visibilityMap.map.get(x / 2).get(y).setHexVisibility(HexVisibility.TRANSPARENT);
+            updateHexWithMainMap(x/2,y);
             seeNeighbors(x, y);
             for (NeighborHex neighborHex : NeighborHex.values()) {
                 if (visibilityMap.validCoordinateInArray((x + neighborHex.xDiff) / 2, y + neighborHex.yDiff))
@@ -138,11 +138,16 @@ public class Civilization {
             }
         }
     }
+    private void updateHexWithMainMap(int xInArr , int yInArr){
+        Hex newHex=Game.getGame().map.map.get(xInArr).get(yInArr).clone();
+        newHex.setHexVisibility(HexVisibility.TRANSPARENT);
+        visibilityMap.map.get(xInArr).set(yInArr,newHex);
+    }
 
     private void seeNeighbors(int x, int y) {
         for (NeighborHex neighborHex : NeighborHex.values()) {
             if (visibilityMap.validCoordinateInArray((x + neighborHex.xDiff) / 2, (y + neighborHex.yDiff)))
-                visibilityMap.map.get((x + neighborHex.xDiff) / 2).get((y + neighborHex.yDiff)).setHexVisibility(HexVisibility.TRANSPARENT);
+                updateHexWithMainMap((x + neighborHex.xDiff) / 2,y + neighborHex.yDiff);
         }
     }
 
@@ -241,15 +246,15 @@ public class Civilization {
         if (this.visibilityMap.map.get(mapArrayX).get(mapArrayY).getHexVisibility().equals(HexVisibility.FOG_OF_WAR))
             return;
 
-        if (Game.getGame().map.map.get(mapArrayX).get(mapArrayY).getCivilUnit() == null) {
+        if (this.visibilityMap.map.get(mapArrayX).get(mapArrayY).getCivilUnit() == null) {
             replaceText(printMap, x, y, -2, "CiU", "N/A", GlobalThings.RED);
-        } else if (Game.getGame().map.map.get(mapArrayX).get(mapArrayY).getCivilUnit() instanceof WorkerUnit) {
+        } else if (this.visibilityMap.map.get(mapArrayX).get(mapArrayY).getCivilUnit() instanceof WorkerUnit) {
             replaceText(printMap, x, y, -2, "CiU", "WOR", GlobalThings.RED);
         } else {
             replaceText(printMap, x, y, -2, "CiU", "SET", GlobalThings.RED);
         }
 
-        if (Game.getGame().map.map.get(mapArrayX).get(mapArrayY).getMilitaryUnit() == null) {
+        if (this.visibilityMap.map.get(mapArrayX).get(mapArrayY).getMilitaryUnit() == null) {
             replaceText(printMap, x, y, -1, "MiU", "N/A", GlobalThings.RED);
         } else {
             replaceText(printMap, x, y, -1, "MiU", Game.getGame().map.map.get(mapArrayX).get(mapArrayY)
@@ -257,18 +262,18 @@ public class Civilization {
         }
 
         replaceText(printMap, x, y, 0, "TER",
-                Game.getGame().map.map.get(mapArrayX).get(mapArrayY).getTerrain().name.substring(0, 3), GlobalThings.YELLOW);
+                this.visibilityMap.map.get(mapArrayX).get(mapArrayY).getTerrain().name.substring(0, 3), GlobalThings.YELLOW);
 
 
         replaceText(printMap, x, y, +1, "FET",
-                Game.getGame().map.map.get(mapArrayX).get(mapArrayY).getFeature().name.substring(0, 3), GlobalThings.YELLOW);
+                this.visibilityMap.map.get(mapArrayX).get(mapArrayY).getFeature().name.substring(0, 3), GlobalThings.YELLOW);
 
         replaceText(printMap, x, y, +2, "RES",
-                Game.getGame().map.map.get(mapArrayX).get(mapArrayY).getResource().name.substring(0, 3), GlobalThings.YELLOW);
+                this.visibilityMap.map.get(mapArrayX).get(mapArrayY).getResource().name.substring(0, 3), GlobalThings.YELLOW);
 
 
-        if (Game.getGame().map.map.get(mapArrayX).get(mapArrayY).isHasRoad()) {
-            if (Game.getGame().map.map.get(mapArrayX).get(mapArrayY).isHasRailRoad())
+        if (this.visibilityMap.map.get(mapArrayX).get(mapArrayY).isHasRoad()) {
+            if (this.visibilityMap.map.get(mapArrayX).get(mapArrayY).isHasRailRoad())
                 replaceText(printMap, x, y, +3, "ROD", "RAL", GlobalThings.BLACK);
             else
                 replaceText(printMap, x, y, +3, "ROD", "ROD", GlobalThings.BLACK);

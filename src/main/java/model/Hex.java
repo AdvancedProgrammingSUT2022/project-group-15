@@ -5,6 +5,7 @@ import model.unit.CivilUnit;
 import model.unit.MilitaryUnit;
 
 import java.util.HashMap;
+import java.util.logging.SocketHandler;
 
 public class Hex {
     private Civilization owner;
@@ -19,7 +20,7 @@ public class Hex {
     private boolean hasRiver;
     private boolean hasRoad;
     private boolean hasRailRoad;
-    private HexVisibility hexVisibility=HexVisibility.FOG_OF_WAR;
+    private HexVisibility hexVisibility = HexVisibility.FOG_OF_WAR;
     private HashMap<Character, Integer> coordinatesInArray = new HashMap<>();
     private HashMap<Character, Integer> coordinatesInMap = new HashMap<>();
     private MilitaryUnit militaryUnit;
@@ -32,24 +33,40 @@ public class Hex {
         this.hasRiver = hasRiver;
         this.coordinatesInArray.put('x', x);
         this.coordinatesInArray.put('y', y);
-        this.coordinatesInMap.put('x', x*2 + y%2);
+        this.coordinatesInMap.put('x', x * 2 + y % 2);
         this.coordinatesInMap.put('y', y);
         this.movementPrice = calculateMovementPrice();
     }
 
-    public Hex clone(){
-        return new Hex(terrain,feature,resource,hasRiver,coordinatesInArray.get('x'),coordinatesInArray.get('y'));
+    public Hex clone() {
+        Hex newHex;
+        if (resource.type.equals("strategic")) {
+            newHex = new Hex(terrain, feature, Resource.NULL, hasRiver, coordinatesInArray.get('x'), coordinatesInArray.get('y'));
+        } else {
+            newHex = new Hex(terrain, feature, resource, hasRiver, coordinatesInArray.get('x'), coordinatesInArray.get('y'));
+        }
+        newHex.owner = this.owner;
+        newHex.improvement=this.improvement;
+        newHex.hasDestroyedImprovement=this.hasDestroyedImprovement;
+        newHex.percentOfBuildingImprovement=this.percentOfBuildingImprovement;
+        newHex.isAnyCitizenWorking=this.isAnyCitizenWorking;
+        newHex.hasRoad=this.hasRoad;
+        newHex.hasRailRoad=this.hasRailRoad;
+        newHex.militaryUnit=this.militaryUnit;
+        newHex.civilUnit=this.civilUnit;
+        return newHex;
     }
 
     /**
      * calculates the net movement price of this hex. <br>
      * returns -1 if that units cannot pass by this hex <br>
      * returns -2 if that units should spend all of their remained moves to pass by this hex
+     *
      * @return the final movement price of this hex
      * @author Parsa
      */
     private int calculateMovementPrice() {
-        if (feature != Feature.NULL){
+        if (feature != Feature.NULL) {
             return feature.movementPrice;
         }
         return terrain.movementPrice;
@@ -88,7 +105,7 @@ public class Hex {
     }
 
     public int getMovementPrice() {
-        return movementPrice ;
+        return movementPrice;
     }
 
     public void setMovementPrice(int movementPrice) {
