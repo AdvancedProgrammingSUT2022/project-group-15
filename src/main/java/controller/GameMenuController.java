@@ -23,6 +23,7 @@ public class GameMenuController {
             if (unit.needsCommand()) return "some Units Need Command";
         }
         Game.getGame().nextTurn();
+        Game.getGame().getSelectedCivilization().nextTurn();
         selectedUnit = null;
         return "done";
     }
@@ -45,12 +46,33 @@ public class GameMenuController {
         }
 
         // available technologies
+        Game.getGame().getSelectedCivilization().updateAvailableTechnologies();
         ArrayList<Technology> availableTechs = Game.getGame().getSelectedCivilization().getAvailableTechnologies();
         message += "Available Technologies :\n";
         for (int i = 0; i < availableTechs.size(); i++) {
             message += (i + 1) + ") " + availableTechs.get(i) + "\n";
         }
         return message;
+    }
+
+    public String buyNewTechnology(String technologyName) {
+        Technology technology = null;
+        for (Technology tech : Technology.values()) {
+            if (tech.toString().equals(technologyName)) {
+                technology = tech;
+            }
+        }
+
+        if (technology == null) {
+            return "Invalid technology name!";
+        }
+
+        if (!Game.getGame().getSelectedCivilization().getAvailableTechnologies().contains(technology)){
+            return "This technology is not available for you! (Open prerequisites first)";
+        }
+
+        Game.getGame().getSelectedCivilization().setTechnologyInProgress(technology);
+        return technologyName + " activated! (is your technology in progress)";
     }
 
     public String showUnitsPanel() {

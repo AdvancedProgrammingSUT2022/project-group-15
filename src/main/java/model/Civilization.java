@@ -33,19 +33,17 @@ public class Civilization {
         visibilityMap = Game.getGame().map.clone();
     }
 
-
     public void nextTurn() {
         scienceStorage += sciencePerTurn;
         if (technologyInProgress != null && scienceStorage >= technologyInProgress.cost) {
             openNewTechnology();
             updateAvailableTechnologies();
-
         }
         sciencePerTurn = calculateSciencePerTurn();
         goldStorage += calculateGoldPerTurn();
     }
 
-    private void updateAvailableTechnologies() {
+    public void updateAvailableTechnologies() {
         availableTechnologies.clear();
         for (Technology tech : Technology.values()) {
             if (Game.getGame().getSelectedCivilization().getTechnologies().containsAll(tech.prerequisiteTechnologies))
@@ -184,10 +182,12 @@ public class Civilization {
             return 0;
         if (forX) {
             if (xOry + 3 >= Game.getGame().getRows())
+
                 return Game.getGame().getRows() - 6;
         } else {
             if (xOry + 3 >= Game.getGame().getColumns())
                 return Game.getGame().getColumns() - 6;
+
         }
         return ans;
     }
@@ -262,11 +262,11 @@ public class Civilization {
 
         if (Game.getGame().map.map.get(mapArrayX).get(mapArrayY).isHasRoad()) {
             if (Game.getGame().map.map.get(mapArrayX).get(mapArrayY).isHasRailRoad())
-                replaceText(printMap, x, y, +3, "ROD","RAL" , GlobalThings.BLACK);
+                replaceText(printMap, x, y, +3, "ROD", "RAL", GlobalThings.BLACK);
             else
                 replaceText(printMap, x, y, +3, "ROD", "ROD", GlobalThings.BLACK);
         } else {
-            replaceText(printMap, x, y, +3, "ROD", "N/A", GlobalThings.WHITE_BACKGROUND+GlobalThings.BLACK);
+            replaceText(printMap, x, y, +3, "ROD", "N/A", GlobalThings.WHITE_BACKGROUND + GlobalThings.BLACK);
         }
 // TODO: 5/3/2022 river???
 
@@ -300,7 +300,7 @@ public class Civilization {
         printMap[x - 3][y] = ",";
         printMap[x - 3][y - 1] = "";
         printMap[x - 3][y + 2] = "";
-        printMap[x - 3][y - 2] = GlobalThings.BLUE+String.format("%02d", mapArrayX);
+        printMap[x - 3][y - 2] = GlobalThings.BLUE + String.format("%02d", mapArrayX);
         printMap[x - 3][y + 1] = String.format("%02d", mapArrayY);
     }
 

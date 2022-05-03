@@ -57,6 +57,9 @@ public class GameMenu extends Menu {
                     System.out.println("invalid command!");
                     break;
             }
+        } else if ((matcher = getMatcher(command, "^buy new technology : (?<tech>\\w+)$")) != null) {
+            String technologyName = matcher.group("tech");
+            System.out.println(controller.buyNewTechnology(technologyName));
         } else if ((matcher = getMatcher(command, "^select unit combat (?<x>\\d+) (?<y>\\d+)$")) != null) {
             System.out.println(controller.selectMilitaryUnit(Integer.parseInt(matcher.group("x")), Integer.parseInt(matcher.group("y"))));
         } else if ((matcher = getMatcher(command, "^select unit noncombat (?<x>\\d+) (?<y>\\d+)$")) != null) {
