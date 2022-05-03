@@ -14,9 +14,10 @@ public class Main {
         users.add(new User("","",""));
         users.add(new User("","",""));
         Game.startNewGame(users);
-        System.out.println(gameMenuController.showMapOnPosition(0,0));
-       // gameMenuController.showMap();
-        Controller controller = new Controller();
-        controller.run();
+        gameMenuController.showMap();
+        GameMenuController controller2 = new GameMenuController();
+        System.out.println(controller2.showTechnologyInfo());
+//        Controller controller = new Controller();
+//        controller.run();
     }
 }

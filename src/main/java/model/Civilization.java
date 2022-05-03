@@ -13,9 +13,12 @@ public class Civilization {
     private boolean isYourTurn;
     private Map visibilityMap;
     private ArrayList<Technology> technologies = new ArrayList<>();
+    private ArrayList<Technology> availableTechnologies = new ArrayList<>();
     private Technology technologyInProgress;
     private ArrayList<UnitName> openedUnits = new ArrayList<>();
     private ArrayList<Resource> openedResources = new ArrayList<>();
+    private ArrayList<Feature> openedFeatures = new ArrayList<>();
+    private ArrayList<Improvement> openedImprovements = new ArrayList<>();
     private City capital;
     private ArrayList<Unit> units = new ArrayList<>();
     private ArrayList<City> cities = new ArrayList<>();
@@ -30,16 +33,34 @@ public class Civilization {
         visibilityMap = Game.getGame().map.clone();
     }
 
-    public Map getVisibilityMap() {
-        return visibilityMap;
-    }
 
-    public void nextTurn() {
-        if (technologyInProgress == null) {
-            scienceStorage += sciencePerTurn;
+    public void nextTurn(){
+        scienceStorage += sciencePerTurn;
+        if(technologyInProgress != null && scienceStorage >= technologyInProgress.cost){
+            openNewTechnology();
+            updateAvailableTechnologies();
+
         }
         sciencePerTurn = calculateSciencePerTurn();
         goldStorage += calculateGoldPerTurn();
+    }
+
+    private void updateAvailableTechnologies() {
+        availableTechnologies.clear();
+        for (Technology tech : Technology.values()) {
+            if(Game.getGame().getSelectedCivilization().getTechnologies().containsAll(tech.prerequisiteTechnologies))
+                availableTechnologies.add(tech);
+        }
+    }
+
+    private void openNewTechnology() {
+        scienceStorage = 0;
+        technologies.add(technologyInProgress);
+        openedUnits.addAll(technologyInProgress.openingUnits);
+        openedFeatures.addAll(technologyInProgress.openingFeatures);
+        openedImprovements.addAll(technologyInProgress.openingImprovements);
+        openedResources.addAll(technologyInProgress.openingResources);
+        technologyInProgress = null;
     }
 
     private int calculateGoldPerTurn() {
@@ -281,4 +302,104 @@ public class Civilization {
         map[x + xDiff][y + 2] = "";
     }
 
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public boolean isYourTurn() {
+        return isYourTurn;
+    }
+
+    public void setYourTurn(boolean yourTurn) {
+        isYourTurn = yourTurn;
+    }
+
+    public Map getVisibilityMap() {
+        return visibilityMap;
+    }
+
+    public void setVisibilityMap(Map visibilityMap) {
+        this.visibilityMap = visibilityMap;
+    }
+
+    public ArrayList<Technology> getTechnologies() {
+        return technologies;
+    }
+
+    public void setTechnologies(ArrayList<Technology> technologies) {
+        this.technologies = technologies;
+    }
+
+    public Technology getTechnologyInProgress() {
+        return technologyInProgress;
+    }
+
+    public void setTechnologyInProgress(Technology technologyInProgress) {
+        this.technologyInProgress = technologyInProgress;
+    }
+
+    public ArrayList<UnitName> getOpenedUnits() {
+        return openedUnits;
+    }
+
+    public void setOpenedUnits(ArrayList<UnitName> openedUnits) {
+        this.openedUnits = openedUnits;
+    }
+
+    public ArrayList<Resource> getOpenedResources() {
+        return openedResources;
+    }
+
+    public void setOpenedResources(ArrayList<Resource> openedResources) {
+        this.openedResources = openedResources;
+    }
+
+    public ArrayList<Feature> getOpenedFeatures() {
+        return openedFeatures;
+    }
+
+    public void setOpenedFeatures(ArrayList<Feature> openedFeatures) {
+        this.openedFeatures = openedFeatures;
+    }
+
+    public ArrayList<Improvement> getOpenedImprovements() {
+        return openedImprovements;
+    }
+
+    public void setOpenedImprovements(ArrayList<Improvement> openedImprovements) {
+        this.openedImprovements = openedImprovements;
+    }
+
+    public City getCapital() {
+        return capital;
+    }
+
+    public void setCapital(City capital) {
+        this.capital = capital;
+    }
+
+    public void setUnits(ArrayList<Unit> units) {
+        this.units = units;
+    }
+
+    public void setCities(ArrayList<City> cities) {
+        this.cities = cities;
+    }
+
+    public int getHappiness() {
+        return happiness;
+    }
+
+    public void setHappiness(int happiness) {
+        this.happiness = happiness;
+    }
+
+    public ArrayList<Technology> getAvailableTechnologies() {
+        return availableTechnologies;
+    }
+
+    public void setAvailableTechnologies(ArrayList<Technology> availableTechnologies) {
+        this.availableTechnologies = availableTechnologies;
+    }
 }

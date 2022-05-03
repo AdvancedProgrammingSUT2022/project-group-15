@@ -5,10 +5,14 @@ import enums.HexVisibility;
 import enums.Improvement;
 import model.City;
 import model.Civilization;
+import enums.Technology;
+
 import model.Game;
 import model.GlobalThings;
 import model.unit.Unit;
 import model.unit.WorkerUnit;
+
+import java.util.ArrayList;
 
 public class GameMenuController {
     Unit selectedUnit = null;
@@ -23,9 +27,30 @@ public class GameMenuController {
         return "done";
     }
 
+    /**
+     * shows the technology info and the available technologies
+     *
+     * @return message to be shown
+     * @author Parsa
+     */
     public String showTechnologyInfo() {
-        // TODO : implement
-        return null;
+        String message = "";
+        // current technology
+        Technology technology = Game.getGame().getSelectedCivilization().getTechnologyInProgress();
+        if (technology != null) {
+            int remainingTurns = (int) Math.ceil((technology.cost - Game.getGame().getSelectedCivilization().getScienceStorage()) / (double) Game.getGame().getSelectedCivilization().getSciencePerTurn());
+            message = "Current Technology : " + technology + "( " + remainingTurns + " turns remaining to achieve )\n";
+        } else {
+            message = "No Current Technology\n";
+        }
+
+        // available technologies
+        ArrayList<Technology> availableTechs = Game.getGame().getSelectedCivilization().getAvailableTechnologies();
+        message += "Available Technologies :\n";
+        for (int i = 0; i < availableTechs.size(); i++) {
+            message += (i + 1) + ") " + availableTechs.get(i) + "\n";
+        }
+        return message;
     }
 
     public String showUnitsPanel() {
@@ -236,18 +261,18 @@ public class GameMenuController {
 
 
                 if (Game.getGame().map.map.get(i / 2).get(2 * j + i % 2).getCivilUnit() == null) {
-                    replaceText(printMap,x,y,-2,"CU","NA");
-                } else if(Game.getGame().map.map.get(i / 2).get(2 * j + i % 2).getCivilUnit() instanceof WorkerUnit){
-                    replaceText(printMap,x,y,-2,"CU","WO");
-                }else {
-                    replaceText(printMap,x,y,-2,"CU","SE");
+                    replaceText(printMap, x, y, -2, "CU", "NA");
+                } else if (Game.getGame().map.map.get(i / 2).get(2 * j + i % 2).getCivilUnit() instanceof WorkerUnit) {
+                    replaceText(printMap, x, y, -2, "CU", "WO");
+                } else {
+                    replaceText(printMap, x, y, -2, "CU", "SE");
                 }
 
-                if (Game.getGame().map.map.get(i / 2).get(2 * j + i % 2).getMilitaryUnit()== null) {
-                    replaceText(printMap,x,y,+2,"MU","NA");
+                if (Game.getGame().map.map.get(i / 2).get(2 * j + i % 2).getMilitaryUnit() == null) {
+                    replaceText(printMap, x, y, +2, "MU", "NA");
                 } else {
                     replaceText(printMap, x, y, +2, "MU",
-                            Game.getGame().map.map.get(i / 2).get(2 * j + i % 2).getMilitaryUnit().getName().toString().substring(0,2) );
+                            Game.getGame().map.map.get(i / 2).get(2 * j + i % 2).getMilitaryUnit().getName().toString().substring(0, 2));
                 }
 
 
@@ -286,10 +311,10 @@ public class GameMenuController {
 
     private void replaceText(String[][] map, int x, int y, int xDiff, String firstTwo, String secondTwo) {
         map[x + xDiff][y] = ":";
-        map[x + xDiff][y-1] = "";
-        map[x + xDiff][y-2] = firstTwo;
-        map[x + xDiff][y+1] = secondTwo;
-        map[x + xDiff][y+2] = "";
+        map[x + xDiff][y - 1] = "";
+        map[x + xDiff][y - 2] = firstTwo;
+        map[x + xDiff][y + 1] = secondTwo;
+        map[x + xDiff][y + 2] = "";
     }
 
 
@@ -303,23 +328,23 @@ public class GameMenuController {
         return null;
     }
 
-    public String showMapOnPosition(int x, int y){
-        if (!Game.getGame().map.validCoordinateInArray(x,y))
+    public String showMapOnPosition(int x, int y) {
+        if (!Game.getGame().map.validCoordinateInArray(x, y))
             return "Coordinate not valid";
-        return Game.getGame().getSelectedCivilization().showMapOn(x,y);
+        return Game.getGame().getSelectedCivilization().showMapOn(x, y);
     }
 
-    public String showMapOnCity(String cityName){
+    public String showMapOnCity(String cityName) {
         for (Civilization civilization : Game.getGame().getCivilizations()) {
             for (City city : civilization.getCities()) {
-                if (city.getName().equals(cityName)){
+                if (city.getName().equals(cityName)) {
                     int xOfCity = city.getCoordinatesOfCenterInArray().get('x');
                     int yOfCity = city.getCoordinatesOfCenterInArray().get('y');
                     if (Game.getGame().getSelectedCivilization().getVisibilityMap().map.get(xOfCity).get(yOfCity)
                             .getHexVisibility().equals(HexVisibility.FOG_OF_WAR))
-                        return "you haven't seen "+cityName;
+                        return "you haven't seen " + cityName;
                     else
-                        return Game.getGame().getSelectedCivilization().showMapOn(xOfCity,yOfCity);
+                        return Game.getGame().getSelectedCivilization().showMapOn(xOfCity, yOfCity);
                 }
             }
         }

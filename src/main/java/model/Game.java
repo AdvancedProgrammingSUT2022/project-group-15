@@ -39,7 +39,7 @@ public class Game {
 
     public static void startNewGame(ArrayList<User> users) {
         game = new Game();
-        game.map = new Map(8, 8);//this constants might change later or be given by user
+        game.map = new Map(8, 8); //this constants might change later or be given by user
         //System.out.println(Game.getGame().getRows());
         game.map.fillMap();
         for (User user : users) {
@@ -51,9 +51,9 @@ public class Game {
         game.selectedCivilization = game.civilizations.get(0);
     }
 
-    public Civilization getPlayingCivilization() {
-        return civilizations.get(turn % civilizations.size());
-    }
+//    public Civilization getPlayingCivilization() {
+//        return civilizations.get(turn % civilizations.size());
+//    }
 
     public int getRows() {
         return map.getRowsNumber();
