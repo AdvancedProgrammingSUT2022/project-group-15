@@ -53,6 +53,26 @@ public class GameMenuController {
         return message;
     }
 
+    public String buyNewTechnology(String technologyName) {
+        Technology technology = null;
+        for (Technology tech : Technology.values()) {
+            if (tech.toString().equals(technologyName)) {
+                technology = tech;
+            }
+        }
+
+        if (technology == null) {
+            return "Invalid technology name!";
+        }
+
+        if (!Game.getGame().getSelectedCivilization().getAvailableTechnologies().contains(technology)){
+            return "This technology is not available for you! (Open prerequisites first)";
+        }
+
+        Game.getGame().getSelectedCivilization().setTechnologyInProgress(technology);
+        return technologyName + " activated! (is your technology in progress)";
+    }
+
     public String showUnitsPanel() {
         // TODO : implement
         return null;
