@@ -13,8 +13,7 @@ public class GameMenuController {
 
     public String changeTurn() {
         for (Unit unit : Game.getGame().getSelectedCivilization().getUnits()) {
-            if (unit.needsCommand())
-                return "some Units Need Command";
+            if (unit.needsCommand()) return "some Units Need Command";
         }
         Game.getGame().nextTurn();
         selectedUnit = null;

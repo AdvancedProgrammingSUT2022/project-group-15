@@ -29,6 +29,28 @@ public class Civilization {
         visibilityMap = Game.getGame().map.clone();
     }
 
+    public void nextTurn(){
+        if(technologyInProgress == null){
+            scienceStorage += sciencePerTurn;
+        }
+        sciencePerTurn = calculateSciencePerTurn();
+        goldStorage += calculateGoldPerTurn();
+    }
+
+    private int calculateGoldPerTurn() {
+        // TODO : implement
+        return 0;
+    }
+
+    private int calculateSciencePerTurn() {
+        int result = 0;
+        for (City city : cities) {
+            result += city.getNumberOfCitizen();
+        }
+        result += 3; // for capital
+        return result;
+    }
+
     public void deleteUnit(Unit unit) {
         units.remove(unit);
     }
@@ -102,15 +124,31 @@ public class Civilization {
         Random random = new Random();
         int xRand;
         int yRand;
-        while (true){
-            xRand=random.nextInt(Game.getGame().getRows());
-            yRand=random.nextInt(Game.getGame().getColumns());
-            if (Game.getGame().map.map.get(xRand).get(yRand).getMovementPrice()>=0 &
+        while (true) {
+            xRand = random.nextInt(Game.getGame().getRows());
+            yRand = random.nextInt(Game.getGame().getColumns());
+            if (Game.getGame().map.map.get(xRand).get(yRand).getMovementPrice() >= 0 &
                     Game.getGame().map.map.get(xRand).get(yRand).getMilitaryUnit() == null &
-                    Game.getGame().map.map.get(xRand).get(yRand).getCivilUnit()==null)
+                    Game.getGame().map.map.get(xRand).get(yRand).getCivilUnit() == null)
                 break;
         }
-        SettlerUnit settlerUnit = new SettlerUnit(xRand,yRand,this,2,5,UnitName.SETTLER);
+        SettlerUnit settlerUnit = new SettlerUnit(xRand, yRand, this, 2, 5, UnitName.SETTLER);
         units.add(settlerUnit);
+    }
+
+    public int getScienceStorage() {
+        return scienceStorage;
+    }
+
+    public void setScienceStorage(int scienceStorage) {
+        this.scienceStorage = scienceStorage;
+    }
+
+    public int getSciencePerTurn() {
+        return sciencePerTurn;
+    }
+
+    public void setSciencePerTurn(int sciencePerTurn) {
+        this.sciencePerTurn = sciencePerTurn;
     }
 }

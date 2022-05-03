@@ -12,18 +12,17 @@ import java.util.Random;
 import static java.lang.Math.abs;
 
 public class Game {
-    private static Game game ;
+    private static Game game;
 
     private ArrayList<Civilization> civilizations = new ArrayList<>();
     private ArrayList<City> originalCapitals = new ArrayList<>();
     private int turn;
     private Civilization selectedCivilization;
-    public Map map ;
+    public Map map;
 
 
     private Game() {
         turn = 0;
-
     }
 
     public static Game getGame() {
@@ -36,7 +35,7 @@ public class Game {
 
     public static void startNewGame(ArrayList<User> users) {
         game = new Game();
-        game.map = new Map(8 ,8 );//this constants might change later or be given by user
+        game.map = new Map(8, 8);//this constants might change later or be given by user
         //System.out.println(Game.getGame().getRows());
         game.map.fillMap();
         for (User user : users) {
@@ -59,9 +58,6 @@ public class Game {
     public int getColumns() {
         return map.getColumnsNumber();
     }
-
-
-
 
 
     public void nextTurn() {
