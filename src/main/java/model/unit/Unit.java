@@ -24,7 +24,7 @@ public abstract class Unit {
 
     public Unit(int x, int y, Civilization owner, int movementSpeed, int totalHealth, UnitName name) {
         coordinatesInMap.put('x', x);
-        coordinatesInMap.put('y', y);
+        coordinatesInMap.put('y', y*2 + x%2);
         this.owner = owner;
         this.movementSpeed = movementSpeed;
         this.totalHealth = totalHealth;

@@ -12,7 +12,7 @@ import java.util.Random;
 import static java.lang.Math.abs;
 
 public class Game {
-    private static Game game = new Game();
+    private static Game game ;
 
     private ArrayList<Civilization> civilizations = new ArrayList<>();
     private ArrayList<City> originalCapitals = new ArrayList<>();
@@ -23,7 +23,7 @@ public class Game {
 
     private Game() {
         turn = 0;
-        selectedCivilization = civilizations.get(0);
+
     }
 
     public static Game getGame() {
@@ -45,6 +45,7 @@ public class Game {
         for (Civilization civilization : game.civilizations) {
             civilization.setUp();
         }
+        game.selectedCivilization = game.civilizations.get(0);
     }
 
     public Civilization getPlayingCivilization() {

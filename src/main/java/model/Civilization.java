@@ -110,7 +110,7 @@ public class Civilization {
                     Game.getGame().map.map.get(xRand).get(yRand).getCivilUnit()==null)
                 break;
         }
-        SettlerUnit settlerUnit = new SettlerUnit(xRand,2*yRand+xRand%2,this,2,5,UnitName.SETTLER);
+        SettlerUnit settlerUnit = new SettlerUnit(xRand,yRand,this,2,5,UnitName.SETTLER);
         units.add(settlerUnit);
     }
 }
