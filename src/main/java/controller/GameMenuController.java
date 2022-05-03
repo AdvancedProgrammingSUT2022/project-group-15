@@ -34,20 +34,16 @@ public class GameMenuController {
         Technology technology = Game.getGame().getSelectedCivilization().getTechnologyInProgress();
         if(technology != null) {
             int remainingTurns = (int) Math.ceil((technology.cost - Game.getGame().getSelectedCivilization().getScienceStorage()) / (double) Game.getGame().getSelectedCivilization().getSciencePerTurn());
-            message = "Current Technology : " + technology + "( " + remainingTurns + " turns remaining to achieve )";
+            message = "Current Technology : " + technology + "( " + remainingTurns + " turns remaining to achieve )\n";
         }else {
-            message = "No Current Technology";
+            message = "No Current Technology\n";
         }
 
         // available technologies
-        ArrayList<Technology> availableTechs = new ArrayList<>();
-        for (Technology tech : Technology.values()) {
-            if(Game.getGame().getSelectedCivilization().getTechnologies().containsAll(tech.prerequisiteTechnologies))
-                availableTechs.add(tech);
-        }
-        message += "Available Technologies : \n";
+        ArrayList<Technology> availableTechs = Game.getGame().getSelectedCivilization().getAvailableTechnologies();
+        message += "Available Technologies :\n";
         for (int i = 0; i < availableTechs.size(); i++) {
-            message += (i+1) + ") " + availableTechs.get(i) + " - cost : " + availableTechs.get(i).cost + "\n";
+            message += (i+1) + ") " + availableTechs.get(i) + "\n";
         }
         return message;
     }

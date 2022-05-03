@@ -12,6 +12,7 @@ public class Civilization {
     private boolean isYourTurn;
     private Map visibilityMap;
     private ArrayList<Technology> technologies = new ArrayList<>();
+    private ArrayList<Technology> availableTechnologies = new ArrayList<>();
     private Technology technologyInProgress;
     private ArrayList<UnitName> openedUnits = new ArrayList<>();
     private ArrayList<Resource> openedResources = new ArrayList<>();
@@ -35,9 +36,18 @@ public class Civilization {
         scienceStorage += sciencePerTurn;
         if(technologyInProgress != null && scienceStorage >= technologyInProgress.cost){
             openNewTechnology();
+            updateAvailableTechnologies();
         }
         sciencePerTurn = calculateSciencePerTurn();
         goldStorage += calculateGoldPerTurn();
+    }
+
+    private void updateAvailableTechnologies() {
+        availableTechnologies.clear();
+        for (Technology tech : Technology.values()) {
+            if(Game.getGame().getSelectedCivilization().getTechnologies().containsAll(tech.prerequisiteTechnologies))
+                availableTechnologies.add(tech);
+        }
     }
 
     private void openNewTechnology() {
@@ -255,5 +265,13 @@ public class Civilization {
 
     public void setHappiness(int happiness) {
         this.happiness = happiness;
+    }
+
+    public ArrayList<Technology> getAvailableTechnologies() {
+        return availableTechnologies;
+    }
+
+    public void setAvailableTechnologies(ArrayList<Technology> availableTechnologies) {
+        this.availableTechnologies = availableTechnologies;
     }
 }
