@@ -51,10 +51,6 @@ public class Game {
         game.selectedCivilization = game.civilizations.get(0);
     }
 
-//    public Civilization getPlayingCivilization() {
-//        return civilizations.get(turn % civilizations.size());
-//    }
-
     public int getRows() {
         return map.getRowsNumber();
     }

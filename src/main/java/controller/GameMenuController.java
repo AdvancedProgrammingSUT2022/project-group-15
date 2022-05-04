@@ -140,7 +140,7 @@ public class GameMenuController {
         }
         int distance = selectedUnit.findShortestPathByDijkstra(x, y);
         if (distance > 999999) {
-            return "cant go to destination (mountain or ice or sea ) or blocked by other units";
+            return "cant go to destination (mountain or ice or sea) or blocked by other units";
         }
         selectedUnit.doPlanedMovement();
         if (selectedUnit.getPlanedToGo() == null)
@@ -209,14 +209,14 @@ public class GameMenuController {
     }
 
     public static void addUnit(Civilization civilization, City city, UnitName unitName, Hex hex) {
-        if (unitName.equals(unitName.SETTLER)) {
+        if (unitName.equals(UnitName.SETTLER)) {
             //movementspeed va health monde
             //TODO
             SettlerUnit settlerUnit = new SettlerUnit(hex.getCoordinatesInArray().get('x'), hex.getCoordinatesInArray().get('y'), city.getOwner(), 1, 1, unitName);
             civilization.getUnits().add(settlerUnit);
             return;
         }
-        if (unitName.equals(unitName.WORKER)) {
+        if (unitName.equals(UnitName.WORKER)) {
             WorkerUnit worker = new WorkerUnit(hex.getCoordinatesInArray().get('x'), hex.getCoordinatesInArray().get('y'), city.getOwner(), 1, 1, unitName);
             civilization.getUnits().add(worker);
             return;
@@ -233,9 +233,9 @@ public class GameMenuController {
     public String deleteSelectedUnit(Unit unit, Civilization civilization) {
         ArrayList<Unit> units = civilization.getUnits();
         for (Unit unit1 : units) {
-            if (unit1.getName().equals(unit)) {
+            if (unit1 == unit) {
                 civilization.deleteUnit(unit1);
-                return "Delete Succesfull";
+                return "Delete Successful";
             }
         }
         return "Please Select a unit";
@@ -244,8 +244,8 @@ public class GameMenuController {
     public static void spawnUnit(City city) {
         UnitName unitName = city.getProgresssUnit();
         for (Hex hex : city.getCityHexes()) {
-            if ((unitName.getCombatType() == "Civilian" && hex.getUnMilitaryUnit() == null) ||
-                    (unitName.getCombatType() != "Civilian" && hex.getMilitary() == null)) {
+            if ((unitName.getCombatType().equals("Civilian") && hex.getUnMilitaryUnit() == null) ||
+                    (!unitName.getCombatType().equals("Civilian") && hex.getMilitary() == null)) {
                 addUnit(city.getOwner(),city, unitName, hex);
              //   System.out.println(militaryType + " mili");
                 return;
