@@ -18,7 +18,7 @@ public class RangedMilitary extends MilitaryUnit {
     public void attackTo(Unit unit){
         unit.nowHealth -= this.rangedPower;
         if (unit.nowHealth<=0) {
-            unit.deleteUnit(false);
+            unit.owner.deleteUnit(this, false);
         }
     }
 

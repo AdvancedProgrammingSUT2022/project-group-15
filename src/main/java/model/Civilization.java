@@ -78,7 +78,10 @@ public class Civilization {
         return result;
     }
 
-    public void deleteUnit(Unit unit) {
+    public void deleteUnit(Unit unit, boolean isSelling) {
+        if(isSelling){
+            goldStorage += unit.getCost() / 5;
+        }
         units.remove(unit);
     }
 
