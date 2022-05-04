@@ -10,6 +10,8 @@ import java.util.ArrayList;
 public class GameMenuController {
     Unit selectedUnit = null;
     City selectedCity = null;
+    int lastShownMapX = 0;
+    int lastShownMapY = 0;
 
     public String changeTurn() {
         for (Unit unit : Game.getGame().getSelectedCivilization().getUnits()) {
@@ -113,23 +115,54 @@ public class GameMenuController {
     }
 
     public String selectMilitaryUnit(int x, int y) {
-        // TODO : implement
-        return null;
+        if (!Game.getGame().getSelectedCivilization().getVisibilityMap().validCoordinateInArray(x, y)) {
+            return "not valid coordinate";
+        }
+        if (Game.getGame().getSelectedCivilization().getVisibilityMap().map.get(x).get(y).getMilitaryUnit() == null)
+            return "no unit here";
+        if (!Game.getGame().getSelectedCivilization().getVisibilityMap().map.get(x).get(y).getMilitaryUnit().getOwner().
+                equals(Game.getGame().getSelectedCivilization()))
+            return "unit is not yours";
+        selectedUnit = Game.getGame().getSelectedCivilization().getVisibilityMap().map.get(x).get(y).getMilitaryUnit();
+        return "done";
     }
 
     public String selectCivilUnit(int x, int y) {
-        // TODO : implement
-        return null;
+        if (!Game.getGame().getSelectedCivilization().getVisibilityMap().validCoordinateInArray(x, y)) {
+            return "not valid coordinate";
+        }
+        if (Game.getGame().getSelectedCivilization().getVisibilityMap().map.get(x).get(y).getCivilUnit() == null)
+            return "no unit here";
+        if (!Game.getGame().getSelectedCivilization().getVisibilityMap().map.get(x).get(y).getCivilUnit().getOwner().
+                equals(Game.getGame().getSelectedCivilization()))
+            return "unit is not yours";
+        selectedUnit = Game.getGame().getSelectedCivilization().getVisibilityMap().map.get(x).get(y).getCivilUnit();
+        return "done";
     }
 
     public String selectCity(String cityName) {
-        // TODO : implement
-        return null;
+
+        for (City city : Game.getGame().getSelectedCivilization().getCities()) {
+            if (city.getName().equals(cityName)) {
+                selectedCity = city;
+                return "done";
+            }
+        }
+        return "you have no city with this name";
     }
 
     public String selectCity(int x, int y) {
-        // TODO : implement
-        return null;
+        if (!Game.getGame().getSelectedCivilization().getVisibilityMap().validCoordinateInArray(x, y)) {
+            return "not valid coordinate";
+        }
+
+        for (City city : Game.getGame().getSelectedCivilization().getCities()) {
+            if (city.getCoordinatesOfCenterInArray().get('x') == x & city.getCoordinatesOfCenterInArray().get('y') == y) {
+                selectedCity = city;
+                return "done";
+            }
+        }
+        return "you have no city here";
     }
 
     public String moveSelectedUnitTo(int x, int y) {
@@ -231,7 +264,7 @@ public class GameMenuController {
     }
 
     public String deleteSelectedUnit() {
-        if(selectedUnit == null){
+        if (selectedUnit == null) {
             return "Please Select a unit first!";
         }
         Game.getGame().getSelectedCivilization().deleteUnit(selectedUnit);
@@ -243,8 +276,8 @@ public class GameMenuController {
         for (Hex hex : city.getCityHexes()) {
             if ((unitName.getCombatType().equals("Civilian") && hex.getUnMilitaryUnit() == null) ||
                     (!unitName.getCombatType().equals("Civilian") && hex.getMilitary() == null)) {
-                addUnit(city.getOwner(),city, unitName, hex);
-             //   System.out.println(militaryType + " mili");
+                addUnit(city.getOwner(), city, unitName, hex);
+                //   System.out.println(militaryType + " mili");
                 return;
             }
         }
@@ -390,7 +423,8 @@ public class GameMenuController {
         printMap[x - 3][y + 1] = String.format("%02d", mapArrayY);
     }
 
-    private void replaceText(String[][] map, int x, int y, int xDiff, String firstThree, String secondThree, String color) {
+    private void replaceText(String[][] map, int x, int y, int xDiff, String firstThree, String secondThree, String
+            color) {
         map[x + xDiff][y] = ":";
         map[x + xDiff][y - 1] = "";
         map[x + xDiff][y - 2] = "";
@@ -407,14 +441,24 @@ public class GameMenuController {
         if (direction == null) {
             return "invalid direction";
         }
-
-        return null;
+        int x, y;
+        x = lastShownMapX + direction.xDiff * amount;
+        y = lastShownMapY + direction.yDiff * amount;
+        if (!Game.getGame().map.validCoordinateInArray(x, y))
+            return "Cant move";
+        lastShownMapX = x;
+        lastShownMapY = y;
+        return Game.getGame().getSelectedCivilization().showMapOn(x, y);
     }
 
     public String showMapOnPosition(int x, int y) {
         if (!Game.getGame().map.validCoordinateInArray(x, y))
             return "Coordinate not valid";
+
+        lastShownMapX = x;
+        lastShownMapY = y;
         return Game.getGame().getSelectedCivilization().showMapOn(x, y);
+
     }
 
     public String showMapOnCity(String cityName) {
@@ -426,8 +470,11 @@ public class GameMenuController {
                     if (Game.getGame().getSelectedCivilization().getVisibilityMap().map.get(xOfCity).get(yOfCity)
                             .getHexVisibility().equals(HexVisibility.FOG_OF_WAR))
                         return "you haven't seen " + cityName;
-                    else
+                    else {
+                        lastShownMapX = xOfCity;
+                        lastShownMapY = yOfCity;
                         return Game.getGame().getSelectedCivilization().showMapOn(xOfCity, yOfCity);
+                    }
                 }
             }
         }

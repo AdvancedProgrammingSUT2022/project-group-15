@@ -4,6 +4,7 @@ import model.Game;
 import model.User;
 
 import java.util.ArrayList;
+import java.util.SortedMap;
 
 public class Main {
     public static void main(String[] args) {
@@ -17,10 +18,11 @@ public class Main {
         System.out.println(Game.getGame().getSelectedCivilization().getUnits().get(0).getCoordinatesInMap().get('x')+ " "+
                 Game.getGame().getSelectedCivilization().getUnits().get(0).getCoordinatesInMap().get('y'));
         System.out.println(gameMenuController.showMapOnPosition(3,3));
+        System.out.println(gameMenuController.moveMap("right",1));
         gameMenuController.showMap();
         GameMenuController controller2 = new GameMenuController();
         System.out.println(controller2.showTechnologyInfo());
-//        Controller controller = new Controller();
-//        controller.run();
+        Controller controller = new Controller();
+        controller.run();
     }
 }
