@@ -90,9 +90,7 @@ public class GameMenu extends Menu {
         } else if (command.equals("unit wake")) {
             System.out.println(controller.wakeUpSelectedUnit());
         } else if (command.equals("unit delete")) {
-            //Unit needed
-            //TODO
-            //System.out.println(controller.deleteSelectedUnit(unit, civilization));
+            System.out.println(controller.deleteSelectedUnit());
         } else if ((matcher = getMatcher(command, "^unit attack (?<x>\\d+) (?<y>\\d+)$")) != null) {
             System.out.println(controller.attackTo(Integer.parseInt(matcher.group("x")), Integer.parseInt(matcher.group("y"))));
         } else if ((matcher = getMatcher(command, "^unit build (?<improvement>\\w+)$")) != null) {

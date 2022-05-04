@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class GameMenuController {
     Unit selectedUnit = null;
-
+    City selectedCity = null;
 
     public String changeTurn() {
         for (Unit unit : Game.getGame().getSelectedCivilization().getUnits()) {
@@ -230,15 +230,12 @@ public class GameMenuController {
         civilization.getUnits().add(meleeMilitary);
     }
 
-    public String deleteSelectedUnit(Unit unit, Civilization civilization) {
-        ArrayList<Unit> units = civilization.getUnits();
-        for (Unit unit1 : units) {
-            if (unit1 == unit) {
-                civilization.deleteUnit(unit1);
-                return "Delete Successful";
-            }
+    public String deleteSelectedUnit() {
+        if(selectedUnit == null){
+            return "Please Select a unit first!";
         }
-        return "Please Select a unit";
+        Game.getGame().getSelectedCivilization().deleteUnit(selectedUnit);
+        return "Unit Deleted Successfully";
     }
 
     public static void spawnUnit(City city) {
