@@ -1,8 +1,7 @@
 package model;
 
 import enums.*;
-import model.unit.CivilUnit;
-import model.unit.MilitaryUnit;
+import model.unit.*;
 
 import java.util.HashMap;
 import java.util.logging.SocketHandler;
@@ -46,14 +45,14 @@ public class Hex {
             newHex = new Hex(terrain, feature, resource, hasRiver, coordinatesInArray.get('x'), coordinatesInArray.get('y'));
         }
         newHex.owner = this.owner;
-        newHex.improvement=this.improvement;
-        newHex.hasDestroyedImprovement=this.hasDestroyedImprovement;
-        newHex.percentOfBuildingImprovement=this.percentOfBuildingImprovement;
-        newHex.isAnyCitizenWorking=this.isAnyCitizenWorking;
-        newHex.hasRoad=this.hasRoad;
-        newHex.hasRailRoad=this.hasRailRoad;
-        newHex.militaryUnit=this.militaryUnit;
-        newHex.civilUnit=this.civilUnit;
+        newHex.improvement = this.improvement;
+        newHex.hasDestroyedImprovement = this.hasDestroyedImprovement;
+        newHex.percentOfBuildingImprovement = this.percentOfBuildingImprovement;
+        newHex.isAnyCitizenWorking = this.isAnyCitizenWorking;
+        newHex.hasRoad = this.hasRoad;
+        newHex.hasRailRoad = this.hasRailRoad;
+        newHex.militaryUnit = this.militaryUnit;
+        newHex.civilUnit = this.civilUnit;
         return newHex;
     }
 
@@ -154,5 +153,33 @@ public class Hex {
 
     public void setHasRailRoad(boolean hasRailRoad) {
         this.hasRailRoad = hasRailRoad;
+    }
+
+    public Unit getUnMilitaryUnit() {
+        for (int i = 0; i < Game.getGame().getCivilizations().size(); i++) {
+            for (int j = 0; j < Game.getGame().getCivilizations().get(i).getUnits().size(); j++) {
+                if (Game.getGame().getCivilizations().get(i).getUnits().get(j).getCoordinatesInMap().get('x') == this.getCoordinatesInMap().get('x') &&
+                        Game.getGame().getCivilizations().get(i).getUnits().get(j).getCoordinatesInMap().get('y') == this.getCoordinatesInMap().get('y') &&
+                        Game.getGame().getCivilizations().get(i).getUnits().get(j) instanceof CivilUnit) {
+                    return Game.getGame().getCivilizations().get(i).getUnits().get(j);
+                }
+
+            }
+        }
+        return null;
+    }
+
+    public Unit getMilitary() {
+        for (int i = 0; i < Game.getGame().getCivilizations().size(); i++) {
+            for (int j = 0; j < Game.getGame().getCivilizations().get(i).getUnits().size(); j++) {
+                if (Game.getGame().getCivilizations().get(i).getUnits().get(j).getCoordinatesInMap().get('x') == this.getCoordinatesInMap().get('x') &&
+                        Game.getGame().getCivilizations().get(i).getUnits().get(j).getCoordinatesInMap().get('y') == this.getCoordinatesInMap().get('y') &&
+                        Game.getGame().getCivilizations().get(i).getUnits().get(j) instanceof MilitaryUnit) {
+                    return Game.getGame().getCivilizations().get(i).getUnits().get(j);
+                }
+
+            }
+        }
+        return null;
     }
 }

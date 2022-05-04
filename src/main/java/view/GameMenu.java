@@ -1,6 +1,7 @@
 package view;
 
 import controller.GameMenuController;
+import model.unit.Unit;
 
 import java.util.regex.Matcher;
 
@@ -89,7 +90,9 @@ public class GameMenu extends Menu {
         } else if (command.equals("unit wake")) {
             System.out.println(controller.wakeUpSelectedUnit());
         } else if (command.equals("unit delete")) {
-            System.out.println(controller.deleteSelectedUnit());
+            //Unit needed
+            //TODO
+            //System.out.println(controller.deleteSelectedUnit(unit, civilization));
         } else if ((matcher = getMatcher(command, "^unit attack (?<x>\\d+) (?<y>\\d+)$")) != null) {
             System.out.println(controller.attackTo(Integer.parseInt(matcher.group("x")), Integer.parseInt(matcher.group("y"))));
         } else if ((matcher = getMatcher(command, "^unit build (?<improvement>\\w+)$")) != null) {

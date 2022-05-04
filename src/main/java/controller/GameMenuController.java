@@ -231,9 +231,27 @@ public class GameMenuController {
         civilization.getUnits().add(meleeMilitary);
     }
 
-    public String deleteSelectedUnit() {
-        // TODO : implement
-        return null;
+    public String deleteSelectedUnit(Unit unit, Civilization civilization) {
+        ArrayList<Unit> units = civilization.getUnits();
+        for (Unit unit1 : units) {
+            if (unit1.getName().equals(unit)) {
+                civilization.deleteUnit(unit1);
+                return "Delete Succesfull";
+            }
+        }
+        return "Please Select a unit";
+    }
+
+    public static void spawnUnit(City city) {
+        UnitName unitName = city.getProgresssUnit();
+        for (Hex hex : city.getCityHexes()) {
+            if ((unitName.getCombatType() == "Civilian" && hex.getUnMilitaryUnit() == null) ||
+                    (unitName.getCombatType() != "Civilian" && hex.getMilitary() == null)) {
+                addUnit(city.getOwner(),city, unitName, hex);
+             //   System.out.println(militaryType + " mili");
+                return;
+            }
+        }
     }
 
     public String attackTo(int x, int y) {
@@ -291,7 +309,7 @@ public class GameMenuController {
                         }
                     }
                 }
-                fillHexWithInfo(printMap, x, y,  i / 2, 2 * j + i % 2);
+                fillHexWithInfo(printMap, x, y, i / 2, 2 * j + i % 2);
             }
         }
         for (int i = 0; i < GlobalThings.mapHeight; i++) {
@@ -302,6 +320,7 @@ public class GameMenuController {
         }
         return "print map successfully";
     }
+
     private void fillHexWithInfo(String[][] printMap, int x, int y, int mapArrayX, int mapArrayY) {
         preliminaryInfo(printMap, x, y, mapArrayX, mapArrayY);
 

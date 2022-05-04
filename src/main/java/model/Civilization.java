@@ -41,6 +41,9 @@ public class Civilization {
         }
         sciencePerTurn = calculateSciencePerTurn();
         goldStorage += calculateGoldPerTurn();
+        //unit ha inja va avaz shodan turn monde
+        //TODO
+
     }
 
     public void updateAvailableTechnologies() {
@@ -126,7 +129,7 @@ public class Civilization {
         for (Unit unit : units) {
             int x = unit.getCoordinatesInMap().get('x');
             int y = unit.getCoordinatesInMap().get('y');
-            updateHexWithMainMap(x/2,y);
+            updateHexWithMainMap(x / 2, y);
             seeNeighbors(x, y);
             for (NeighborHex neighborHex : NeighborHex.values()) {
                 if (visibilityMap.validCoordinateInArray((x + neighborHex.xDiff) / 2, y + neighborHex.yDiff))
@@ -138,16 +141,17 @@ public class Civilization {
             }
         }
     }
-    private void updateHexWithMainMap(int xInArr , int yInArr){
-        Hex newHex=Game.getGame().map.map.get(xInArr).get(yInArr).clone();
+
+    private void updateHexWithMainMap(int xInArr, int yInArr) {
+        Hex newHex = Game.getGame().map.map.get(xInArr).get(yInArr).clone();
         newHex.setHexVisibility(HexVisibility.TRANSPARENT);
-        visibilityMap.map.get(xInArr).set(yInArr,newHex);
+        visibilityMap.map.get(xInArr).set(yInArr, newHex);
     }
 
     private void seeNeighbors(int x, int y) {
         for (NeighborHex neighborHex : NeighborHex.values()) {
             if (visibilityMap.validCoordinateInArray((x + neighborHex.xDiff) / 2, (y + neighborHex.yDiff)))
-                updateHexWithMainMap((x + neighborHex.xDiff) / 2,y + neighborHex.yDiff);
+                updateHexWithMainMap((x + neighborHex.xDiff) / 2, y + neighborHex.yDiff);
         }
     }
 
