@@ -12,7 +12,7 @@ public class MeleeMilitary extends MilitaryUnit {
     public void attackTo(Unit unit) {// priority with military unit
         if (unit instanceof CivilUnit){
             moveToHex(unit.coordinatesInMap.get('x'),unit.coordinatesInMap.get('y'));
-            unit.deleteUnit(false);
+            unit.owner.deleteUnit(this, false);
             // TODO: 4/23/2022 build worker here for attacker
             return;
         }
@@ -21,11 +21,11 @@ public class MeleeMilitary extends MilitaryUnit {
 
         if (unit.nowHealth<=0) {
             moveToHex(unit.coordinatesInMap.get('x'),unit.coordinatesInMap.get('y'));
-            unit.deleteUnit(false);
+            unit.owner.deleteUnit(this, false);
         }
 
         if (this.nowHealth <=0 ){
-            this.deleteUnit(false);
+            unit.owner.deleteUnit(this, false);
         }
 
     }

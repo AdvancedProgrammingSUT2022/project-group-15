@@ -267,7 +267,7 @@ public class GameMenuController {
         if (selectedUnit == null) {
             return "Please Select a unit first!";
         }
-        Game.getGame().getSelectedCivilization().deleteUnit(selectedUnit);
+        Game.getGame().getSelectedCivilization().deleteUnit(selectedUnit, true);
         return "Unit Deleted Successfully";
     }
 

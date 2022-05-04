@@ -192,15 +192,12 @@ public abstract class Unit {
         return min_index;
     }
 
+    public int getCost() {
+        return cost;
+    }
 
     abstract public boolean needsCommand();
 
     abstract public void cancelMission();
-
-    public void deleteUnit(boolean isSelling) {
-        if (isSelling)
-            this.owner.setGoldStorage(this.owner.getGoldStorage() + this.cost / 5);//is 5 ok?
-        this.owner.deleteUnit(this);
-    }
 
 }
