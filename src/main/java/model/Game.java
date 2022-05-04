@@ -65,6 +65,7 @@ public class Game {
 
 
     public void nextTurn() {
+        selectedCivilization.nextTurn();
         turn++;
         selectedCivilization = civilizations.get(turn % civilizations.size());
     }

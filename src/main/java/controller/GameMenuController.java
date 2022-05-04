@@ -16,7 +16,6 @@ public class GameMenuController {
             if (unit.needsCommand()) return "some Units Need Command";
         }
         Game.getGame().nextTurn();
-        Game.getGame().getSelectedCivilization().nextTurn();
         selectedUnit = null;
         return "done";
     }
