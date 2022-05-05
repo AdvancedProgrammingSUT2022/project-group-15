@@ -1,5 +1,6 @@
 package model;
 
+import enums.NeighborHex;
 import enums.UnitName;
 import model.unit.RangedMilitary;
 import model.unit.Unit;
@@ -38,6 +39,11 @@ public class City {
         coordinatesOfCenterInArray.put('x', x);
         coordinatesOfCenterInArray.put('y', y);
         this.cityHexes.add(Game.getGame().map.map.get(x).get(y));
+
+        for (NeighborHex neighborHex : NeighborHex.values()) {
+            this.cityHexes.add(Game.getGame().map.map.get((2*x+y%2+neighborHex.xDiff)/2).get(y+neighborHex.yDiff));
+        }
+
         Game.getGame().map.map.get(x).get(y).setCity(this);
     }
 

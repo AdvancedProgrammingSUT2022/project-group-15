@@ -1,6 +1,7 @@
 package model;
 
 import enums.*;
+import model.unit.CivilUnit;
 import model.unit.SettlerUnit;
 import model.unit.Unit;
 import model.unit.WorkerUnit;
@@ -79,10 +80,17 @@ public class Civilization {
     }
 
     public void deleteUnit(Unit unit, boolean isSelling) {
-        if(isSelling){
+        if (isSelling) {
             goldStorage += unit.getCost() / 5;
         }
+        if (unit instanceof CivilUnit)
+            Game.getGame().map.map.get(unit.getCoordinatesInMap().get('x') / 2).get(unit.getCoordinatesInMap().get('y')).setCivilUnit(null);
+        else
+            Game.getGame().map.map.get(unit.getCoordinatesInMap().get('x') / 2).get(unit.getCoordinatesInMap().get('y')).setMilitaryUnit(null);
+        Civilization owner = unit.getOwner();
         units.remove(unit);
+        owner.adjustVisibility();
+
     }
 
     public ArrayList<Unit> getUnits() {
@@ -132,7 +140,6 @@ public class Civilization {
         for (Unit unit : units) {
             int x = unit.getCoordinatesInMap().get('x');
             int y = unit.getCoordinatesInMap().get('y');
-            updateHexWithMainMap(x / 2, y);
             seeNeighbors(x, y);
             for (NeighborHex neighborHex : NeighborHex.values()) {
                 if (visibilityMap.validCoordinateInArray((x + neighborHex.xDiff) / 2, y + neighborHex.yDiff))
@@ -152,6 +159,7 @@ public class Civilization {
     }
 
     private void seeNeighbors(int x, int y) {
+        updateHexWithMainMap(x / 2, y);
         for (NeighborHex neighborHex : NeighborHex.values()) {
             if (visibilityMap.validCoordinateInArray((x + neighborHex.xDiff) / 2, (y + neighborHex.yDiff)))
                 updateHexWithMainMap((x + neighborHex.xDiff) / 2, y + neighborHex.yDiff);
@@ -172,7 +180,6 @@ public class Civilization {
         }
         SettlerUnit settlerUnit = new SettlerUnit(xRand, yRand, this, 2, 5, UnitName.SETTLER);
         units.add(settlerUnit);
-        adjustVisibility();
     }
 
     public int getScienceStorage() {

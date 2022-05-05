@@ -49,6 +49,7 @@ public class Game {
             civilization.setUp();
         }
         game.selectedCivilization = game.civilizations.get(0);
+        game.selectedCivilization.adjustVisibility();
     }
 
     public int getRows() {
@@ -64,5 +65,6 @@ public class Game {
         selectedCivilization.nextTurn();
         turn++;
         selectedCivilization = civilizations.get(turn % civilizations.size());
+        selectedCivilization.adjustVisibility();
     }
 }
