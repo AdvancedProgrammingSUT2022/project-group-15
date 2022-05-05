@@ -37,6 +37,8 @@ public class City {
         this.name = name;
         coordinatesOfCenterInArray.put('x', x);
         coordinatesOfCenterInArray.put('y', y);
+        this.cityHexes.add(Game.getGame().map.map.get(x).get(y));
+        Game.getGame().map.map.get(x).get(y).setCity(this);
     }
 
     public ArrayList<Hex> getCityHexes() {

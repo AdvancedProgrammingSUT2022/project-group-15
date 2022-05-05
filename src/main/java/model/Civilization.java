@@ -253,19 +253,24 @@ public class Civilization {
         if (this.visibilityMap.map.get(mapArrayX).get(mapArrayY).getHexVisibility().equals(HexVisibility.FOG_OF_WAR))
             return;
 
-        if (this.visibilityMap.map.get(mapArrayX).get(mapArrayY).getCivilUnit() == null) {
-            replaceText(printMap, x, y, -2, "CiU", "N/A", GlobalThings.RED);
-        } else if (this.visibilityMap.map.get(mapArrayX).get(mapArrayY).getCivilUnit() instanceof WorkerUnit) {
-            replaceText(printMap, x, y, -2, "CiU", "WOR", GlobalThings.RED);
-        } else {
-            replaceText(printMap, x, y, -2, "CiU", "SET", GlobalThings.RED);
-        }
 
-        if (this.visibilityMap.map.get(mapArrayX).get(mapArrayY).getMilitaryUnit() == null) {
-            replaceText(printMap, x, y, -1, "MiU", "N/A", GlobalThings.RED);
-        } else {
-            replaceText(printMap, x, y, -1, "MiU", Game.getGame().map.map.get(mapArrayX).get(mapArrayY)
-                    .getMilitaryUnit().getName().toString().substring(0, 3), GlobalThings.RED);
+        if (!this.visibilityMap.map.get(mapArrayX).get(mapArrayY).getHexVisibility().equals(HexVisibility.DETERMINED)) {
+            if (this.visibilityMap.map.get(mapArrayX).get(mapArrayY).getCivilUnit() == null) {
+                replaceText(printMap, x, y, -2, "CiU", "N/A", GlobalThings.RED);
+            } else if (this.visibilityMap.map.get(mapArrayX).get(mapArrayY).getCivilUnit() instanceof WorkerUnit) {
+                replaceText(printMap, x, y, -2, "CiU", "WOR", GlobalThings.RED);
+            } else {
+                replaceText(printMap, x, y, -2, "CiU", "SET", GlobalThings.RED);
+            }
+
+
+            if (this.visibilityMap.map.get(mapArrayX).get(mapArrayY).getMilitaryUnit() == null) {
+                replaceText(printMap, x, y, -1, "MiU", "N/A", GlobalThings.RED);
+            } else {
+                replaceText(printMap, x, y, -1, "MiU", Game.getGame().map.map.get(mapArrayX).get(mapArrayY)
+                        .getMilitaryUnit().getName().toString().substring(0, 3), GlobalThings.RED);
+            }
+
         }
 
         replaceText(printMap, x, y, 0, "TER",

@@ -5,13 +5,14 @@ import model.*;
 
 import model.unit.*;
 
+import javax.print.attribute.standard.NumberUp;
 import java.util.ArrayList;
 
 public class GameMenuController {
-    Unit selectedUnit = null;
-    City selectedCity = null;
-    int lastShownMapX = 0;
-    int lastShownMapY = 0;
+    private Unit selectedUnit = null;
+    private City selectedCity = null;
+    private int lastShownMapX = 0;
+    private int lastShownMapY = 0;
 
     public String changeTurn() {
         for (Unit unit : Game.getGame().getSelectedCivilization().getUnits()) {
@@ -212,8 +213,15 @@ public class GameMenuController {
     }
 
     public String foundCity() {
-        // TODO : implement
-        return null;
+        if(selectedUnit ==null)
+            return "no unit selected";
+        if (! (selectedUnit instanceof SettlerUnit) )
+            return "unit is not settler";
+        if (Game.getGame().map.map.get(selectedUnit.getCoordinatesInMap().get('x')/2).
+                get(selectedUnit.getCoordinatesInMap().get('y')).getCity() != null)
+            return "cant build city in a city!!!";
+        ((SettlerUnit) selectedUnit).foundCity();
+        return "done";
     }
 
     public String cancelSelectedUnitMission() {

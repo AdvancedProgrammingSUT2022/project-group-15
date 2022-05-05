@@ -2,6 +2,7 @@ import controller.Controller;
 import controller.GameMenuController;
 import model.Game;
 import model.User;
+import view.GameMenu;
 
 import java.util.ArrayList;
 import java.util.SortedMap;

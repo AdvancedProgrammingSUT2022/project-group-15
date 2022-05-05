@@ -24,6 +24,7 @@ public class Hex {
     private HashMap<Character, Integer> coordinatesInMap = new HashMap<>();
     private MilitaryUnit militaryUnit;
     private CivilUnit civilUnit;
+    private City city=null;
 
     public Hex(Terrain terrain, Feature feature, Resource resource, boolean hasRiver, int x, int y) {
         this.terrain = terrain;
@@ -69,6 +70,14 @@ public class Hex {
             return feature.movementPrice;
         }
         return terrain.movementPrice;
+    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
     }
 
     public HexVisibility getHexVisibility() {
