@@ -3,12 +3,19 @@ package controller;
 import model.User;
 import view.*;
 
-public class Controller {
-    protected LoginMenu loginMenu = new LoginMenu();
-    protected MainMenu mainMenu = new MainMenu();
-    protected ProfileMenu profileMenu = new ProfileMenu();
-    protected GameMenu gameMenu = new GameMenu();
+import java.util.ArrayList;
 
+public class Controller {
+    private final LoginMenu loginMenu = new LoginMenu();
+    private final MainMenu mainMenu = new MainMenu();
+    private final ProfileMenu profileMenu = new ProfileMenu();
+    private final GameMenu gameMenu = new GameMenu();
+    private static final ArrayList<String> notificationHistory = new ArrayList<>();
+
+    /**
+     * controls the main flow of program (moving between menus)
+     * @author Parsa
+     */
     public void run() {
         if (loginMenu.run().equals("exit")) return;
 
@@ -25,5 +32,21 @@ public class Controller {
                     break;
             }
         }
+    }
+
+    /**
+     * add a message to the notification history
+     * @param turnNumber turn number to be mentioned at the beginning of notification
+     * @param message the body of notification
+     * @return the message
+     * @author Parsa
+     */
+    public static String addNotification(int turnNumber, String message){
+        notificationHistory.add("<< Turn " + turnNumber + " >> : " + message);
+        return message;
+    }
+
+    public static ArrayList<String> getNotificationHistory() {
+        return notificationHistory;
     }
 }

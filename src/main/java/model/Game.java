@@ -67,4 +67,8 @@ public class Game {
         selectedCivilization = civilizations.get(turn % civilizations.size());
         selectedCivilization.adjustVisibility();
     }
+
+    public int getTurnNumber(){
+        return turn;
+    }
 }
