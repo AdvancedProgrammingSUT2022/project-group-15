@@ -359,7 +359,7 @@ public class GameMenuController {
             }
             System.out.println("");
         }
-        return "print map successfully";
+        return Controller.addNotification(Game.getGame().getTurnNumber(),"print map successfully");
     }
 
     private void fillHexWithInfo(String[][] printMap, int x, int y, int mapArrayX, int mapArrayY) {
@@ -451,13 +451,13 @@ public class GameMenuController {
     public String moveMap(String directionName, int amount) {
         Direction direction = Direction.getDirectionByName(directionName);
         if (direction == null) {
-            return "invalid direction";
+            return Controller.addNotification(Game.getGame().getTurnNumber(),"invalid direction");
         }
         int x, y;
         x = lastShownMapX + direction.xDiff * amount;
         y = lastShownMapY + direction.yDiff * amount;
         if (!Game.getGame().map.validCoordinateInArray(x, y))
-            return "Cant move";
+            return Controller.addNotification(Game.getGame().getTurnNumber(),"Cant move");
         lastShownMapX = x;
         lastShownMapY = y;
         return Game.getGame().getSelectedCivilization().showMapOn(x, y);
@@ -465,12 +465,11 @@ public class GameMenuController {
 
     public String showMapOnPosition(int x, int y) {
         if (!Game.getGame().map.validCoordinateInArray(x, y))
-            return "Coordinate not valid";
+            return Controller.addNotification(Game.getGame().getTurnNumber(),"Coordinate not valid");
 
         lastShownMapX = x;
         lastShownMapY = y;
         return Game.getGame().getSelectedCivilization().showMapOn(x, y);
-
     }
 
     public String showMapOnCity(String cityName) {
@@ -485,6 +484,7 @@ public class GameMenuController {
                     else {
                         lastShownMapX = xOfCity;
                         lastShownMapY = yOfCity;
+                        Controller.addNotification(Game.getGame().getTurnNumber(), "map showed successfully");
                         return Game.getGame().getSelectedCivilization().showMapOn(xOfCity, yOfCity);
                     }
                 }
