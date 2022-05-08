@@ -20,7 +20,7 @@ public class GameMenuController {
         }
         Game.getGame().nextTurn();
         selectedUnit = null;
-        return Controller.addNotification(Game.getGame().getTurnNumber(),"change turn done");
+        return Controller.addNotification(Game.getGame().getTurnNumber(),"change turn done \nIt's now your turn + " + Game.getGame().getSelectedCivilization().getUser().getNickname() + "!");
     }
 
     /**
