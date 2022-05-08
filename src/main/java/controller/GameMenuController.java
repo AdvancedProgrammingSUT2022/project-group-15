@@ -71,7 +71,7 @@ public class GameMenuController {
     }
 
     public String showUnitsPanel() {
-        // TODO : implement
+
         return null;
     }
 
@@ -449,6 +449,8 @@ public class GameMenuController {
 
 
     public String moveMap(String directionName, int amount) {
+        if (directionName.equals("null"))
+            return Game.getGame().getSelectedCivilization().showMapOn(lastShownMapX, lastShownMapY);
         Direction direction = Direction.getDirectionByName(directionName);
         if (direction == null) {
             return Controller.addNotification(Game.getGame().getTurnNumber(),"invalid direction");

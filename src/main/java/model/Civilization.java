@@ -89,7 +89,6 @@ public class Civilization {
             Game.getGame().map.map.get(unit.getCoordinatesInMap().get('x') / 2).get(unit.getCoordinatesInMap().get('y')).setMilitaryUnit(null);
         Civilization owner = unit.getOwner();
         units.remove(unit);
-        owner.adjustVisibility();
 
     }
 
@@ -198,7 +197,7 @@ public class Civilization {
         this.sciencePerTurn = sciencePerTurn;
     }
 
-    private int adjust(int xOry, boolean forX) {
+    private int adjustXAndY(int xOry, boolean forX) {
         if (!forX & xOry % 2 == 1)
             xOry -= 1;
         int ans = xOry - 2;
@@ -218,8 +217,9 @@ public class Civilization {
     }
 
     public String showMapOn(int xOfCenter, int yOfCenter) {
-        int adjustedXOfUp = adjust(xOfCenter, true);
-        int adjustedYOfLeft = adjust(yOfCenter, false);
+        this.adjustVisibility();
+        int adjustedXOfUp = adjustXAndY(xOfCenter, true);
+        int adjustedYOfLeft = adjustXAndY(yOfCenter, false);
         System.out.println("x:" + adjustedXOfUp + " y:" + adjustedYOfLeft);
         String[][] printMap = new String[60][120];
         for (int i = 0; i < 60; i++) {
@@ -252,14 +252,22 @@ public class Civilization {
             }
             ans.append("\n");
         }
+        ans.append(GlobalThings.RESET);
         return ans.toString();
     }
 
     private void fillHexWithInfo(String[][] printMap, int x, int y, int mapArrayX, int mapArrayY) {
         preliminaryInfo(printMap, x, y, mapArrayX, mapArrayY);
+
+
         if (this.visibilityMap.map.get(mapArrayX).get(mapArrayY).getHexVisibility().equals(HexVisibility.FOG_OF_WAR))
             return;
 
+        if (this.visibilityMap.map.get(mapArrayX).get(mapArrayY).getCity()!= null) {
+            System.out.println("ppppppppppppp");
+            replaceText(printMap, x, y, -3, "CTY",
+                    this.visibilityMap.map.get(mapArrayX).get(mapArrayY).getCity().getName().substring(0, 3), GlobalThings.BLUE);
+        }
 
         if (!this.visibilityMap.map.get(mapArrayX).get(mapArrayY).getHexVisibility().equals(HexVisibility.DETERMINED)) {
             if (this.visibilityMap.map.get(mapArrayX).get(mapArrayY).getCivilUnit() == null) {
@@ -333,6 +341,7 @@ public class Civilization {
         printMap[x - 3][y + 2] = "";
         printMap[x - 3][y - 2] = GlobalThings.BLUE + String.format("%02d", mapArrayX);
         printMap[x - 3][y + 1] = String.format("%02d", mapArrayY);
+
     }
 
     private void replaceText(String[][] map, int x, int y, int xDiff, String firstThree, String secondThree, String color) {
