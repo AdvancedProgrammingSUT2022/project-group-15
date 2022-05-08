@@ -11,10 +11,10 @@ public class Hex {
     private Terrain terrain;
     private Feature feature;
     private Resource resource;
-    private Improvement improvement;
+    private Improvement improvement = Improvement.Null;
     private boolean hasDestroyedImprovement;
     private int percentOfBuildingImprovement;
-    private boolean isAnyCitizenWorking;
+    private boolean isAnyCitizenWorking= false;
     private int movementPrice;
     private boolean hasRiver;
     private boolean hasRoad;
@@ -147,6 +147,22 @@ public class Hex {
 
     public void setFeature(Feature feature) {
         this.feature = feature;
+    }
+
+    public Improvement getImprovement() {
+        return improvement;
+    }
+
+    public void setImprovement(Improvement improvement) {
+        this.improvement = improvement;
+    }
+
+    public boolean isAnyCitizenWorking() {
+        return isAnyCitizenWorking;
+    }
+
+    public void setAnyCitizenWorking(boolean anyCitizenWorking) {
+        isAnyCitizenWorking = anyCitizenWorking;
     }
 
     public boolean isHasRoad() {

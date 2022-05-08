@@ -4,9 +4,7 @@ import enums.*;
 import model.*;
 
 import model.unit.*;
-import view.GameMenu;
 
-import javax.print.attribute.standard.NumberUp;
 import java.util.ArrayList;
 
 public class GameMenuController {
@@ -23,6 +21,9 @@ public class GameMenuController {
         }
         for (Unit unit : Game.getGame().getSelectedCivilization().getUnits()) {
             unit.resetMovement();
+        }
+        for (City city : Game.getGame().getSelectedCivilization().getCities()) {
+            city.moveToNextTurn();
         }
         Game.getGame().nextTurn();
         selectedUnit = null;
@@ -184,7 +185,7 @@ public class GameMenuController {
                 "\nowner : " + selectedCity.getOwner().getUser().getNickname() +
                 "\nhealth percent : " + selectedCity.getCityUnit().getNowHealth() * 100 / selectedCity.getCityUnit().getTotalHealth() +
                 "\nnumber of citizens" + selectedCity.getNumberOfCitizen() +
-                "\nbuilding unit : " + selectedCity.getProgresssUnit().name() +
+                "\nbuilding unit : " + selectedCity.getProgressUnit().name() +
                 "\ngold per turn : " + selectedCity.getGoldPerTurn() +
                 "\nscience per turn : " + selectedCity.getSciencePerTurn() +
                 "\nproduction per turn : " + selectedCity.getProductionPerTurn();
@@ -272,7 +273,7 @@ public class GameMenuController {
             return;
         }
         city.setRemainedTurns(unitName.getTurn());
-        city.setProgresssUnit(unitName);
+        city.setProgressUnit(unitName);
         civilization.payMoney(unitName.getCost());
     }
 
@@ -307,7 +308,7 @@ public class GameMenuController {
     }
 
     public static void spawnUnit(City city) {
-        UnitName unitName = city.getProgresssUnit();
+        UnitName unitName = city.getProgressUnit();
         for (Hex hex : city.getCityHexes()) {
             if ((unitName.getCombatType().equals("Civilian") && hex.getUnMilitaryUnit() == null) ||
                     (!unitName.getCombatType().equals("Civilian") && hex.getMilitary() == null)) {

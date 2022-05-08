@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public enum Improvement {
+    Null("null", 0,0,0,new ArrayList<>(),new ArrayList<>()),
     CAMP("camp", 0, 0, 0,
             new ArrayList<>(Arrays.asList(Terrain.TUNDRA, Terrain.PLAIN, Terrain.HILL)), new ArrayList<>(Arrays.asList(Feature.JUNGLE))),
     FARM("farm", 1, 0, 0,

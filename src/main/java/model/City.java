@@ -13,16 +13,7 @@ public class City {
     private Civilization owner;
     private int neededProduction;
     private int remainedTurns;
-    private UnitName progresssUnit;
-
-    public UnitName getProgresssUnit() {
-        return progresssUnit;
-    }
-
-    public void setProgresssUnit(UnitName progresssUnit) {
-        this.progresssUnit = progresssUnit;
-    }
-
+    private UnitName progressUnit;
     private Unit unitInProgress;
     private int numberOfCitizen;
     private HashMap<Character, Integer> coordinatesOfCenterInArray = new HashMap<>();
@@ -41,10 +32,18 @@ public class City {
         this.cityHexes.add(Game.getGame().map.map.get(x).get(y));
 
         for (NeighborHex neighborHex : NeighborHex.values()) {
-            this.cityHexes.add(Game.getGame().map.map.get((2*x+y%2+neighborHex.xDiff)/2).get(y+neighborHex.yDiff));
+            this.cityHexes.add(Game.getGame().map.map.get((2 * x + y % 2 + neighborHex.xDiff) / 2).get(y + neighborHex.yDiff));
         }
 
         Game.getGame().map.map.get(x).get(y).setCity(this);
+    }
+
+    public UnitName getProgressUnit() {
+        return progressUnit;
+    }
+
+    public void setProgressUnit(UnitName progressUnit) {
+        this.progressUnit = progressUnit;
     }
 
     public ArrayList<Hex> getCityHexes() {
@@ -154,4 +153,23 @@ public class City {
     public void setCityUnit(RangedMilitary cityUnit) {
         this.cityUnit = cityUnit;
     }
+
+    private int calculateGoldPerTurn() {
+        int ans = 0;
+        for (Hex hex : cityHexes) {
+            if (hex.isAnyCitizenWorking())
+                ans += hex.getTerrain().gold + hex.getResource().gold + hex.getFeature().gold + hex.getImprovement().gold;
+        }
+        return ans;
+    }
+
+    public void moveToNextTurn() {
+        sciencePerTurn = 0;
+        productionPerTurn = 0;
+        goldPerTurn = calculateGoldPerTurn();
+        foodPerTurn = 0;
+
+    }
+
+
 }
