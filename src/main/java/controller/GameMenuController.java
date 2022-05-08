@@ -74,13 +74,23 @@ public class GameMenuController {
     }
 
     public String showUnitsPanel() {
-
-        return null;
+        String message = "";
+        int number = 1;
+        for (Unit unit : Game.getGame().getSelectedCivilization().getUnits()) {
+            message += number + ") name:" + unit.getName().name() + " x:" + unit.getCoordinatesInMap().get('x') / 2 +
+                    " y:" + unit.getCoordinatesInMap().get('y') + " health percent:" + unit.getNowHealth() * 100 / unit.getTotalHealth();
+            message += "\n";
+        }
+        return message;
     }
 
     public String showCitiesPanel() {
-        // TODO : implement
-        return null;
+        String message = "";
+        for (City city : Game.getGame().getSelectedCivilization().getCities()) {
+            message += cityInfo(city);
+            message += "\n";
+        }
+        return message;
     }
 
     public String showDiplomacyPanel() {
@@ -158,7 +168,7 @@ public class GameMenuController {
             for (City city : civilization.getCities()) {
                 if (city.getName().equals(cityName)) {
                     selectedCity = city;
-                    return Controller.addNotification(Game.getGame().getTurnNumber(), cityInfo());
+                    return Controller.addNotification(Game.getGame().getTurnNumber(), cityInfo(selectedCity));
                 }
             }
         }
@@ -173,18 +183,19 @@ public class GameMenuController {
         if (Game.getGame().map.map.get(x).get(y).getCity() == null)
             return Controller.addNotification(Game.getGame().getTurnNumber(), "here isn't a city!");
         selectedCity = Game.getGame().map.map.get(x).get(y).getCity();
-        return Controller.addNotification(Game.getGame().getTurnNumber(), cityInfo());
+        return Controller.addNotification(Game.getGame().getTurnNumber(), cityInfo(selectedCity));
     }
 
-    private String cityInfo() {
-        String message = "city selected!" + "\nname : " + selectedCity.getName() +
-                "\nowner : " + selectedCity.getOwner().getUser().getNickname() +
-                "\nhealth percent : " + selectedCity.getCityUnit().getNowHealth() * 100 / selectedCity.getCityUnit().getTotalHealth() +
-                "\nnumber of citizens" + selectedCity.getNumberOfCitizen() +
-                "\nbuilding unit : " + selectedCity.getProgressUnit().name() +
-                "\ngold per turn : " + selectedCity.getGoldPerTurn() +
-                "\nscience per turn : " + selectedCity.getSciencePerTurn() +
-                "\nproduction per turn : " + selectedCity.getProductionPerTurn();
+    private String cityInfo(City city) {
+        String message = "city selected!" + "\nname : " + city.getName() +
+                "\nowner : " + city.getOwner().getUser().getNickname() +
+                "\nhealth percent : " + city.getCityUnit().getNowHealth() * 100 / selectedCity.getCityUnit().getTotalHealth() +
+                "\nnumber of citizens" + city.getNumberOfCitizen() +
+                "\nbuilding unit : " + city.getProgressUnit().name() +
+                "\ngold per turn : " + city.getGoldPerTurn() +
+                "\nscience per turn : " + city.getSciencePerTurn() +
+                "\nproduction per turn : " + city.getProductionPerTurn() +
+                "\nfood per turn : " + city.getFoodPerTurn();
         return message;
     }
 
@@ -519,31 +530,44 @@ public class GameMenuController {
 
         return Controller.addNotification(Game.getGame().getTurnNumber(), "No city with this name");
     }
-    public String LockCitizenToHex(int x , int y){
+
+    public String LockCitizenToHex(int x, int y) {
         if (!Game.getGame().map.validCoordinateInArray(x, y))
             return Controller.addNotification(Game.getGame().getTurnNumber(), "Coordinate not valid");
         if (selectedCity == null)
             return Controller.addNotification(Game.getGame().getTurnNumber(), "no city is selected");
         if (!selectedCity.getOwner().equals(Game.getGame().getSelectedCivilization()))
             return Controller.addNotification(Game.getGame().getTurnNumber(), "city not yours");
-        if (Game.getGame().map.map.get(x).get(y).getCity().equals(selectedCity)){
+        if (Game.getGame().map.map.get(x).get(y).getCity().equals(selectedCity))
             return Controller.addNotification(Game.getGame().getTurnNumber(), "hex not in this city");
 
-        if (selectedCity.getUnemployedCitizens()== 0)
+        if (selectedCity.getUnemployedCitizens() == 0)
             return Controller.addNotification(Game.getGame().getTurnNumber(), "no unemployed citizen");
         if (Game.getGame().map.map.get(x).get(y).isAnyCitizenWorking())
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "tile is being worked");
 
-
+        ///lock
+        // TODO: 5/9/2022  
+        return Controller.addNotification(Game.getGame().getTurnNumber(), "done! citizen is working");
 
     }
-    public String removeCitizenFromWork(int x ,int y){
+
+    public String removeCitizenFromWork(int x, int y) {
         if (!Game.getGame().map.validCoordinateInArray(x, y))
             return Controller.addNotification(Game.getGame().getTurnNumber(), "Coordinate not valid");
         if (selectedCity == null)
             return Controller.addNotification(Game.getGame().getTurnNumber(), "no city is selected");
         if (!selectedCity.getOwner().equals(Game.getGame().getSelectedCivilization()))
             return Controller.addNotification(Game.getGame().getTurnNumber(), "city not yours");
+        if (Game.getGame().map.map.get(x).get(y).getCity().equals(selectedCity))
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "hex not in this city");
 
+        if (!Game.getGame().map.map.get(x).get(y).isAnyCitizenWorking())
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "tile is not being worked");
+
+        //unlock
+        // TODO: 5/9/2022  
+        return Controller.addNotification(Game.getGame().getTurnNumber(), "done! citizen is not working any more");
     }
 
     // TODO : implement removing Swamp ( that requires Masonry Technology )
