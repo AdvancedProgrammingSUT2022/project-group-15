@@ -42,8 +42,6 @@ public class Civilization {
         }
         sciencePerTurn = calculateSciencePerTurn();
         goldStorage += calculateGoldPerTurn();
-        //unit ha inja va avaz shodan turn monde
-        //TODO
 
     }
 
@@ -66,14 +64,17 @@ public class Civilization {
     }
 
     private int calculateGoldPerTurn() {
-        // TODO : implement
-        return 0;
+        int ans = 0;
+        for (City city : cities) {
+            ans+= city.getGoldPerTurn();
+        }
+        return ans;
     }
 
     private int calculateSciencePerTurn() {
         int result = 0;
         for (City city : cities) {
-            result += city.getNumberOfCitizen();
+            result += city.getSciencePerTurn();
         }
         result += 3; // for capital
         return result;

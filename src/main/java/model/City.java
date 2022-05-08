@@ -24,6 +24,7 @@ public class City {
     private int sciencePerTurn;
     private final ArrayList<Hex> cityHexes = new ArrayList<>();
     private RangedMilitary cityUnit;
+    private int unemployedCitizens=0;
 
     public City(String name, int x, int y) {
         this.name = name;
@@ -36,6 +37,14 @@ public class City {
         }
 
         Game.getGame().map.map.get(x).get(y).setCity(this);
+    }
+
+    public int getUnemployedCitizens() {
+        return unemployedCitizens;
+    }
+
+    public void setUnemployedCitizens(int unemployedCitizens) {
+        this.unemployedCitizens = unemployedCitizens;
     }
 
     public UnitName getProgressUnit() {
@@ -197,6 +206,12 @@ public class City {
         productionPerTurn = calculateProductionPerTurn();
         goldPerTurn = calculateGoldPerTurn();
         foodPerTurn = calculateFoodPerTurn();
+        sciencePerTurn = numberOfCitizen;
+
+
+        foodStorage+=foodPerTurn;
+        neededProduction-=productionPerTurn;
+        // TODO: 5/9/2022 production done? new citizen or starve
 
     }
 

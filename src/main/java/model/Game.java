@@ -5,6 +5,7 @@ import enums.Feature;
 import enums.NeighborHex;
 import enums.Resource;
 import enums.Terrain;
+import model.unit.Unit;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -61,6 +62,12 @@ public class Game {
 
 
     public void nextTurn() {
+        for (Unit unit : Game.getGame().getSelectedCivilization().getUnits()) {
+            unit.resetMovement();
+        }
+        for (City city : Game.getGame().getSelectedCivilization().getCities()) {
+            city.moveToNextTurn();
+        }
         selectedCivilization.nextTurn();
         turn++;
         selectedCivilization = civilizations.get(turn % civilizations.size());

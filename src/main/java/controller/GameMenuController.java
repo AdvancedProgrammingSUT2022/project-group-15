@@ -19,14 +19,10 @@ public class GameMenuController {
                 return Controller.addNotification(Game.getGame().getTurnNumber()
                         , "some Units Need Command in x: " + unit.getCoordinatesInMap().get('x') / 2 + " y: " + unit.getCoordinatesInMap().get('y'));
         }
-        for (Unit unit : Game.getGame().getSelectedCivilization().getUnits()) {
-            unit.resetMovement();
-        }
-        for (City city : Game.getGame().getSelectedCivilization().getCities()) {
-            city.moveToNextTurn();
-        }
+
         Game.getGame().nextTurn();
         selectedUnit = null;
+        selectedCity = null;
         return Controller.addNotification(Game.getGame().getTurnNumber(), "change turn done \nIt's now your turn " + Game.getGame().getSelectedCivilization().getUser().getNickname() + "!");
     }
 
@@ -523,7 +519,32 @@ public class GameMenuController {
 
         return Controller.addNotification(Game.getGame().getTurnNumber(), "No city with this name");
     }
+    public String LockCitizenToHex(int x , int y){
+        if (!Game.getGame().map.validCoordinateInArray(x, y))
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "Coordinate not valid");
+        if (selectedCity == null)
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "no city is selected");
+        if (!selectedCity.getOwner().equals(Game.getGame().getSelectedCivilization()))
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "city not yours");
+        if (Game.getGame().map.map.get(x).get(y).getCity().equals(selectedCity)){
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "hex not in this city");
 
+        if (selectedCity.getUnemployedCitizens()== 0)
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "no unemployed citizen");
+        if (Game.getGame().map.map.get(x).get(y).isAnyCitizenWorking())
+
+
+
+    }
+    public String removeCitizenFromWork(int x ,int y){
+        if (!Game.getGame().map.validCoordinateInArray(x, y))
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "Coordinate not valid");
+        if (selectedCity == null)
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "no city is selected");
+        if (!selectedCity.getOwner().equals(Game.getGame().getSelectedCivilization()))
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "city not yours");
+
+    }
 
     // TODO : implement removing Swamp ( that requires Masonry Technology )
 }
