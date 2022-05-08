@@ -4,6 +4,7 @@ import enums.*;
 import model.*;
 
 import model.unit.*;
+import view.GameMenu;
 
 import javax.print.attribute.standard.NumberUp;
 import java.util.ArrayList;
@@ -16,11 +17,16 @@ public class GameMenuController {
 
     public String changeTurn() {
         for (Unit unit : Game.getGame().getSelectedCivilization().getUnits()) {
-            if (unit.needsCommand()) return Controller.addNotification(Game.getGame().getTurnNumber(), "some Units Need Command");
+            if (unit.needsCommand())
+                return Controller.addNotification(Game.getGame().getTurnNumber()
+                        , "some Units Need Command in x: " + unit.getCoordinatesInMap().get('x') / 2 + " y: " + unit.getCoordinatesInMap().get('y'));
+        }
+        for (Unit unit : Game.getGame().getSelectedCivilization().getUnits()) {
+            unit.resetMovement();
         }
         Game.getGame().nextTurn();
         selectedUnit = null;
-        return Controller.addNotification(Game.getGame().getTurnNumber(),"change turn done \nIt's now your turn + " + Game.getGame().getSelectedCivilization().getUser().getNickname() + "!");
+        return Controller.addNotification(Game.getGame().getTurnNumber(), "change turn done \nIt's now your turn " + Game.getGame().getSelectedCivilization().getUser().getNickname() + "!");
     }
 
     /**
@@ -59,15 +65,15 @@ public class GameMenuController {
         }
 
         if (technology == null) {
-            return Controller.addNotification(Game.getGame().getTurnNumber(),"Invalid technology name!");
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "Invalid technology name!");
         }
 
         if (!Game.getGame().getSelectedCivilization().getAvailableTechnologies().contains(technology)) {
-            return Controller.addNotification(Game.getGame().getTurnNumber(),"This technology is not available for you! (Open prerequisites first)");
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "This technology is not available for you! (Open prerequisites first)");
         }
 
         Game.getGame().getSelectedCivilization().setTechnologyInProgress(technology);
-        return Controller.addNotification(Game.getGame().getTurnNumber(),technologyName + " activated! (is your technology in progress)");
+        return Controller.addNotification(Game.getGame().getTurnNumber(), technologyName + " activated! (is your technology in progress)");
     }
 
     public String showUnitsPanel() {
@@ -101,7 +107,7 @@ public class GameMenuController {
         for (String message : Controller.getNotificationHistory()) {
             history.append("\n").append(message);
         }
-        return Controller.addNotification(Game.getGame().getTurnNumber(),history.toString());
+        return Controller.addNotification(Game.getGame().getTurnNumber(), history.toString());
     }
 
     public String showMilitaryPanel() {
@@ -120,70 +126,85 @@ public class GameMenuController {
     }
 
     public String selectMilitaryUnit(int x, int y) {
-        if (!Game.getGame().getSelectedCivilization().getVisibilityMap().validCoordinateInArray(x, y)) {
-            return Controller.addNotification(Game.getGame().getTurnNumber(),"not valid coordinate");
+        if (!Game.getGame().map.validCoordinateInArray(x, y)) {
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "not valid coordinate");
         }
-        if (Game.getGame().getSelectedCivilization().getVisibilityMap().map.get(x).get(y).getMilitaryUnit() == null)
-            return Controller.addNotification(Game.getGame().getTurnNumber(),"no unit here");
-        if (!Game.getGame().getSelectedCivilization().getVisibilityMap().map.get(x).get(y).getMilitaryUnit().getOwner().
-                equals(Game.getGame().getSelectedCivilization()))
-            return Controller.addNotification(Game.getGame().getTurnNumber(),"unit is not yours");
-        selectedUnit = Game.getGame().getSelectedCivilization().getVisibilityMap().map.get(x).get(y).getMilitaryUnit();
-        return Controller.addNotification(Game.getGame().getTurnNumber(),"military unit selected!");
+        if (Game.getGame().map.map.get(x).get(y).getMilitaryUnit() == null)
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "no unit here");
+
+        selectedUnit = Game.getGame().map.map.get(x).get(y).getMilitaryUnit();
+        String message = "unit selected!" + "\nowner : " + selectedUnit.getOwner().getUser().getNickname() +
+                "\nname : " + selectedUnit.getName() +
+                "\nhealth percent : " + selectedUnit.getNowHealth() * 100 / selectedUnit.getTotalHealth();
+
+        return Controller.addNotification(Game.getGame().getTurnNumber(), message);
     }
 
     public String selectCivilUnit(int x, int y) {
-        if (!Game.getGame().getSelectedCivilization().getVisibilityMap().validCoordinateInArray(x, y)) {
-            return Controller.addNotification(Game.getGame().getTurnNumber(),"not valid coordinate");
+        if (!Game.getGame().map.validCoordinateInArray(x, y)) {
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "not valid coordinate");
         }
-        if (Game.getGame().getSelectedCivilization().getVisibilityMap().map.get(x).get(y).getCivilUnit() == null)
-            return Controller.addNotification(Game.getGame().getTurnNumber(),"no unit here");
-        if (!Game.getGame().getSelectedCivilization().getVisibilityMap().map.get(x).get(y).getCivilUnit().getOwner().
-                equals(Game.getGame().getSelectedCivilization()))
-            return Controller.addNotification(Game.getGame().getTurnNumber(),"unit is not yours");
-        selectedUnit = Game.getGame().getSelectedCivilization().getVisibilityMap().map.get(x).get(y).getCivilUnit();
-        return Controller.addNotification(Game.getGame().getTurnNumber(),"civil unit selected!");
+        if (Game.getGame().map.map.get(x).get(y).getCivilUnit() == null)
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "no unit here");
+
+        selectedUnit = Game.getGame().map.map.get(x).get(y).getCivilUnit();
+        String message = "unit selected!" + "\nowner : " + selectedUnit.getOwner().getUser().getNickname() +
+                "\nname : " + selectedUnit.getName() +
+                "\nhealth percent : " + selectedUnit.getNowHealth() * 100 / selectedUnit.getTotalHealth();
+
+        return Controller.addNotification(Game.getGame().getTurnNumber(), message);
     }
 
     public String selectCity(String cityName) {
 
-        for (City city : Game.getGame().getSelectedCivilization().getCities()) {
-            if (city.getName().equals(cityName)) {
-                selectedCity = city;
-                return Controller.addNotification(Game.getGame().getTurnNumber(),"city selected!");
+        for (Civilization civilization : Game.getGame().getCivilizations()) {
+            for (City city : civilization.getCities()) {
+                if (city.getName().equals(cityName)) {
+                    selectedCity = city;
+                    return Controller.addNotification(Game.getGame().getTurnNumber(), cityInfo());
+                }
             }
         }
-        return Controller.addNotification(Game.getGame().getTurnNumber(),"you have no city with this name!");
+        return Controller.addNotification(Game.getGame().getTurnNumber(), "you have no city with this name!");
     }
 
     public String selectCity(int x, int y) {
         if (!Game.getGame().getSelectedCivilization().getVisibilityMap().validCoordinateInArray(x, y)) {
-            return Controller.addNotification(Game.getGame().getTurnNumber(),"invalid coordinates!");
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "invalid coordinates!");
         }
 
-        for (City city : Game.getGame().getSelectedCivilization().getCities()) {
-            if (city.getCoordinatesOfCenterInArray().get('x') == x & city.getCoordinatesOfCenterInArray().get('y') == y) {
-                selectedCity = city;
-                return Controller.addNotification(Game.getGame().getTurnNumber(),"city selected!");
-            }
-        }
-        return Controller.addNotification(Game.getGame().getTurnNumber(),"here isn't a city!");
+        if (Game.getGame().map.map.get(x).get(y).getCity() == null)
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "here isn't a city!");
+        selectedCity = Game.getGame().map.map.get(x).get(y).getCity();
+        return Controller.addNotification(Game.getGame().getTurnNumber(), cityInfo());
+    }
+
+    private String cityInfo() {
+        String message = "city selected!" + "\nname : " + selectedCity.getName() +
+                "\nowner : " + selectedCity.getOwner().getUser().getNickname() +
+                "\nhealth percent : " + selectedCity.getCityUnit().getNowHealth() * 100 / selectedCity.getCityUnit().getTotalHealth() +
+                "\nnumber of citizens" + selectedCity.getNumberOfCitizen() +
+                "\nbuilding unit : " + selectedCity.getProgresssUnit().name() +
+                "\ngold per turn : " + selectedCity.getGoldPerTurn() +
+                "\nscience per turn : " + selectedCity.getSciencePerTurn() +
+                "\nproduction per turn : " + selectedCity.getProductionPerTurn();
+        return message;
     }
 
     public String moveSelectedUnitTo(int x, int y) {
         if (selectedUnit == null)
-            return Controller.addNotification(Game.getGame().getTurnNumber(),"no selected unit");
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "no selected unit");
         if (!selectedUnit.getOwner().equals(Game.getGame().getSelectedCivilization())) {
-            return Controller.addNotification(Game.getGame().getTurnNumber(),"unit not yours");
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "unit not yours");
         }
         int distance = selectedUnit.findShortestPathByDijkstra(x, y);
         if (distance > 999999) {
-            return Controller.addNotification(Game.getGame().getTurnNumber(),"cant go to destination (mountain or ice or sea) or blocked by other units");
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "cant go to destination (mountain or ice or sea) or blocked by other units");
         }
         selectedUnit.doPlanedMovement();
         if (selectedUnit.getPlanedToGo() == null)
-            return Controller.addNotification(Game.getGame().getTurnNumber(),"unit moved successfully");
-        return Controller.addNotification(Game.getGame().getTurnNumber(),"planed move will be done");
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "unit moved successfully");
+        return Controller.addNotification(Game.getGame().getTurnNumber(), "planed move will be done");
     }
 
     public String sleepSelectedUnit() {
@@ -217,15 +238,17 @@ public class GameMenuController {
     }
 
     public String foundCity() {
-        if(selectedUnit ==null)
-            return Controller.addNotification(Game.getGame().getTurnNumber(),"please select a unit first");
-        if (! (selectedUnit instanceof SettlerUnit) )
-            return Controller.addNotification(Game.getGame().getTurnNumber(),"selected unit is not a settler");
-        if (Game.getGame().map.map.get(selectedUnit.getCoordinatesInMap().get('x')/2).
+        if (selectedUnit == null)
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "please select a unit first");
+        if (!selectedUnit.getOwner().equals(Game.getGame().getSelectedCivilization()))
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is not yours");
+        if (!(selectedUnit instanceof SettlerUnit))
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "selected unit is not a settler");
+        if (Game.getGame().map.map.get(selectedUnit.getCoordinatesInMap().get('x') / 2).
                 get(selectedUnit.getCoordinatesInMap().get('y')).getCity() != null)
-            return Controller.addNotification(Game.getGame().getTurnNumber(),"cant build city in a city!!!");
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "cant build city in a city!!!");
         ((SettlerUnit) selectedUnit).foundCity();
-        return Controller.addNotification(Game.getGame().getTurnNumber(),"city founded successfully!");
+        return Controller.addNotification(Game.getGame().getTurnNumber(), "city founded successfully!");
     }
 
     public String cancelSelectedUnitMission() {
@@ -277,10 +300,10 @@ public class GameMenuController {
 
     public String deleteSelectedUnit() {
         if (selectedUnit == null) {
-            return Controller.addNotification(Game.getGame().getTurnNumber(),"Please Select a unit first!");
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "Please Select a unit first!");
         }
         Game.getGame().getSelectedCivilization().deleteUnit(selectedUnit, true);
-        return Controller.addNotification(Game.getGame().getTurnNumber(),"Unit Deleted Successfully");
+        return Controller.addNotification(Game.getGame().getTurnNumber(), "Unit Deleted Successfully");
     }
 
     public static void spawnUnit(City city) {
@@ -303,7 +326,7 @@ public class GameMenuController {
     public String buildImprovement(String improvementName) {
         Improvement improvement = Improvement.getImprovementByName(improvementName);
         if (improvement == null) {
-            return Controller.addNotification(Game.getGame().getTurnNumber(),"invalid improvement");
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "invalid improvement");
         }
 
         // TODO : implement
@@ -311,6 +334,10 @@ public class GameMenuController {
     }
 
     public String removeJungle() {
+        if (selectedUnit == null)
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "please select a unit first");
+        if (!(selectedUnit instanceof WorkerUnit))
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "selected unit is not a worker");
         // remove dense-forests requires Bronze-Working Technology
         // remove jungles requires Mining Technology
         // TODO : implement
@@ -359,7 +386,7 @@ public class GameMenuController {
             }
             System.out.println("");
         }
-        return Controller.addNotification(Game.getGame().getTurnNumber(),"print map successfully");
+        return Controller.addNotification(Game.getGame().getTurnNumber(), "print map successfully");
     }
 
     private void fillHexWithInfo(String[][] printMap, int x, int y, int mapArrayX, int mapArrayY) {
@@ -453,13 +480,13 @@ public class GameMenuController {
             return Game.getGame().getSelectedCivilization().showMapOn(lastShownMapX, lastShownMapY);
         Direction direction = Direction.getDirectionByName(directionName);
         if (direction == null) {
-            return Controller.addNotification(Game.getGame().getTurnNumber(),"invalid direction");
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "invalid direction");
         }
         int x, y;
         x = lastShownMapX + direction.xDiff * amount;
         y = lastShownMapY + direction.yDiff * amount;
         if (!Game.getGame().map.validCoordinateInArray(x, y))
-            return Controller.addNotification(Game.getGame().getTurnNumber(),"Cant move");
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "Cant move");
         lastShownMapX = x;
         lastShownMapY = y;
         return Game.getGame().getSelectedCivilization().showMapOn(x, y);
@@ -467,7 +494,7 @@ public class GameMenuController {
 
     public String showMapOnPosition(int x, int y) {
         if (!Game.getGame().map.validCoordinateInArray(x, y))
-            return Controller.addNotification(Game.getGame().getTurnNumber(),"Coordinate not valid");
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "Coordinate not valid");
 
         lastShownMapX = x;
         lastShownMapY = y;
@@ -493,7 +520,7 @@ public class GameMenuController {
             }
         }
 
-        return Controller.addNotification(Game.getGame().getTurnNumber(),"No city with this name");
+        return Controller.addNotification(Game.getGame().getTurnNumber(), "No city with this name");
     }
 
 

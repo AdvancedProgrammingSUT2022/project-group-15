@@ -23,16 +23,27 @@ public abstract class Unit {
     protected int meleePower;//add to constructor
 
     public Unit(int x, int y, Civilization owner, int movementSpeed, int totalHealth, UnitName name) {
+        // TODO: 5/8/2022 use unitname for adding info 
         coordinatesInMap.put('x', x * 2 + y % 2);
         coordinatesInMap.put('y', y);
         this.owner = owner;
-        this.movementSpeed = movementSpeed;
+        this.movementSpeed = name.getMovement();
+        this.remainingMovement = this.movementSpeed;
         this.totalHealth = totalHealth;
         this.name = name;
         if (this instanceof CivilUnit)
             Game.getGame().map.map.get(x).get(y).setCivilUnit((CivilUnit) this);
         else
             Game.getGame().map.map.get(x).get(y).setMilitaryUnit((MilitaryUnit) this);
+        owner.getUnits().add(this);
+    }
+
+    public int getNowHealth() {
+        return nowHealth;
+    }
+
+    public int getTotalHealth() {
+        return totalHealth;
     }
 
     public Civilization getOwner() {
@@ -53,7 +64,7 @@ public abstract class Unit {
 
     public void doPlanedMovement() {
         Hex nextHex;
-        while (remainingMovement > 0 || !PlanedToGo.isEmpty()) {
+        while (remainingMovement > 0 && !PlanedToGo.isEmpty()) {
             nextHex = PlanedToGo.get(0);
             moveToHex(nextHex.getCoordinatesInArray().get('x'), nextHex.getCoordinatesInArray().get('y'));
             PlanedToGo.remove(0);
@@ -69,8 +80,8 @@ public abstract class Unit {
             Game.getGame().map.map.get(this.coordinatesInMap.get('x') / 2).get(this.coordinatesInMap.get('y')).setCivilUnit(null);
         }
 
-        this.coordinatesInMap.replace('x', x);
-        this.coordinatesInMap.replace('y', 2 * y + x % 2);
+        this.coordinatesInMap.replace('y', y);
+        this.coordinatesInMap.replace('x', 2 * x + y % 2);
         this.remainingMovement -= Game.getGame().map.map.get(this.coordinatesInMap.get('x') / 2).get(this.coordinatesInMap.get('y')).getMovementPrice();
 
         if (this instanceof MilitaryUnit) {
@@ -133,11 +144,17 @@ public abstract class Unit {
         answer.add(0, Game.getGame().map.map.get(x).get(y));
 
         destinationNode = parent[destinationNode];
+        int maxDepth = 100;
         while (parent[destinationNode] != -1) {
             x = destinationNode / (Game.getGame().getColumns());
             y = destinationNode % (Game.getGame().getColumns());
             answer.add(0, Game.getGame().map.map.get(x).get(y));
             destinationNode = parent[destinationNode];
+            maxDepth--;
+            if (maxDepth<0){
+                PlanedToGo = null;
+                return;
+            }
         }
 
         PlanedToGo = answer;
@@ -189,6 +206,10 @@ public abstract class Unit {
             }
 
         return min_index;
+    }
+
+    public void resetMovement() {
+        this.remainingMovement = this.movementSpeed;
     }
 
     public int getCost() {

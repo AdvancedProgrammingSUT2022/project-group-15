@@ -178,7 +178,6 @@ public class Civilization {
                 break;
         }
         SettlerUnit settlerUnit = new SettlerUnit(xRand, yRand, this, 2, 5, UnitName.SETTLER);
-        units.add(settlerUnit);
     }
 
     public int getScienceStorage() {

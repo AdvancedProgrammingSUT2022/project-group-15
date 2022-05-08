@@ -1,7 +1,9 @@
 import controller.Controller;
 import controller.GameMenuController;
+import enums.UnitName;
 import model.Game;
 import model.User;
+import model.unit.WorkerUnit;
 import view.GameMenu;
 
 import java.util.ArrayList;
@@ -9,15 +11,6 @@ import java.util.SortedMap;
 
 public class Main {
     public static void main(String[] args) {
-        GameMenuController gameMenuController = new GameMenuController();
-        ArrayList<User> users = new ArrayList<>();
-        users.add(new User("","","am"));
-        users.add(new User("","","1"));
-        users.add(new User("","","2"));
-        users.add(new User("","","3"));
-        Game.startNewGame(users);
-        GameMenu gameMenu =new GameMenu();
-        gameMenu.run();
         Controller controller = new Controller();
         controller.run();
     }
