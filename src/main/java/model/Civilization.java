@@ -26,7 +26,7 @@ public class Civilization {
     private int goldStorage = 0;
     private int scienceStorage = 0;
     private int sciencePerTurn = 0;
-    private int happiness = 0;
+    private static int happiness = 0;
 
 
     public Civilization(User user) {
@@ -441,7 +441,7 @@ public class Civilization {
         this.cities = cities;
     }
 
-    public int getHappiness() {
+    public static int getHappiness() {
         return happiness;
     }
 

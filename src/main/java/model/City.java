@@ -154,7 +154,7 @@ public class City {
         this.cityUnit = cityUnit;
     }
 
-    private int calculateGoldPerTurn() {
+    public int calculateGoldPerTurn() {
         int ans = 0;
         for (Hex hex : cityHexes) {
             if (hex.isAnyCitizenWorking())
@@ -163,11 +163,40 @@ public class City {
         return ans;
     }
 
+    public int calculateProductionPerTurn() {
+        int ans = 0;
+        int copyOfNumberOfCitizen = numberOfCitizen;
+        for (Hex hex : cityHexes) {
+            if (hex.isAnyCitizenWorking()) {
+                ans += hex.getTerrain().production + hex.getResource().production + hex.getFeature().production + hex.getImprovement().production;
+                copyOfNumberOfCitizen--;
+            }
+
+        }
+        return ans + copyOfNumberOfCitizen;
+    }
+
+    public int calculateFoodPerTurn() {
+        int ans = 0;
+        for (Hex hex : cityHexes) {
+            if (hex.isAnyCitizenWorking()) {
+                ans += hex.getTerrain().food + hex.getResource().food + hex.getFeature().food + hex.getImprovement().food;
+            }
+        }
+        ans -= 2 * numberOfCitizen;
+        if (Civilization.getHappiness() < 0 && ans > 0) {
+            ans = (int) 2 * ans / 3;
+            return ans;
+        } else if (unitInProgress.getName().equals("Settler") && ans > 0) {
+            return 0;
+        }
+        return ans;
+    }
+
     public void moveToNextTurn() {
-        sciencePerTurn = 0;
-        productionPerTurn = 0;
+        productionPerTurn = calculateProductionPerTurn();
         goldPerTurn = calculateGoldPerTurn();
-        foodPerTurn = 0;
+        foodPerTurn = calculateFoodPerTurn();
 
     }
 
