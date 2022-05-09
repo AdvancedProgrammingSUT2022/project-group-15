@@ -24,7 +24,7 @@ public class City {
     private int sciencePerTurn;
     private final ArrayList<Hex> cityHexes = new ArrayList<>();
     private RangedMilitary cityUnit;
-    private int unemployedCitizens=0;
+    private int unemployedCitizens = 0;
 
     public City(String name, int x, int y) {
         this.name = name;
@@ -209,11 +209,23 @@ public class City {
         sciencePerTurn = numberOfCitizen;
 
 
-        foodStorage+=foodPerTurn;
-        neededProduction-=productionPerTurn;
+        foodStorage += foodPerTurn;
+        neededProduction -= productionPerTurn;
         // TODO: 5/9/2022 production done? new citizen or starve
 
     }
 
+    public void lockCitizenToHex(int x, int y) {
+        if (Game.getGame().map.validCoordinateInArray(x, y) &&
+            !Game.getGame().map.map.get(x).get(y).isAnyCitizenWorking()){
+            unemployedCitizens++;
+        }
+    }
+    public void removeCitizenFromHex(int x, int y) {
+        if (Game.getGame().map.validCoordinateInArray(x, y) &&
+            Game.getGame().map.map.get(x).get(y).isAnyCitizenWorking()){
+            unemployedCitizens--;
+        }
+    }
 
 }
