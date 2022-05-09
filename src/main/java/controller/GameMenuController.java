@@ -291,18 +291,18 @@ public class GameMenuController {
         }
         if (!selectedUnit.getOwner().equals(Game.getGame().getSelectedCivilization()))
             return Controller.addNotification(Game.getGame().getTurnNumber(), "Unit not yours");
-        if(selectedUnit instanceof CivilUnit)
+        if (selectedUnit instanceof CivilUnit)
             return Controller.addNotification(Game.getGame().getTurnNumber(), "Unit is civil!!!");
-        if (Game.getGame().map.map.get(x).get(y).getMilitaryUnit()==null  && Game.getGame().map.map.get(x).get(y).getCivilUnit()==null)
+        if (Game.getGame().map.map.get(x).get(y).getMilitaryUnit() == null && Game.getGame().map.map.get(x).get(y).getCivilUnit() == null)
             return Controller.addNotification(Game.getGame().getTurnNumber(), "no unit in destination");
-        if (!selectedUnit.unitCanAttack(x,y))
+        if (!selectedUnit.unitCanAttack(x, y))
             return Controller.addNotification(Game.getGame().getTurnNumber(), "destination is far");
-        Unit target =  Game.getGame().map.map.get(x).get(y).getMilitaryUnit();
+        Unit target = Game.getGame().map.map.get(x).get(y).getMilitaryUnit();
         if (target == null)
-            target =Game.getGame().map.map.get(x).get(y).getCivilUnit();
+            target = Game.getGame().map.map.get(x).get(y).getCivilUnit();
         if (target.getOwner() == selectedUnit.getOwner())
             return Controller.addNotification(Game.getGame().getTurnNumber(), "you can't attack yourself");
-        ((MilitaryUnit)selectedUnit).attackTo(target);
+        ((MilitaryUnit) selectedUnit).attackTo(target);
 
         // TODO: 5/10/2022  works?
 
@@ -561,6 +561,33 @@ public class GameMenuController {
             return Controller.addNotification(Game.getGame().getTurnNumber(), "not near city");
         selectedCity.buyHex(x, y);
         return Controller.addNotification(Game.getGame().getTurnNumber(), "hex is bought");
+
+    }
+
+    public String buyUnit(UnitName unitName) {
+        if (selectedCity == null)
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "no city is selected");
+        if (!selectedCity.getOwner().equals(Game.getGame().getSelectedCivilization()))
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "city not yours");
+        if (selectedCity.getOwner().getGoldStorage() < unitName.getCost())
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "not enough money");
+        if (unitName.getCombatType().equals("Civilian")) {
+            for (Hex cityHex : selectedCity.getCityHexes()) {
+                if (cityHex.getCivilUnit() != null)
+                    return Controller.addNotification(Game.getGame().getTurnNumber(), "civil unit is full");
+            }
+        }
+        if (!unitName.getCombatType().equals("Civilian")) {
+            for (Hex cityHex : selectedCity.getCityHexes()) {
+                if (cityHex.getMilitaryUnit() != null)
+                    return Controller.addNotification(Game.getGame().getTurnNumber(), "military unit is full");
+            }
+        }
+        //TODO technology check
+        selectedCity.getOwner().setGoldStorage(selectedCity.getOwner().getGoldStorage() - unitName.getCost());
+        selectedCity.createUnitInCity(unitName);
+        return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is bought");
+
 
     }
 

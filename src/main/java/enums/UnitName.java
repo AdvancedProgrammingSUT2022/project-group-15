@@ -5,57 +5,57 @@ import java.util.Arrays;
 
 public enum UnitName {
 
-    NULL(0, "null", 0, 0, 0, 0, null, null),
+    NULL(0, "null", 0, 0, 0, 0, null),
     WORKER(70, "Civilian", 0, 0, 0, 2,
-            new ArrayList<Resource>(), new ArrayList<Technology>()),
+            new ArrayList<Resource>()),
     SETTLER(89, "Civilian", 0, 0, 0, 2,
-            new ArrayList<Resource>(), new ArrayList<Technology>()),
+            new ArrayList<Resource>()),
     ARCHER(70, "Archery", 4, 6, 2, 2,
-            new ArrayList<Resource>(), new ArrayList<Technology>(Arrays.asList(Technology.ARCHERY))),
+            new ArrayList<Resource>()),
     CHARIOTARCHER(60, "Mounted", 3, 6, 2, 4,
-            new ArrayList<Resource>(Arrays.asList(Resource.HORSE)), new ArrayList<Technology>(Arrays.asList(Technology.WHEEL))),
+            new ArrayList<Resource>(Arrays.asList(Resource.HORSE))),
     SCOUT(25, "Recon", 4, 0, 1, 2,
-            new ArrayList<Resource>(), new ArrayList<Technology>()),
+            new ArrayList<Resource>()),
     SPEARMAN(50, "Melee", 7, 0, 1, 2,
-            new ArrayList<Resource>(), new ArrayList<Technology>(Arrays.asList(Technology.BRONZE_WORKING))),
+            new ArrayList<Resource>()),
     WARRIOR(40, "Melee", 6, 0, 1, 2,
-            new ArrayList<Resource>(), new ArrayList<Technology>()),
+            new ArrayList<Resource>()),
     CATAPULT(100, "Siege", 4, 14, 2, 2,
-            new ArrayList<Resource>(Arrays.asList(Resource.IRON)), new ArrayList<Technology>(Arrays.asList(Technology.MATHEMATICS))),
+            new ArrayList<Resource>(Arrays.asList(Resource.IRON))),
     HORSEMAN(80, "Mounted", 12, 0, 1, 4,
-            new ArrayList<Resource>(Arrays.asList(Resource.HORSE)), new ArrayList<Technology>(Arrays.asList(Technology.HORSEBACK_RIDING))),
+            new ArrayList<Resource>(Arrays.asList(Resource.HORSE))),
     SWORDSMAN(80, "Melee", 11, 0, 1, 2,
-            new ArrayList<Resource>(Arrays.asList(Resource.IRON)), new ArrayList<Technology>(Arrays.asList(Technology.IRON_WORKING))),
+            new ArrayList<Resource>(Arrays.asList(Resource.IRON))),
     CROSSBOWMAN(120, "Archery", 6, 12, 2, 2,
-            new ArrayList<Resource>(), new ArrayList<Technology>(Arrays.asList(Technology.MACHINERY))),
+            new ArrayList<Resource>()),
     KNIGHT(150, "Mounted", 18, 0, 1, 3,
-            new ArrayList<Resource>(Arrays.asList(Resource.HORSE)), new ArrayList<Technology>(Arrays.asList(Technology.CHIVALRY))),
+            new ArrayList<Resource>(Arrays.asList(Resource.HORSE))),
     LONGSWORDSMAN(150, "Melee", 18, 0, 1, 3,
-            new ArrayList<Resource>(Arrays.asList(Resource.IRON)), new ArrayList<Technology>(Arrays.asList(Technology.STEEL))),
+            new ArrayList<Resource>(Arrays.asList(Resource.IRON))),
     PIKEMAN(100, "Melee", 10, 0, 1, 2,
-            new ArrayList<Resource>(), new ArrayList<Technology>(Arrays.asList(Technology.CIVIL_SERVICE))),
+            new ArrayList<Resource>()),
     TREBUCHET(170, "Siege", 6, 20, 2, 2,
-            new ArrayList<Resource>(Arrays.asList(Resource.IRON)), new ArrayList<Technology>(Arrays.asList(Technology.PHYSICS))),
+            new ArrayList<Resource>(Arrays.asList(Resource.IRON))),
     CANON(250, "Siege", 10, 26, 2, 2,
-            new ArrayList<Resource>(), new ArrayList<Technology>(Arrays.asList(Technology.CHEMISTRY))),
+            new ArrayList<Resource>()),
     CAVALRY(260, "Mounted", 25, 0, 1, 3,
-            new ArrayList<Resource>(Arrays.asList(Resource.HORSE)), new ArrayList<Technology>(Arrays.asList(Technology.MILITARY_SCIENCE))),
+            new ArrayList<Resource>(Arrays.asList(Resource.HORSE))),
     LANCER(220, "Mounted", 22, 0, 1, 4,
-            new ArrayList<Resource>(Arrays.asList(Resource.HORSE)), new ArrayList<Technology>(Arrays.asList(Technology.METALLURGY))),
+            new ArrayList<Resource>(Arrays.asList(Resource.HORSE))),
     MUSKETMAN(120, "Gunpowder", 16, 0, 1, 2,
-            new ArrayList<Resource>(), new ArrayList<Technology>(Arrays.asList(Technology.GUNPOWDER))),
+            new ArrayList<Resource>()),
     RIFLEMAN(200, "Gunpowder", 25, 0, 1, 2,
-            new ArrayList<Resource>(), new ArrayList<Technology>(Arrays.asList(Technology.RIFLING))),
+            new ArrayList<Resource>()),
     ANTITANKGUN(300, "Gunpowder", 32, 0, 1, 2,
-            new ArrayList<Resource>(), new ArrayList<Technology>(Arrays.asList(Technology.REPLACEABLE_PARTS))),
+            new ArrayList<Resource>()),
     ARTILLERY(420, "Siege", 16, 32, 3, 2,
-            new ArrayList<Resource>(), new ArrayList<Technology>(Arrays.asList(Technology.DYNAMITE))),
+            new ArrayList<Resource>()),
     INFANTRY(300, "Gunpowder", 36, 0, 1, 2,
-            new ArrayList<Resource>(), new ArrayList<Technology>(Arrays.asList(Technology.REPLACEABLE_PARTS))),
+            new ArrayList<Resource>()),
     PANZER(450, "Armored", 60, 0, 1, 5,
-            new ArrayList<Resource>(), new ArrayList<Technology>(Arrays.asList(Technology.COMBUSTION))),
+            new ArrayList<Resource>()),
     TANK(450, "Armored", 50, 0, 1, 4,
-            new ArrayList<Resource>(), new ArrayList<Technology>(Arrays.asList(Technology.COMBUSTION)));
+            new ArrayList<Resource>());
 
     private final int cost;
     private final int combatStrength;
@@ -64,8 +64,6 @@ public enum UnitName {
     private final int movement;
     private final String combatType;
     private final ArrayList<Resource> resources;
-    private final ArrayList<Technology> technologies;
-
 
     public int getCost() {
         return cost;
@@ -95,12 +93,8 @@ public enum UnitName {
         return resources;
     }
 
-    public ArrayList<Technology> getTechnologies() {
-        return technologies;
-    }
-
     UnitName(int cost, String combatType, int combatStrength, int rangedCombatStrength, int range
-            , int movement, ArrayList<Resource> Resources, ArrayList<Technology> Technologies) {
+            , int movement, ArrayList<Resource> Resources) {
         this.cost = cost;
         this.combatType = combatType;
         this.combatStrength = combatStrength;
@@ -108,6 +102,5 @@ public enum UnitName {
         this.range = range;
         this.movement = movement;
         this.resources = Resources;
-        this.technologies = Technologies;
     }
 }
