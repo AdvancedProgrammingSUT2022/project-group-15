@@ -80,6 +80,7 @@ public class GameMenuController {
             message += number + ") name:" + unit.getName().name() + " x:" + unit.getCoordinatesInMap().get('x') / 2 +
                     " y:" + unit.getCoordinatesInMap().get('y') + " health percent:" + unit.getNowHealth() * 100 / unit.getTotalHealth();
             message += "\n";
+            number++;
         }
         return message;
     }
@@ -187,7 +188,7 @@ public class GameMenuController {
     }
 
     private String cityInfo(City city) {
-        String message = "city selected!" + "\nname : " + city.getName() +
+        return "city selected!" + "\nname : " + city.getName() +
                 "\nowner : " + city.getOwner().getUser().getNickname() +
                 "\nhealth percent : " + city.getCityUnit().getNowHealth() * 100 / selectedCity.getCityUnit().getTotalHealth() +
                 "\nnumber of citizens" + city.getNumberOfCitizen() +
@@ -196,7 +197,6 @@ public class GameMenuController {
                 "\nscience per turn : " + city.getSciencePerTurn() +
                 "\nproduction per turn : " + city.getProductionPerTurn() +
                 "\nfood per turn : " + city.getFoodPerTurn();
-        return message;
     }
 
     public String moveSelectedUnitTo(int x, int y) {
@@ -531,7 +531,7 @@ public class GameMenuController {
         return Controller.addNotification(Game.getGame().getTurnNumber(), "No city with this name");
     }
 
-    public String LockCitizenToHex(int x, int y) {
+    public String lockCitizenToHex(int x, int y) {
         if (!Game.getGame().map.validCoordinateInArray(x, y))
             return Controller.addNotification(Game.getGame().getTurnNumber(), "Coordinate not valid");
         if (selectedCity == null)

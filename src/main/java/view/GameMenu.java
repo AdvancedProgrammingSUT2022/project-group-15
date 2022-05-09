@@ -101,6 +101,10 @@ public class GameMenu extends Menu {
             System.out.println(controller.removeRoute());
         } else if (command.equals("unit repair")) {
             System.out.println(controller.repair());
+        }else if ((matcher = getMatcher(command, "^remove citizen from work on (?<x>\\d+) (?<y>\\d+)$")) != null) {
+            System.out.println(controller.removeCitizenFromWork(Integer.parseInt(matcher.group("x")), Integer.parseInt(matcher.group("y"))));
+        } else if ((matcher = getMatcher(command, "^lock citizen on (?<x>\\d+) (?<y>\\d+)$")) != null) {
+            System.out.println(controller.lockCitizenToHex(Integer.parseInt(matcher.group("x")), Integer.parseInt(matcher.group("y"))));
         } else if (command.equals("show map")) {
             System.out.println(controller.showMap());
             return "continue";
