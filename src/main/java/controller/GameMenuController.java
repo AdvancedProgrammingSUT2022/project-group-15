@@ -274,62 +274,16 @@ public class GameMenuController {
         return null;
     }
 
-    public static void buildUnit(City city, Civilization civilization, UnitName unitName) {
-        User user = civilization.getUser();
-        if (city.getRemainedTurns() > 0) {
-            System.out.println("Not Enough turn");
-            return;
-        }
-        if (civilization.getGoldStorage() < unitName.getCost()) {
-            System.out.println("Not Enough Money");
-            return;
-        }
-        city.setRemainedTurns(unitName.getTurn());
-        city.setUnitInProgress(unitName);
-        civilization.payMoney(unitName.getCost());
-    }
-
-    public static void addUnit(Civilization civilization, City city, UnitName unitName, Hex hex) {
-        if (unitName.equals(UnitName.SETTLER)) {
-            //movementspeed va health monde
-            //TODO
-            SettlerUnit settlerUnit = new SettlerUnit(hex.getCoordinatesInArray().get('x'), hex.getCoordinatesInArray().get('y'), city.getOwner(), unitName);
-            civilization.getUnits().add(settlerUnit);
-            return;
-        }
-        if (unitName.equals(UnitName.WORKER)) {
-            WorkerUnit worker = new WorkerUnit(hex.getCoordinatesInArray().get('x'), hex.getCoordinatesInArray().get('y'), city.getOwner(),  unitName);
-            civilization.getUnits().add(worker);
-            return;
-        }
-        if (unitName.getCombatType().equals("Archery") || unitName.getCombatType().equals("Siege") || unitName.equals(unitName.CHARIOTARCHER)) {
-            RangedMilitary rangedMilitary = new RangedMilitary(hex.getCoordinatesInArray().get('x'), hex.getCoordinatesInArray().get('y'), city.getOwner(), unitName);
-            civilization.getUnits().add(rangedMilitary);
-            return;
-        }
-        MeleeMilitary meleeMilitary = new MeleeMilitary(hex.getCoordinatesInArray().get('x'), hex.getCoordinatesInArray().get('y'), city.getOwner(), unitName);
-        civilization.getUnits().add(meleeMilitary);
-    }
-
     public String deleteSelectedUnit() {
         if (selectedUnit == null) {
             return Controller.addNotification(Game.getGame().getTurnNumber(), "Please Select a unit first!");
         }
+        if (!selectedUnit.getOwner().equals(Game.getGame().getSelectedCivilization()))
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "Unit not yours");
         Game.getGame().getSelectedCivilization().deleteUnit(selectedUnit, true);
         return Controller.addNotification(Game.getGame().getTurnNumber(), "Unit Deleted Successfully");
     }
-
-    public static void spawnUnit(City city) {
-        UnitName unitName = city.getUnitInProgress();
-        for (Hex hex : city.getCityHexes()) {
-            if ((unitName.getCombatType().equals("Civilian") && hex.getUnMilitaryUnit() == null) ||
-                    (!unitName.getCombatType().equals("Civilian") && hex.getMilitary() == null)) {
-                addUnit(city.getOwner(), city, unitName, hex);
-                //   System.out.println(militaryType + " mili");
-                return;
-            }
-        }
-    }
+    
 
     public String attackTo(int x, int y) {
         // TODO : implement
@@ -551,7 +505,7 @@ public class GameMenuController {
         if (Game.getGame().map.map.get(x).get(y).isAnyCitizenWorking())
             return Controller.addNotification(Game.getGame().getTurnNumber(), "tile is being worked");
 
-        selectedCity.lockCitizenToHex(x,y);
+        selectedCity.lockCitizenToHex(x, y);
         return Controller.addNotification(Game.getGame().getTurnNumber(), "done! citizen is working");
 
     }
@@ -570,7 +524,7 @@ public class GameMenuController {
             return Controller.addNotification(Game.getGame().getTurnNumber(), "tile is not being worked");
 
 
-        selectedCity.removeCitizenFromHex(x,y);
+        selectedCity.removeCitizenFromHex(x, y);
         return Controller.addNotification(Game.getGame().getTurnNumber(), "done! citizen is not working any more");
     }
 
