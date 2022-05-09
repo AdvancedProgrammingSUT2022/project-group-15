@@ -280,8 +280,9 @@ public class GameMenuController {
             System.out.println("Not Enough Money");
             return;
         }
-        city.setProgressUnit(unitName);
         civilization.payMoney(unitName.getCost());
+        city.setProgressUnit(unitName);
+
     }
 
     public static void addUnit(Civilization civilization, City city, UnitName unitName, Hex hex) {

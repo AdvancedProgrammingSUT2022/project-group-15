@@ -52,7 +52,7 @@ public enum UnitName {
             new ArrayList<Resource>(), new ArrayList<Technology>(Arrays.asList(Technology.REPLACEABLE_PARTS))),
     PANZER(450, "Armored", 60, 0, 0, 5,
             new ArrayList<Resource>(), new ArrayList<Technology>(Arrays.asList(Technology.COMBUSTION))),
-    TANK(450, "Armored", 50, 0, 0, 4,
+    TANK(450 , "Armored", 50, 0, 0, 4,
             new ArrayList<Resource>(), new ArrayList<Technology>(Arrays.asList(Technology.COMBUSTION)));
 
     private final int cost;
