@@ -10,8 +10,11 @@ public class RangedMilitary extends MilitaryUnit {
     private int range;
     private boolean isSetup;
 
-    public RangedMilitary(int x, int y, Civilization owner, int movementSpeed, int health, UnitName name) {
-        super(x, y, owner, movementSpeed, health, name);
+    public RangedMilitary(int x, int y, Civilization owner, UnitName name) {
+        super(x, y, owner, name);
+        this.rangedPower=name.getRangedCombatStrength();
+        this.range = name.getRange();
+        this.isSetup=false;
     }
 
     @Override

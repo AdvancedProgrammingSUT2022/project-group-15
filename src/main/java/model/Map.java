@@ -336,4 +336,13 @@ public class Map {
         return 100 - differenceFromMiddle * 100 / (columnsNumber / 2);
     }
 
+    public boolean hasTheCityAround(int x,int y , City city){
+        for (NeighborHex neighborHex : NeighborHex.values()) {
+            if (map.get((2*x+y%2+neighborHex.xDiff)/2).get(y+ neighborHex.yDiff).getCity().equals(city))
+                return true;
+        }
+        return false;
+
+    }
+
 }

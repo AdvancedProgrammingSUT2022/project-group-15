@@ -28,7 +28,7 @@ public class UnitUnitTest extends TestCase {
         Game.startNewGame(users);
 
 
-        MeleeMilitary meleeMilitary = new MeleeMilitary(0, 0, null, 2, 100, UnitName.ANTITANKGUN);
+        MeleeMilitary meleeMilitary = new MeleeMilitary(0, 0, null, UnitName.ANTITANKGUN);
 
         Hex hex = mock(Hex.class);
         Game.getGame().map.map.get(1).set(0, hex);

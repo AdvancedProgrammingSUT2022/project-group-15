@@ -10,8 +10,8 @@ public abstract class MilitaryUnit extends Unit {
     protected boolean isFortifying;
     protected boolean isFortifyingTillHealed;
 
-    public MilitaryUnit(int x, int y, Civilization owner, int movementSpeed, int health, UnitName name) {
-        super(x, y, owner, movementSpeed, health, name);
+    public MilitaryUnit(int x, int y, Civilization owner, UnitName name) {
+        super(x, y, owner, name);
     }
 
     abstract public void attackTo(Unit unit);

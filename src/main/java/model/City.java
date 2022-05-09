@@ -2,12 +2,12 @@ package model;
 
 import enums.NeighborHex;
 import enums.UnitName;
-import model.unit.RangedMilitary;
-import model.unit.Unit;
+import model.unit.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeMap;
+import java.util.concurrent.locks.ReentrantLock;
 
 import static java.lang.Math.pow;
 
@@ -16,8 +16,7 @@ public class City {
     private Civilization owner;
     private int neededProduction;
     private int remainedTurns;
-    private UnitName progressUnit;
-    private Unit unitInProgress;
+    private UnitName unitInProgress;
     private int numberOfCitizen;
     private HashMap<Character, Integer> coordinatesOfCenterInArray = new HashMap<>();
     private int foodStorage;
@@ -51,13 +50,6 @@ public class City {
         this.unemployedCitizens = unemployedCitizens;
     }
 
-    public UnitName getProgressUnit() {
-        return progressUnit;
-    }
-
-    public void setProgressUnit(UnitName progressUnit) {
-        this.progressUnit = progressUnit;
-    }
 
     public ArrayList<Hex> getCityHexes() {
         return cityHexes;
@@ -95,11 +87,11 @@ public class City {
         this.neededProduction = neededProduction;
     }
 
-    public Unit getUnitInProgress() {
+    public UnitName getUnitInProgress() {
         return unitInProgress;
     }
 
-    public void setUnitInProgress(Unit unitInProgress) {
+    public void setUnitInProgress(UnitName unitInProgress) {
         this.unitInProgress = unitInProgress;
     }
 
@@ -210,7 +202,7 @@ public class City {
         if (Civilization.getHappiness() < 0 && ans > 0) {
             ans = (int) 2 * ans / 3;
             return ans;
-        } else if (unitInProgress.getName().equals("Settler") && ans > 0) {
+        } else if (unitInProgress.equals(UnitName.SETTLER) && ans > 0) {
             return 0;
         }
         return ans;
@@ -235,15 +227,47 @@ public class City {
             numberOfCitizen--;
             foodStorage = (int) pow(2, numberOfCitizen);
         }
-        if (progressUnit != null) {
-            if (neededProduction <= 0){
-                // TODO: 5/9/2022 create unit in city
-                progressUnit = null;
+        if (unitInProgress != UnitName.NULL) {
+            if (neededProduction <= 0) {
+                createUnitInCity(unitInProgress);
+                unitInProgress = UnitName.NULL;
                 neededProduction = 9999999;
             }
         }
+    }
 
-
+    public void createUnitInCity(UnitName unitName) {
+        if (unitName.getCombatType().equals("Civilian")) {
+            if (Game.getGame().map.map.get(coordinatesOfCenterInArray.get('x')).get(coordinatesOfCenterInArray.get('y'))
+                    .getCivilUnit() == null) {
+                if (unitName.equals(UnitName.SETTLER)) {
+                    new SettlerUnit(coordinatesOfCenterInArray.get('x'), coordinatesOfCenterInArray.get('y'), this.owner, unitName);
+                } else {
+                    new WorkerUnit(coordinatesOfCenterInArray.get('x'), coordinatesOfCenterInArray.get('y'), this.owner, unitName);
+                }
+            } else {
+                if (unitName.equals(UnitName.SETTLER)) {
+                    new SettlerUnit(coordinatesOfCenterInArray.get('x') + 1, coordinatesOfCenterInArray.get('y'), this.owner, unitName);
+                } else {
+                    new WorkerUnit(coordinatesOfCenterInArray.get('x') + 1, coordinatesOfCenterInArray.get('y'), this.owner, unitName);
+                }
+            }
+        } else {
+            if (Game.getGame().map.map.get(coordinatesOfCenterInArray.get('x')).get(coordinatesOfCenterInArray.get('y'))
+                    .getMilitaryUnit() == null) {
+                if (unitName.getRangedCombatStrength() == 0) {
+                    new MeleeMilitary(coordinatesOfCenterInArray.get('x'), coordinatesOfCenterInArray.get('y'), this.owner, unitName);
+                } else {
+                    new RangedMilitary(coordinatesOfCenterInArray.get('x'), coordinatesOfCenterInArray.get('y'), this.owner, unitName);
+                }
+            } else {
+                if (unitName.getRangedCombatStrength() == 0) {
+                    new MeleeMilitary(coordinatesOfCenterInArray.get('x') + 1, coordinatesOfCenterInArray.get('y'), this.owner, unitName);
+                } else {
+                    new RangedMilitary(coordinatesOfCenterInArray.get('x') + 1, coordinatesOfCenterInArray.get('y'), this.owner, unitName);
+                }
+            }
+        }
     }
 
     public void lockCitizenToHex(int x, int y) {
@@ -257,7 +281,12 @@ public class City {
 
         Game.getGame().map.map.get(x).get(y).setAnyCitizenWorking(false);
         unemployedCitizens--;
-
     }
+
+    public void buyHex(int x, int y) {
+        this.owner.setGoldStorage(this.owner.getGoldStorage() - 30);
+        cityHexes.add(Game.getGame().map.map.get(x).get(y));
+    }
+
 
 }

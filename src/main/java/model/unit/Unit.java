@@ -20,16 +20,19 @@ public abstract class Unit {
     protected int nowHealth;
     protected int totalHealth;
     protected boolean isSleep;
-    protected int meleePower;//add to constructor
+    protected int meleePower;
 
-    public Unit(int x, int y, Civilization owner, int movementSpeed, int totalHealth, UnitName name) {
+    public Unit(int x, int y, Civilization owner, UnitName name) {
         // TODO: 5/8/2022 use unitname for adding info 
         coordinatesInMap.put('x', x * 2 + y % 2);
         coordinatesInMap.put('y', y);
         this.owner = owner;
         this.movementSpeed = name.getMovement();
         this.remainingMovement = this.movementSpeed;
-        this.totalHealth = totalHealth;
+        this.meleePower = name.getCombatStrength();
+        this.totalHealth = 2*meleePower;
+        if (totalHealth == 0)
+            totalHealth=1;
         this.name = name;
         if (this instanceof CivilUnit)
             Game.getGame().map.map.get(x).get(y).setCivilUnit((CivilUnit) this);

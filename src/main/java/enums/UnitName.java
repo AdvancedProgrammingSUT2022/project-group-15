@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public enum UnitName {
+    NULL(0,0,"null",0,0,0,0,null,null),
     WORKER(6, 70, "Civilian", 0, 0, 0, 2,
             new ArrayList<Resource>(), new ArrayList<Technology>()),
     SETTLER(9, 89, "Civilian", 0, 0, 0, 2,

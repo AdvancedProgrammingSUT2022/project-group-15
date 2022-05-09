@@ -197,7 +197,7 @@ public class GameMenuController {
                 "\nowner : " + city.getOwner().getUser().getNickname() +
                 "\nhealth percent : " + city.getCityUnit().getNowHealth() * 100 / selectedCity.getCityUnit().getTotalHealth() +
                 "\nnumber of citizens" + city.getNumberOfCitizen() +
-                "\nbuilding unit : " + city.getProgressUnit().name() +
+                "\nbuilding unit : " + city.getUnitInProgress().name() +
                 "\ngold per turn : " + city.getGoldPerTurn() +
                 "\nscience per turn : " + city.getSciencePerTurn() +
                 "\nproduction per turn : " + city.getProductionPerTurn() +
@@ -285,7 +285,7 @@ public class GameMenuController {
             return;
         }
         city.setRemainedTurns(unitName.getTurn());
-        city.setProgressUnit(unitName);
+        city.setUnitInProgress(unitName);
         civilization.payMoney(unitName.getCost());
     }
 
@@ -293,21 +293,21 @@ public class GameMenuController {
         if (unitName.equals(UnitName.SETTLER)) {
             //movementspeed va health monde
             //TODO
-            SettlerUnit settlerUnit = new SettlerUnit(hex.getCoordinatesInArray().get('x'), hex.getCoordinatesInArray().get('y'), city.getOwner(), 1, 1, unitName);
+            SettlerUnit settlerUnit = new SettlerUnit(hex.getCoordinatesInArray().get('x'), hex.getCoordinatesInArray().get('y'), city.getOwner(), unitName);
             civilization.getUnits().add(settlerUnit);
             return;
         }
         if (unitName.equals(UnitName.WORKER)) {
-            WorkerUnit worker = new WorkerUnit(hex.getCoordinatesInArray().get('x'), hex.getCoordinatesInArray().get('y'), city.getOwner(), 1, 1, unitName);
+            WorkerUnit worker = new WorkerUnit(hex.getCoordinatesInArray().get('x'), hex.getCoordinatesInArray().get('y'), city.getOwner(),  unitName);
             civilization.getUnits().add(worker);
             return;
         }
         if (unitName.getCombatType().equals("Archery") || unitName.getCombatType().equals("Siege") || unitName.equals(unitName.CHARIOTARCHER)) {
-            RangedMilitary rangedMilitary = new RangedMilitary(hex.getCoordinatesInArray().get('x'), hex.getCoordinatesInArray().get('y'), city.getOwner(), 1, 1, unitName);
+            RangedMilitary rangedMilitary = new RangedMilitary(hex.getCoordinatesInArray().get('x'), hex.getCoordinatesInArray().get('y'), city.getOwner(), unitName);
             civilization.getUnits().add(rangedMilitary);
             return;
         }
-        MeleeMilitary meleeMilitary = new MeleeMilitary(hex.getCoordinatesInArray().get('x'), hex.getCoordinatesInArray().get('y'), city.getOwner(), 1, 1, unitName);
+        MeleeMilitary meleeMilitary = new MeleeMilitary(hex.getCoordinatesInArray().get('x'), hex.getCoordinatesInArray().get('y'), city.getOwner(), unitName);
         civilization.getUnits().add(meleeMilitary);
     }
 
@@ -320,7 +320,7 @@ public class GameMenuController {
     }
 
     public static void spawnUnit(City city) {
-        UnitName unitName = city.getProgressUnit();
+        UnitName unitName = city.getUnitInProgress();
         for (Hex hex : city.getCityHexes()) {
             if ((unitName.getCombatType().equals("Civilian") && hex.getUnMilitaryUnit() == null) ||
                     (!unitName.getCombatType().equals("Civilian") && hex.getMilitary() == null)) {
@@ -575,8 +575,20 @@ public class GameMenuController {
     }
 
     public String buyHex(int x, int y) {
-        // TODO : implement
-        return null;
+        if (!Game.getGame().map.validCoordinateInArray(x, y))
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "Coordinate not valid");
+        if (selectedCity == null)
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "no city is selected");
+        if (!selectedCity.getOwner().equals(Game.getGame().getSelectedCivilization()))
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "city not yours");
+
+        if (Game.getGame().map.map.get(x).get(y).getCity()!= null)
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "hex is part of a city");
+        if (! Game.getGame().map.hasTheCityAround(x,y,selectedCity))
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "not near city");
+        selectedCity.buyHex(x,y);
+        return Controller.addNotification(Game.getGame().getTurnNumber(), "hex is bought");
+
     }
 
     public String cityAttackTo(int x, int y) {

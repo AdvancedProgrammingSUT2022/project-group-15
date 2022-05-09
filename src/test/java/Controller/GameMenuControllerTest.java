@@ -32,7 +32,7 @@ public class GameMenuControllerTest {
         users.add(new User("", "", "2"));
         users.add(new User("", "", "3"));
         Game.startNewGame(users);
-        WorkerUnit workerUnit = new WorkerUnit(4,4,Game.getGame().getSelectedCivilization(),4,100, UnitName.WORKER);
+        WorkerUnit workerUnit = new WorkerUnit(4,4,Game.getGame().getSelectedCivilization(), UnitName.WORKER);
 
         gameMenuController.selectCivilUnit(4,4);
 
@@ -51,7 +51,7 @@ public class GameMenuControllerTest {
         users.add(new User("", "", "2"));
         users.add(new User("", "", "3"));
         Game.startNewGame(users);
-        WorkerUnit workerUnit = new WorkerUnit(4,4,Game.getGame().getSelectedCivilization(),4,100, UnitName.WORKER);
+        WorkerUnit workerUnit = new WorkerUnit(4,4,Game.getGame().getSelectedCivilization() , UnitName.WORKER);
 
         gameMenuController.selectCivilUnit(4,4);
         Game.getGame().map.map.get(0).set(0,new Hex(Terrain.OCEAN, Feature.NULL, Resource.NULL,false,0,0));
@@ -61,7 +61,7 @@ public class GameMenuControllerTest {
 
     }
 
-    @Test
+
     public void seeMapWithSomeChanges() {
         GameMenuController gameMenuController = new GameMenuController();
         ArrayList<User> users = new ArrayList<>();
