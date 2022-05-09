@@ -6,6 +6,7 @@ import model.*;
 import model.unit.*;
 
 import java.util.ArrayList;
+import java.util.function.IntToDoubleFunction;
 
 public class GameMenuController {
     private Unit selectedUnit = null;
@@ -285,8 +286,27 @@ public class GameMenuController {
 
 
     public String attackTo(int x, int y) {
-        // TODO : implement
-        return null;
+        if (selectedUnit == null) {
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "Please Select a unit first!");
+        }
+        if (!selectedUnit.getOwner().equals(Game.getGame().getSelectedCivilization()))
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "Unit not yours");
+        if(selectedUnit instanceof CivilUnit)
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "Unit is civil!!!");
+        if (Game.getGame().map.map.get(x).get(y).getMilitaryUnit()==null  && Game.getGame().map.map.get(x).get(y).getCivilUnit()==null)
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "no unit in destination");
+        if (!selectedUnit.unitCanAttack(x,y))
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "destination is far");
+        Unit target =  Game.getGame().map.map.get(x).get(y).getMilitaryUnit();
+        if (target == null)
+            target =Game.getGame().map.map.get(x).get(y).getCivilUnit();
+        if (target.getOwner() == selectedUnit.getOwner())
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "you can't attack yourself");
+        ((MilitaryUnit)selectedUnit).attackTo(target);
+
+        // TODO: 5/10/2022  works?
+
+        return Controller.addNotification(Game.getGame().getTurnNumber(), "attack is done");
     }
 
     public String buildImprovement(String improvementName) {
@@ -600,7 +620,11 @@ public class GameMenuController {
     }
 
     public String cheatMakeMapDetermined() {
-        // TODO : implement
+        for (ArrayList<Hex> hexes : Game.getGame().getSelectedCivilization().getVisibilityMap().map) {
+            for (Hex hex : hexes) {
+                hex.setHexVisibility(HexVisibility.DETERMINED);
+            }
+        }
         return Controller.addNotification(Game.getGame().getTurnNumber(), "Cheat code accepted : The whole map is now determined for you!");
     }
 

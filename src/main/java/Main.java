@@ -11,6 +11,15 @@ import java.util.SortedMap;
 
 public class Main {
     public static void main(String[] args) {
+
+        ArrayList<User> users = new ArrayList<>();
+        users.add(new User("","","0"));
+        users.add(new User("","","1"));
+
+        Game.startNewGame(users);
+        GameMenu gameMenu = new GameMenu();
+        gameMenu.run();
+
         Controller controller = new Controller();
         controller.run();
     }

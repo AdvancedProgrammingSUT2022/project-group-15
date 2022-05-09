@@ -17,6 +17,31 @@ public class RangedMilitary extends MilitaryUnit {
         this.isSetup=false;
     }
 
+
+    public int getRangedPower() {
+        return rangedPower;
+    }
+
+    public void setRangedPower(int rangedPower) {
+        this.rangedPower = rangedPower;
+    }
+
+    public int getRange() {
+        return range;
+    }
+
+    public void setRange(int range) {
+        this.range = range;
+    }
+
+    public boolean isSetup() {
+        return isSetup;
+    }
+
+    public void setSetup(boolean setup) {
+        isSetup = setup;
+    }
+
     @Override
     public void attackTo(Unit unit){
         unit.nowHealth -= this.rangedPower;

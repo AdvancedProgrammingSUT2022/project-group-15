@@ -1,10 +1,8 @@
 package model;
 
 import controller.GameMenuController;
-import enums.Feature;
-import enums.NeighborHex;
-import enums.Resource;
-import enums.Terrain;
+import enums.*;
+import model.unit.Unit;
 
 import java.util.ArrayList;
 import java.util.Random;

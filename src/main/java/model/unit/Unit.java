@@ -30,9 +30,10 @@ public abstract class Unit {
         this.movementSpeed = name.getMovement();
         this.remainingMovement = this.movementSpeed;
         this.meleePower = name.getCombatStrength();
-        this.totalHealth = 2*meleePower;
+        this.totalHealth = 2 * meleePower;
         if (totalHealth == 0)
-            totalHealth=1;
+            totalHealth = 1;
+        nowHealth = totalHealth;
         this.name = name;
         if (this instanceof CivilUnit)
             Game.getGame().map.map.get(x).get(y).setCivilUnit((CivilUnit) this);
@@ -154,7 +155,7 @@ public abstract class Unit {
             answer.add(0, Game.getGame().map.map.get(x).get(y));
             destinationNode = parent[destinationNode];
             maxDepth--;
-            if (maxDepth<0){
+            if (maxDepth < 0) {
                 PlanedToGo = null;
                 return;
             }
@@ -223,4 +224,27 @@ public abstract class Unit {
 
     abstract public void cancelMission();
 
+    public boolean unitCanAttack(int x, int y) {
+        int xInMap = 2 * x + y % 2;
+        int yInMap = y;
+        if (this instanceof MeleeMilitary) {
+            if (canReach(xInMap, yInMap, coordinatesInMap.get('x'), coordinatesInMap.get('y'), 1))
+                return true;
+        } else if (canReach(xInMap, yInMap, coordinatesInMap.get('x'), coordinatesInMap.get('y'), ((RangedMilitary) this).getRange()))
+            return true;
+        return false;
+
+    }
+
+    private boolean canReach(int destinationMapX, int destinationMapY, int xMap, int yMap, int remainingDepth) {
+        if (destinationMapY == yMap && destinationMapX == xMap)
+            return true;
+        if (remainingDepth == 0)
+            return false;
+        boolean ans = false;
+        for (NeighborHex neighborHex : NeighborHex.values()) {
+            ans = ans | canReach(destinationMapX, destinationMapY, xMap + neighborHex.xDiff, yMap + neighborHex.yDiff, remainingDepth - 1);
+        }
+        return ans;
+    }
 }
