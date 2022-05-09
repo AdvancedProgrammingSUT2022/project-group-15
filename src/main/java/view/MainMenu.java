@@ -1,8 +1,6 @@
 package view;
 
-import controller.GameMenuController;
 import controller.MainMenuController;
-import model.Game;
 
 import java.util.HashMap;
 import java.util.regex.Matcher;
