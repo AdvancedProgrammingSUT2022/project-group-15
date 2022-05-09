@@ -276,15 +276,10 @@ public class GameMenuController {
 
     public static void buildUnit(City city, Civilization civilization, UnitName unitName) {
         User user = civilization.getUser();
-        if (city.getRemainedTurns() > 0) {
-            System.out.println("Not Enough turn");
-            return;
-        }
         if (civilization.getGoldStorage() < unitName.getCost()) {
             System.out.println("Not Enough Money");
             return;
         }
-        city.setRemainedTurns(unitName.getTurn());
         city.setProgressUnit(unitName);
         civilization.payMoney(unitName.getCost());
     }
@@ -325,7 +320,6 @@ public class GameMenuController {
             if ((unitName.getCombatType().equals("Civilian") && hex.getUnMilitaryUnit() == null) ||
                     (!unitName.getCombatType().equals("Civilian") && hex.getMilitary() == null)) {
                 addUnit(city.getOwner(), city, unitName, hex);
-                //   System.out.println(militaryType + " mili");
                 return;
             }
         }
@@ -551,7 +545,7 @@ public class GameMenuController {
         if (Game.getGame().map.map.get(x).get(y).isAnyCitizenWorking())
             return Controller.addNotification(Game.getGame().getTurnNumber(), "tile is being worked");
 
-        selectedCity.lockCitizenToHex(x,y);
+        selectedCity.lockCitizenToHex(x, y);
         return Controller.addNotification(Game.getGame().getTurnNumber(), "done! citizen is working");
 
     }
@@ -570,7 +564,7 @@ public class GameMenuController {
             return Controller.addNotification(Game.getGame().getTurnNumber(), "tile is not being worked");
 
 
-        selectedCity.removeCitizenFromHex(x,y);
+        selectedCity.removeCitizenFromHex(x, y);
         return Controller.addNotification(Game.getGame().getTurnNumber(), "done! citizen is not working any more");
     }
 
