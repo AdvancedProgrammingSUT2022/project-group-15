@@ -574,5 +574,25 @@ public class GameMenuController {
         return Controller.addNotification(Game.getGame().getTurnNumber(), "done! citizen is not working any more");
     }
 
+    public String buyHex(int x, int y) {
+        // TODO : implement
+        return null;
+    }
+
+    public String cityAttackTo(int x, int y) {
+        // TODO : implement
+        return null;
+    }
+
+    public String purchaseUnit(String unitName) {
+        // TODO : implement
+        return null;
+    }
+
+    public String chooseProductionForUnit(String unitName) {
+        // TODO : implement
+        return null;
+    }
+
     // TODO : implement removing Swamp ( that requires Masonry Technology )
 }
