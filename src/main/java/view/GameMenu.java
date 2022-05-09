@@ -100,10 +100,18 @@ public class GameMenu extends Menu {
             System.out.println(controller.removeRoute());
         } else if (command.equals("unit repair")) {
             System.out.println(controller.repair());
-        }else if ((matcher = getMatcher(command, "^remove citizen from work on (?<x>\\d+) (?<y>\\d+)$")) != null) {
+        }else if ((matcher = getMatcher(command, "^city remove citizen from work on (?<x>\\d+) (?<y>\\d+)$")) != null) {
             System.out.println(controller.removeCitizenFromWork(Integer.parseInt(matcher.group("x")), Integer.parseInt(matcher.group("y"))));
-        } else if ((matcher = getMatcher(command, "^lock citizen on (?<x>\\d+) (?<y>\\d+)$")) != null) {
+        } else if ((matcher = getMatcher(command, "^city lock citizen on (?<x>\\d+) (?<y>\\d+)$")) != null) {
             System.out.println(controller.lockCitizenToHex(Integer.parseInt(matcher.group("x")), Integer.parseInt(matcher.group("y"))));
+        } else if ((matcher = getMatcher(command, "^city buy hex (?<x>\\d+) (?<y>\\d+)$")) != null) {
+            System.out.println(controller.buyHex(Integer.parseInt(matcher.group("x")), Integer.parseInt(matcher.group("y"))));
+        } else if ((matcher = getMatcher(command, "^city attack (?<x>\\d+) (?<y>\\d+)$")) != null) {
+            System.out.println(controller.cityAttackTo(Integer.parseInt(matcher.group("x")), Integer.parseInt(matcher.group("y"))));
+        } else if ((matcher = getMatcher(command, "^city purchase unit (?<unitName>\\w+)$")) != null) {
+            System.out.println(controller.purchaseUnit(matcher.group("unitName")));
+        } else if ((matcher = getMatcher(command, "^city choose production (?<unitName>\\w+)$")) != null) {
+            System.out.println(controller.chooseProductionForUnit(matcher.group("unitName")));
         } else if (command.equals("show map")) {
             System.out.println(controller.showMap());
             return "continue";
