@@ -167,8 +167,12 @@ public class City {
     public int calculateGoldPerTurn() {
         int ans = 0;
         for (Hex hex : cityHexes) {
-            if (hex.isAnyCitizenWorking())
-                ans += hex.getTerrain().gold + hex.getResource().gold + hex.getFeature().gold + hex.getImprovement().gold;
+            if (hex.isAnyCitizenWorking()) {
+                ans += hex.getTerrain().gold + hex.getFeature().gold + hex.getImprovement().gold;
+            }
+            if (hex.getResource().requiredImprovement.equals(hex.getImprovement())) {
+                ans += hex.getResource().gold;
+            }
         }
         return ans;
     }
@@ -178,7 +182,10 @@ public class City {
         int copyOfNumberOfCitizen = numberOfCitizen;
         for (Hex hex : cityHexes) {
             if (hex.isAnyCitizenWorking()) {
-                ans += hex.getTerrain().production + hex.getResource().production + hex.getFeature().production + hex.getImprovement().production;
+                ans += hex.getTerrain().production + hex.getFeature().production + hex.getImprovement().production;
+                if (hex.getResource().requiredImprovement.equals(hex.getImprovement())) {
+                    ans += hex.getResource().production;
+                }
                 copyOfNumberOfCitizen--;
             }
 
@@ -190,7 +197,10 @@ public class City {
         int ans = 0;
         for (Hex hex : cityHexes) {
             if (hex.isAnyCitizenWorking()) {
-                ans += hex.getTerrain().food + hex.getResource().food + hex.getFeature().food + hex.getImprovement().food;
+                ans += hex.getTerrain().food + hex.getFeature().food + hex.getImprovement().food;
+                if (hex.getResource().requiredImprovement.equals(hex.getImprovement())) {
+                    ans += hex.getResource().food;
+                }
             }
         }
         ans -= 2 * numberOfCitizen;
