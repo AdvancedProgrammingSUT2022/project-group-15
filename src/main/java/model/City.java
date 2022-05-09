@@ -7,6 +7,7 @@ import model.unit.Unit;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.TreeMap;
 
 public class City {
     private String name;
@@ -216,16 +217,17 @@ public class City {
     }
 
     public void lockCitizenToHex(int x, int y) {
-        if (Game.getGame().map.validCoordinateInArray(x, y) &&
-            !Game.getGame().map.map.get(x).get(y).isAnyCitizenWorking()){
-            unemployedCitizens++;
-        }
+
+        Game.getGame().map.map.get(x).get(y).setAnyCitizenWorking(true);
+        unemployedCitizens++;
+
     }
+
     public void removeCitizenFromHex(int x, int y) {
-        if (Game.getGame().map.validCoordinateInArray(x, y) &&
-            Game.getGame().map.map.get(x).get(y).isAnyCitizenWorking()){
-            unemployedCitizens--;
-        }
+
+        Game.getGame().map.map.get(x).get(y).setAnyCitizenWorking(false);
+        unemployedCitizens--;
+
     }
 
 }

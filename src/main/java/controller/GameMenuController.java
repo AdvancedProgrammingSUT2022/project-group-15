@@ -95,18 +95,23 @@ public class GameMenuController {
     }
 
     public String showDiplomacyPanel() {
-        // TODO : implement
+        // TODO : implement phase 2
         return null;
     }
 
     public String showVictoryPanel() {
-        // TODO : implement
+        // TODO : implement phase 2
         return null;
     }
 
     public String showDemographicsPanel() {
-        // TODO : implement
-        return null;
+        String info = "";
+        info += "gold: " + Game.getGame().getSelectedCivilization().getGoldStorage() + " average:" + Game.getGame().getAverageGold();
+        info += "\nunits: " + Game.getGame().getSelectedCivilization().getUnits().size() + " average:" + Game.getGame().getAverageUnit();
+        info += "\npopulation: " + Game.getGame().getSelectedCivilization().getPopulation() + " average:" + Game.getGame().getAveragePopulation();
+        info += "\ncities: " + Game.getGame().getSelectedCivilization().getCities().size() + " average:" + Game.getGame().getAverageCity();
+
+        return info;
     }
 
     public String showNotificationHistory() {
@@ -119,17 +124,17 @@ public class GameMenuController {
     }
 
     public String showMilitaryPanel() {
-        // TODO : implement
-        return null;
+        // TODO : implement phase 2
+        return showUnitsPanel();
     }
 
     public String showEconomyPanel() {
-        // TODO : implement
-        return null;
+        // TODO : implement phase 2
+        return showCitiesPanel();
     }
 
     public String showDealsPanel() {
-        // TODO : implement
+        // TODO : implement phase 2
         return null;
     }
 
@@ -546,8 +551,7 @@ public class GameMenuController {
         if (Game.getGame().map.map.get(x).get(y).isAnyCitizenWorking())
             return Controller.addNotification(Game.getGame().getTurnNumber(), "tile is being worked");
 
-        ///lock
-        // TODO: 5/9/2022  
+        selectedCity.lockCitizenToHex(x,y);
         return Controller.addNotification(Game.getGame().getTurnNumber(), "done! citizen is working");
 
     }
@@ -565,8 +569,8 @@ public class GameMenuController {
         if (!Game.getGame().map.map.get(x).get(y).isAnyCitizenWorking())
             return Controller.addNotification(Game.getGame().getTurnNumber(), "tile is not being worked");
 
-        //unlock
-        // TODO: 5/9/2022  
+
+        selectedCity.removeCitizenFromHex(x,y);
         return Controller.addNotification(Game.getGame().getTurnNumber(), "done! citizen is not working any more");
     }
 

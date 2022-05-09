@@ -73,7 +73,39 @@ public class Game {
         selectedCivilization = civilizations.get(turn % civilizations.size());
     }
 
-    public int getTurnNumber(){
+    public int getTurnNumber() {
         return turn;
+    }
+
+    public int getAverageGold() {
+        int ans = 0;
+        for (Civilization civilization : civilizations) {
+            ans += civilization.getGoldStorage();
+        }
+        return ans/civilizations.size();
+    }
+
+    public int getAverageCity() {
+        int ans = 0;
+        for (Civilization civilization : civilizations) {
+            ans += civilization.getCities().size();
+        }
+        return ans/civilizations.size();
+    }
+
+    public int getAveragePopulation() {
+        int ans = 0;
+        for (Civilization civilization : civilizations) {
+            ans += civilization.getPopulation();
+        }
+        return ans/civilizations.size();
+    }
+
+    public int getAverageUnit() {
+        int ans = 0;
+        for (Civilization civilization : civilizations) {
+            ans += civilization.getUnits().size();
+        }
+        return ans/civilizations.size();
     }
 }

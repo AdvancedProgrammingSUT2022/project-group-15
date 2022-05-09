@@ -23,7 +23,7 @@ public class Civilization {
     private City capital;
     private ArrayList<Unit> units = new ArrayList<>();
     private ArrayList<City> cities = new ArrayList<>();
-    private int goldStorage = 0;
+    private int goldStorage = 30;
     private int scienceStorage = 0;
     private int sciencePerTurn = 0;
     private static int happiness = 0;
@@ -456,5 +456,12 @@ public class Civilization {
 
     public void setAvailableTechnologies(ArrayList<Technology> availableTechnologies) {
         this.availableTechnologies = availableTechnologies;
+    }
+    public int getPopulation(){
+        int ans = 0;
+        for (City city : cities) {
+            ans += city.getNumberOfCitizen();
+        }
+        return ans;
     }
 }
