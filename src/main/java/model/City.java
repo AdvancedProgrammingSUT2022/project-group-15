@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeMap;
 
+import static java.lang.Math.pow;
+
 public class City {
     private String name;
     private Civilization owner;
@@ -31,6 +33,7 @@ public class City {
         this.name = name;
         coordinatesOfCenterInArray.put('x', x);
         coordinatesOfCenterInArray.put('y', y);
+        numberOfCitizen = 1;
         this.cityHexes.add(Game.getGame().map.map.get(x).get(y));
 
         for (NeighborHex neighborHex : NeighborHex.values()) {
@@ -212,7 +215,24 @@ public class City {
 
         foodStorage += foodPerTurn;
         neededProduction -= productionPerTurn;
-        // TODO: 5/9/2022 production done? new citizen or starve
+
+
+        if (foodStorage > pow(2, numberOfCitizen)) {
+            foodStorage = 0;
+            numberOfCitizen++;
+        }
+        if (foodStorage < 0) {
+            numberOfCitizen--;
+            foodStorage = (int) pow(2, numberOfCitizen);
+        }
+        if (progressUnit != null) {
+            if (neededProduction <= 0){
+                // TODO: 5/9/2022 create unit in city
+                progressUnit = null;
+                neededProduction = 9999999;
+            }
+        }
+
 
     }
 
