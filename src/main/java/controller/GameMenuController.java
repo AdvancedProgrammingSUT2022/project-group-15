@@ -282,7 +282,7 @@ public class GameMenuController {
         Game.getGame().getSelectedCivilization().deleteUnit(selectedUnit, true);
         return Controller.addNotification(Game.getGame().getTurnNumber(), "Unit Deleted Successfully");
     }
-    
+
 
     public String attackTo(int x, int y) {
         // TODO : implement
@@ -535,11 +535,11 @@ public class GameMenuController {
         if (!selectedCity.getOwner().equals(Game.getGame().getSelectedCivilization()))
             return Controller.addNotification(Game.getGame().getTurnNumber(), "city not yours");
 
-        if (Game.getGame().map.map.get(x).get(y).getCity()!= null)
+        if (Game.getGame().map.map.get(x).get(y).getCity() != null)
             return Controller.addNotification(Game.getGame().getTurnNumber(), "hex is part of a city");
-        if (! Game.getGame().map.hasTheCityAround(x,y,selectedCity))
+        if (!Game.getGame().map.hasTheCityAround(x, y, selectedCity))
             return Controller.addNotification(Game.getGame().getTurnNumber(), "not near city");
-        selectedCity.buyHex(x,y);
+        selectedCity.buyHex(x, y);
         return Controller.addNotification(Game.getGame().getTurnNumber(), "hex is bought");
 
     }
@@ -557,6 +557,56 @@ public class GameMenuController {
     public String chooseProductionForUnit(String unitName) {
         // TODO : implement
         return null;
+    }
+
+    public String cheatIncreaseTurn(int amount) {
+        for (int i = 0; i < amount; i++) {
+            changeTurn();
+        }
+        return Controller.addNotification(Game.getGame().getTurnNumber(), "Cheat code accepted : " + amount + " turns passed");
+    }
+
+    public String cheatIncreaseGold(int amount) {
+        Game.getGame().getSelectedCivilization().setGoldStorage(Game.getGame().getSelectedCivilization().getGoldStorage() + amount);
+        return Controller.addNotification(Game.getGame().getTurnNumber(), "Cheat code accepted : Your gold storage increased by " + amount);
+    }
+
+    public String cheatIncreaseScience(int amount) {
+        Game.getGame().getSelectedCivilization().setScienceStorage(Game.getGame().getSelectedCivilization().getScienceStorage() + amount);
+        return Controller.addNotification(Game.getGame().getTurnNumber(), "Cheat code accepted : Your science storage increased by " + amount);
+    }
+
+    public String cheatIncreaseCitizens(int amount) {
+        for (City city : Game.getGame().getSelectedCivilization().getCities()) {
+            city.setNumberOfCitizen(city.getNumberOfCitizen() + amount);
+        }
+        return Controller.addNotification(Game.getGame().getTurnNumber(), "Cheat code accepted : Each city gained " + amount + " citizens");
+    }
+
+    public String cheatIncreaseScore(int amount) {
+        Game.getGame().getSelectedCivilization().getUser().changeScore(amount);
+        return Controller.addNotification(Game.getGame().getTurnNumber(), "Cheat code accepted : Your score increased by " + amount);
+    }
+
+    public String cheatOpenAllTechnologies() {
+        for (Technology technology : Technology.values()) {
+            Game.getGame().getSelectedCivilization().getTechnologies().add(technology);
+            Game.getGame().getSelectedCivilization().getOpenedUnits().addAll(technology.openingUnits);
+            Game.getGame().getSelectedCivilization().getOpenedFeatures().addAll(technology.openingFeatures);
+            Game.getGame().getSelectedCivilization().getOpenedImprovements().addAll(technology.openingImprovements);
+            Game.getGame().getSelectedCivilization().getOpenedResources().addAll(technology.openingResources);
+        }
+        return Controller.addNotification(Game.getGame().getTurnNumber(), "Cheat code accepted : All technologies are opened for you!");
+    }
+
+    public String cheatMakeMapDetermined() {
+        // TODO : implement
+        return Controller.addNotification(Game.getGame().getTurnNumber(), "Cheat code accepted : The whole map is now determined for you!");
+    }
+
+    public String cheatWin() {
+        // TODO : Phase 2 : implement
+        return Controller.addNotification(Game.getGame().getTurnNumber(), "Cheat code accepted : You won!");
     }
 
     // TODO : implement removing Swamp ( that requires Masonry Technology )

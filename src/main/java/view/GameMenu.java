@@ -126,6 +126,31 @@ public class GameMenu extends Menu {
             return "continue";
         } else if (command.equals("next turn")) {
             System.out.println(controller.changeTurn());
+        } else if ((matcher = getMatcher(command, "^cheat increase --(?<flag>\\w+) (?<amount>\\d+)$")) != null) {
+            int amount = Integer.parseInt(matcher.group("amount"));
+            switch (matcher.group("flag")){
+                case "turn":
+                    System.out.println(controller.cheatIncreaseTurn(amount));
+                    break;
+                case "gold":
+                    System.out.println(controller.cheatIncreaseGold(amount));
+                    break;
+                case "science":
+                    System.out.println(controller.cheatIncreaseScience(amount));
+                    break;
+                case "citizens":
+                    System.out.println(controller.cheatIncreaseCitizens(amount));
+                    break;
+                case "score":
+                    System.out.println(controller.cheatIncreaseScore(amount));
+                    break;
+            }
+        } else if (command.equals("cheat open all technologies")) {
+            System.out.println(controller.cheatOpenAllTechnologies());
+        } else if (command.equals("cheat make the whole map visible")) {
+            System.out.println(controller.cheatMakeMapDetermined());
+        } else if (command.equals("cheat win")) {
+            System.out.println(controller.cheatWin());
         } else {
             System.out.println("invalid command!");
         }
