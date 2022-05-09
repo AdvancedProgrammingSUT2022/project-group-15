@@ -26,7 +26,7 @@ public class Civilization {
     private int goldStorage = 30;
     private int scienceStorage = 0;
     private int sciencePerTurn = 0;
-    private static int happiness = 0;
+    private int happiness = 0;
 
 
     public Civilization(User user) {
@@ -207,13 +207,11 @@ public class Civilization {
             if (xOry + 3 >= Game.getGame().getRows())
 
                 return Game.getGame().getRows() - 6;
-            return ans;
         } else {
             if (xOry + 3 >= Game.getGame().getColumns())
                 return Game.getGame().getColumns() - 6;
-            return ans;
         }
-
+        return ans;
     }
 
     public String showMapOn(int xOfCenter, int yOfCenter) {
@@ -307,7 +305,7 @@ public class Civilization {
         } else {
             replaceText(printMap, x, y, +3, "ROD", "N/A", GlobalThings.WHITE_BACKGROUND + GlobalThings.BLACK);
         }
-// TODO: 5/3/2022 river???
+        // TODO: 5/3/2022 river???
 
 
     }
@@ -442,7 +440,7 @@ public class Civilization {
         this.cities = cities;
     }
 
-    public static int getHappiness() {
+    public int getHappiness() {
         return happiness;
     }
 
@@ -463,5 +461,13 @@ public class Civilization {
             ans += city.getNumberOfCitizen();
         }
         return ans;
+    }
+
+    public int getArea() {
+        int result = 0;
+        for (City city : cities) {
+            result += city.getCityHexes().size();
+        }
+        return result;
     }
 }

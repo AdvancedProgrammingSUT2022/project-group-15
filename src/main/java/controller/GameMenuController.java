@@ -105,12 +105,11 @@ public class GameMenuController {
     }
 
     public String showDemographicsPanel() {
-        String info = "";
-        info += "gold: " + Game.getGame().getSelectedCivilization().getGoldStorage() + " average:" + Game.getGame().getAverageGold();
-        info += "\nunits: " + Game.getGame().getSelectedCivilization().getUnits().size() + " average:" + Game.getGame().getAverageUnit();
-        info += "\npopulation: " + Game.getGame().getSelectedCivilization().getPopulation() + " average:" + Game.getGame().getAveragePopulation();
-        info += "\ncities: " + Game.getGame().getSelectedCivilization().getCities().size() + " average:" + Game.getGame().getAverageCity();
-
+        String info = "gold: " + Game.getGame().getSelectedCivilization().getGoldStorage() + " average: " + Game.getGame().getAverageGold() + " best: " + Game.getGame().getBestGold();
+        info += "\nunits: " + Game.getGame().getSelectedCivilization().getUnits().size() + " average: " + Game.getGame().getAverageUnit() + " best: " + Game.getGame().getBestUnit();
+        info += "\npopulation: " + Game.getGame().getSelectedCivilization().getPopulation() + " average: " + Game.getGame().getAveragePopulation() + " best: " + Game.getGame().getBestPopulation();
+        info += "\ncities: " + Game.getGame().getSelectedCivilization().getCities().size() + " average: " + Game.getGame().getAverageCity() + " best: " + Game.getGame().getBestCity();
+        info += "\nvastness (number of owned hexes): " + Game.getGame().getSelectedCivilization().getArea() + " average: " + Game.getGame().getAverageArea() + " best: " + Game.getGame().getBestArea();
         return info;
     }
 

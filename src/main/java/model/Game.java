@@ -15,12 +15,11 @@ import static java.lang.Math.abs;
 public class Game {
     private static Game game;
 
-    private ArrayList<Civilization> civilizations = new ArrayList<>();
-    private ArrayList<City> originalCapitals = new ArrayList<>();
+    private final ArrayList<Civilization> civilizations = new ArrayList<>();
+    private final ArrayList<City> originalCapitals = new ArrayList<>();
     private int turn;
     private Civilization selectedCivilization;
     public Map map;
-
 
     private Game() {
         turn = 0;
@@ -107,5 +106,63 @@ public class Game {
             ans += civilization.getUnits().size();
         }
         return ans/civilizations.size();
+    }
+
+    public int getAverageArea(){
+        int result = 0;
+        for (Civilization civilization : civilizations) {
+            result += civilization.getArea();
+        }
+        return result/civilizations.size();
+    }
+
+    public int getBestGold() {
+        int max = 0;
+        for (Civilization civilization : civilizations) {
+            if(civilization.getGoldStorage() >= max){
+                max = civilization.getGoldStorage();
+            }
+        }
+        return max;
+    }
+
+    public int getBestUnit() {
+        int max = 0;
+        for (Civilization civilization : civilizations) {
+            if(civilization.getUnits().size() >= max){
+                max = civilization.getUnits().size();
+            }
+        }
+        return max;
+    }
+
+    public int getBestPopulation() {
+        int max = 0;
+        for (Civilization civilization : civilizations) {
+            if(civilization.getPopulation() >= max){
+                max = civilization.getPopulation();
+            }
+        }
+        return max;
+    }
+
+    public int getBestCity() {
+        int max = 0;
+        for (Civilization civilization : civilizations) {
+            if(civilization.getCities().size() >= max){
+                max = civilization.getCities().size();
+            }
+        }
+        return max;
+    }
+
+    public int getBestArea() {
+        int max = 0;
+        for (Civilization civilization : civilizations) {
+            if(civilization.getArea() >= max){
+                max = civilization.getArea();
+            }
+        }
+        return max;
     }
 }
