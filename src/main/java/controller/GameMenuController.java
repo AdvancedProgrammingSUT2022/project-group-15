@@ -220,8 +220,14 @@ public class GameMenuController {
     }
 
     public String sleepSelectedUnit() {
-        // TODO : implement
-        return null;
+        if (selectedUnit == null)
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "no selected unit");
+        if (!selectedUnit.getOwner().equals(Game.getGame().getSelectedCivilization())) {
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "unit not yours");
+        }
+        selectedUnit.setSleep(true);
+        return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is slept");
+
     }
 
     public String alertSelectedUnit() {

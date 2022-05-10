@@ -22,11 +22,13 @@ public class ProfileMenuController {
         }
 
         User.loggedInUser.setNickname(nickname);
+        User.saveUsers();
         return "nickname changed successfully!";
     }
 
     /**
      * changes the password of loggedInUser
+     *
      * @return the message to be shown
      * @author Parsa
      */
@@ -34,15 +36,16 @@ public class ProfileMenuController {
         String currentPassword = matcher.group("currentPassword");
         String newPassword = matcher.group("newPassword");
 
-        if(!User.loggedInUser.getPassword().equals(currentPassword)){
+        if (!User.loggedInUser.getPassword().equals(currentPassword)) {
             return "current password is invalid";
         }
 
-        if(currentPassword.equals(newPassword)){
+        if (currentPassword.equals(newPassword)) {
             return "please enter a new password";
         }
 
         User.loggedInUser.setPassword(newPassword);
+        User.saveUsers();
         return "password changed successfully!";
     }
 }
