@@ -109,7 +109,7 @@ public class GameMenu extends Menu {
         } else if ((matcher = getMatcher(command, "^city attack (?<x>\\d+) (?<y>\\d+)$")) != null) {
             System.out.println(controller.cityAttackTo(Integer.parseInt(matcher.group("x")), Integer.parseInt(matcher.group("y"))));
         } else if ((matcher = getMatcher(command, "^city purchase unit (?<unitName>\\w+)$")) != null) {
-            System.out.println(controller.purchaseUnit(matcher.group("unitName")));
+            System.out.println(controller.buyUnit(matcher.group("unitName")));
         } else if ((matcher = getMatcher(command, "^city choose production (?<unitName>\\w+)$")) != null) {
             System.out.println(controller.chooseProductionForUnit(matcher.group("unitName")));
         } else if (command.equals("show map")) {
@@ -151,6 +151,8 @@ public class GameMenu extends Menu {
             System.out.println(controller.cheatMakeMapDetermined());
         } else if (command.equals("cheat win")) {
             System.out.println(controller.cheatWin());
+        } else if ((matcher = getMatcher(command, "^cheat found city on (?<x>\\d+) (?<y>\\d+)$")) != null){
+            System.out.println(controller.cheatFoundCityOn(Integer.parseInt(matcher.group("x")), Integer.parseInt(matcher.group("y"))));
         } else {
             System.out.println("invalid command!");
         }

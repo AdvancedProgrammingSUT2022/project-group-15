@@ -5,58 +5,59 @@ import java.util.Arrays;
 
 public enum UnitName {
 
-    NULL(0, "null", 0, 0, 0, 0, null),
-    WORKER(70, "Civilian", 0, 0, 0, 2,
+    NULL("null", 0, "null", 0, 0, 0, 0, null),
+    WORKER("worker", 70, "Civilian", 0, 0, 0, 2,
             new ArrayList<Resource>()),
-    SETTLER(89, "Civilian", 0, 0, 0, 2,
+    SETTLER("settler", 89, "Civilian", 0, 0, 0, 2,
             new ArrayList<Resource>()),
-    ARCHER(70, "Archery", 4, 6, 2, 2,
+    ARCHER("archer", 70, "Archery", 4, 6, 2, 2,
             new ArrayList<Resource>()),
-    CHARIOTARCHER(60, "Mounted", 3, 6, 2, 4,
+    CHARIOTARCHER("chariotarcher", 60, "Mounted", 3, 6, 2, 4,
             new ArrayList<Resource>(Arrays.asList(Resource.HORSE))),
-    SCOUT(25, "Recon", 4, 0, 1, 2,
+    SCOUT("scout", 25, "Recon", 4, 0, 1, 2,
             new ArrayList<Resource>()),
-    SPEARMAN(50, "Melee", 7, 0, 1, 2,
+    SPEARMAN("spearman", 50, "Melee", 7, 0, 1, 2,
             new ArrayList<Resource>()),
-    WARRIOR(40, "Melee", 6, 0, 1, 2,
+    WARRIOR("warrior", 40, "Melee", 6, 0, 1, 2,
             new ArrayList<Resource>()),
-    CATAPULT(100, "Siege", 4, 14, 2, 2,
+    CATAPULT("catapult", 100, "Siege", 4, 14, 2, 2,
             new ArrayList<Resource>(Arrays.asList(Resource.IRON))),
-    HORSEMAN(80, "Mounted", 12, 0, 1, 4,
+    HORSEMAN("horseman", 80, "Mounted", 12, 0, 1, 4,
             new ArrayList<Resource>(Arrays.asList(Resource.HORSE))),
-    SWORDSMAN(80, "Melee", 11, 0, 1, 2,
+    SWORDSMAN("swordsman", 80, "Melee", 11, 0, 1, 2,
             new ArrayList<Resource>(Arrays.asList(Resource.IRON))),
-    CROSSBOWMAN(120, "Archery", 6, 12, 2, 2,
+    CROSSBOWMAN("crossbowman", 120, "Archery", 6, 12, 2, 2,
             new ArrayList<Resource>()),
-    KNIGHT(150, "Mounted", 18, 0, 1, 3,
+    KNIGHT("knight", 150, "Mounted", 18, 0, 1, 3,
             new ArrayList<Resource>(Arrays.asList(Resource.HORSE))),
-    LONGSWORDSMAN(150, "Melee", 18, 0, 1, 3,
+    LONGSWORDSMAN("longswordsman", 150, "Melee", 18, 0, 1, 3,
             new ArrayList<Resource>(Arrays.asList(Resource.IRON))),
-    PIKEMAN(100, "Melee", 10, 0, 1, 2,
+    PIKEMAN("pikeman", 100, "Melee", 10, 0, 1, 2,
             new ArrayList<Resource>()),
-    TREBUCHET(170, "Siege", 6, 20, 2, 2,
+    TREBUCHET("trebuchet", 170, "Siege", 6, 20, 2, 2,
             new ArrayList<Resource>(Arrays.asList(Resource.IRON))),
-    CANON(250, "Siege", 10, 26, 2, 2,
+    CANON("canon", 250, "Siege", 10, 26, 2, 2,
             new ArrayList<Resource>()),
-    CAVALRY(260, "Mounted", 25, 0, 1, 3,
+    CAVALRY("cavalry", 260, "Mounted", 25, 0, 1, 3,
             new ArrayList<Resource>(Arrays.asList(Resource.HORSE))),
-    LANCER(220, "Mounted", 22, 0, 1, 4,
+    LANCER("lancer", 220, "Mounted", 22, 0, 1, 4,
             new ArrayList<Resource>(Arrays.asList(Resource.HORSE))),
-    MUSKETMAN(120, "Gunpowder", 16, 0, 1, 2,
+    MUSKETMAN("musketman", 120, "Gunpowder", 16, 0, 1, 2,
             new ArrayList<Resource>()),
-    RIFLEMAN(200, "Gunpowder", 25, 0, 1, 2,
+    RIFLEMAN("rifleman", 200, "Gunpowder", 25, 0, 1, 2,
             new ArrayList<Resource>()),
-    ANTITANKGUN(300, "Gunpowder", 32, 0, 1, 2,
+    ANTITANKGUN("antitankgun", 300, "Gunpowder", 32, 0, 1, 2,
             new ArrayList<Resource>()),
-    ARTILLERY(420, "Siege", 16, 32, 3, 2,
+    ARTILLERY("artillery", 420, "Siege", 16, 32, 3, 2,
             new ArrayList<Resource>()),
-    INFANTRY(300, "Gunpowder", 36, 0, 1, 2,
+    INFANTRY("infantry", 300, "Gunpowder", 36, 0, 1, 2,
             new ArrayList<Resource>()),
-    PANZER(450, "Armored", 60, 0, 1, 5,
+    PANZER("panzer", 450, "Armored", 60, 0, 1, 5,
             new ArrayList<Resource>()),
-    TANK(450, "Armored", 50, 0, 1, 4,
+    TANK("tank", 450, "Armored", 50, 0, 1, 4,
             new ArrayList<Resource>());
 
+    private final String name;
     private final int cost;
     private final int combatStrength;
     private final int rangedCombatStrength;
@@ -89,12 +90,26 @@ public enum UnitName {
         return combatType;
     }
 
+    public String getName(){
+        return name;
+    }
+
     public ArrayList<Resource> getResources() {
         return resources;
     }
 
-    UnitName(int cost, String combatType, int combatStrength, int rangedCombatStrength, int range
+    public static UnitName getUnitNameByName(String unitName){
+        for (UnitName name : UnitName.values()) {
+            if(unitName.equals(name.getName())){
+                return name;
+            }
+        }
+        return null;
+    }
+
+    UnitName(String name, int cost, String combatType, int combatStrength, int rangedCombatStrength, int range
             , int movement, ArrayList<Resource> Resources) {
+        this.name = name;
         this.cost = cost;
         this.combatType = combatType;
         this.combatStrength = combatStrength;

@@ -564,39 +564,38 @@ public class GameMenuController {
 
     }
 
-    public String buyUnit(UnitName unitName) {
+    public String buyUnit(String unitName) {
         if (selectedCity == null)
             return Controller.addNotification(Game.getGame().getTurnNumber(), "no city is selected");
         if (!selectedCity.getOwner().equals(Game.getGame().getSelectedCivilization()))
             return Controller.addNotification(Game.getGame().getTurnNumber(), "city not yours");
-        if (selectedCity.getOwner().getGoldStorage() < unitName.getCost())
+        UnitName unit = UnitName.getUnitNameByName(unitName);
+        if (unit == null) {
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "invalid unit name");
+        }
+        if (selectedCity.getOwner().getGoldStorage() < unit.getCost())
             return Controller.addNotification(Game.getGame().getTurnNumber(), "not enough money");
-        if (unitName.getCombatType().equals("Civilian")) {
+        if (unit.getCombatType().equals("Civilian")) {
             for (Hex cityHex : selectedCity.getCityHexes()) {
                 if (cityHex.getCivilUnit() != null)
                     return Controller.addNotification(Game.getGame().getTurnNumber(), "civil unit is full");
             }
         }
-        if (!unitName.getCombatType().equals("Civilian")) {
+        if (!unit.getCombatType().equals("Civilian")) {
             for (Hex cityHex : selectedCity.getCityHexes()) {
                 if (cityHex.getMilitaryUnit() != null)
                     return Controller.addNotification(Game.getGame().getTurnNumber(), "military unit is full");
             }
         }
-        //TODO technology check
-        selectedCity.getOwner().setGoldStorage(selectedCity.getOwner().getGoldStorage() - unitName.getCost());
-        selectedCity.createUnitInCity(unitName);
+        if (Game.getGame().getSelectedCivilization().getOpenedUnits().contains(unit)) {
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "This unit is not available for you");
+        }
+        selectedCity.getOwner().setGoldStorage(selectedCity.getOwner().getGoldStorage() - unit.getCost());
+        selectedCity.createUnitInCity(unit);
         return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is bought");
-
-
     }
 
     public String cityAttackTo(int x, int y) {
-        // TODO : implement
-        return null;
-    }
-
-    public String purchaseUnit(String unitName) {
         // TODO : implement
         return null;
     }
@@ -658,6 +657,11 @@ public class GameMenuController {
     public String cheatWin() {
         // TODO : Phase 2 : implement
         return Controller.addNotification(Game.getGame().getTurnNumber(), "Cheat code accepted : You won!");
+    }
+
+    public String cheatFoundCityOn(int x, int y) {
+        // TODO implement
+        return null;
     }
 
     // TODO : implement removing Swamp ( that requires Masonry Technology )

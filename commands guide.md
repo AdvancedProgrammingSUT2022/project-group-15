@@ -35,41 +35,41 @@ The order of flags doesn't matter in each command below that contains dashes
 4) select unit noncombat **_x_** **_y_**
 5) select city **_city name_**
 6) select city **_x_** **_y_**
+7) next turn
 
 #### <li> Unit Commands
 
-7) unit moveto **_x_** **_y_**
-8) unit sleep
-9) unit alert
-10) unit fortify
-11) unit garrison
-12) unit setup ranged
-13) unit fortify heal
-14) unit found city
-15) unit cancel mission
-16) unit wake
-17) unit delete
-18) unit attack **_x_** **_y_**
-19) unit build **_improvement name_**
-20) unit remove jungle
-21) unit remove route
-22) unit repair
+8) unit moveto **_x_** **_y_**
+9) unit sleep
+10) unit alert
+11) unit fortify
+12) unit garrison
+13) unit setup ranged
+14) unit fortify heal
+15) unit found city
+16) unit cancel mission
+17) unit wake
+18) unit delete
+19) unit attack **_x_** **_y_**
+20) unit build **_improvement name_**
+21) unit remove jungle
+22) unit remove route
+23) unit repair
 
 #### <li> City Commands
 
-23) city remove citizen from work on **_x_** **_y_**
-24) city lock citizen on **_x_** **_y_**
-25) city choose production **_unit name_**
-26) city purchase unit **_unit name_**
-27) city buy hex **_x_** **_y_**
-28) city attack **_x_** **_y_**
+24) city remove citizen from work on **_x_** **_y_**
+25) city lock citizen on **_x_** **_y_**
+26) city choose production **_unit name_**
+27) city purchase unit **_unit name_**
+28) city buy hex **_x_** **_y_**
+29) city attack **_x_** **_y_**
 
 #### <li> Map Commands
 
-29) map move **_direction_** **_amount_** <br> **_direction_** can be "left", "right", "up", "down"
-30) map show **_x_** **_y_**
-31) map show **_city name_**
-32) next turn
+30) map move **_direction_** **_amount_** <br> **_direction_** can be "left", "right", "up", "down"
+31) map show **_x_** **_y_**
+32) map show **_city name_**
 
 #### <li> Cheat Commands
 
@@ -81,3 +81,4 @@ The order of flags doesn't matter in each command below that contains dashes
 38) cheat open all technologies <br> It automatically opens all features, improvements, resources, and units
 39) cheat win
 40) cheat make the whole map visible
+41) cheat found city on **_x_** **_y_**
