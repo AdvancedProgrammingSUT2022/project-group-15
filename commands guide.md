@@ -83,4 +83,4 @@ The order of flags doesn't matter in each command below that contains dashes
 40) cheat make the whole map visible
 41) cheat found city on **_x_** **_y_**
 42) cheat dry rivers on **_x_** **_y_**
-43) cheat increase health of unit on **_x_** **_y_**
+43) cheat increase health of selected unit
