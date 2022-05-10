@@ -188,16 +188,11 @@ public abstract class Unit {
         }
     }
 
-
     private boolean hasSameUnitInHex(int x, int y) {
         if (this instanceof CivilUnit) {
-            if (Game.getGame().map.map.get(x).get(y).getCivilUnit() == null)
-                return false;
-        } else if (Game.getGame().map.map.get(x).get(y).getMilitaryUnit() == null)
-            return false;
-        return true;
+            return Game.getGame().map.map.get(x).get(y).getCivilUnit() != null;
+        } else return Game.getGame().map.map.get(x).get(y).getMilitaryUnit() != null;
     }
-
 
     private int minKey(int[] key, Boolean[] mstSet, int numberOfNodes) {
         // Initialize min value

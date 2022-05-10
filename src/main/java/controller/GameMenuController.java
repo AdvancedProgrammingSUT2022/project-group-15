@@ -664,5 +664,20 @@ public class GameMenuController {
         return null;
     }
 
+    public String cheatDryRiverOn(int x, int y) {
+        // TODO implement
+        return null;
+    }
+
+    public String cheatIncreaseHealthOfUnitOn(int x, int y) {
+        // TODO : implement
+        return null;
+    }
+
+    public String cheatIncreaseMovementSpeedOnUnitOn(int x, int y) {
+        // TODO implement
+        return null;
+    }
+
     // TODO : implement removing Swamp ( that requires Masonry Technology )
 }
