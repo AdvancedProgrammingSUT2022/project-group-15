@@ -6,7 +6,6 @@ import model.*;
 import model.unit.*;
 
 import java.util.ArrayList;
-import java.util.function.IntToDoubleFunction;
 
 public class GameMenuController {
     private Unit selectedUnit = null;
@@ -669,14 +668,12 @@ public class GameMenuController {
         return null;
     }
 
-    public String cheatIncreaseHealthOfUnitOn(int x, int y) {
-        // TODO : implement
-        return null;
-    }
-
-    public String cheatIncreaseMovementSpeedOnUnitOn(int x, int y) {
-        // TODO implement
-        return null;
+    public String cheatIncreaseHealthOfSelectedUnit() {
+        if(selectedUnit == null){
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "no unit selected!");
+        }
+        selectedUnit.setNowHealth(selectedUnit.getTotalHealth());
+        return Controller.addNotification(Game.getGame().getTurnNumber(), "Cheat code accepted : ");
     }
 
     // TODO : implement removing Swamp ( that requires Masonry Technology )

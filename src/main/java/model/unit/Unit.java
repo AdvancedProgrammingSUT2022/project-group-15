@@ -41,6 +41,17 @@ public abstract class Unit {
             Game.getGame().map.map.get(x).get(y).setMilitaryUnit((MilitaryUnit) this);
         owner.getUnits().add(this);
     }
+    public int getMovementSpeed() {
+        return movementSpeed;
+    }
+
+    public void setMovementSpeed(int movementSpeed) {
+        this.movementSpeed = movementSpeed;
+    }
+
+    public void setNowHealth(int nowHealth) {
+        this.nowHealth = nowHealth;
+    }
 
     public int getNowHealth() {
         return nowHealth;
