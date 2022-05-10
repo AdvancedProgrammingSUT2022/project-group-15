@@ -572,6 +572,14 @@ public class GameMenuController {
         if (unit == null) {
             return Controller.addNotification(Game.getGame().getTurnNumber(), "invalid unit name");
         }
+        if (unit != null) {
+            for (Technology technology : selectedCity.getOwner().getTechnologies()) {
+                for (int i = 0; i < technology.openingUnits.size(); i++)
+                    if (!technology.openingUnits.get(i).equals(unit)) {
+                        return Controller.addNotification(Game.getGame().getTurnNumber(), "Not proper teechnology");
+                    }
+            }
+        }
         if (selectedCity.getOwner().getGoldStorage() < unit.getCost())
             return Controller.addNotification(Game.getGame().getTurnNumber(), "not enough money");
         if (unit.getCombatType().equals("Civilian")) {
@@ -669,7 +677,7 @@ public class GameMenuController {
     }
 
     public String cheatIncreaseHealthOfSelectedUnit() {
-        if(selectedUnit == null){
+        if (selectedUnit == null) {
             return Controller.addNotification(Game.getGame().getTurnNumber(), "no unit selected!");
         }
         selectedUnit.setNowHealth(selectedUnit.getTotalHealth());
