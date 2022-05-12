@@ -246,7 +246,10 @@ public class GameMenuController {
         if (selectedUnit instanceof CivilUnit) {
             return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is a CivilUnit");
         }
-        ((MilitaryUnit) selectedUnit).setFortifying(true);
+        if (!(((MilitaryUnit) selectedUnit).isFortifying())) {
+            ((MilitaryUnit) selectedUnit).setFortifying(true);
+            selectedUnit.setMeleePower((int) (selectedUnit.getMeleePower()*1.5));
+        }
         return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is fortified");
 
 
@@ -696,7 +699,8 @@ public class GameMenuController {
     }
 
     public String cheatFoundCityOn(int x, int y) {
-        // TODO implement
+        SettlerUnit settlerUnit = new SettlerUnit(x, y, Game.getGame().getSelectedCivilization(), UnitName.SETTLER);
+        settlerUnit.foundCity();
         return null;
     }
 

@@ -245,7 +245,7 @@ public abstract class Unit {
     public void updateUnit() {
         if (PlanedToGo != null)
             doPlanedMovement();
-        if (this.isSleep == true)
+        if (this.isSleep)
             return;
         if (this instanceof CivilUnit) {
             resetMovement();
