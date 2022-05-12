@@ -226,6 +226,7 @@ public class GameMenuController {
             return Controller.addNotification(Game.getGame().getTurnNumber(), "unit not yours");
         }
         selectedUnit.setSleep(true);
+        selectedUnit.setPlanedToGo(null);
         return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is slept");
 
     }
@@ -236,14 +237,36 @@ public class GameMenuController {
     }
 
     public String fortifySelectedUnit() {
-        // TODO : implement
-        return null;
+        if (selectedUnit == null) {
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "no selected unit");
+        }
+        if (!selectedUnit.getOwner().equals(Game.getGame().getSelectedCivilization())) {
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "unit not yours");
+        }
+        if (selectedUnit instanceof CivilUnit) {
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is a CivilUnit");
+        }
+        ((MilitaryUnit) selectedUnit).setFortifying(true);
+        return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is fortified");
+
+
     }
 
     public String fortifySelectedUnitTillHeal() {
-        // TODO : implement
-        return null;
+        if (selectedUnit == null) {
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "no selected unit");
+        }
+        if (!selectedUnit.getOwner().equals(Game.getGame().getSelectedCivilization())) {
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "unit not yours");
+        }
+        if (selectedUnit instanceof CivilUnit) {
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is a CivilUnit");
+        }
+        ((MilitaryUnit) selectedUnit).setFortifyingTillHealed(true);
+        return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is fortified till healed");
+
     }
+
 
     public String garrisonSelectedUnit() {
         // TODO : implement

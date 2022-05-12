@@ -86,6 +86,10 @@ public abstract class Unit {
         return PlanedToGo;
     }
 
+    public void setPlanedToGo(ArrayList<Hex> planedToGo) {
+        PlanedToGo = planedToGo;
+    }
+
     public void doPlanedMovement() {
         Hex nextHex;
         while (remainingMovement > 0 && !PlanedToGo.isEmpty()) {
