@@ -285,8 +285,14 @@ public class GameMenuController {
     }
 
     public String setupRangedSelectedUnit() {
-        // TODO : implement
-        return null;
+        if (selectedUnit == null)
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "please select a unit first");
+        if (!selectedUnit.getOwner().equals(Game.getGame().getSelectedCivilization()))
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is not yours");
+        if (!selectedUnit.getName().getCombatType().equals("Siege"))
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is not siege");
+        ((RangedMilitary)selectedUnit).setSetup(true);
+        return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is set up");
     }
 
     public String foundCity() {
@@ -337,6 +343,7 @@ public class GameMenuController {
 
 
     public String attackTo(int x, int y) {
+        // TODO: 5/12/2022 setup range is tru? 
         if (selectedUnit == null) {
             return Controller.addNotification(Game.getGame().getTurnNumber(), "Please Select a unit first!");
         }
@@ -372,6 +379,8 @@ public class GameMenuController {
     public String removeJungle() {
         if (selectedUnit == null)
             return Controller.addNotification(Game.getGame().getTurnNumber(), "please select a unit first");
+        if (!selectedUnit.getOwner().equals(Game.getGame().getSelectedCivilization()))
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "unit not yours");
         if (!(selectedUnit instanceof WorkerUnit))
             return Controller.addNotification(Game.getGame().getTurnNumber(), "selected unit is not a worker");
         // remove dense-forests requires Bronze-Working Technology
@@ -381,13 +390,32 @@ public class GameMenuController {
     }
 
     public String removeRoute() {
-        // TODO : implement
-        return null;
+
+        if (selectedUnit == null)
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "please select a unit first");
+        if (!selectedUnit.getOwner().equals(Game.getGame().getSelectedCivilization()))
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "unit not yours");
+        if (!(selectedUnit instanceof WorkerUnit))
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "selected unit is not a worker");
+        selectedUnit.setRemainingMovement(-1);
+
+        Game.getGame().map.map.get(selectedUnit.getCoordinatesInMap().get('x')/2).get(selectedUnit.getCoordinatesInMap().get('y')).setHasRoad(false);
+        Game.getGame().map.map.get(selectedUnit.getCoordinatesInMap().get('x')/2).get(selectedUnit.getCoordinatesInMap().get('y')).setHasRailRoad(false);
+        return Controller.addNotification(Game.getGame().getTurnNumber(), "done");
     }
 
     public String repair() {
-        // TODO : implement
-        return null;
+        if (selectedUnit == null)
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "please select a unit first");
+        if (!selectedUnit.getOwner().equals(Game.getGame().getSelectedCivilization()))
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "unit not yours");
+        if (!(selectedUnit instanceof WorkerUnit))
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "selected unit is not a worker");
+        selectedUnit.setRemainingMovement(-1);
+
+        Game.getGame().map.map.get(selectedUnit.getCoordinatesInMap().get('x')/2)
+                .get(selectedUnit.getCoordinatesInMap().get('y')).setHasDestroyedImprovement(false);
+        return Controller.addNotification(Game.getGame().getTurnNumber(), "done");
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////show whole map////////////////////////////////////////////////////////////////////////

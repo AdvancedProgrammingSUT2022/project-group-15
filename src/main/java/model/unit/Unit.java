@@ -97,15 +97,26 @@ public abstract class Unit {
         PlanedToGo = planedToGo;
     }
 
+    public int getRemainingMovement() {
+        return remainingMovement;
+    }
+
+    public void setRemainingMovement(int remainingMovement) {
+        this.remainingMovement = remainingMovement;
+    }
+
     public void doPlanedMovement() {
         Hex nextHex;
         while (remainingMovement > 0 && !PlanedToGo.isEmpty()) {
+            if (this.name.getCombatType().equals("Siege"))
+                ((RangedMilitary)this).setSetup(false);
             nextHex = PlanedToGo.get(0);
             moveToHex(nextHex.getCoordinatesInArray().get('x'), nextHex.getCoordinatesInArray().get('y'));
             PlanedToGo.remove(0);
         }
         if (PlanedToGo.isEmpty())
             PlanedToGo = null;
+
     }
 
     protected void moveToHex(int x, int y) {

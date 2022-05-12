@@ -157,6 +157,14 @@ public class Hex {
         this.improvement = improvement;
     }
 
+    public boolean isHasDestroyedImprovement() {
+        return hasDestroyedImprovement;
+    }
+
+    public void setHasDestroyedImprovement(boolean hasDestroyedImprovement) {
+        this.hasDestroyedImprovement = hasDestroyedImprovement;
+    }
+
     public boolean isAnyCitizenWorking() {
         return isAnyCitizenWorking;
     }
