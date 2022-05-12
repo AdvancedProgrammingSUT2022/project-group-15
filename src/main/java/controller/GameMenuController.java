@@ -248,7 +248,7 @@ public class GameMenuController {
         }
         if (!(((MilitaryUnit) selectedUnit).isFortifying())) {
             ((MilitaryUnit) selectedUnit).setFortifying(true);
-            selectedUnit.setMeleePower((int) (selectedUnit.getMeleePower()*1.5));
+            selectedUnit.setMeleePower((int) (selectedUnit.getMeleePower() * 1.5));
         }
         return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is fortified");
 
@@ -271,8 +271,17 @@ public class GameMenuController {
     }
 
     public String garrisonSelectedUnit() {
-        // TODO : implement
-        return null;
+
+        if (selectedUnit == null)
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "please select a unit first");
+        if (!selectedUnit.getOwner().equals(Game.getGame().getSelectedCivilization()))
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is not yours");
+        if ( Game.getGame().map.isInACity(selectedUnit)) {
+
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "Done");
+        }
+        return Controller.addNotification(Game.getGame().getTurnNumber(), "unit not in a city");
+
     }
 
     public String setupRangedSelectedUnit() {
@@ -305,7 +314,14 @@ public class GameMenuController {
         if (!selectedUnit.getOwner().equals(Game.getGame().getSelectedCivilization())) {
             return Controller.addNotification(Game.getGame().getTurnNumber(), "unit not yours");
         }
-        selectedUnit.setSleep(false);
+        if (selectedUnit instanceof CivilUnit)
+            selectedUnit.setSleep(false);
+        else {
+            if (((MilitaryUnit) selectedUnit).isFortifying())
+                selectedUnit.setMeleePower((selectedUnit.getMeleePower() * 2 / 3));
+            ((MilitaryUnit) selectedUnit).setFortifying(false);
+            ((MilitaryUnit) selectedUnit).setFortifyingTillHealed(false);
+        }
         return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is woken up");
     }
 

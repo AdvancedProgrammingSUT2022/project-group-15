@@ -40,6 +40,7 @@ public class City {
         }
 
         Game.getGame().map.map.get(x).get(y).setCity(this);
+        cityUnit = new RangedMilitary(x, y, owner, UnitName.CITYUNIT);
     }
 
     public int getUnemployedCitizens() {
@@ -288,5 +289,16 @@ public class City {
         cityHexes.add(Game.getGame().map.map.get(x).get(y));
     }
 
+    public void garrison() {
+        cityUnit.setRangedPower((int) (cityUnit.getRangedPower() * 1.5));
+        cityUnit.setMeleePower((int) (cityUnit.getMeleePower() * 1.5));
+        cityUnit.setTotalHealth((int) (cityUnit.getTotalHealth() * 1.5));
+    }
+
+    public void unGarrison() {
+        cityUnit.setRangedPower((cityUnit.getRangedPower() * 2 / 3));
+        cityUnit.setMeleePower((cityUnit.getMeleePower() * 2 / 3));
+        cityUnit.setTotalHealth((cityUnit.getTotalHealth() * 2 / 3));
+    }
 
 }
