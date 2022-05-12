@@ -164,8 +164,11 @@ public class City {
         int ans = 0;
         for (Hex hex : cityHexes) {
             if (hex.isAnyCitizenWorking()) {
-                ans += hex.getTerrain().gold + hex.getFeature().gold + hex.getImprovement().gold;
+                ans += hex.getTerrain().gold + hex.getFeature().gold;
             }
+            if (!hex.isHasDestroyedImprovement())
+                ans += hex.getImprovement().gold;
+
             if (hex.getResource().requiredImprovement.equals(hex.getImprovement())) {
                 ans += hex.getResource().gold;
             }
@@ -178,7 +181,9 @@ public class City {
         int copyOfNumberOfCitizen = numberOfCitizen;
         for (Hex hex : cityHexes) {
             if (hex.isAnyCitizenWorking()) {
-                ans += hex.getTerrain().production + hex.getFeature().production + hex.getImprovement().production;
+                ans += hex.getTerrain().production + hex.getFeature().production;
+                if (!hex.isHasDestroyedImprovement())
+                    ans += hex.getImprovement().production;
                 if (hex.getResource().requiredImprovement.equals(hex.getImprovement())) {
                     ans += hex.getResource().production;
                 }
@@ -193,7 +198,9 @@ public class City {
         int ans = 0;
         for (Hex hex : cityHexes) {
             if (hex.isAnyCitizenWorking()) {
-                ans += hex.getTerrain().food + hex.getFeature().food + hex.getImprovement().food;
+                ans += hex.getTerrain().food + hex.getFeature().food;
+                if (!hex.isHasDestroyedImprovement())
+                    ans += hex.getImprovement().food;
                 if (hex.getResource().requiredImprovement.equals(hex.getImprovement())) {
                     ans += hex.getResource().food;
                 }
