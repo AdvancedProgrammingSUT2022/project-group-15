@@ -40,4 +40,27 @@ public abstract class MilitaryUnit extends Unit {
         PlanedToGo = null;
     }
 
+    public boolean isAlerted() {
+        return isAlerted;
+    }
+
+    public void setAlerted(boolean alerted) {
+        isAlerted = alerted;
+    }
+
+    public boolean isFortifying() {
+        return isFortifying;
+    }
+
+    public void setFortifying(boolean fortifying) {
+        isFortifying = fortifying;
+    }
+
+    public boolean isFortifyingTillHealed() {
+        return isFortifyingTillHealed;
+    }
+
+    public void setFortifyingTillHealed(boolean fortifyingTillHealed) {
+        isFortifyingTillHealed = fortifyingTillHealed;
+    }
 }

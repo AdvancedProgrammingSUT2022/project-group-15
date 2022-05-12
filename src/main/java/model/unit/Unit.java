@@ -71,12 +71,24 @@ public abstract class Unit {
         return coordinatesInMap;
     }
 
+    public void setMeleePower(int meleePower){
+        this.meleePower = meleePower;
+    }
+
+    public int getMeleePower(){
+        return this.meleePower;
+    }
+
     public UnitName getName() {
         return name;
     }
 
     public ArrayList<Hex> getPlanedToGo() {
         return PlanedToGo;
+    }
+
+    public void setPlanedToGo(ArrayList<Hex> planedToGo) {
+        PlanedToGo = planedToGo;
     }
 
     public void doPlanedMovement() {

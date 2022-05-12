@@ -226,6 +226,7 @@ public class GameMenuController {
             return Controller.addNotification(Game.getGame().getTurnNumber(), "unit not yours");
         }
         selectedUnit.setSleep(true);
+        selectedUnit.setPlanedToGo(null);
         return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is slept");
 
     }
@@ -236,14 +237,36 @@ public class GameMenuController {
     }
 
     public String fortifySelectedUnit() {
-        // TODO : implement
-        return null;
+        if (selectedUnit == null) {
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "no selected unit");
+        }
+        if (!selectedUnit.getOwner().equals(Game.getGame().getSelectedCivilization())) {
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "unit not yours");
+        }
+        if (selectedUnit instanceof CivilUnit) {
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is a CivilUnit");
+        }
+        ((MilitaryUnit) selectedUnit).setFortifying(true);
+        return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is fortified");
+
+
     }
 
     public String fortifySelectedUnitTillHeal() {
-        // TODO : implement
-        return null;
+        if (selectedUnit == null) {
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "no selected unit");
+        }
+        if (!selectedUnit.getOwner().equals(Game.getGame().getSelectedCivilization())) {
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "unit not yours");
+        }
+        if (selectedUnit instanceof CivilUnit) {
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is a CivilUnit");
+        }
+        ((MilitaryUnit) selectedUnit).setFortifyingTillHealed(true);
+        return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is fortified till healed");
+
     }
+
 
     public String garrisonSelectedUnit() {
         // TODO : implement
@@ -677,17 +700,28 @@ public class GameMenuController {
         return null;
     }
 
-    public String cheatDryRiverOn(int x, int y) {
-        // TODO implement
-        return null;
-    }
-
     public String cheatIncreaseHealthOfSelectedUnit() {
         if (selectedUnit == null) {
             return Controller.addNotification(Game.getGame().getTurnNumber(), "no unit selected!");
         }
         selectedUnit.setNowHealth(selectedUnit.getTotalHealth());
-        return Controller.addNotification(Game.getGame().getTurnNumber(), "Cheat code accepted : ");
+        return Controller.addNotification(Game.getGame().getTurnNumber(), "Cheat code accepted : Health increased");
+    }
+
+    public String cheatIncreasePowerOfSelectedUnit() {
+        if (selectedUnit == null) {
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "no unit selected!");
+        }
+        if (!(selectedUnit instanceof MilitaryUnit)) {
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "selected unit is not military!");
+        }
+        if (selectedUnit instanceof MeleeMilitary) {
+            selectedUnit.setMeleePower((int) (selectedUnit.getMeleePower() * 1.5));
+        }
+        if (selectedUnit instanceof RangedMilitary) {
+            ((RangedMilitary) selectedUnit).setRangedPower((int) (((RangedMilitary) selectedUnit).getRangedPower() * 1.5));
+        }
+        return Controller.addNotification(Game.getGame().getTurnNumber(), "Cheat code accepted : Power of attack increased");
     }
 
     // TODO : implement removing Swamp ( that requires Masonry Technology )
