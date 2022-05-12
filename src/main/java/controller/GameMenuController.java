@@ -247,7 +247,6 @@ public class GameMenuController {
     }
 
 
-
     public String fortifySelectedUnit() {
         if (selectedUnit == null) {
             return Controller.addNotification(Game.getGame().getTurnNumber(), "no selected unit");
@@ -282,14 +281,31 @@ public class GameMenuController {
 
     }
 
+    public String pillage() {
+        if (selectedUnit == null)
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "please select a unit first");
+        if (!selectedUnit.getOwner().equals(Game.getGame().getSelectedCivilization()))
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is not yours");
+        if (selectedUnit instanceof CivilUnit)
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is a CivilUnit");
+        selectedUnit.setRemainingMovement(-1);
+        Game.getGame().map.map.get(selectedUnit.getCoordinatesInMap().get('x') / 2)
+                .get(selectedUnit.getCoordinatesInMap().get('y')).setHasDestroyedImprovement(true);
+        return "done";
+
+    }
+
     public String garrisonSelectedUnit() {
 
         if (selectedUnit == null)
             return Controller.addNotification(Game.getGame().getTurnNumber(), "please select a unit first");
         if (!selectedUnit.getOwner().equals(Game.getGame().getSelectedCivilization()))
             return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is not yours");
-        if ( Game.getGame().map.isInACity(selectedUnit)) {
-
+        if (selectedUnit instanceof CivilUnit) {
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is a CivilUnit");
+        }
+        if (Game.getGame().map.isInACity(selectedUnit)) {
+            selectedUnit.setRemainingMovement(-1);
             return Controller.addNotification(Game.getGame().getTurnNumber(), "Done");
         }
         return Controller.addNotification(Game.getGame().getTurnNumber(), "unit not in a city");
@@ -303,7 +319,8 @@ public class GameMenuController {
             return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is not yours");
         if (!selectedUnit.getName().getCombatType().equals("Siege"))
             return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is not siege");
-        ((RangedMilitary)selectedUnit).setSetup(true);
+        ((RangedMilitary) selectedUnit).setSetup(true);
+        selectedUnit.setRemainingMovement(-1);
         return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is set up");
     }
 
@@ -322,8 +339,12 @@ public class GameMenuController {
     }
 
     public String cancelSelectedUnitMission() {
-        // TODO : implement
-        return null;
+        if (selectedUnit == null)
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "no selected unit");
+        if (!selectedUnit.getOwner().equals(Game.getGame().getSelectedCivilization()))
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "unit not yours");
+        selectedUnit.setPlanedToGo(null);
+        return "Done";
     }
 
     public String wakeUpSelectedUnit() {
@@ -411,8 +432,8 @@ public class GameMenuController {
             return Controller.addNotification(Game.getGame().getTurnNumber(), "selected unit is not a worker");
         selectedUnit.setRemainingMovement(-1);
 
-        Game.getGame().map.map.get(selectedUnit.getCoordinatesInMap().get('x')/2).get(selectedUnit.getCoordinatesInMap().get('y')).setHasRoad(false);
-        Game.getGame().map.map.get(selectedUnit.getCoordinatesInMap().get('x')/2).get(selectedUnit.getCoordinatesInMap().get('y')).setHasRailRoad(false);
+        Game.getGame().map.map.get(selectedUnit.getCoordinatesInMap().get('x') / 2).get(selectedUnit.getCoordinatesInMap().get('y')).setHasRoad(false);
+        Game.getGame().map.map.get(selectedUnit.getCoordinatesInMap().get('x') / 2).get(selectedUnit.getCoordinatesInMap().get('y')).setHasRailRoad(false);
         return Controller.addNotification(Game.getGame().getTurnNumber(), "done");
     }
 
@@ -425,7 +446,7 @@ public class GameMenuController {
             return Controller.addNotification(Game.getGame().getTurnNumber(), "selected unit is not a worker");
         selectedUnit.setRemainingMovement(-1);
 
-        Game.getGame().map.map.get(selectedUnit.getCoordinatesInMap().get('x')/2)
+        Game.getGame().map.map.get(selectedUnit.getCoordinatesInMap().get('x') / 2)
                 .get(selectedUnit.getCoordinatesInMap().get('y')).setHasDestroyedImprovement(false);
         return Controller.addNotification(Game.getGame().getTurnNumber(), "done");
     }
@@ -807,10 +828,6 @@ public class GameMenuController {
         return Controller.addNotification(Game.getGame().getTurnNumber(), "Cheat code accepted : Power of attack increased");
     }
 
-    public String pillage() {
-        // TODO implement
-        return null;
-    }
 
     // TODO : implement removing Swamp ( that requires Masonry Technology )
 }

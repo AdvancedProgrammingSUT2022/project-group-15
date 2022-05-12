@@ -77,11 +77,11 @@ public abstract class Unit {
         return coordinatesInMap;
     }
 
-    public void setMeleePower(int meleePower){
+    public void setMeleePower(int meleePower) {
         this.meleePower = meleePower;
     }
 
-    public int getMeleePower(){
+    public int getMeleePower() {
         return this.meleePower;
     }
 
@@ -109,7 +109,7 @@ public abstract class Unit {
         Hex nextHex;
         while (remainingMovement > 0 && !PlanedToGo.isEmpty()) {
             if (this.name.getCombatType().equals("Siege"))
-                ((RangedMilitary)this).setSetup(false);
+                ((RangedMilitary) this).setSetup(false);
             nextHex = PlanedToGo.get(0);
             moveToHex(nextHex.getCoordinatesInArray().get('x'), nextHex.getCoordinatesInArray().get('y'));
             PlanedToGo.remove(0);
@@ -260,7 +260,7 @@ public abstract class Unit {
     abstract public boolean needsCommand();
 
     public void updateUnit() {
-        if (PlanedToGo != null)
+        if (PlanedToGo != null && remainingMovement > 0)
             doPlanedMovement();
         if (this.isSleep)
             return;
