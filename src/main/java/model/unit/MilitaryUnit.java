@@ -29,7 +29,6 @@ public abstract class MilitaryUnit extends Unit {
         if (this.remainingMovement < 0)
             return false;
         if (PlanedToGo != null) {
-            doPlanedMovement();
             if (remainingMovement > 0)
                 return true;
             return false;

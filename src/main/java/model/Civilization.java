@@ -35,6 +35,12 @@ public class Civilization {
     }
 
     public void nextTurn() {
+        for (Unit unit : units) {
+            unit.updateUnit();
+        }
+        for (City city : cities) {
+            city.moveToNextTurn();
+        }
         scienceStorage += sciencePerTurn;
         if (technologyInProgress != null && scienceStorage >= technologyInProgress.cost) {
             openNewTechnology();
