@@ -4,6 +4,7 @@ import controller.GameMenuController;
 import enums.*;
 import model.unit.Unit;
 
+import javax.swing.text.StyledEditorKit;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -338,6 +339,18 @@ public class Map {
         for (NeighborHex neighborHex : NeighborHex.values()) {
             if (map.get((2*x+y%2+neighborHex.xDiff)/2).get(y+ neighborHex.yDiff).getCity().equals(city))
                 return true;
+        }
+        return false;
+    }
+
+    public boolean isInACity(Unit unit){
+        Hex hex = map.get(unit.getCoordinatesInMap().get('x')/2 ).get(unit.getCoordinatesInMap().get('y'));
+        if (hex.getCity()==null)
+            return false;
+        if (hex.getCity().getOwner().equals(unit.getOwner()) &&
+                hex.getCity().getCoordinatesOfCenterInArray().get('x') == unit.getCoordinatesInMap().get('x')/2  &&
+        hex.getCity().getCoordinatesOfCenterInArray().get('y') == unit.getCoordinatesInMap().get('y') ){
+            return true;
         }
         return false;
     }

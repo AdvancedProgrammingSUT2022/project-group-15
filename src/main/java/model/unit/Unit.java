@@ -36,6 +36,8 @@ public abstract class Unit {
             totalHealth = 1;
         nowHealth = totalHealth;
         this.name = name;
+        if (name.equals(UnitName.CITYUNIT))
+            return;
         if (this instanceof CivilUnit)
             Game.getGame().map.map.get(x).get(y).setCivilUnit((CivilUnit) this);
         else
@@ -61,6 +63,10 @@ public abstract class Unit {
 
     public int getTotalHealth() {
         return totalHealth;
+    }
+
+    public void setTotalHealth(int totalHealth) {
+        this.totalHealth = totalHealth;
     }
 
     public Civilization getOwner() {
@@ -245,7 +251,7 @@ public abstract class Unit {
     public void updateUnit() {
         if (PlanedToGo != null)
             doPlanedMovement();
-        if (this.isSleep == true)
+        if (this.isSleep)
             return;
         if (this instanceof CivilUnit) {
             resetMovement();
