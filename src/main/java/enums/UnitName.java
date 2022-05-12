@@ -90,7 +90,7 @@ public enum UnitName {
         return combatType;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
@@ -98,9 +98,9 @@ public enum UnitName {
         return resources;
     }
 
-    public static UnitName getUnitNameByName(String unitName){
+    public static UnitName getUnitNameByName(String unitName) {
         for (UnitName name : UnitName.values()) {
-            if(unitName.equals(name.getName())){
+            if (unitName.equals(name.getName())) {
                 return name;
             }
         }

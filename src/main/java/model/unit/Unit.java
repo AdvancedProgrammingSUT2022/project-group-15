@@ -8,6 +8,8 @@ import model.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static java.lang.Math.min;
+
 public abstract class Unit {
     protected HashMap<Character, Integer> coordinatesInMap = new HashMap<>();
     protected ArrayList<Hex> PlanedToGo = new ArrayList<>();
@@ -23,7 +25,6 @@ public abstract class Unit {
     protected int meleePower;
 
     public Unit(int x, int y, Civilization owner, UnitName name) {
-        // TODO: 5/8/2022 use unitname for adding info 
         coordinatesInMap.put('x', x * 2 + y % 2);
         coordinatesInMap.put('y', y);
         this.owner = owner;
@@ -229,6 +230,44 @@ public abstract class Unit {
 
     abstract public boolean needsCommand();
 
+    public void updateUnit() {
+        if (PlanedToGo != null)
+            doPlanedMovement();
+        if (this.isSleep == true)
+            return;
+        if (this instanceof CivilUnit) {
+            resetMovement();
+            return;
+        }
+        MilitaryUnit thisUnit = (MilitaryUnit) this;
+        if (thisUnit.isAlerted && thisUnit.hasEnemyUnitAround()) {
+            resetMovement();
+            return;
+        }
+        if (thisUnit.isFortifying)
+            return;
+        if (thisUnit.isFortifyingTillHealed) {
+            thisUnit.nowHealth = min(thisUnit.nowHealth + thisUnit.totalHealth / 10 + 1, thisUnit.totalHealth);
+            return;
+        }
+        resetMovement();
+
+    }
+
+
+    public boolean hasEnemyUnitAround() {
+        int x = this.getCoordinatesInMap().get('x');
+        int y = this.getCoordinatesInMap().get('y');
+        for (NeighborHex neighborHex : NeighborHex.values()) {
+            if (Game.getGame().map.map.get((x + neighborHex.xDiff) / 2).get(y + neighborHex.yDiff).getMilitaryUnit() != null &&
+                    !Game.getGame().map.map.get((x + neighborHex.xDiff) / 2).get(y + neighborHex.yDiff).getMilitaryUnit().owner.equals(this.owner)
+            )
+                return true;
+        }
+        return false;
+    }
+
+
     abstract public void cancelMission();
 
     public boolean unitCanAttack(int x, int y) {
@@ -254,6 +293,7 @@ public abstract class Unit {
         }
         return ans;
     }
+
     public boolean isSleep() {
         return isSleep;
     }

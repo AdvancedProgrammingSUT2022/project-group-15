@@ -13,7 +13,6 @@ public class SettlerUnit extends CivilUnit {
     @Override
     public boolean needsCommand() {
         if (PlanedToGo != null){
-            doPlanedMovement();
             if (remainingMovement>0)
                 return true;
             return false;

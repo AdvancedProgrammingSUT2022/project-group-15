@@ -19,7 +19,6 @@ public class WorkerUnit extends CivilUnit {
             return false;
         }
         if (PlanedToGo != null){
-            doPlanedMovement();
             if (remainingMovement>0)
                 return true;
             return false;
