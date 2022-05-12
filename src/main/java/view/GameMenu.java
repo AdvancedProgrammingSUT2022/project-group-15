@@ -153,10 +153,10 @@ public class GameMenu extends Menu {
             System.out.println(controller.cheatWin());
         } else if ((matcher = getMatcher(command, "^cheat found city on (?<x>\\d+) (?<y>\\d+)$")) != null){
             System.out.println(controller.cheatFoundCityOn(Integer.parseInt(matcher.group("x")), Integer.parseInt(matcher.group("y"))));
-        } else if ((matcher = getMatcher(command, "^cheat dry river on (?<x>\\d+) (?<y>\\d+)$")) != null){
-            System.out.println(controller.cheatDryRiverOn(Integer.parseInt(matcher.group("x")), Integer.parseInt(matcher.group("y"))));
         } else if ((matcher = getMatcher(command, "^cheat increase health of selected unit$")) != null){
             System.out.println(controller.cheatIncreaseHealthOfSelectedUnit());
+        } else if ((matcher = getMatcher(command, "^cheat increase power of selected unit$")) != null){
+            System.out.println(controller.cheatIncreasePowerOfSelectedUnit());
         } else {
             System.out.println("invalid command!");
         }

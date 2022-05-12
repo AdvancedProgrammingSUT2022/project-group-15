@@ -69,6 +69,14 @@ public abstract class Unit {
         return coordinatesInMap;
     }
 
+    public void setMeleePower(int meleePower){
+        this.meleePower = meleePower;
+    }
+
+    public int getMeleePower(){
+        return this.meleePower;
+    }
+
     public UnitName getName() {
         return name;
     }
