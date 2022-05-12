@@ -88,7 +88,6 @@ public class User {
      * @author Erfan
      */
     public static void loadUsers() {
-
         try {
             String json = new String(Files.readAllBytes(Paths.get("./src/main/resources/UserDatabase.json")));
             ArrayList<User> createdUsers;
