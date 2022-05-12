@@ -270,7 +270,6 @@ public class GameMenuController {
 
     }
 
-
     public String garrisonSelectedUnit() {
         // TODO : implement
         return null;
@@ -301,8 +300,13 @@ public class GameMenuController {
     }
 
     public String wakeUpSelectedUnit() {
-        // TODO : implement
-        return null;
+        if (selectedUnit == null)
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "no selected unit");
+        if (!selectedUnit.getOwner().equals(Game.getGame().getSelectedCivilization())) {
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "unit not yours");
+        }
+        selectedUnit.setSleep(false);
+        return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is woken up");
     }
 
     public String deleteSelectedUnit() {
