@@ -23,8 +23,11 @@ public class ProfileMenu extends Menu {
         } else if ((matcher = getMatcher(command, "^profile change (-n|--nickname) (?<nickname>\\S+)$")) != null) {
             System.out.println(controller.changeNickname(matcher));
         } else if (((matcher = getMatcher(command, "^profile change (-p|--password) (-c|--current) (?<currentPassword>\\S+) (-n|--new) (?<newPassword>\\S+)$")) != null) ||
-                ((matcher = getMatcher(command, "^profile change (-p|--password) (-n|--new) (?<newPassword>\\S+)) (-c|--current) (?<currentPassword>\\S+)$")) != null)) {
+                ((matcher = getMatcher(command, "^profile change (-p|--password) (-n|--new) (?<newPassword>\\S+) (-c|--current) (?<currentPassword>\\S+)$")) != null)) {
             System.out.println(controller.changePassword(matcher));
+        } else if (command.startsWith("profile change -u") ||
+                command.startsWith("profile change --username")) {
+            System.out.println("Sorry, Username is fixed");
         } else {
             System.out.println("invalid command!");
         }

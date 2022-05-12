@@ -41,6 +41,7 @@ public abstract class Unit {
             Game.getGame().map.map.get(x).get(y).setMilitaryUnit((MilitaryUnit) this);
         owner.getUnits().add(this);
     }
+
     public int getMovementSpeed() {
         return movementSpeed;
     }
@@ -261,4 +262,12 @@ public abstract class Unit {
         }
         return ans;
     }
+    public boolean isSleep() {
+        return isSleep;
+    }
+
+    public void setSleep(boolean sleep) {
+        isSleep = sleep;
+    }
+
 }

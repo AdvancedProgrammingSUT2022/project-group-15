@@ -1,6 +1,7 @@
 package view;
 
 import controller.LoginMenuController;
+import model.User;
 
 import java.util.regex.Matcher;
 

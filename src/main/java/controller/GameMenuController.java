@@ -220,8 +220,14 @@ public class GameMenuController {
     }
 
     public String sleepSelectedUnit() {
-        // TODO : implement
-        return null;
+        if (selectedUnit == null)
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "no selected unit");
+        if (!selectedUnit.getOwner().equals(Game.getGame().getSelectedCivilization())) {
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "unit not yours");
+        }
+        selectedUnit.setSleep(true);
+        return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is slept");
+
     }
 
     public String alertSelectedUnit() {
@@ -571,6 +577,14 @@ public class GameMenuController {
         UnitName unit = UnitName.getUnitNameByName(unitName);
         if (unit == null) {
             return Controller.addNotification(Game.getGame().getTurnNumber(), "invalid unit name");
+        }
+        if (unit != null) {
+            for (Technology technology : selectedCity.getOwner().getTechnologies()) {
+                for (int i = 0; i < technology.openingUnits.size(); i++)
+                    if (!technology.openingUnits.get(i).equals(unit)) {
+                        return Controller.addNotification(Game.getGame().getTurnNumber(), "Not proper teechnology");
+                    }
+            }
         }
         if (selectedCity.getOwner().getGoldStorage() < unit.getCost())
             return Controller.addNotification(Game.getGame().getTurnNumber(), "not enough money");
