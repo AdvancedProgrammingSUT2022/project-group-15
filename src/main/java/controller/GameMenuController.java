@@ -365,7 +365,6 @@ public class GameMenuController {
         if (improvement == null) {
             return Controller.addNotification(Game.getGame().getTurnNumber(), "invalid improvement");
         }
-
         // TODO : implement
         return null;
     }
