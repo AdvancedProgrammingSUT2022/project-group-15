@@ -232,8 +232,18 @@ public class GameMenuController {
     }
 
     public String alertSelectedUnit() {
-        // TODO : implement
-        return null;
+        if (selectedUnit == null) {
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "no selected unit");
+        }
+        if (!selectedUnit.getOwner().equals(Game.getGame().getSelectedCivilization())) {
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "unit not yours");
+        }
+        if (selectedUnit instanceof CivilUnit) {
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is a CivilUnit");
+        }
+        ((MilitaryUnit) selectedUnit).setAlerted(true);
+        return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is alerted");
+
     }
 
     public String fortifySelectedUnit() {
@@ -604,14 +614,10 @@ public class GameMenuController {
         if (unit == null) {
             return Controller.addNotification(Game.getGame().getTurnNumber(), "invalid unit name");
         }
-        if (unit != null) {
-            for (Technology technology : selectedCity.getOwner().getTechnologies()) {
-                for (int i = 0; i < technology.openingUnits.size(); i++)
-                    if (!technology.openingUnits.get(i).equals(unit)) {
-                        return Controller.addNotification(Game.getGame().getTurnNumber(), "Not proper teechnology");
-                    }
-            }
+        if (selectedCity.getOwner().getOpenedUnits().contains(unit)) {
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "Not proper teechnology");
         }
+
         if (selectedCity.getOwner().getGoldStorage() < unit.getCost())
             return Controller.addNotification(Game.getGame().getTurnNumber(), "not enough money");
         if (unit.getCombatType().equals("Civilian")) {
@@ -640,8 +646,32 @@ public class GameMenuController {
     }
 
     public String chooseProductionForUnit(String unitName) {
-        // TODO : implement
-        return null;
+        if (selectedCity == null)
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "no city is selected");
+        if (!selectedCity.getOwner().equals(Game.getGame().getSelectedCivilization()))
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "city not yours");
+        UnitName unit = UnitName.getUnitNameByName(unitName);
+        if (unit == null) {
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "invalid unit name");
+        }
+        if (selectedCity.getOwner().getOpenedUnits().contains(unit)) {
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "Not proper teechnology");
+        }
+        if (unit.getCombatType().equals("Civilian")) {
+            for (Hex cityHex : selectedCity.getCityHexes()) {
+                if (cityHex.getCivilUnit() != null)
+                    return Controller.addNotification(Game.getGame().getTurnNumber(), "civil unit is full");
+            }
+        }
+        if (!unit.getCombatType().equals("Civilian")) {
+            for (Hex cityHex : selectedCity.getCityHexes()) {
+                if (cityHex.getMilitaryUnit() != null)
+                    return Controller.addNotification(Game.getGame().getTurnNumber(), "military unit is full");
+            }
+        }
+        selectedCity.setUnitInProgress(unit);
+        return Controller.addNotification(Game.getGame().getTurnNumber(), "it will be produced");
+
     }
 
     public String cheatIncreaseTurn(int amount) {
