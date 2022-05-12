@@ -55,32 +55,33 @@ The order of flags doesn't matter in each command below that contains dashes
 21) unit remove jungle
 22) unit remove route
 23) unit repair
+24) unit pillage
 
 #### <li> City Commands
 
-24) city remove citizen from work on **_x_** **_y_**
-25) city lock citizen on **_x_** **_y_**
-26) city choose production **_unit name_**
-27) city purchase unit **_unit name_**
-28) city buy hex **_x_** **_y_**
-29) city attack **_x_** **_y_**
+25) city remove citizen from work on **_x_** **_y_**
+26) city lock citizen on **_x_** **_y_**
+27) city choose production **_unit name_**
+28) city purchase unit **_unit name_**
+29) city buy hex **_x_** **_y_**
+30) city attack **_x_** **_y_**
 
 #### <li> Map Commands
 
-30) map move **_direction_** **_amount_** <br> **_direction_** can be "left", "right", "up", "down"
-31) map show **_x_** **_y_**
-32) map show **_city name_**
+31) map move **_direction_** **_amount_** <br> **_direction_** can be "left", "right", "up", "down"
+32) map show **_x_** **_y_**
+33) map show **_city name_**
 
 #### <li> Cheat Commands
 
-33) cheat increase --turn **_amount_**
-34) cheat increase --gold **_amount_**
-35) cheat increase --science **_amount_**
-36) cheat increase --citizens **_amount_** <br> Adds "amount" citizens to each city
-37) cheat increase --score **_amount_**
-38) cheat open all technologies <br> It automatically opens all features, improvements, resources, and units
-39) cheat win
-40) cheat make the whole map visible
-41) cheat found city on **_x_** **_y_**
-42) cheat increase health of selected unit
-43) cheat increase power of selected unit
+34) cheat increase --turn **_amount_**
+35) cheat increase --gold **_amount_**
+36) cheat increase --science **_amount_**
+37) cheat increase --citizens **_amount_** <br> Adds "amount" citizens to each city
+38) cheat increase --score **_amount_**
+39) cheat open all technologies <br> It automatically opens all features, improvements, resources, and units
+40) cheat win
+41) cheat make the whole map visible
+42) cheat found city on **_x_** **_y_**
+43) cheat increase health of selected unit
+44) cheat increase power of selected unit

@@ -246,6 +246,8 @@ public class GameMenuController {
 
     }
 
+
+
     public String fortifySelectedUnit() {
         if (selectedUnit == null) {
             return Controller.addNotification(Game.getGame().getTurnNumber(), "no selected unit");
@@ -634,7 +636,7 @@ public class GameMenuController {
             return Controller.addNotification(Game.getGame().getTurnNumber(), "invalid unit name");
         }
         if (selectedCity.getOwner().getOpenedUnits().contains(unit)) {
-            return Controller.addNotification(Game.getGame().getTurnNumber(), "Not proper teechnology");
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "Not proper technology");
         }
 
         if (selectedCity.getOwner().getGoldStorage() < unit.getCost())
@@ -775,6 +777,11 @@ public class GameMenuController {
             ((RangedMilitary) selectedUnit).setRangedPower((int) (((RangedMilitary) selectedUnit).getRangedPower() * 1.5));
         }
         return Controller.addNotification(Game.getGame().getTurnNumber(), "Cheat code accepted : Power of attack increased");
+    }
+
+    public String pillage() {
+        // TODO implement
+        return null;
     }
 
     // TODO : implement removing Swamp ( that requires Masonry Technology )
