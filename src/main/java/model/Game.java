@@ -61,6 +61,11 @@ public class Game {
 
 
     public void nextTurn() {
+        for (ArrayList<Hex> hexArrayList : map.map) {
+            for (Hex hex : hexArrayList) {
+                hex.setMovementPrice(hex.calculateMovementPrice());
+            }
+        }
         selectedCivilization.nextTurn();
         turn++;
         selectedCivilization = civilizations.get(turn % civilizations.size());

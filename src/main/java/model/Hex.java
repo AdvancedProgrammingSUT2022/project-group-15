@@ -15,7 +15,7 @@ public class Hex {
     private boolean hasDestroyedImprovement;
     private int percentOfBuildingImprovement;
     private boolean isAnyCitizenWorking= false;
-    private int movementPrice;
+    private double movementPrice;
     private boolean hasRiver;
     private boolean hasRoad;
     private boolean hasRailRoad;
@@ -66,7 +66,11 @@ public class Hex {
      * @return the final movement price of this hex
      * @author Parsa
      */
-    private int calculateMovementPrice() {
+    public double calculateMovementPrice() {
+        if (this.hasRailRoad)
+            return 0.2;
+        if (this.hasRoad)
+            return 0.5;
         if (feature != Feature.NULL) {
             return feature.movementPrice;
         }
@@ -113,11 +117,11 @@ public class Hex {
         return coordinatesInMap;
     }
 
-    public int getMovementPrice() {
+    public double getMovementPrice() {
         return movementPrice;
     }
 
-    public void setMovementPrice(int movementPrice) {
+    public void setMovementPrice(double movementPrice) {
         this.movementPrice = movementPrice;
     }
 

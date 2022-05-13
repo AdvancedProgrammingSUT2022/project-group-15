@@ -194,7 +194,7 @@ public class Civilization {
                     Game.getGame().map.map.get(xRand).get(yRand).getCivilUnit() == null)
                 break;
         }
-        SettlerUnit settlerUnit = new SettlerUnit(xRand, yRand, this, UnitName.SETTLER);
+        new SettlerUnit(xRand, yRand, this, UnitName.SETTLER);
     }
 
     public int getScienceStorage() {
