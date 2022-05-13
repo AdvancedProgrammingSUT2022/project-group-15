@@ -212,7 +212,7 @@ public class GameMenuController {
         if (!selectedUnit.getOwner().equals(Game.getGame().getSelectedCivilization())) {
             return Controller.addNotification(Game.getGame().getTurnNumber(), "unit not yours");
         }
-        int distance = selectedUnit.findShortestPathByDijkstra(x, y);
+        double distance = selectedUnit.findShortestPathByDijkstra(x, y);
         if (distance > 999999) {
             return Controller.addNotification(Game.getGame().getTurnNumber(),
                     "cant go to destination (mountain or ice or sea) or blocked by other units");

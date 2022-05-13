@@ -1,10 +1,11 @@
 package model.unit;
 
+
 import enums.UnitName;
 import model.City;
 import model.Civilization;
 import model.Game;
-import model.unit.Unit;
+
 
 public abstract class MilitaryUnit extends Unit {
 
@@ -26,6 +27,8 @@ public abstract class MilitaryUnit extends Unit {
     }
 
     abstract public void attackTo(Unit unit);
+    // TODO: 5/13/2022 terrain effect
+
 
     public void garrisonCity() {
         City city = Game.getGame().map.map.get(this.getCoordinatesInMap().get('x')/2).get(this.getCoordinatesInMap().get('y')).getCity();

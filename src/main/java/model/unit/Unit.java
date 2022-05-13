@@ -149,7 +149,7 @@ public abstract class Unit {
     }
 
 
-    public int findShortestPathByDijkstra(int x, int y) {
+    public double findShortestPathByDijkstra(int x, int y) {
         int numberOfRows = Game.getGame().getRows();
         int numberColumns = Game.getGame().getColumns();
         int numberOfNodes = numberColumns * numberOfRows;
@@ -157,7 +157,7 @@ public abstract class Unit {
         int startNodeNumber = (this.coordinatesInMap.get('x') / 2) * numberColumns + this.coordinatesInMap.get('y');
         int destinationNode = x * numberColumns + y;
         // Key values used to pick minimum weight edge in cut
-        int[] distance = new int[numberOfNodes];
+        double[] distance = new double[numberOfNodes];
         // To represent set of vertices included in MST
         Boolean[] mstSet = new Boolean[numberOfNodes];
         // Initialize all keys as INFINITE
@@ -217,7 +217,7 @@ public abstract class Unit {
         PlanedToGo = answer;
     }
 
-    private void updateAdjacentNode(int xDiff, int yDiff, int[] distance, Boolean[] mstSet, int NodeNumber, int[] parent) {
+    private void updateAdjacentNode(int xDiff, int yDiff, double[] distance, Boolean[] mstSet, int NodeNumber, int[] parent) {
         int x = NodeNumber / (Game.getGame().getColumns());
         int y = NodeNumber % (Game.getGame().getColumns());
         x = 2 * x + y % 2 + xDiff;
@@ -227,7 +227,7 @@ public abstract class Unit {
         int destinationNodeNumber = x * (Game.getGame().getColumns()) + y;
         if (!Game.getGame().map.validCoordinateInArray(x, y))
             return;
-        int moveCost = Game.getGame().map.map.get(x).get(y).getMovementPrice();
+        double moveCost = Game.getGame().map.map.get(x).get(y).getMovementPrice();
         if (Game.getGame().map.map.get(x).get(y).doesHaveRiver() && Game.getGame().map.map.
                 get(NodeNumber / (Game.getGame().getColumns())).get(NodeNumber % (Game.getGame().getColumns())).doesHaveRiver())
             moveCost = this.movementSpeed;
@@ -247,9 +247,10 @@ public abstract class Unit {
         } else return Game.getGame().map.map.get(x).get(y).getMilitaryUnit() != null;
     }
 
-    private int minKey(int[] key, Boolean[] mstSet, int numberOfNodes) {
+    private int minKey(double[] key, Boolean[] mstSet, int numberOfNodes) {
         // Initialize min value
-        int min = Integer.MAX_VALUE, min_index = -1;
+        double min = Double.MAX_VALUE;
+        int min_index = -1;
 
         for (int v = 0; v < numberOfNodes; v++)
             if (mstSet[v] == false && key[v] < min) {

@@ -214,7 +214,7 @@ public class City {
         }
         ans -= 2 * numberOfCitizen;
         if (owner.getHappiness() < 0 && ans > 0) {
-            ans = (int) 2 * ans / 3;
+            ans =  2 * ans / 3;
             return ans;
         } else if (unitInProgress.equals(UnitName.SETTLER) && ans > 0) {
             return 0;
