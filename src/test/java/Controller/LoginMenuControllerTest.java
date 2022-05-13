@@ -27,9 +27,9 @@ public class LoginMenuControllerTest {
 
     @BeforeEach
     public void setup(){
-//        MockedStatic<User> theMock = Mockito.mockStatic(User.class);
-//        theMock.when(() -> User.getUserByUsername("parsabsh")).thenReturn(user);
-//        theMock.when(() -> User.getUserByNickname("parsa")).thenReturn(user);
+        MockedStatic<User> theMock = Mockito.mockStatic(User.class);
+        theMock.when(() -> User.getUserByUsername("parsabsh")).thenReturn(null);
+        theMock.when(() -> User.getUserByNickname("parsa")).thenReturn(null);
     }
 
     @Test
@@ -44,6 +44,8 @@ public class LoginMenuControllerTest {
 
     @Test
     public void checkUserWithUsernameExists(){
+        MockedStatic<User> theMock = Mockito.mockStatic(User.class);
+        theMock.when(() -> User.getUserByUsername("parsabsh")).thenReturn(user);
 
     }
 
