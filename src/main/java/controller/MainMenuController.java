@@ -22,12 +22,15 @@ public class MainMenuController {
         }
 
         for (Integer number : usernames.keySet()) {
-            if (number > users.size()) return "invalid player numbers";
-            users.set(number - 1, User.getUserByUsername(usernames.get(number)));
+            try {
+                users.set(number - 1, User.getUserByUsername(usernames.get(number)));
+            } catch (Exception e) {
+                return Controller.addNotification(-1, "invalid player numbers");
+            }
         }
 
         Game.startNewGame(users);
-        return "a new game started with " + users.size() + " players";
+        return Controller.addNotification(-1, "a new game started with " + users.size() + " players");
     }
 
     /**

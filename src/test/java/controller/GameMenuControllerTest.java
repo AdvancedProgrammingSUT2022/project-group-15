@@ -1,25 +1,20 @@
-package Controller;
+package controller;
 
-import controller.GameMenuController;
 import enums.Feature;
 import enums.Resource;
 import enums.Terrain;
 import enums.UnitName;
-import junit.framework.TestCase;
 import model.Game;
 import model.Hex;
 import model.User;
-import model.unit.CivilUnit;
 import model.unit.WorkerUnit;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeAll;
 import view.GameMenu;
-import org.junit.Test;
 
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
-import junit.framework.TestCase;
+
 public class GameMenuControllerTest {
 
 

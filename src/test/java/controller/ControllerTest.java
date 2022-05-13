@@ -1,5 +1,4 @@
-package Controller;
-import controller.Controller;
+package controller;
 import org.junit.Assert;
 import org.junit.Test;
 public class ControllerTest {

@@ -1,6 +1,5 @@
-package Controller;
+package controller;
 
-import controller.LoginMenuController;
 import model.User;
 import org.junit.Assert;
 import org.junit.Test;

@@ -44,10 +44,10 @@ public class LoginMenuController {
         String password = matcher.group("password");
 
         if (User.getUserByUsername(username) == null || !User.getUserByUsername(username).getPassword().equals(password)) {
-            return "Username and password didn't match!";
+            return Controller.addNotification(-1,"Username and password didn't match!");
         }
         User.setLoggedInUser(User.getUserByUsername(username));
-        return "user logged in successfully!";
+        return Controller.addNotification(-1,"user logged in successfully!");
     }
 
     /**
