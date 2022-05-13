@@ -39,8 +39,6 @@ public class WorkerUnit extends CivilUnit {
         PlanedToGo = null;
     }
 
-    public void removeRoute() {
-        // TODO: 4/23/2022
-    }
+
 
 }

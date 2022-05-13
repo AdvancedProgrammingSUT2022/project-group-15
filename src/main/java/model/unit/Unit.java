@@ -106,10 +106,21 @@ public abstract class Unit {
     }
 
     public void doPlanedMovement() {
-        Hex nextHex;
-        while (remainingMovement > 0 && !PlanedToGo.isEmpty()) {
+        isSleep=false;
+        if (this instanceof MilitaryUnit){
+            ((MilitaryUnit)this).setGarrisoning(false);
+            ((MilitaryUnit)this).unGarrisonCity();
+            ((MilitaryUnit)this).setFortifyingTillHealed(false);
+            ((MilitaryUnit)this).setFortifying(false);
+            ((MilitaryUnit)this).setAlerted(false);
+
             if (this.name.getCombatType().equals("Siege"))
                 ((RangedMilitary) this).setSetup(false);
+        }
+
+
+        Hex nextHex;
+        while (remainingMovement > 0 && !PlanedToGo.isEmpty()) {
             nextHex = PlanedToGo.get(0);
             moveToHex(nextHex.getCoordinatesInArray().get('x'), nextHex.getCoordinatesInArray().get('y'));
             PlanedToGo.remove(0);

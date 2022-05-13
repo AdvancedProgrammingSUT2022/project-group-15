@@ -312,14 +312,12 @@ public class City {
     }
 
     public void garrison() {
-        // TODO: 5/13/2022 when used? 
         cityUnit.setRangedPower((int) (cityUnit.getRangedPower() * 1.5));
         cityUnit.setMeleePower((int) (cityUnit.getMeleePower() * 1.5));
         cityUnit.setTotalHealth((int) (cityUnit.getTotalHealth() * 1.5));
     }
 
     public void unGarrison() {
-        // TODO: 5/13/2022 when used? 
         cityUnit.setRangedPower((cityUnit.getRangedPower() * 2 / 3));
         cityUnit.setMeleePower((cityUnit.getMeleePower() * 2 / 3));
         cityUnit.setTotalHealth((cityUnit.getTotalHealth() * 2 / 3));

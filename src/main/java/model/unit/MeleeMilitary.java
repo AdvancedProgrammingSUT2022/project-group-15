@@ -14,7 +14,7 @@ public class MeleeMilitary extends MilitaryUnit {
         if (unit instanceof CivilUnit) {
             moveToHex(unit.coordinatesInMap.get('x') / 2, unit.coordinatesInMap.get('y'));
             unit.owner.deleteUnit(unit, false);
-            // TODO: 4/23/2022 build worker here for attacker
+            new WorkerUnit(unit.coordinatesInMap.get('x') / 2, unit.coordinatesInMap.get('y'),this.owner,UnitName.WORKER);
             return;
         }
         unit.nowHealth -= this.meleePower;

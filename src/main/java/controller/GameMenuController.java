@@ -16,10 +16,8 @@ public class GameMenuController {
     public String changeTurn() {
         for (Unit unit : Game.getGame().getSelectedCivilization().getUnits()) {
             if (unit.needsCommand())
-                // TODO: 5/13/2022
-                continue;
-          //      return Controller.addNotification(Game.getGame().getTurnNumber()
-             //           , "some Units Need Command in x: " + unit.getCoordinatesInMap().get('x') / 2 + " y: " + unit.getCoordinatesInMap().get('y'));
+                return Controller.addNotification(Game.getGame().getTurnNumber()
+                        , "some Units Need Command in x: " + unit.getCoordinatesInMap().get('x') / 2 + " y: " + unit.getCoordinatesInMap().get('y'));
         }
 
         Game.getGame().nextTurn();
@@ -39,7 +37,8 @@ public class GameMenuController {
         // current technology
         Technology technology = Game.getGame().getSelectedCivilization().getTechnologyInProgress();
         if (technology != null) {
-            int remainingTurns = (int) Math.ceil((technology.cost - Game.getGame().getSelectedCivilization().getScienceStorage()) / (double) Game.getGame().getSelectedCivilization().getSciencePerTurn());
+            int remainingTurns = (int) Math.ceil((technology.cost - Game.getGame().getSelectedCivilization().getScienceStorage())
+                    / (double) Game.getGame().getSelectedCivilization().getSciencePerTurn());
             message = "Current Technology : " + technology + "( " + remainingTurns + " turns remaining to achieve )\n";
         } else {
             message = "No Current Technology\n";
@@ -202,9 +201,9 @@ public class GameMenuController {
                 "\ngold per turn : " + city.getGoldPerTurn() +
                 "\nscience per turn : " + city.getSciencePerTurn() +
                 "\nproduction per turn : " + city.getProductionPerTurn() +
-                "\nfood per turn : " + city.getFoodPerTurn()+
-                "\nfood storage : "+city.getFoodStorage() +
-                "\nwill build unit in "+(city.getRemainedTurns()) + " turns!";
+                "\nfood per turn : " + city.getFoodPerTurn() +
+                "\nfood storage : " + city.getFoodStorage() +
+                "\nwill build unit in " + (city.getRemainedTurns()) + " turns!";
     }
 
     public String moveSelectedUnitTo(int x, int y) {
@@ -215,7 +214,8 @@ public class GameMenuController {
         }
         int distance = selectedUnit.findShortestPathByDijkstra(x, y);
         if (distance > 999999) {
-            return Controller.addNotification(Game.getGame().getTurnNumber(), "cant go to destination (mountain or ice or sea) or blocked by other units");
+            return Controller.addNotification(Game.getGame().getTurnNumber(),
+                    "cant go to destination (mountain or ice or sea) or blocked by other units");
         }
         selectedUnit.doPlanedMovement();
         if (selectedUnit.getPlanedToGo() == null)
@@ -310,6 +310,10 @@ public class GameMenuController {
         }
         if (Game.getGame().map.isInACity(selectedUnit)) {
             selectedUnit.setRemainingMovement(-1);
+            if (!((MilitaryUnit) selectedUnit).isGarrisoning()) {
+                ((MilitaryUnit) selectedUnit).setGarrisoning(true);
+                ((MilitaryUnit) selectedUnit).garrisonCity();
+            }
             return Controller.addNotification(Game.getGame().getTurnNumber(), "Done");
         }
         return Controller.addNotification(Game.getGame().getTurnNumber(), "unit not in a city");
@@ -380,7 +384,6 @@ public class GameMenuController {
 
 
     public String attackTo(int x, int y) {
-        // TODO: 5/12/2022 setup range is tru? 
         if (selectedUnit == null) {
             return Controller.addNotification(Game.getGame().getTurnNumber(), "Please Select a unit first!");
         }
@@ -388,11 +391,13 @@ public class GameMenuController {
             return Controller.addNotification(Game.getGame().getTurnNumber(), "Unit not yours");
         if (selectedUnit instanceof CivilUnit)
             return Controller.addNotification(Game.getGame().getTurnNumber(), "Unit is civil!!!");
-        if (selectedUnit.getRemainingMovement()<=0)
+        if (selectedUnit.getRemainingMovement() <= 0)
             return Controller.addNotification(Game.getGame().getTurnNumber(), "unit does not have mp");
+        if (selectedUnit.getName().getCombatType().equals("Siege") && !((RangedMilitary) selectedUnit).isSetup())
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "you should set up Siege unit");
         if (!selectedUnit.unitCanAttack(x, y))
             return Controller.addNotification(Game.getGame().getTurnNumber(), "destination is far");
-        if (Game.getGame().map.isCenterOfCity(x,y))
+        if (Game.getGame().map.isCenterOfCity(x, y))
             return Controller.addNotification(Game.getGame().getTurnNumber(), attackTo(Game.getGame().map.map.get(x).get(y).getCity()));
         if (Game.getGame().map.map.get(x).get(y).getMilitaryUnit() == null && Game.getGame().map.map.get(x).get(y).getCivilUnit() == null)
             return Controller.addNotification(Game.getGame().getTurnNumber(), "no unit in destination");
@@ -402,8 +407,6 @@ public class GameMenuController {
         if (target.getOwner() == selectedUnit.getOwner())
             return Controller.addNotification(Game.getGame().getTurnNumber(), "you can't attack yourself");
         ((MilitaryUnit) selectedUnit).attackTo(target);
-
-        // TODO: 5/10/2022  works?
 
         return Controller.addNotification(Game.getGame().getTurnNumber(), "attack is done");
     }
@@ -539,8 +542,6 @@ public class GameMenuController {
         } else {
             replaceText(printMap, x, y, +3, "ROD", "N/A", GlobalThings.WHITE_BACKGROUND + GlobalThings.BLACK);
         }
-// TODO: 5/3/2022 river???
-
 
     }
 
@@ -732,7 +733,7 @@ public class GameMenuController {
         if (!selectedCity.getOwner().equals(Game.getGame().getSelectedCivilization()))
             return Controller.addNotification(Game.getGame().getTurnNumber(), "city not yours");
         selectedUnit = selectedCity.getCityUnit();
-        return attackTo(x,y);
+        return attackTo(x, y);
     }
 
     public String chooseProductionForUnit(String unitName) {

@@ -1,7 +1,10 @@
 package model.unit;
 
+import com.sun.tools.javac.tree.DCTree;
 import enums.UnitName;
+import model.City;
 import model.Civilization;
+import model.Game;
 import model.unit.Unit;
 
 public abstract class MilitaryUnit extends Unit {
@@ -9,19 +12,33 @@ public abstract class MilitaryUnit extends Unit {
     protected boolean isAlerted;
     protected boolean isFortifying;
     protected boolean isFortifyingTillHealed;
+    protected boolean isGarrisoning;
 
     public MilitaryUnit(int x, int y, Civilization owner, UnitName name) {
         super(x, y, owner, name);
     }
 
+    public boolean isGarrisoning() {
+        return isGarrisoning;
+    }
+
+    public void setGarrisoning(boolean garrisoning) {
+        isGarrisoning = garrisoning;
+    }
+
     abstract public void attackTo(Unit unit);
 
     public void garrisonCity() {
-// TODO: 4/23/2022
+        City city = Game.getGame().map.map.get(this.getCoordinatesInMap().get('x')/2).get(this.getCoordinatesInMap().get('y')).getCity();
+        city.garrison();
+    }
+    public void unGarrisonCity() {
+        City city = Game.getGame().map.map.get(this.getCoordinatesInMap().get('x')/2).get(this.getCoordinatesInMap().get('y')).getCity();
+        city.unGarrison();
     }
 
     public boolean enemyIsNear() {
-        // TODO: 4/23/2022
+        // TODO: 4/23/2022 zoc
         return true;
     }
 
