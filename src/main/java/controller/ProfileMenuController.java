@@ -13,7 +13,7 @@ public class ProfileMenuController {
     public String changeNickname(Matcher matcher) {
         String nickname = matcher.group("nickname");
 
-        if (User.loggedInUser.getNickname().equals(nickname)) {
+        if (User.getLoggedInUser().getNickname().equals(nickname)) {
             return "please enter a new nickname";
         }
 
@@ -21,7 +21,7 @@ public class ProfileMenuController {
             return "user with nickname " + nickname + " already exists";
         }
 
-        User.loggedInUser.setNickname(nickname);
+        User.getLoggedInUser().setNickname(nickname);
         User.saveUsers();
         return "nickname changed successfully!";
     }
@@ -36,7 +36,7 @@ public class ProfileMenuController {
         String currentPassword = matcher.group("currentPassword");
         String newPassword = matcher.group("newPassword");
 
-        if (!User.loggedInUser.getPassword().equals(currentPassword)) {
+        if (!User.getLoggedInUser().getPassword().equals(currentPassword)) {
             return "current password is invalid";
         }
 
@@ -44,7 +44,7 @@ public class ProfileMenuController {
             return "please enter a new password";
         }
 
-        User.loggedInUser.setPassword(newPassword);
+        User.getLoggedInUser().setPassword(newPassword);
         User.saveUsers();
         return "password changed successfully!";
     }

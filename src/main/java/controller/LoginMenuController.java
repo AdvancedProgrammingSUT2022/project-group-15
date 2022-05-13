@@ -46,7 +46,7 @@ public class LoginMenuController {
         if (User.getUserByUsername(username) == null || !User.getUserByUsername(username).getPassword().equals(password)) {
             return "Username and password didn't match!";
         }
-        User.loggedInUser = User.getUserByUsername(username);
+        User.setLoggedInUser(User.getUserByUsername(username));
         return "user logged in successfully!";
     }
 
@@ -55,6 +55,6 @@ public class LoginMenuController {
      * @author Parsa
      */
     public boolean isUserLoggedIn() {
-        return User.loggedInUser != null;
+        return User.getLoggedInUser() != null;
     }
 }
