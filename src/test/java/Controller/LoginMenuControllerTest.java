@@ -22,21 +22,14 @@ import java.util.regex.Pattern;
 @ExtendWith(MockitoExtension.class)
 public class LoginMenuControllerTest {
     LoginMenuController controller = new LoginMenuController();
-    String regex = "";
-    String command = "";
+    String regex = "^(?<username>\\S+) (?<password>\\S+) (?<nickname>\\S+)$";
+    String command = "parsabsh mypassword parsa";
     Matcher matcher;
     User user = new User("", "", "");
     static MockedStatic<User> theMock = Mockito.mockStatic(User.class);
 
-    @BeforeEach
-    public void setup(){
-
-    }
-
     @Test
     public void checkPasswordIsWeak(){
-        command = "parsabsh mypassword parsa";
-        regex = "^(?<username>\\S+) (?<password>\\S+) (?<nickname>\\S+)$";
         matcher = Pattern.compile(regex).matcher(command);
         System.out.println("matches : " + matcher.matches());
         Assert.assertEquals("password is weak!", controller.createUser(matcher));
@@ -46,8 +39,6 @@ public class LoginMenuControllerTest {
     public void checkUserWithUsernameExists(){
         theMock.when(() -> User.getUserByUsername("parsabsh")).thenReturn(user);
 
-        command = "parsabsh mypassword parsa";
-        regex = "^(?<username>\\S+) (?<password>\\S+) (?<nickname>\\S+)$";
         matcher = Pattern.compile(regex).matcher(command);
         System.out.println("matches : " + matcher.matches());
         Assert.assertEquals("user with username parsabsh already exists", controller.createUser(matcher));
@@ -58,8 +49,6 @@ public class LoginMenuControllerTest {
         theMock.when(() -> User.getUserByUsername("parsabsh")).thenReturn(null);
         theMock.when(() -> User.getUserByNickname("parsa")).thenReturn(user);
 
-        command = "parsabsh mypassword parsa";
-        regex = "^(?<username>\\S+) (?<password>\\S+) (?<nickname>\\S+)$";
         matcher = Pattern.compile(regex).matcher(command);
         System.out.println("matches : " + matcher.matches());
         Assert.assertEquals("user with nickname parsa already exists", controller.createUser(matcher));
@@ -67,7 +56,13 @@ public class LoginMenuControllerTest {
 
     @Test
     public void checkCreateUserSuccessful(){
+        theMock.when(() -> User.getUserByUsername("parsabsh")).thenReturn(null);
+        theMock.when(() -> User.getUserByNickname("parsa")).thenReturn(null);
 
+        command = "parsabsh password1234 parsa";
+        matcher = Pattern.compile(regex).matcher(command);
+        System.out.println("matches : " + matcher.matches());
+        Assert.assertEquals("user created successfully!", controller.createUser(matcher));
     }
 
     @Test
