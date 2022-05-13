@@ -58,7 +58,7 @@ public class GameMenuController {
     public String buyNewTechnology(String technologyName) {
         Technology technology = null;
         for (Technology tech : Technology.values()) {
-            if (tech.toString().equals(technologyName)) {
+            if (tech.name.equals(technologyName)) {
                 technology = tech;
             }
         }
