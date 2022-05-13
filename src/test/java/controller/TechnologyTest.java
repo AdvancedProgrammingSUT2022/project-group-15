@@ -1,8 +1,6 @@
-package Controller;
+package controller;
 
-import junit.framework.TestCase;
 import org.junit.Test;
-import org.mockito.Mock;
 
 public class TechnologyTest {
 

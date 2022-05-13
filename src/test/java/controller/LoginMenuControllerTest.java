@@ -1,21 +1,12 @@
-package Controller;
+package controller;
 
-import controller.Controller;
-import controller.LoginMenuController;
-import junit.framework.TestCase;
 import model.User;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,6 +19,8 @@ public class LoginMenuControllerTest {
     User user = new User("", "", "");
     static MockedStatic<User> theMock = Mockito.mockStatic(User.class);
 
+
+    /* user create tests */
     @Test
     public void checkPasswordIsWeak(){
         matcher = Pattern.compile(regex).matcher(command);
@@ -65,8 +58,38 @@ public class LoginMenuControllerTest {
         Assert.assertEquals("user created successfully!", controller.createUser(matcher));
     }
 
+    /* user login tests */
     @Test
-    public void loginTest(){
+    public void checkIncorrectPassword(){
+        regex = "^(?<username>\\S+) (?<password>\\S+)$";
+        command = "parsabsh password1234";
+        user = new User("parsabsh", "passwordNotMatch", "");
+        theMock.when(() -> User.getUserByUsername("parsabsh")).thenReturn(user);
+        matcher = Pattern.compile(regex).matcher(command);
+        System.out.println("matches : " + matcher.matches());
+        Assert.assertEquals("Username and password didn't match!", controller.login(matcher));
+    }
 
+    @Test
+    public void checkLoginSuccessful(){
+        regex = "^(?<username>\\S+) (?<password>\\S+)$";
+        command = "parsabsh password1234";
+        user = new User("parsabsh", "password1234", "");
+        theMock.when(() -> User.getUserByUsername("parsabsh")).thenReturn(user);
+        matcher = Pattern.compile(regex).matcher(command);
+        System.out.println("matches : " + matcher.matches());
+        Assert.assertEquals("user logged in successfully!", controller.login(matcher));
+    }
+
+    @Test
+    public void checkIsUserLoggedInFalse(){
+        theMock.when(() -> User.getLoggedInUser()).thenReturn(null);
+        Assert.assertFalse(controller.isUserLoggedIn());
+    }
+
+    @Test
+    public void checkIsUserLoggedInTrue(){
+        theMock.when(() -> User.getLoggedInUser()).thenReturn(user);
+        Assert.assertTrue(controller.isUserLoggedIn());
     }
 }
