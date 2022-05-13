@@ -1,12 +1,11 @@
 package controller;
 
-import model.User;
 import view.*;
 
 import java.util.ArrayList;
 
 public class Controller {
-    private final LoginMenu loginMenu = new LoginMenu();
+    private final LoginMenu loginMenu= new LoginMenu();
     private final MainMenu mainMenu = new MainMenu();
     private final ProfileMenu profileMenu = new ProfileMenu();
     private final GameMenu gameMenu = new GameMenu();
