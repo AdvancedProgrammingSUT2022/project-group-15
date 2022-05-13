@@ -21,32 +21,37 @@ import java.util.regex.Pattern;
 
 @ExtendWith(MockitoExtension.class)
 public class LoginMenuControllerTest {
-
-    @Mock
+    LoginMenuController controller = new LoginMenuController();
+    String regex = "";
+    String command = "";
+    Matcher matcher;
     User user;
 
     @BeforeEach
     public void setup(){
-        MockedStatic<User> theMock = Mockito.mockStatic(User.class);
-        theMock.when(() -> User.getUserByUsername("parsabsh")).thenReturn(null);
-        theMock.when(() -> User.getUserByNickname("parsa")).thenReturn(null);
+
     }
 
     @Test
     public void checkPasswordIsWeak(){
-        LoginMenuController controller = new LoginMenuController();
-        String command = "user create --username parsabsh --password mypassword --nickname parsa";
-        String regex = "^user create (-u|--username) (?<username>\\S+) (-p|--password) (?<password>\\S+) (-n|--nickname) (?<nickname>\\S+)$";
-        Matcher matcher = Pattern.compile(regex).matcher(command);
+        command = "parsabsh mypassword parsa";
+        regex = "^(?<username>\\S+) (?<password>\\S+) (?<nickname>\\S+)$";
+        matcher = Pattern.compile(regex).matcher(command);
         System.out.println("matches : " + matcher.matches());
         Assert.assertEquals("password is weak!", controller.createUser(matcher));
     }
 
     @Test
     public void checkUserWithUsernameExists(){
+        user = new User("parsabsh", "parsa1234", "parsa");
         MockedStatic<User> theMock = Mockito.mockStatic(User.class);
         theMock.when(() -> User.getUserByUsername("parsabsh")).thenReturn(user);
 
+        command = "parsabsh mypassword1234 parsa";
+        regex = "^(?<username>\\S+) (?<password>\\S+) (?<nickname>\\S+)$";
+        matcher = Pattern.compile(regex).matcher(command);
+        System.out.println("matches : " + matcher.matches());
+        Assert.assertEquals("user with username parsabsh already exists", controller.createUser(matcher));
     }
 
     @Test
