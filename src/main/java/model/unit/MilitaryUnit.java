@@ -1,6 +1,5 @@
 package model.unit;
 
-import com.sun.tools.javac.tree.DCTree;
 import enums.UnitName;
 import model.City;
 import model.Civilization;
