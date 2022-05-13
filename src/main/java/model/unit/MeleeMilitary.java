@@ -2,6 +2,7 @@ package model.unit;
 
 import enums.UnitName;
 import model.Civilization;
+import model.Game;
 
 public class MeleeMilitary extends MilitaryUnit {
     public MeleeMilitary(int x, int y, Civilization owner, UnitName name) {
@@ -14,11 +15,13 @@ public class MeleeMilitary extends MilitaryUnit {
         if (unit instanceof CivilUnit) {
             moveToHex(unit.coordinatesInMap.get('x') / 2, unit.coordinatesInMap.get('y'));
             unit.owner.deleteUnit(unit, false);
-            new WorkerUnit(unit.coordinatesInMap.get('x') / 2, unit.coordinatesInMap.get('y'),this.owner,UnitName.WORKER);
+            new WorkerUnit(unit.coordinatesInMap.get('x') / 2, unit.coordinatesInMap.get('y'), this.owner, UnitName.WORKER);
             return;
         }
-        unit.nowHealth -= this.meleePower;
-        this.nowHealth -= unit.meleePower;
+        unit.nowHealth -= this.meleePower * Game.getGame().map.map.get(this.coordinatesInMap.get('x') / 2).get(this
+                .coordinatesInMap.get('y')).getCombatEffect();
+        this.nowHealth -= unit.meleePower * Game.getGame().map.map.get(unit.coordinatesInMap.get('x') / 2).get(unit
+                .coordinatesInMap.get('y')).getCombatEffect();
 
         if (unit.nowHealth <= 0) {
             moveToHex(unit.coordinatesInMap.get('x') / 2, unit.coordinatesInMap.get('y'));

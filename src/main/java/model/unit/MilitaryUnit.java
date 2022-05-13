@@ -27,7 +27,7 @@ public abstract class MilitaryUnit extends Unit {
     }
 
     abstract public void attackTo(Unit unit);
-    // TODO: 5/13/2022 terrain effect
+
 
 
     public void garrisonCity() {
@@ -39,10 +39,6 @@ public abstract class MilitaryUnit extends Unit {
         city.unGarrison();
     }
 
-    public boolean enemyIsNear() {
-        // TODO: 4/23/2022 zoc
-        return true;
-    }
 
     public boolean needsCommand() {
         if (this.remainingMovement < 0)

@@ -1,12 +1,13 @@
 package model.unit;
 
-import controller.GameMenuController;
 import enums.NeighborHex;
 import enums.UnitName;
 import model.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import static java.lang.Math.min;
 
@@ -106,13 +107,14 @@ public abstract class Unit {
     }
 
     public void doPlanedMovement() {
-        isSleep=false;
-        if (this instanceof MilitaryUnit){
-            ((MilitaryUnit)this).setGarrisoning(false);
-            ((MilitaryUnit)this).unGarrisonCity();
-            ((MilitaryUnit)this).setFortifyingTillHealed(false);
-            ((MilitaryUnit)this).setFortifying(false);
-            ((MilitaryUnit)this).setAlerted(false);
+        isSleep = false;
+        if (this instanceof MilitaryUnit) {
+            if (((MilitaryUnit) this).isGarrisoning())
+                ((MilitaryUnit) this).unGarrisonCity();
+            ((MilitaryUnit) this).setGarrisoning(false);
+            ((MilitaryUnit) this).setFortifyingTillHealed(false);
+            ((MilitaryUnit) this).setFortifying(false);
+            ((MilitaryUnit) this).setAlerted(false);
 
             if (this.name.getCombatType().equals("Siege"))
                 ((RangedMilitary) this).setSetup(false);
@@ -131,6 +133,13 @@ public abstract class Unit {
     }
 
     protected void moveToHex(int x, int y) {
+
+        if (hasSameUnitInHexOrEnemy(x, y)) {
+            PlanedToGo = null;
+            return;
+        }
+
+
         if (this instanceof MilitaryUnit) {
             Game.getGame().map.map.get(this.coordinatesInMap.get('x') / 2).get(this.coordinatesInMap.get('y')).setMilitaryUnit(null);
         } else {
@@ -139,6 +148,8 @@ public abstract class Unit {
 
         this.coordinatesInMap.replace('y', y);
         this.coordinatesInMap.replace('x', 2 * x + y % 2);
+        if (ZOCInPath(x, y))
+            this.remainingMovement = 0;
         this.remainingMovement -= Game.getGame().map.map.get(this.coordinatesInMap.get('x') / 2).get(this.coordinatesInMap.get('y')).getMovementPrice();
 
         if (this instanceof MilitaryUnit) {
@@ -146,6 +157,33 @@ public abstract class Unit {
         } else {
             Game.getGame().map.map.get(this.coordinatesInMap.get('x') / 2).get(this.coordinatesInMap.get('y')).setCivilUnit((CivilUnit) this);
         }
+    }
+
+    protected boolean ZOCInPath(int x, int y) {
+        Set<MilitaryUnit> now = new HashSet<>();
+        Set<MilitaryUnit> then = new HashSet();
+        MilitaryUnit militaryUnit;
+        for (NeighborHex neighborHex : NeighborHex.values()) {
+            militaryUnit = Game.getGame().map.map.get((this.getCoordinatesInMap().get('x') + neighborHex.xDiff) / 2)
+                    .get(this.getCoordinatesInMap().get('y') + neighborHex.yDiff).getMilitaryUnit();
+            if (militaryUnit != null) {
+                if (!militaryUnit.owner.equals(this.owner)) {
+                    now.add(militaryUnit);
+                }
+            }
+        }
+
+        for (NeighborHex neighborHex : NeighborHex.values()) {
+            militaryUnit = Game.getGame().map.map.get((2*x + y%2 + neighborHex.xDiff) / 2)
+                    .get(y + neighborHex.yDiff).getMilitaryUnit();
+            if (militaryUnit != null) {
+                if (!militaryUnit.owner.equals(this.owner)) {
+                    then.add(militaryUnit);
+                }
+            }
+        }
+        now.retainAll(then);
+        return !now.isEmpty();
     }
 
 
@@ -235,16 +273,34 @@ public abstract class Unit {
             moveCost = Integer.MAX_VALUE / 2;
 
         if (mstSet[destinationNodeNumber] == false && distance[NodeNumber] + moveCost < distance[destinationNodeNumber] &&
-                !hasSameUnitInHex(x, y)) {
+                !hasSameUnitInHexOrEnemy(x, y)) {
             parent[destinationNodeNumber] = NodeNumber;
             distance[destinationNodeNumber] = distance[NodeNumber] + moveCost;
         }
     }
 
-    private boolean hasSameUnitInHex(int x, int y) {
-        if (this instanceof CivilUnit) {
-            return Game.getGame().map.map.get(x).get(y).getCivilUnit() != null;
-        } else return Game.getGame().map.map.get(x).get(y).getMilitaryUnit() != null;
+    private boolean hasSameUnitInHexOrEnemy(int x, int y) {
+
+        if (this instanceof MilitaryUnit) {
+            if (Game.getGame().map.map.get(x).get(y).getMilitaryUnit() != null) {
+                return true;
+            }
+            if (Game.getGame().map.map.get(x).get(y).getCivilUnit() != null) {
+                if (!Game.getGame().map.map.get(x).get(y).getCivilUnit().owner.equals(this.owner)) {
+                    return true;
+                }
+            }
+        } else {
+            if (Game.getGame().map.map.get(x).get(y).getCivilUnit() != null) {
+                return true;
+            }
+            if (Game.getGame().map.map.get(x).get(y).getMilitaryUnit() != null) {
+                if (!Game.getGame().map.map.get(x).get(y).getMilitaryUnit().owner.equals(this.owner)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private int minKey(double[] key, Boolean[] mstSet, int numberOfNodes) {

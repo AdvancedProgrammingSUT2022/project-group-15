@@ -19,6 +19,7 @@ public class Hex {
     private boolean hasRiver;
     private boolean hasRoad;
     private boolean hasRailRoad;
+    private double combatEffect;
     private HexVisibility hexVisibility = HexVisibility.FOG_OF_WAR;
     private HashMap<Character, Integer> coordinatesInArray = new HashMap<>();
     private HashMap<Character, Integer> coordinatesInMap = new HashMap<>();
@@ -36,6 +37,7 @@ public class Hex {
         this.coordinatesInMap.put('x', x * 2 + y % 2);
         this.coordinatesInMap.put('y', y);
         this.movementPrice = calculateMovementPrice();
+        this.combatEffect = (100.0 +terrain.combatEffect + feature.combatEffect)/100;
     }
 
     public Hex clone() {
@@ -167,6 +169,10 @@ public class Hex {
 
     public void setHasDestroyedImprovement(boolean hasDestroyedImprovement) {
         this.hasDestroyedImprovement = hasDestroyedImprovement;
+    }
+
+    public double getCombatEffect() {
+        return combatEffect;
     }
 
     public boolean isAnyCitizenWorking() {
