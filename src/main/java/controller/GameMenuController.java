@@ -431,6 +431,8 @@ public class GameMenuController {
             return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is not worker");
         if (!selectedUnit.getOwner().equals(Game.getGame().getSelectedCivilization()))
             return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is not yours");
+        if (!selectedUnit.getOwner().getOpenedImprovements().contains(improvement))
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "no dont have the required tech for improvement");
         Hex hex = Game.getGame().map.map.get(selectedUnit.getCoordinatesInMap().get('x') / 2).get(selectedUnit.getCoordinatesInMap().get('y'));
         if (improvement.equals(Improvement.ROAD) || improvement.equals(Improvement.RAILROAD)){
             ((WorkerUnit) selectedUnit).buildRoad(improvement);
@@ -720,6 +722,9 @@ public class GameMenuController {
         if (selectedCity.getOwner().getOpenedUnits().contains(unit)) {
             return Controller.addNotification(Game.getGame().getTurnNumber(), "Not proper technology");
         }
+        if (!selectedCity.getOwner().getStrategicResources().contains(unit.getResource())) {
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "Not proper resource");
+        }
 
         if (selectedCity.getOwner().getGoldStorage() < unit.getCost())
             return Controller.addNotification(Game.getGame().getTurnNumber(), "not enough money");
@@ -763,6 +768,9 @@ public class GameMenuController {
         }
         if (selectedCity.getOwner().getOpenedUnits().contains(unit)) {
             return Controller.addNotification(Game.getGame().getTurnNumber(), "Not proper teechnology");
+        }
+        if (!selectedCity.getOwner().getStrategicResources().contains(unit.getResource())) {
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "Not proper resource");
         }
         if (unit.getCombatType().equals("Civilian")) {
             for (Hex cityHex : selectedCity.getCityHexes()) {

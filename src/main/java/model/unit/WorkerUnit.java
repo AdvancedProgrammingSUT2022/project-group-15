@@ -7,6 +7,8 @@ import model.Game;
 import model.Hex;
 import model.unit.CivilUnit;
 
+import java.util.IdentityHashMap;
+
 import static java.lang.Math.min;
 
 public class WorkerUnit extends CivilUnit {
@@ -21,8 +23,11 @@ public class WorkerUnit extends CivilUnit {
         if (isWorking) {
             Hex hex = Game.getGame().map.map.get(this.coordinatesInMap.get('x')/2).get(this.coordinatesInMap.get('y'));
             hex.setPercentOfBuildingImprovement(min(hex.getPercentOfBuildingImprovement()+10,100));
-            if (hex.getPercentOfBuildingImprovement()==100)
+            if (hex.getPercentOfBuildingImprovement()==100) {
+                if (hex.getResource().requiredImprovement.equals(hex.getImprovement()) && hex.getResource().type.equals("strategic"))
+                    this.owner.getStrategicResources().add(hex.getResource());
                 isWorking = false;
+            }
             return false;
         }
         if (PlanedToGo != null){

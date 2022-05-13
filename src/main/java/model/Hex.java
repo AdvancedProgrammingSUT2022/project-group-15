@@ -41,12 +41,8 @@ public class Hex {
     }
 
     public Hex clone() {
-        Hex newHex;
-        if (resource.type.equals("strategic")) {
-            newHex = new Hex(terrain, feature, Resource.NULL, hasRiver, coordinatesInArray.get('x'), coordinatesInArray.get('y'));
-        } else {
-            newHex = new Hex(terrain, feature, resource, hasRiver, coordinatesInArray.get('x'), coordinatesInArray.get('y'));
-        }
+        Hex newHex = new Hex(terrain, feature, resource, hasRiver, coordinatesInArray.get('x'), coordinatesInArray.get('y'));
+
         newHex.owner = this.owner;
         newHex.improvement = this.improvement;
         newHex.hasDestroyedImprovement = this.hasDestroyedImprovement;

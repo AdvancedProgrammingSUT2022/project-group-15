@@ -21,6 +21,7 @@ public class Civilization {
     private ArrayList<Resource> openedResources = new ArrayList<>();
     private ArrayList<Feature> openedFeatures = new ArrayList<>();
     private ArrayList<Improvement> openedImprovements = new ArrayList<>();
+    private ArrayList<Resource> strategicResources =new ArrayList<>();
     private City capital;
     private ArrayList<Unit> units = new ArrayList<>();
     private ArrayList<City> cities = new ArrayList<>();
@@ -28,12 +29,13 @@ public class Civilization {
     private int scienceStorage = 0;
     private int sciencePerTurn = 0;
     private int happiness = 0;
-    private int buildingMaintenance =0;
+    private int buildingMaintenance = 0;
 
 
     public Civilization(User user) {
         this.user = user;
         visibilityMap = Game.getGame().map.clone();
+        strategicResources.add(Resource.NULL);
     }
 
     public void nextTurn() {
@@ -83,7 +85,7 @@ public class Civilization {
             ans += city.getGoldPerTurn();
         }
         ans -= units.size();
-        ans-=buildingMaintenance ;
+        ans -= buildingMaintenance;
         return ans;
     }
 
@@ -312,8 +314,12 @@ public class Civilization {
         replaceText(printMap, x, y, +1, "FET",
                 this.visibilityMap.map.get(mapArrayX).get(mapArrayY).getFeature().name.substring(0, 3), GlobalThings.YELLOW);
 
-        replaceText(printMap, x, y, +2, "RES",
-                this.visibilityMap.map.get(mapArrayX).get(mapArrayY).getResource().name.substring(0, 3), GlobalThings.YELLOW);
+        if (!this.visibilityMap.map.get(mapArrayX).get(mapArrayY).getResource().type.equals("strategic") ||
+                this.openedResources.contains(this.visibilityMap.map.get(mapArrayX).get(mapArrayY).getResource()))
+            replaceText(printMap, x, y, +2, "RES",
+                    this.visibilityMap.map.get(mapArrayX).get(mapArrayY).getResource().name.substring(0, 3), GlobalThings.YELLOW);
+        else
+            replaceText(printMap, x, y, +2, "RES", "nul", GlobalThings.YELLOW);
 
 
         String background;
@@ -445,6 +451,14 @@ public class Civilization {
 
     public void setOpenedImprovements(ArrayList<Improvement> openedImprovements) {
         this.openedImprovements = openedImprovements;
+    }
+
+    public ArrayList<Resource> getStrategicResources() {
+        return strategicResources;
+    }
+
+    public void setStrategicResources(ArrayList<Resource> strategicResources) {
+        this.strategicResources = strategicResources;
     }
 
     public City getCapital() {
