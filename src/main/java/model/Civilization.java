@@ -9,6 +9,8 @@ import model.unit.WorkerUnit;
 import java.util.ArrayList;
 import java.util.Random;
 
+// TODO: 5/13/2022 gold of rode and units
+
 public class Civilization {
     private User user;
     private boolean isYourTurn;
@@ -27,6 +29,7 @@ public class Civilization {
     private int scienceStorage = 0;
     private int sciencePerTurn = 0;
     private int happiness = 0;
+    private int buildingMaintenance =0;
 
 
     public Civilization(User user) {
@@ -80,6 +83,8 @@ public class Civilization {
         for (City city : cities) {
             ans += city.getGoldPerTurn();
         }
+        ans -= units.size();
+        ans-=buildingMaintenance ;
         return ans;
     }
 
@@ -489,5 +494,13 @@ public class Civilization {
             result += city.getCityHexes().size();
         }
         return result;
+    }
+
+    public int getBuildingMaintenance() {
+        return buildingMaintenance;
+    }
+
+    public void setBuildingMaintenance(int buildingMaintenance) {
+        this.buildingMaintenance = buildingMaintenance;
     }
 }

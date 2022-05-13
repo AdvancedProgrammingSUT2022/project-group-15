@@ -13,11 +13,12 @@ public class GameMenuController {
     private int lastShownMapX = 0;
     private int lastShownMapY = 0;
 
-    public String changeTurn() {
+    public String changeTurn(boolean ignoreNeedCommand) {
         for (Unit unit : Game.getGame().getSelectedCivilization().getUnits()) {
             if (unit.needsCommand())
-                return Controller.addNotification(Game.getGame().getTurnNumber()
-                        , "some Units Need Command in x: " + unit.getCoordinatesInMap().get('x') / 2 + " y: " + unit.getCoordinatesInMap().get('y'));
+                if (!ignoreNeedCommand)
+                    return Controller.addNotification(Game.getGame().getTurnNumber(), "some Units Need Command in x: "
+                            + unit.getCoordinatesInMap().get('x') / 2 + " y: " + unit.getCoordinatesInMap().get('y'));
         }
 
         Game.getGame().nextTurn();
@@ -449,8 +450,9 @@ public class GameMenuController {
             return Controller.addNotification(Game.getGame().getTurnNumber(), "unit not yours");
         if (!(selectedUnit instanceof WorkerUnit))
             return Controller.addNotification(Game.getGame().getTurnNumber(), "selected unit is not a worker");
-        selectedUnit.setRemainingMovement(-1);
 
+        selectedUnit.setRemainingMovement(-1);
+        selectedUnit.getOwner().setBuildingMaintenance(selectedUnit.getOwner().getBuildingMaintenance() - 1);
         Game.getGame().map.map.get(selectedUnit.getCoordinatesInMap().get('x') / 2).get(selectedUnit.getCoordinatesInMap().get('y')).setHasRoad(false);
         Game.getGame().map.map.get(selectedUnit.getCoordinatesInMap().get('x') / 2).get(selectedUnit.getCoordinatesInMap().get('y')).setHasRailRoad(false);
         return Controller.addNotification(Game.getGame().getTurnNumber(), "done");
@@ -767,7 +769,7 @@ public class GameMenuController {
 
     public String cheatIncreaseTurn(int amount) {
         for (int i = 0; i < amount; i++) {
-            changeTurn();
+            changeTurn(true);
         }
         return Controller.addNotification(Game.getGame().getTurnNumber(), "Cheat code accepted : " + amount + " turns passed");
     }

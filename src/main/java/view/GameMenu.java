@@ -127,7 +127,7 @@ public class GameMenu extends Menu {
             System.out.println(controller.showMapOnCity(matcher.group("cityName")));
             return "continue";
         } else if (command.equals("next turn")) {
-            System.out.println(controller.changeTurn());
+            System.out.println(controller.changeTurn(false));
         } else if ((matcher = getMatcher(command, "^cheat increase --(?<flag>\\w+) (?<amount>\\d+)$")) != null) {
             int amount = Integer.parseInt(matcher.group("amount"));
             switch (matcher.group("flag")){
