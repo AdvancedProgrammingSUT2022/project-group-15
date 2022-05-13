@@ -3,7 +3,11 @@ package model.unit;
 import enums.Improvement;
 import enums.UnitName;
 import model.Civilization;
+import model.Game;
+import model.Hex;
 import model.unit.CivilUnit;
+
+import static java.lang.Math.min;
 
 public class WorkerUnit extends CivilUnit {
     private boolean isWorking;
@@ -15,7 +19,10 @@ public class WorkerUnit extends CivilUnit {
     @Override
     public boolean needsCommand() {
         if (isWorking) {
-            // TODO: 4/23/2022
+            Hex hex = Game.getGame().map.map.get(this.coordinatesInMap.get('x')/2).get(this.coordinatesInMap.get('y'));
+            hex.setPercentOfBuildingImprovement(min(hex.getPercentOfBuildingImprovement()+10,100));
+            if (hex.getPercentOfBuildingImprovement()==100)
+                isWorking = false;
             return false;
         }
         if (PlanedToGo != null){
@@ -27,9 +34,28 @@ public class WorkerUnit extends CivilUnit {
     }
 
     public void buildImprovement(Improvement improvement) {
-        // TODO: 4/23/2022
+        isWorking = true;
+        Hex hex = Game.getGame().map.map.get(this.coordinatesInMap.get('x')/2).get(this.coordinatesInMap.get('y'));
+        hex.setPercentOfBuildingImprovement(0);
+        hex.setImprovement(improvement);
     }
 
+    public void buildRoad(Improvement improvement) {
+        isWorking = true;
+        Hex hex = Game.getGame().map.map.get(this.coordinatesInMap.get('x')/2).get(this.coordinatesInMap.get('y'));
+        if (improvement.equals(Improvement.ROAD)) {
+            if (hex.isHasRoad())
+                return;
+            hex.setHasRoad(true);
+        }
+        else {
+            if (hex.isHasRailRoad())
+                return;
+            hex.setHasRoad(true);
+            hex.setHasRailRoad(true);
+        }
+        this.owner.setBuildingMaintenance(this.owner.getBuildingMaintenance()+1);
+    }
     public void removeJungle() {
         // TODO: 4/23/2022
     }
@@ -39,6 +65,11 @@ public class WorkerUnit extends CivilUnit {
         PlanedToGo = null;
     }
 
+    public boolean isWorking() {
+        return isWorking;
+    }
 
-
+    public void setWorking(boolean working) {
+        isWorking = working;
+    }
 }

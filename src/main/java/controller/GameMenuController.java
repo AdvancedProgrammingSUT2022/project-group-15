@@ -425,8 +425,22 @@ public class GameMenuController {
         if (improvement == null) {
             return Controller.addNotification(Game.getGame().getTurnNumber(), "invalid improvement");
         }
-        // TODO : implement
-        return null;
+        if (selectedUnit == null)
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "no unit is selected");
+        if (!(selectedUnit instanceof WorkerUnit))
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is not worker");
+        if (!selectedUnit.getOwner().equals(Game.getGame().getSelectedCivilization()))
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is not yours");
+        Hex hex = Game.getGame().map.map.get(selectedUnit.getCoordinatesInMap().get('x') / 2).get(selectedUnit.getCoordinatesInMap().get('y'));
+        if (improvement.equals(Improvement.ROAD) || improvement.equals(Improvement.RAILROAD)){
+            ((WorkerUnit) selectedUnit).buildRoad(improvement);
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "it will be done");
+        }
+
+        if (!(improvement.features.contains(hex.getFeature()) || improvement.terrains.contains(hex.getTerrain())))
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "cant build this improvement here");
+        ((WorkerUnit) selectedUnit).buildImprovement(improvement);
+        return Controller.addNotification(Game.getGame().getTurnNumber(), "it will be done");
     }
 
     public String removeJungle() {
