@@ -1,10 +1,12 @@
 package model.unit;
 
 
+import enums.Terrain;
 import enums.UnitName;
 import model.City;
 import model.Civilization;
 import model.Game;
+import model.Hex;
 
 
 public abstract class MilitaryUnit extends Unit {

@@ -2,8 +2,7 @@ package model.unit;
 
 import enums.UnitName;
 import model.Civilization;
-import model.unit.MilitaryUnit;
-import model.unit.Unit;
+import model.Game;
 
 public class RangedMilitary extends MilitaryUnit {
     private int rangedPower;
@@ -49,7 +48,7 @@ public class RangedMilitary extends MilitaryUnit {
             unit.owner.deleteUnit(unit, false);
             return;
         }
-        unit.nowHealth -= this.rangedPower;
+        unit.loseHealth(this.rangedPower,this);
         if (unit.nowHealth<=0) {
             unit.owner.deleteUnit(unit, false);
         }

@@ -18,9 +18,4 @@ public class MapTest extends TestCase {
         assertEquals(originalMap.map.get(0).get(0).getHexVisibility() , HexVisibility.FOG_OF_WAR);
     }
 
-    public void  testnew(){
-        ArrayList <Resource> resources = new ArrayList<>();
-        System.out.println(resources.contains(null));
-    }
-
 }

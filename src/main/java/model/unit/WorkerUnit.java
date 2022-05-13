@@ -26,6 +26,8 @@ public class WorkerUnit extends CivilUnit {
             if (hex.getPercentOfBuildingImprovement()==100) {
                 if (hex.getResource().requiredImprovement.equals(hex.getImprovement()) && hex.getResource().type.equals("strategic"))
                     this.owner.getStrategicResources().add(hex.getResource());
+                if (hex.getResource().requiredImprovement.equals(hex.getImprovement()) && hex.getResource().type.equals("luxury"))
+                    this.owner.getLuxuryResources().add(hex.getResource());
                 isWorking = false;
             }
             return false;

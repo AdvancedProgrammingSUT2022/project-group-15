@@ -18,10 +18,9 @@ public class MeleeMilitary extends MilitaryUnit {
             new WorkerUnit(unit.coordinatesInMap.get('x') / 2, unit.coordinatesInMap.get('y'), this.owner, UnitName.WORKER);
             return;
         }
-        unit.nowHealth -= this.meleePower * Game.getGame().map.map.get(this.coordinatesInMap.get('x') / 2).get(this
-                .coordinatesInMap.get('y')).getCombatEffect();
-        this.nowHealth -= unit.meleePower * Game.getGame().map.map.get(unit.coordinatesInMap.get('x') / 2).get(unit
-                .coordinatesInMap.get('y')).getCombatEffect();
+        unit.loseHealth(this.meleePower,this);
+        this.loseHealth(unit.meleePower,unit);
+
 
         if (unit.nowHealth <= 0) {
             moveToHex(unit.coordinatesInMap.get('x') / 2, unit.coordinatesInMap.get('y'));

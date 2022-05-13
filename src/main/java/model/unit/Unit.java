@@ -1,6 +1,7 @@
 package model.unit;
 
 import enums.NeighborHex;
+import enums.Terrain;
 import enums.UnitName;
 import model.*;
 
@@ -120,7 +121,7 @@ public abstract class Unit {
                 ((RangedMilitary) this).setSetup(false);
         }
         if (this instanceof WorkerUnit)
-            ((WorkerUnit)this).setWorking(false);
+            ((WorkerUnit) this).setWorking(false);
 
         Hex nextHex;
         while (remainingMovement > 0 && !PlanedToGo.isEmpty()) {
@@ -175,7 +176,7 @@ public abstract class Unit {
         }
 
         for (NeighborHex neighborHex : NeighborHex.values()) {
-            militaryUnit = Game.getGame().map.map.get((2*x + y%2 + neighborHex.xDiff) / 2)
+            militaryUnit = Game.getGame().map.map.get((2 * x + y % 2 + neighborHex.xDiff) / 2)
                     .get(y + neighborHex.yDiff).getMilitaryUnit();
             if (militaryUnit != null) {
                 if (!militaryUnit.owner.equals(this.owner)) {
@@ -398,6 +399,29 @@ public abstract class Unit {
 
     public void setSleep(boolean sleep) {
         isSleep = sleep;
+    }
+
+    protected void loseHealth(int amount, Unit attacker) {
+        // TODO: 5/14/2022 all units 
+        Hex unitHex = Game.getGame().map.map.get(this.coordinatesInMap.get('x') / 2).get(this.coordinatesInMap.get('y'));
+        if (this.name.equals(UnitName.CHARIOTARCHER)) {
+            if (unitHex.getTerrain().equals(Terrain.HILL))
+                this.nowHealth -= amount * 1.2;
+            this.nowHealth -= amount;
+            return;
+        }
+        if (this.name.getCombatType().equals("Mounted") && (attacker.name.equals(UnitName.SPEARMAN) || attacker.name.equals(UnitName.PIKEMAN))) {
+            this.nowHealth -= amount * unitHex.getDefenceBonus() * 2;
+            return;
+        }
+
+        if (this.name.equals(UnitName.CATAPULT)) {
+            
+            this.nowHealth -= amount;
+            return;
+        }
+
+        this.nowHealth -= amount * unitHex.getDefenceBonus();
     }
 
 }

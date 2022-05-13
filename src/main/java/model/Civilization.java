@@ -7,6 +7,7 @@ import model.unit.Unit;
 import model.unit.WorkerUnit;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Random;
 
 
@@ -22,6 +23,7 @@ public class Civilization {
     private ArrayList<Feature> openedFeatures = new ArrayList<>();
     private ArrayList<Improvement> openedImprovements = new ArrayList<>();
     private ArrayList<Resource> strategicResources =new ArrayList<>();
+    private HashSet<Resource> luxuryResources =new HashSet<>();
     private City capital;
     private ArrayList<Unit> units = new ArrayList<>();
     private ArrayList<City> cities = new ArrayList<>();
@@ -57,8 +59,18 @@ public class Civilization {
             updateAvailableTechnologies();
         }
         sciencePerTurn = calculateSciencePerTurn();
+        happiness = calculateHappiness();
+    }
 
-
+    private int calculateHappiness() {
+        int ans =1;
+        ans -= cities.size();
+        for (City city : cities) {
+            ans -= city.getNumberOfCitizen();
+        }
+        ans /= 3;
+        ans += 4 * luxuryResources.size();
+        return ans;
     }
 
     public void updateAvailableTechnologies() {
@@ -444,6 +456,11 @@ public class Civilization {
     public void setOpenedFeatures(ArrayList<Feature> openedFeatures) {
         this.openedFeatures = openedFeatures;
     }
+
+    public HashSet<Resource> getLuxuryResources() {
+        return luxuryResources;
+    }
+
 
     public ArrayList<Improvement> getOpenedImprovements() {
         return openedImprovements;
