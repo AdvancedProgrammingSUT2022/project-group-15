@@ -87,6 +87,14 @@ public class Hex {
         this.city = city;
     }
 
+    public int getPercentOfBuildingImprovement() {
+        return percentOfBuildingImprovement;
+    }
+
+    public void setPercentOfBuildingImprovement(int percentOfBuildingImprovement) {
+        this.percentOfBuildingImprovement = percentOfBuildingImprovement;
+    }
+
     public HexVisibility getHexVisibility() {
         return hexVisibility;
     }

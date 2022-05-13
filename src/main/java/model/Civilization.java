@@ -9,7 +9,6 @@ import model.unit.WorkerUnit;
 import java.util.ArrayList;
 import java.util.Random;
 
-// TODO: 5/13/2022 gold of rode and units
 
 public class Civilization {
     private User user;

@@ -172,7 +172,7 @@ public class City {
             if (hex.isAnyCitizenWorking()) {
                 ans += hex.getTerrain().gold + hex.getFeature().gold;
             }
-            if (!hex.isHasDestroyedImprovement())
+            if (!hex.isHasDestroyedImprovement() && hex.getPercentOfBuildingImprovement() == 100)
                 ans += hex.getImprovement().gold;
 
             if (hex.getResource().requiredImprovement.equals(hex.getImprovement())) {
@@ -188,7 +188,7 @@ public class City {
         for (Hex hex : cityHexes) {
             if (hex.isAnyCitizenWorking()) {
                 ans += hex.getTerrain().production + hex.getFeature().production;
-                if (!hex.isHasDestroyedImprovement())
+                if (!hex.isHasDestroyedImprovement() && hex.getPercentOfBuildingImprovement() == 100)
                     ans += hex.getImprovement().production;
                 if (hex.getResource().requiredImprovement.equals(hex.getImprovement())) {
                     ans += hex.getResource().production;
@@ -205,7 +205,7 @@ public class City {
         for (Hex hex : cityHexes) {
             if (hex.isAnyCitizenWorking()) {
                 ans += hex.getTerrain().food + hex.getFeature().food;
-                if (!hex.isHasDestroyedImprovement())
+                if (!hex.isHasDestroyedImprovement() && hex.getPercentOfBuildingImprovement() == 100)
                     ans += hex.getImprovement().food;
                 if (hex.getResource().requiredImprovement.equals(hex.getImprovement())) {
                     ans += hex.getResource().food;
@@ -214,7 +214,7 @@ public class City {
         }
         ans -= 2 * numberOfCitizen;
         if (owner.getHappiness() < 0 && ans > 0) {
-            ans =  2 * ans / 3;
+            ans = 2 * ans / 3;
             return ans;
         } else if (unitInProgress.equals(UnitName.SETTLER) && ans > 0) {
             return 0;

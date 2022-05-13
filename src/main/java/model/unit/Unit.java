@@ -119,7 +119,8 @@ public abstract class Unit {
             if (this.name.getCombatType().equals("Siege"))
                 ((RangedMilitary) this).setSetup(false);
         }
-
+        if (this instanceof WorkerUnit)
+            ((WorkerUnit)this).setWorking(false);
 
         Hex nextHex;
         while (remainingMovement > 0 && !PlanedToGo.isEmpty()) {
