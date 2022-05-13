@@ -36,7 +36,7 @@ public class UnitUnitTest {
 
         Hex hex = mock(Hex.class);
         Game.getGame().map.map.get(1).set(0, hex);
-        when(hex.getMovementPrice()).thenReturn((double) 0);
+        when(hex.getMovementPrice()).thenReturn(0);
         Assert.assertEquals( 0, hex.getMovementPrice(),0.1);
         double dist = meleeMilitary.findShortestPathByDijkstra(1, 0);
         Assert.assertEquals(0, dist,0.1);
