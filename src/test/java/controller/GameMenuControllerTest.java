@@ -27,16 +27,17 @@ public class GameMenuControllerTest {
         users.add(new User("", "", "2"));
         users.add(new User("", "", "3"));
         Game.startNewGame(users);
-        WorkerUnit workerUnit = new WorkerUnit(4,4,Game.getGame().getSelectedCivilization(), UnitName.WORKER);
+        WorkerUnit workerUnit = new WorkerUnit(4, 4, Game.getGame().getSelectedCivilization(), UnitName.WORKER);
 
-        gameMenuController.selectCivilUnit(4,4);
+        gameMenuController.selectCivilUnit(4, 4);
 
-        gameMenuController.moveSelectedUnitTo(4 ,5);
+        gameMenuController.moveSelectedUnitTo(4, 5);
 
 
-        assertEquals(workerUnit,Game.getGame().map.map.get(4).get(5).getCivilUnit());
+        assertEquals(workerUnit, Game.getGame().map.map.get(4).get(5).getCivilUnit());
 
     }
+
     @Test
     public void moveNotPossibleTest() {
         GameMenuController gameMenuController = new GameMenuController();
@@ -46,13 +47,13 @@ public class GameMenuControllerTest {
         users.add(new User("", "", "2"));
         users.add(new User("", "", "3"));
         Game.startNewGame(users);
-        WorkerUnit workerUnit = new WorkerUnit(4,4,Game.getGame().getSelectedCivilization() , UnitName.WORKER);
+        WorkerUnit workerUnit = new WorkerUnit(4, 4, Game.getGame().getSelectedCivilization(), UnitName.WORKER);
 
-        gameMenuController.selectCivilUnit(4,4);
-        Game.getGame().map.map.get(0).set(0,new Hex(Terrain.OCEAN, Feature.NULL, Resource.NULL,false,0,0));
+        gameMenuController.selectCivilUnit(4, 4);
+        Game.getGame().map.map.get(0).set(0, new Hex(Terrain.OCEAN, Feature.NULL, Resource.NULL, false, 0, 0));
 
 
-        assertEquals("cant go to destination (mountain or ice or sea) or blocked by other units",gameMenuController.moveSelectedUnitTo(0,0));
+        assertEquals("cant go to destination (mountain or ice or sea) or blocked by other units", gameMenuController.moveSelectedUnitTo(0, 0));
 
     }
 

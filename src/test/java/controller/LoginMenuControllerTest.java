@@ -7,6 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,14 +23,14 @@ public class LoginMenuControllerTest {
 
     /* user create tests */
     @Test
-    public void checkPasswordIsWeak(){
+    public void checkPasswordIsWeak() {
         matcher = Pattern.compile(regex).matcher(command);
         System.out.println("matches : " + matcher.matches());
         Assert.assertEquals("password is weak!", controller.createUser(matcher));
     }
 
     @Test
-    public void checkUserWithUsernameExists(){
+    public void checkUserWithUsernameExists() {
         theMock.when(() -> User.getUserByUsername("parsabsh")).thenReturn(user);
 
         matcher = Pattern.compile(regex).matcher(command);
@@ -38,7 +39,7 @@ public class LoginMenuControllerTest {
     }
 
     @Test
-    public void checkUserWithNicknameExists(){
+    public void checkUserWithNicknameExists() {
         theMock.when(() -> User.getUserByUsername("parsabsh")).thenReturn(null);
         theMock.when(() -> User.getUserByNickname("parsa")).thenReturn(user);
 
@@ -48,7 +49,7 @@ public class LoginMenuControllerTest {
     }
 
     @Test
-    public void checkCreateUserSuccessful(){
+    public void checkCreateUserSuccessful() {
         theMock.when(() -> User.getUserByUsername("parsabsh")).thenReturn(null);
         theMock.when(() -> User.getUserByNickname("parsa")).thenReturn(null);
 
@@ -60,7 +61,7 @@ public class LoginMenuControllerTest {
 
     /* user login tests */
     @Test
-    public void checkIncorrectPassword(){
+    public void checkIncorrectPassword() {
         regex = "^(?<username>\\S+) (?<password>\\S+)$";
         command = "parsabsh password1234";
         user = new User("parsabsh", "passwordNotMatch", "");
@@ -71,7 +72,7 @@ public class LoginMenuControllerTest {
     }
 
     @Test
-    public void checkLoginSuccessful(){
+    public void checkLoginSuccessful() {
         regex = "^(?<username>\\S+) (?<password>\\S+)$";
         command = "parsabsh password1234";
         user = new User("parsabsh", "password1234", "");
@@ -82,13 +83,13 @@ public class LoginMenuControllerTest {
     }
 
     @Test
-    public void checkIsUserLoggedInFalse(){
+    public void checkIsUserLoggedInFalse() {
         theMock.when(() -> User.getLoggedInUser()).thenReturn(null);
         Assert.assertFalse(controller.isUserLoggedIn());
     }
 
     @Test
-    public void checkIsUserLoggedInTrue(){
+    public void checkIsUserLoggedInTrue() {
         theMock.when(() -> User.getLoggedInUser()).thenReturn(user);
         Assert.assertTrue(controller.isUserLoggedIn());
     }

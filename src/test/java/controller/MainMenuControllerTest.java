@@ -22,20 +22,20 @@ public class MainMenuControllerTest {
     User user;
 
     @Test
-    public void logoutTest(){
+    public void logoutTest() {
         User.setLoggedInUser(user);
         controller.logout();
         Assert.assertNull(User.getLoggedInUser());
     }
 
     @Test
-    public void isGameStartedTest(){
+    public void isGameStartedTest() {
         gameMockedStatic.when(() -> Game.getGame()).thenReturn(null);
         Assert.assertFalse(controller.isGameStarted());
     }
 
     @Test
-    public void startGameSuccessfulTest(){
+    public void startGameSuccessfulTest() {
         userMockedStatic.when(() -> User.getUserByUsername("")).thenReturn(user);
         HashMap<Integer, String> usernames = new HashMap<>();
         usernames.put(1, "");
@@ -46,7 +46,7 @@ public class MainMenuControllerTest {
     }
 
     @Test
-    public void startGameWithInvalidNumbersTest(){
+    public void startGameWithInvalidNumbersTest() {
         userMockedStatic.when(() -> User.getUserByUsername("")).thenReturn(user);
         HashMap<Integer, String> usernames = new HashMap<>();
         usernames.put(1, "");
