@@ -3,6 +3,9 @@ import controller.GameMenuController;
 import enums.UnitName;
 import model.Game;
 import model.User;
+import model.unit.MeleeMilitary;
+import model.unit.RangedMilitary;
+import model.unit.SettlerUnit;
 import model.unit.WorkerUnit;
 import view.GameMenu;
 
@@ -13,10 +16,16 @@ public class Main {
     public static void main(String[] args) {
 
         ArrayList<User> users = new ArrayList<>();
-        users.add(new User("","","0"));
-        users.add(new User("","","1"));
+        users.add(new User("","","0n"));
+        users.add(new User("","","1n"));
 
         Game.startNewGame(users);
+
+        new RangedMilitary(5,5,Game.getGame().getSelectedCivilization(),UnitName.CROSSBOWMAN);
+
+        SettlerUnit settlerUnit =new SettlerUnit(5,6,Game.getGame().getCivilizations().get(1),UnitName.SETTLER);
+        settlerUnit.foundCity();
+
         GameMenu gameMenu = new GameMenu();
         gameMenu.run();
 

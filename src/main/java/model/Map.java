@@ -355,4 +355,12 @@ public class Map {
         return false;
     }
 
+    public boolean isCenterOfCity(int x ,int y) {
+        if (map.get(x).get(y).getCity() ==null)
+            return false;
+        if (map.get(x).get(y).getCity().getCoordinatesOfCenterInArray().get('x')==x&&
+                map.get(x).get(y).getCity().getCoordinatesOfCenterInArray().get('y')==y)
+            return true;
+        return false;
+    }
 }

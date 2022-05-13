@@ -161,6 +161,7 @@ public class GameMenu extends Menu {
             System.out.println(controller.cheatIncreasePowerOfSelectedUnit());
         } else {
             System.out.println("invalid command!");
+            return "continue";
         }
         System.out.println(controller.moveMap("null", 0)); // shows map after each command
         return "continue";

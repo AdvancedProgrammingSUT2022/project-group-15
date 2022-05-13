@@ -6,10 +6,8 @@ import model.unit.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.TreeMap;
-import java.util.concurrent.locks.ReentrantLock;
 
-import static java.lang.Math.pow;
+import static java.lang.Math.*;
 
 public class City {
     private String name;
@@ -28,15 +26,23 @@ public class City {
     private RangedMilitary cityUnit;
     private int unemployedCitizens = 0;
 
-    public City(String name, int x, int y) {
+    public City(String name, int x, int y, Civilization owner) {
         this.name = name;
+        this.owner = owner;
+        unitInProgress = UnitName.NULL;
+        neededProduction = 999999;
         coordinatesOfCenterInArray.put('x', x);
         coordinatesOfCenterInArray.put('y', y);
         numberOfCitizen = 1;
+
+        Game.getGame().map.map.get(x).get(y).setHasRoad(true);
+        Game.getGame().map.map.get(x).get(y).setAnyCitizenWorking(true);
         this.cityHexes.add(Game.getGame().map.map.get(x).get(y));
 
+
         for (NeighborHex neighborHex : NeighborHex.values()) {
-            this.cityHexes.add(Game.getGame().map.map.get((2 * x + y % 2 + neighborHex.xDiff) / 2).get(y + neighborHex.yDiff));
+            if (Game.getGame().map.validCoordinateInArray((2 * x + y % 2 + neighborHex.xDiff) / 2, y + neighborHex.yDiff))
+                this.cityHexes.add(Game.getGame().map.map.get((2 * x + y % 2 + neighborHex.xDiff) / 2).get(y + neighborHex.yDiff));
         }
 
         Game.getGame().map.map.get(x).get(y).setCity(this);
@@ -221,6 +227,10 @@ public class City {
         goldPerTurn = calculateGoldPerTurn();
         foodPerTurn = calculateFoodPerTurn();
         sciencePerTurn = numberOfCitizen;
+        if (productionPerTurn < 0 || neededProduction > 99999)
+            remainedTurns = 9999999;
+        else
+            remainedTurns = neededProduction / productionPerTurn;
 
 
         foodStorage += foodPerTurn;
@@ -232,8 +242,12 @@ public class City {
             numberOfCitizen++;
         }
         if (foodStorage < 0) {
-            numberOfCitizen--;
-            foodStorage = (int) pow(2, numberOfCitizen);
+            if (numberOfCitizen == 1)
+                foodStorage = 0;
+            else {
+                numberOfCitizen--;
+                foodStorage = (int) pow(2, numberOfCitizen);
+            }
         }
         if (unitInProgress != UnitName.NULL) {
             if (neededProduction <= 0) {
@@ -242,6 +256,7 @@ public class City {
                 neededProduction = 9999999;
             }
         }
+        this.cityUnit.setNowHealth(min(this.cityUnit.getNowHealth() + this.cityUnit.getTotalHealth() / 10, this.cityUnit.getTotalHealth()));
     }
 
     public void createUnitInCity(UnitName unitName) {
@@ -297,12 +312,14 @@ public class City {
     }
 
     public void garrison() {
+        // TODO: 5/13/2022 when used? 
         cityUnit.setRangedPower((int) (cityUnit.getRangedPower() * 1.5));
         cityUnit.setMeleePower((int) (cityUnit.getMeleePower() * 1.5));
         cityUnit.setTotalHealth((int) (cityUnit.getTotalHealth() * 1.5));
     }
 
     public void unGarrison() {
+        // TODO: 5/13/2022 when used? 
         cityUnit.setRangedPower((cityUnit.getRangedPower() * 2 / 3));
         cityUnit.setMeleePower((cityUnit.getMeleePower() * 2 / 3));
         cityUnit.setTotalHealth((cityUnit.getTotalHealth() * 2 / 3));

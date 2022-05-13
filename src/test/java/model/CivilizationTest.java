@@ -26,7 +26,7 @@ public class CivilizationTest extends TestCase {
         users.add(new User("","","2"));
         users.add(new User("","","3"));
         Game.startNewGame(users);
-        Game.getGame().getSelectedCivilization().getCities().add(new City("test", 2,2));
+        Game.getGame().getSelectedCivilization().getCities().add(new City("test", 2,2,null));
         System.out.println(gameMenuController.showMapOnPosition(2,2));
     }
 

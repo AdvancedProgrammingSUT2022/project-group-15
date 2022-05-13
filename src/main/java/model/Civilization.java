@@ -41,13 +41,19 @@ public class Civilization {
         for (City city : cities) {
             city.moveToNextTurn();
         }
+        if (goldStorage + calculateGoldPerTurn() >= 0)
+            goldStorage += calculateGoldPerTurn();
+        else {
+            goldStorage = 0;
+            sciencePerTurn += goldStorage + calculateGoldPerTurn();
+        }
         scienceStorage += sciencePerTurn;
         if (technologyInProgress != null && scienceStorage >= technologyInProgress.cost) {
             openNewTechnology();
             updateAvailableTechnologies();
         }
         sciencePerTurn = calculateSciencePerTurn();
-        goldStorage += calculateGoldPerTurn();
+
 
     }
 
@@ -72,7 +78,7 @@ public class Civilization {
     private int calculateGoldPerTurn() {
         int ans = 0;
         for (City city : cities) {
-            ans+= city.getGoldPerTurn();
+            ans += city.getGoldPerTurn();
         }
         return ans;
     }
@@ -87,6 +93,12 @@ public class Civilization {
     }
 
     public void deleteUnit(Unit unit, boolean isSelling) {
+        if (unit.getName().equals(UnitName.CITYUNIT)) {
+            City goingToDestroy = Game.getGame().map.map.get(unit.getCoordinatesInMap().get('x') / 2).get(unit.getCoordinatesInMap().get('y')).getCity();
+            Game.getGame().map.map.get(unit.getCoordinatesInMap().get('x') / 2).get(unit.getCoordinatesInMap().get('y')).setCity(null);
+            this.cities.remove(goingToDestroy);
+            return;
+        }
         if (isSelling) {
             goldStorage += unit.getCost() / 5;
         }
@@ -94,9 +106,7 @@ public class Civilization {
             Game.getGame().map.map.get(unit.getCoordinatesInMap().get('x') / 2).get(unit.getCoordinatesInMap().get('y')).setCivilUnit(null);
         else
             Game.getGame().map.map.get(unit.getCoordinatesInMap().get('x') / 2).get(unit.getCoordinatesInMap().get('y')).setMilitaryUnit(null);
-        Civilization owner = unit.getOwner();
         units.remove(unit);
-
     }
 
     public ArrayList<Unit> getUnits() {
@@ -267,8 +277,7 @@ public class Civilization {
         if (this.visibilityMap.map.get(mapArrayX).get(mapArrayY).getHexVisibility().equals(HexVisibility.FOG_OF_WAR))
             return;
 
-        if (this.visibilityMap.map.get(mapArrayX).get(mapArrayY).getCity()!= null) {
-            System.out.println("ppppppppppppp");
+        if (this.visibilityMap.map.get(mapArrayX).get(mapArrayY).getCity() != null) {
             replaceText(printMap, x, y, -3, "CTY",
                     this.visibilityMap.map.get(mapArrayX).get(mapArrayY).getCity().getName().substring(0, 3), GlobalThings.BLUE);
         }
@@ -303,15 +312,19 @@ public class Civilization {
                 this.visibilityMap.map.get(mapArrayX).get(mapArrayY).getResource().name.substring(0, 3), GlobalThings.YELLOW);
 
 
+        String background;
+        if (this.visibilityMap.map.get(mapArrayX).get(mapArrayY).doesHaveRiver())
+            background = GlobalThings.BLUE_BACKGROUND;
+        else
+            background = GlobalThings.WHITE_BACKGROUND;
         if (this.visibilityMap.map.get(mapArrayX).get(mapArrayY).isHasRoad()) {
             if (this.visibilityMap.map.get(mapArrayX).get(mapArrayY).isHasRailRoad())
-                replaceText(printMap, x, y, +3, "ROD", "RAL", GlobalThings.BLACK);
+                replaceText(printMap, x, y, +3, "ROD", "RAL", background + GlobalThings.BLACK);
             else
-                replaceText(printMap, x, y, +3, "ROD", "ROD", GlobalThings.BLACK);
+                replaceText(printMap, x, y, +3, "ROD", "ROD", background + GlobalThings.BLACK);
         } else {
-            replaceText(printMap, x, y, +3, "ROD", "N/A", GlobalThings.WHITE_BACKGROUND + GlobalThings.BLACK);
+            replaceText(printMap, x, y, +3, "ROD", "N/A", background + GlobalThings.BLACK);
         }
-        // TODO: 5/3/2022 river???
 
 
     }
@@ -461,7 +474,8 @@ public class Civilization {
     public void setAvailableTechnologies(ArrayList<Technology> availableTechnologies) {
         this.availableTechnologies = availableTechnologies;
     }
-    public int getPopulation(){
+
+    public int getPopulation() {
         int ans = 0;
         for (City city : cities) {
             ans += city.getNumberOfCitizen();

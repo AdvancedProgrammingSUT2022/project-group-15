@@ -56,7 +56,7 @@ public enum UnitName {
             new ArrayList<Resource>()),
     TANK("tank", 450, "Armored", 50, 0, 1, 4,
             new ArrayList<Resource>()),
-    CITYUNIT("cityunit" ,0,"city",12,12,2,0, new ArrayList<Resource>());
+    CITYUNIT("cityunit" ,0,"city",14,14,2,0, new ArrayList<Resource>());
 
     private final String name;
     private final int cost;

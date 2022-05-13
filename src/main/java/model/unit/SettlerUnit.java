@@ -27,7 +27,7 @@ public class SettlerUnit extends CivilUnit {
 
     public void foundCity() {
         City city = new City(Integer.toString(this.owner.getCities().size()+1)+owner.getUser().getNickname(),
-                this.coordinatesInMap.get('x')/2,this.coordinatesInMap.get('y'));
+                this.coordinatesInMap.get('x')/2,this.coordinatesInMap.get('y'),owner);
         this.owner.getCities().add(city);
         owner.deleteUnit(this, false);
     }

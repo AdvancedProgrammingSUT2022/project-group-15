@@ -44,9 +44,14 @@ public class RangedMilitary extends MilitaryUnit {
 
     @Override
     public void attackTo(Unit unit){
+        this.remainingMovement = -1;
+        if (unit instanceof CivilUnit){
+            unit.owner.deleteUnit(unit, false);
+            return;
+        }
         unit.nowHealth -= this.rangedPower;
         if (unit.nowHealth<=0) {
-            unit.owner.deleteUnit(this, false);
+            unit.owner.deleteUnit(unit, false);
         }
     }
 
