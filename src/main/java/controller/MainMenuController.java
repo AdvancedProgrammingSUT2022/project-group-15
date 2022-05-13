@@ -36,7 +36,7 @@ public class MainMenuController {
      * @author Parsa
      */
     public void logout() {
-        User.loggedInUser = null;
+        User.setLoggedInUser(null);
     }
 
     public boolean isGameStarted() {

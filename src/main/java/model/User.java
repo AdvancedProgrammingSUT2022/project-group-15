@@ -13,7 +13,7 @@ import java.util.List;
 
 public class User {
     private static ArrayList<User> users = new ArrayList<>();
-    public static User loggedInUser = null;
+    private static User loggedInUser = null;
 
 
     private String username;
@@ -123,6 +123,14 @@ public class User {
 
     public String getNickname() {
         return nickname;
+    }
+
+    public static User getLoggedInUser(){
+        return loggedInUser;
+    }
+
+    public static void setLoggedInUser(User loggedInUser) {
+        User.loggedInUser = loggedInUser;
     }
 
     public int getScore() {
