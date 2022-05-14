@@ -112,6 +112,7 @@ public class GameMenuController {
         info += "\npopulation: " + Game.getGame().getSelectedCivilization().getPopulation() + " average: " + Game.getGame().getAveragePopulation() + " best: " + Game.getGame().getBestPopulation();
         info += "\ncities: " + Game.getGame().getSelectedCivilization().getCities().size() + " average: " + Game.getGame().getAverageCity() + " best: " + Game.getGame().getBestCity();
         info += "\nvastness (number of owned hexes): " + Game.getGame().getSelectedCivilization().getArea() + " average: " + Game.getGame().getAverageArea() + " best: " + Game.getGame().getBestArea();
+        info += "\nhappiness: " + Game.getGame().getSelectedCivilization().getHappiness();
         return info;
     }
 
@@ -434,7 +435,7 @@ public class GameMenuController {
         if (!selectedUnit.getOwner().getOpenedImprovements().contains(improvement))
             return Controller.addNotification(Game.getGame().getTurnNumber(), "no dont have the required tech for improvement");
         Hex hex = Game.getGame().map.map.get(selectedUnit.getCoordinatesInMap().get('x') / 2).get(selectedUnit.getCoordinatesInMap().get('y'));
-        if (improvement.equals(Improvement.ROAD) || improvement.equals(Improvement.RAILROAD)){
+        if (improvement.equals(Improvement.ROAD) || improvement.equals(Improvement.RAILROAD)) {
             ((WorkerUnit) selectedUnit).buildRoad(improvement);
             return Controller.addNotification(Game.getGame().getTurnNumber(), "it will be done");
         }
@@ -445,17 +446,27 @@ public class GameMenuController {
         return Controller.addNotification(Game.getGame().getTurnNumber(), "it will be done");
     }
 
-    public String removeJungle() {
+    public String removeJungleOrSwamp() {
         if (selectedUnit == null)
             return Controller.addNotification(Game.getGame().getTurnNumber(), "please select a unit first");
         if (!selectedUnit.getOwner().equals(Game.getGame().getSelectedCivilization()))
             return Controller.addNotification(Game.getGame().getTurnNumber(), "unit not yours");
         if (!(selectedUnit instanceof WorkerUnit))
             return Controller.addNotification(Game.getGame().getTurnNumber(), "selected unit is not a worker");
-        // remove dense-forests requires Bronze-Working Technology
-        // remove jungles requires Mining Technology
-        // TODO : implement
-        return null;
+        Hex hex = Game.getGame().map.map.get(selectedUnit.getCoordinatesInMap().get('x') / 2).get(selectedUnit.getCoordinatesInMap().get('y'));
+        if (!(hex.getFeature().equals(Feature.SWAMP) || hex.getFeature().equals(Feature.JUNGLE) || hex.getFeature().equals(Feature.DENSE_FOREST)))
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "no jungle or swamp here");
+        if (hex.getFeature().equals(Feature.JUNGLE))
+            if (!selectedUnit.getOwner().getTechnologies().contains(Technology.MINING))
+                return Controller.addNotification(Game.getGame().getTurnNumber(), "you need mining technology");
+        if (hex.getFeature().equals(Feature.DENSE_FOREST))
+            if (!selectedUnit.getOwner().getTechnologies().contains(Technology.BRONZE_WORKING))
+                return Controller.addNotification(Game.getGame().getTurnNumber(), "you need bronze_working technology");
+        if (hex.getFeature().equals(Feature.SWAMP))
+            if (!selectedUnit.getOwner().getTechnologies().contains(Technology.MASONRY))
+                return Controller.addNotification(Game.getGame().getTurnNumber(), "you need masonry technology");
+        ((WorkerUnit) selectedUnit).removeJungle();
+        return Controller.addNotification(Game.getGame().getTurnNumber(), "it will be done");
     }
 
     public String removeRoute() {
@@ -466,7 +477,6 @@ public class GameMenuController {
             return Controller.addNotification(Game.getGame().getTurnNumber(), "unit not yours");
         if (!(selectedUnit instanceof WorkerUnit))
             return Controller.addNotification(Game.getGame().getTurnNumber(), "selected unit is not a worker");
-
         selectedUnit.setRemainingMovement(-1);
         selectedUnit.getOwner().setBuildingMaintenance(selectedUnit.getOwner().getBuildingMaintenance() - 1);
         Game.getGame().map.map.get(selectedUnit.getCoordinatesInMap().get('x') / 2).get(selectedUnit.getCoordinatesInMap().get('y')).setHasRoad(false);
@@ -873,6 +883,4 @@ public class GameMenuController {
         return Controller.addNotification(Game.getGame().getTurnNumber(), "Cheat code accepted : Power of attack increased");
     }
 
-
-    // TODO : implement removing Swamp ( that requires Masonry Technology )
 }

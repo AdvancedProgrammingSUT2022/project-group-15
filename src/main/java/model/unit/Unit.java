@@ -1,5 +1,6 @@
 package model.unit;
 
+import enums.Feature;
 import enums.NeighborHex;
 import enums.Terrain;
 import enums.UnitName;
@@ -11,6 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static java.lang.Math.min;
+import static java.lang.Math.tan;
 
 public abstract class Unit {
     protected HashMap<Character, Integer> coordinatesInMap = new HashMap<>();
@@ -120,8 +122,11 @@ public abstract class Unit {
             if (this.name.getCombatType().equals("Siege"))
                 ((RangedMilitary) this).setSetup(false);
         }
-        if (this instanceof WorkerUnit)
+        if (this instanceof WorkerUnit) {
             ((WorkerUnit) this).setWorking(false);
+            ((WorkerUnit) this).setRemoving(false);
+            ((WorkerUnit) this).setBuildingRoad(false);
+        }
 
         Hex nextHex;
         while (remainingMovement > 0 && !PlanedToGo.isEmpty()) {
@@ -153,6 +158,9 @@ public abstract class Unit {
         if (ZOCInPath(x, y))
             this.remainingMovement = 0;
         this.remainingMovement -= Game.getGame().map.map.get(this.coordinatesInMap.get('x') / 2).get(this.coordinatesInMap.get('y')).getMovementPrice();
+        if (this.name.equals(UnitName.SCOUT) && Game.getGame().map.map.get(this.coordinatesInMap.get('x') / 2).
+                get(this.coordinatesInMap.get('y')).getFeature().equals(Feature.JUNGLE))
+            this.remainingMovement+=1;
 
         if (this instanceof MilitaryUnit) {
             Game.getGame().map.map.get(this.coordinatesInMap.get('x') / 2).get(this.coordinatesInMap.get('y')).setMilitaryUnit((MilitaryUnit) this);
@@ -402,7 +410,6 @@ public abstract class Unit {
     }
 
     protected void loseHealth(int amount, Unit attacker) {
-        // TODO: 5/14/2022 all units 
         Hex unitHex = Game.getGame().map.map.get(this.coordinatesInMap.get('x') / 2).get(this.coordinatesInMap.get('y'));
         if (this.name.equals(UnitName.CHARIOTARCHER)) {
             if (unitHex.getTerrain().equals(Terrain.HILL))
@@ -415,11 +422,26 @@ public abstract class Unit {
             return;
         }
 
-        if (this.name.equals(UnitName.CATAPULT)) {
-            
+        if (attacker.name.getCombatType().equals("Siege") && this.name.equals(UnitName.CITYUNIT)) {
+            this.nowHealth -= amount * 1.1;
+            return;
+        }
+        if (this.name.getCombatType().equals("Siege") || this.name.getCombatType().equals("Mounted")) {
             this.nowHealth -= amount;
             return;
         }
+        if (this.name.getCombatType().equals("Armored")) {
+            if (attacker.name.equals(UnitName.ANTITANKGUN))
+                this.nowHealth -= amount * 1.1;
+            else
+                this.nowHealth -= amount;
+            return;
+        }
+        if (this.name.equals(UnitName.CITYUNIT) && attacker.name.equals(UnitName.TANK)) {
+            this.nowHealth -= amount * 0.9;
+            return;
+        }
+
 
         this.nowHealth -= amount * unitHex.getDefenceBonus();
     }

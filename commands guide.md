@@ -52,7 +52,7 @@ The order of flags doesn't matter in each command below that contains dashes
 18) unit delete
 19) unit attack **_x_** **_y_**
 20) unit build **_improvement name_**
-21) unit remove jungle
+21) unit remove jungle or swamp
 22) unit remove route
 23) unit repair
 24) unit pillage

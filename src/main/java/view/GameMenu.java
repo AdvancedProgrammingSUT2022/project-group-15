@@ -94,8 +94,8 @@ public class GameMenu extends Menu {
             System.out.println(controller.attackTo(Integer.parseInt(matcher.group("x")), Integer.parseInt(matcher.group("y"))));
         } else if ((matcher = getMatcher(command, "^unit build (?<improvement>\\w+)$")) != null) {
             System.out.println(controller.buildImprovement(matcher.group("improvement")));
-        } else if (command.equals("unit remove jungle")) {
-            System.out.println(controller.removeJungle());
+        } else if (command.equals("unit remove jungle or swamp")) {
+            System.out.println(controller.removeJungleOrSwamp());
         } else if (command.equals("unit remove route")) {
             System.out.println(controller.removeRoute());
         } else if (command.equals("unit repair")) {

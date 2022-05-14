@@ -45,7 +45,10 @@ public class City {
                 this.cityHexes.add(Game.getGame().map.map.get((2 * x + y % 2 + neighborHex.xDiff) / 2).get(y + neighborHex.yDiff));
         }
 
-        Game.getGame().map.map.get(x).get(y).setCity(this);
+        for (Hex cityHex : cityHexes) {
+            cityHex.setCity(this);
+        }
+
         cityUnit = new RangedMilitary(x, y, owner, UnitName.CITYUNIT);
     }
 
@@ -309,6 +312,7 @@ public class City {
     public void buyHex(int x, int y) {
         this.owner.setGoldStorage(this.owner.getGoldStorage() - 30);
         cityHexes.add(Game.getGame().map.map.get(x).get(y));
+        Game.getGame().map.map.get(x).get(y).setCity(this);
     }
 
     public void garrison() {

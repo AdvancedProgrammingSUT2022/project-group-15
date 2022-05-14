@@ -11,15 +11,19 @@ public class MeleeMilitary extends MilitaryUnit {
 
     @Override
     public void attackTo(Unit unit) {// priority with military unit
-        this.remainingMovement = -1;
+        if (this.name.getCombatType().equals("Mounted") || this.name.getCombatType().equals("Armored"))
+            this.remainingMovement -= 1;
+        else
+            this.remainingMovement = -1;
+
         if (unit instanceof CivilUnit) {
             moveToHex(unit.coordinatesInMap.get('x') / 2, unit.coordinatesInMap.get('y'));
             unit.owner.deleteUnit(unit, false);
             new WorkerUnit(unit.coordinatesInMap.get('x') / 2, unit.coordinatesInMap.get('y'), this.owner, UnitName.WORKER);
             return;
         }
-        unit.loseHealth(this.meleePower,this);
-        this.loseHealth(unit.meleePower,unit);
+        unit.loseHealth(this.meleePower, this);
+        this.loseHealth(unit.meleePower, unit);
 
 
         if (unit.nowHealth <= 0) {

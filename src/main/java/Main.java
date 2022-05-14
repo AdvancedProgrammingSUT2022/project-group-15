@@ -23,8 +23,8 @@ public class Main {
 
         new RangedMilitary(5,5,Game.getGame().getSelectedCivilization(),UnitName.CROSSBOWMAN);
 
-        SettlerUnit settlerUnit =new SettlerUnit(5,6,Game.getGame().getCivilizations().get(1),UnitName.SETTLER);
-        settlerUnit.foundCity();
+       // SettlerUnit settlerUnit =new SettlerUnit(5,6,Game.getGame().getCivilizations().get(1),UnitName.SETTLER);
+        //settlerUnit.foundCity();
 
         GameMenu gameMenu = new GameMenu();
         gameMenu.run();
