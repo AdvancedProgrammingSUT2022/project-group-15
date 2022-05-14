@@ -41,7 +41,14 @@ public class Controller {
      * @author Parsa
      */
     public static String addNotification(int turnNumber, String message){
-        notificationHistory.add("<< Turn " + turnNumber + " >> : " + message);
+        String notif = "";
+        if(turnNumber == -1){
+            notif += "<< Not in the game menu >> : ";
+        } else {
+            notif += "<< Turn " + turnNumber + " >> : ";
+        }
+        notif += message;
+        notificationHistory.add(notif);
         return message;
     }
 
