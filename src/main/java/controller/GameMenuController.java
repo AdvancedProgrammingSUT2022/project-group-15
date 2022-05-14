@@ -197,7 +197,7 @@ public class GameMenuController {
     }
 
     private String cityInfo(City city) {
-        return "city selected!" + "\nname : " + city.getName() +
+        StringBuilder ans = new StringBuilder("city selected!" + "\nname : " + city.getName() +
                 "\nowner : " + city.getOwner().getUser().getNickname() +
                 "\nhealth percent : " + city.getCityUnit().getNowHealth() * 100 / selectedCity.getCityUnit().getTotalHealth() +
                 "\nnumber of citizens : " + city.getNumberOfCitizen() +
@@ -207,7 +207,14 @@ public class GameMenuController {
                 "\nproduction per turn : " + city.getProductionPerTurn() +
                 "\nfood per turn : " + city.getFoodPerTurn() +
                 "\nfood storage : " + city.getFoodStorage() +
-                "\nwill build unit in " + (city.getRemainedTurns()) + " turns!";
+                "\nwill build unit in " + (city.getRemainedTurns()) + " turns!" +
+                "\nhexes in ");
+        for (Hex cityHex : city.getCityHexes()) {
+            if (cityHex.isAnyCitizenWorking())
+                ans.append(" ( ").append(cityHex.getCoordinatesInArray().get('x')).append(",").append(cityHex.getCoordinatesInArray().get('y')).append(" ) ");
+        }
+        ans.append(" are being worked");
+        return ans.toString();
     }
 
     public String moveSelectedUnitTo(int x, int y) {
@@ -216,6 +223,10 @@ public class GameMenuController {
         if (!selectedUnit.getOwner().equals(Game.getGame().getSelectedCivilization())) {
             return Controller.addNotification(Game.getGame().getTurnNumber(), "unit not yours");
         }
+        if (!Game.getGame().map.validCoordinateInArray(x, y))
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "coordinate not valid");
+        if (x == selectedUnit.getCoordinatesInMap().get('x') / 2 && y == selectedUnit.getCoordinatesInMap().get('y'))
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is already there");
         double distance = selectedUnit.findShortestPathByDijkstra(x, y);
         if (distance > 999999) {
             return Controller.addNotification(Game.getGame().getTurnNumber(),
@@ -678,7 +689,9 @@ public class GameMenuController {
             return Controller.addNotification(Game.getGame().getTurnNumber(), "no city is selected");
         if (!selectedCity.getOwner().equals(Game.getGame().getSelectedCivilization()))
             return Controller.addNotification(Game.getGame().getTurnNumber(), "city not yours");
-        if (Game.getGame().map.map.get(x).get(y).getCity().equals(selectedCity))
+        if (Game.getGame().map.map.get(x).get(y).getCity() == null)
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "hex is not a part of a city");
+        if (!Game.getGame().map.map.get(x).get(y).getCity().equals(selectedCity))
             return Controller.addNotification(Game.getGame().getTurnNumber(), "hex not in this city");
 
         if (selectedCity.getUnemployedCitizens() == 0)

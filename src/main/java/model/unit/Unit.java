@@ -256,6 +256,7 @@ public abstract class Unit {
 
         destinationNode = parent[destinationNode];
         int maxDepth = 100;
+
         while (parent[destinationNode] != -1) {
             x = destinationNode / (Game.getGame().getColumns());
             y = destinationNode % (Game.getGame().getColumns());

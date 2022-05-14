@@ -25,7 +25,7 @@ public class City {
     private int sciencePerTurn;
     private final ArrayList<Hex> cityHexes = new ArrayList<>();
     private RangedMilitary cityUnit;
-    private int unemployedCitizens = 0;
+    private int unemployedCitizens = 1;
 
     public City(String name, int x, int y, Civilization owner) {
         this.name = name;
@@ -205,7 +205,7 @@ public class City {
             }
 
         }
-        return ans + copyOfNumberOfCitizen;
+        return ans + copyOfNumberOfCitizen+1;
     }
 
     public int calculateFoodPerTurn() {
@@ -248,12 +248,24 @@ public class City {
         if (foodStorage > pow(2, numberOfCitizen)) {
             foodStorage = 0;
             numberOfCitizen++;
+            unemployedCitizens++;
         }
         if (foodStorage < 0) {
             if (numberOfCitizen == 1)
                 foodStorage = 0;
             else {
                 numberOfCitizen--;
+                if (unemployedCitizens>0)
+                    unemployedCitizens--;
+                else {
+                    for (Hex cityHex : cityHexes) {
+                        if (cityHex.isAnyCitizenWorking()){
+                            cityHex.setAnyCitizenWorking(false);
+                            break;
+                        }
+                    }
+                }
+                
                 foodStorage = (int) pow(2, numberOfCitizen);
             }
         }
