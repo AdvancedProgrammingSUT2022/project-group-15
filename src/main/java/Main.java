@@ -16,16 +16,16 @@ public class Main {
     public static void main(String[] args) {
 
         ArrayList<User> users = new ArrayList<>();
-        users.add(new User("", "", "0n"));
-        users.add(new User("", "", "1n"));
+        users.add(new User("", "", "first"));
+       // users.add(new User("", "", "second"));
 
         Game.startNewGame(users);
 
-        new RangedMilitary(5, 5, Game.getGame().getSelectedCivilization(), UnitName.ARTILLERY);
-        new MeleeMilitary(6, 6, Game.getGame().getSelectedCivilization(), UnitName.ANTITANKGUN);
-
-        SettlerUnit settlerUnit = new SettlerUnit(5, 6, Game.getGame().getCivilizations().get(1), UnitName.SETTLER);
-        settlerUnit.foundCity();
+//        new RangedMilitary(5, 5, Game.getGame().getSelectedCivilization(), UnitName.ARTILLERY);
+//        new MeleeMilitary(6, 6, Game.getGame().getSelectedCivilization(), UnitName.ANTITANKGUN);
+//
+//        SettlerUnit settlerUnit = new SettlerUnit(5, 6, Game.getGame().getCivilizations().get(1), UnitName.SETTLER);
+//        settlerUnit.foundCity();
 
         GameMenu gameMenu = new GameMenu();
         gameMenu.run();

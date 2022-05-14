@@ -174,6 +174,9 @@ public abstract class Unit {
         Set<MilitaryUnit> then = new HashSet();
         MilitaryUnit militaryUnit;
         for (NeighborHex neighborHex : NeighborHex.values()) {
+            if (!Game.getGame().map.validCoordinateInArray((this.getCoordinatesInMap().get('x') + neighborHex.xDiff) / 2
+            , this.getCoordinatesInMap().get('y') + neighborHex.yDiff))
+                continue;
             militaryUnit = Game.getGame().map.map.get((this.getCoordinatesInMap().get('x') + neighborHex.xDiff) / 2)
                     .get(this.getCoordinatesInMap().get('y') + neighborHex.yDiff).getMilitaryUnit();
             if (militaryUnit != null) {
@@ -184,6 +187,9 @@ public abstract class Unit {
         }
 
         for (NeighborHex neighborHex : NeighborHex.values()) {
+            if (!Game.getGame().map.validCoordinateInArray((this.getCoordinatesInMap().get('x') + neighborHex.xDiff) / 2
+                    , this.getCoordinatesInMap().get('y') + neighborHex.yDiff))
+                continue;
             militaryUnit = Game.getGame().map.map.get((2 * x + y % 2 + neighborHex.xDiff) / 2)
                     .get(y + neighborHex.yDiff).getMilitaryUnit();
             if (militaryUnit != null) {
@@ -276,11 +282,13 @@ public abstract class Unit {
         if (!Game.getGame().map.validCoordinateInArray(x, y))
             return;
         double moveCost = Game.getGame().map.map.get(x).get(y).getMovementPrice();
+        if (moveCost < -0.2) {
+            return;
+        }
         if (Game.getGame().map.map.get(x).get(y).doesHaveRiver() && Game.getGame().map.map.
                 get(NodeNumber / (Game.getGame().getColumns())).get(NodeNumber % (Game.getGame().getColumns())).doesHaveRiver())
             moveCost = this.movementSpeed;
-        if (moveCost == -1)
-            moveCost = Integer.MAX_VALUE / 2;
+
 
         if (mstSet[destinationNodeNumber] == false && distance[NodeNumber] + moveCost < distance[destinationNodeNumber] &&
                 !hasSameUnitInHexOrEnemy(x, y)) {
