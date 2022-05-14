@@ -12,6 +12,8 @@ public class SettlerUnit extends CivilUnit {
 
     @Override
     public boolean needsCommand() {
+        if (isSleep)
+            return false;
         if (PlanedToGo != null){
             return false;
         }

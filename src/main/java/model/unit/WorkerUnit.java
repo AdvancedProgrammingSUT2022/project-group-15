@@ -66,6 +66,8 @@ public class WorkerUnit extends CivilUnit {
         if (PlanedToGo != null) {
             return false;
         }
+        if (isSleep)
+            return false;
         return true;
     }
 

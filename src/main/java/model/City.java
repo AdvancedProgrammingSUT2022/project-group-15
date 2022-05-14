@@ -265,7 +265,7 @@ public class City {
                         }
                     }
                 }
-                
+
                 foodStorage = (int) pow(2, numberOfCitizen);
             }
         }

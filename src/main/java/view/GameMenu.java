@@ -94,10 +94,10 @@ public class GameMenu extends Menu {
         } else if ((matcher = getMatcher(command, "^unit attack (?<x>\\d+) (?<y>\\d+)$")) != null) {
             String message = controller.attackTo(Integer.parseInt(matcher.group("x")), Integer.parseInt(matcher.group("y")));
             System.out.println(message);
-            if (message.equals("city has fallen")){
+            if (message.equals("city has fallen")) {
                 askForCityCommand();
             }
-        } else if ((matcher = getMatcher(command, "^unit build (?<improvement>\\w+)$")) != null) {
+        } else if ((matcher = getMatcher(command, "^unit build (?<improvement>.*)$")) != null) {
             System.out.println(controller.buildImprovement(matcher.group("improvement")));
         } else if (command.equals("unit remove jungle or swamp")) {
             System.out.println(controller.removeJungleOrSwamp());
@@ -119,9 +119,6 @@ public class GameMenu extends Menu {
             System.out.println(controller.buyUnit(matcher.group("unitName")));
         } else if ((matcher = getMatcher(command, "^city choose production (?<unitName>\\w+)$")) != null) {
             System.out.println(controller.chooseProductionForUnit(matcher.group("unitName")));
-        } else if (command.equals("show map")) {
-            System.out.println(controller.showMap());
-            return "continue";
         } else if ((matcher = getMatcher(command, "^map move (?<direction>\\w+) (?<amount>\\d+)$")) != null) {
             System.out.println(controller.moveMap(matcher.group("direction"), Integer.parseInt(matcher.group("amount"))));
             return "continue";
@@ -175,7 +172,7 @@ public class GameMenu extends Menu {
     private void askForCityCommand() {
         System.out.println("what do you want to with city?");
         System.out.println("enter 1 for destroying or 2 for capturing the city:");
-        while (true){
+        while (true) {
             String input = scanner.nextLine();
             if (input.equals("1")) {
                 System.out.println("destroyed!!!");

@@ -43,6 +43,8 @@ public abstract class MilitaryUnit extends Unit {
 
 
     public boolean needsCommand() {
+        if (isSleep)
+            return false;
         if (this.remainingMovement < 0)
             return false;
         if (PlanedToGo != null) {

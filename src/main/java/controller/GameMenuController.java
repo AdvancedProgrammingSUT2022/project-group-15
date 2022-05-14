@@ -515,124 +515,6 @@ public class GameMenuController {
         return Controller.addNotification(Game.getGame().getTurnNumber(), "done");
     }
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////show whole map////////////////////////////////////////////////////////////////////////
-    public String showMap() {
-        String[][] printMap = new String[GlobalThings.mapHeight][GlobalThings.mapWidth];
-        for (int i = 0; i < GlobalThings.mapHeight; i++) {
-            for (int j = 0; j < GlobalThings.mapWidth; j++) {
-                printMap[i][j] = GlobalThings.BLACK + '█';
-            }
-        }
-        for (int i = 0; i < Game.getGame().getRows() * 2; i++) {
-            for (int j = 0; j < Game.getGame().getColumns() / 2; j++) {
-                int x = (i + 1) * GlobalThings.widthOfGrid / 2;
-                int y = j * GlobalThings.lengthOfGrid * 2 + GlobalThings.lengthOfGrid;
-                if (i % 2 == 1) y += GlobalThings.lengthOfGrid;
-                for (int k = 0; k < GlobalThings.widthOfGrid / 2; k++) {
-                    for (int l = 0; l <= 9 - k; l++) {
-                        for (int z = y - l; z <= y + l; z++) {
-                            if (z == y - l) printMap[x - k][z - 1] = "/";
-                            if (z == y + l) printMap[x - k][z + 1] = "\\";
-                            printMap[x - k][z] = GlobalThings.GREEN + '█';
-                            printMap[x + k][z] = GlobalThings.GREEN + '█';
-                        }
-                    }
-                }
-                fillHexWithInfo(printMap, x, y, i / 2, 2 * j + i % 2);
-            }
-        }
-        for (int i = 0; i < GlobalThings.mapHeight; i++) {
-            for (int j = 0; j < GlobalThings.mapWidth; j++) {
-                System.out.print(printMap[i][j]);
-            }
-            System.out.println("");
-        }
-        return Controller.addNotification(Game.getGame().getTurnNumber(), "print map successfully");
-    }
-
-    private void fillHexWithInfo(String[][] printMap, int x, int y, int mapArrayX, int mapArrayY) {
-        preliminaryInfo(printMap, x, y, mapArrayX, mapArrayY);
-
-        if (Game.getGame().map.map.get(mapArrayX).get(mapArrayY).getCivilUnit() == null) {
-            replaceText(printMap, x, y, -2, "CiU", "N/A", GlobalThings.RED);
-        } else if (Game.getGame().map.map.get(mapArrayX).get(mapArrayY).getCivilUnit() instanceof WorkerUnit) {
-            replaceText(printMap, x, y, -2, "CiU", "WOR", GlobalThings.RED);
-        } else {
-            replaceText(printMap, x, y, -2, "CiU", "SET", GlobalThings.RED);
-        }
-
-        if (Game.getGame().map.map.get(mapArrayX).get(mapArrayY).getMilitaryUnit() == null) {
-            replaceText(printMap, x, y, -1, "MiU", "N/A", GlobalThings.RED);
-        } else {
-            replaceText(printMap, x, y, -1, "MiU", Game.getGame().map.map.get(mapArrayX).get(mapArrayY)
-                    .getMilitaryUnit().getName().toString().substring(0, 3), GlobalThings.RED);
-        }
-
-        replaceText(printMap, x, y, 0, "TER",
-                Game.getGame().map.map.get(mapArrayX).get(mapArrayY).getTerrain().name.substring(0, 3), GlobalThings.YELLOW);
-
-
-        replaceText(printMap, x, y, +1, "FET",
-                Game.getGame().map.map.get(mapArrayX).get(mapArrayY).getFeature().name.substring(0, 3), GlobalThings.YELLOW);
-
-        replaceText(printMap, x, y, +2, "RES",
-                Game.getGame().map.map.get(mapArrayX).get(mapArrayY).getResource().name.substring(0, 3), GlobalThings.YELLOW);
-
-
-        if (Game.getGame().map.map.get(mapArrayX).get(mapArrayY).isHasRoad()) {
-            if (Game.getGame().map.map.get(mapArrayX).get(mapArrayY).isHasRailRoad())
-                replaceText(printMap, x, y, +3, "ROD", "RAL", GlobalThings.BLACK);
-            else
-                replaceText(printMap, x, y, +3, "ROD", "ROD", GlobalThings.BLACK);
-        } else {
-            replaceText(printMap, x, y, +3, "ROD", "N/A", GlobalThings.WHITE_BACKGROUND + GlobalThings.BLACK);
-        }
-
-    }
-
-    private void preliminaryInfo(String[][] printMap, int x, int y, int mapArrayX, int mapArrayY) {
-        printMap[x + 4][y] = "-";
-        printMap[x + 4][y + 1] = "-";
-        printMap[x + 4][y + 2] = "-";
-        printMap[x + 4][y + 3] = "-";
-        printMap[x + 4][y + 4] = "-";
-        printMap[x + 4][y + 5] = "-";
-        printMap[x - 4][y] = "-";
-        printMap[x - 4][y + 1] = "-";
-        printMap[x - 4][y + 2] = "-";
-        printMap[x - 4][y + 3] = "-";
-        printMap[x - 4][y + 4] = "-";
-        printMap[x - 4][y + 5] = "-";
-        printMap[x + 4][y - 1] = "-";
-        printMap[x + 4][y - 2] = "-";
-        printMap[x + 4][y - 3] = "-";
-        printMap[x + 4][y - 4] = "-";
-        printMap[x + 4][y - 5] = "-";
-        printMap[x - 4][y - 1] = "-";
-        printMap[x - 4][y - 2] = "-";
-        printMap[x - 4][y - 3] = "-";
-        printMap[x - 4][y - 4] = "-";
-        printMap[x - 4][y - 5] = "-";
-
-        printMap[x - 3][y] = ",";
-        printMap[x - 3][y - 1] = "";
-        printMap[x - 3][y + 2] = "";
-        printMap[x - 3][y - 2] = GlobalThings.BLUE + String.format("%02d", mapArrayX);
-        printMap[x - 3][y + 1] = String.format("%02d", mapArrayY);
-    }
-
-    private void replaceText(String[][] map, int x, int y, int xDiff, String firstThree, String secondThree, String
-            color) {
-        map[x + xDiff][y] = ":";
-        map[x + xDiff][y - 1] = "";
-        map[x + xDiff][y - 2] = "";
-        map[x + xDiff][y - 3] = color + firstThree;
-        map[x + xDiff][y + 1] = secondThree;
-        map[x + xDiff][y + 2] = "";
-        map[x + xDiff][y + 3] = "";
-    }
-    /////////////////////////////////////////////////////////////////////////////////////////////////^^^show whole map^^^//////////////////////////
-
 
     public String moveMap(String directionName, int amount) {
         if (directionName.equals("null"))
@@ -814,6 +696,7 @@ public class GameMenuController {
             }
         }
         selectedCity.setUnitInProgress(unit);
+        selectedCity.setNeededProduction(unit.getCost());
         return Controller.addNotification(Game.getGame().getTurnNumber(), "it will be produced");
 
     }
