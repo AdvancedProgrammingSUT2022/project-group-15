@@ -4,12 +4,14 @@ import enums.*;
 import model.*;
 
 import model.unit.*;
+import view.GameMenu;
 
 import java.util.ArrayList;
 
 public class GameMenuController {
     private Unit selectedUnit = null;
     private City selectedCity = null;
+    private City fallenCity = null;
     private int lastShownMapX = 0;
     private int lastShownMapY = 0;
 
@@ -418,6 +420,10 @@ public class GameMenuController {
         if (target.getOwner() == selectedUnit.getOwner())
             return "you can't attack yourself";
         ((MilitaryUnit) selectedUnit).attackTo(target);
+        if (target.getNowHealth() <= 0) {
+            fallenCity = city;
+            return "city has fallen";
+        }
         return "attack is done";
     }
 
@@ -883,4 +889,11 @@ public class GameMenuController {
         return Controller.addNotification(Game.getGame().getTurnNumber(), "Cheat code accepted : Power of attack increased");
     }
 
+    public void captureCity() {
+        int x = fallenCity.getCoordinatesOfCenterInArray().get('x');
+        int y = fallenCity.getCoordinatesOfCenterInArray().get('y');
+        SettlerUnit settlerUnit = new SettlerUnit(x, y, Game.getGame().getSelectedCivilization(), UnitName.SETTLER);
+        settlerUnit.foundCity();
+        fallenCity = null;
+    }
 }

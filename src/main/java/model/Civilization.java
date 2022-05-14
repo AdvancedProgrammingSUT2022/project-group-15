@@ -112,9 +112,16 @@ public class Civilization {
 
     public void deleteUnit(Unit unit, boolean isSelling) {
         if (unit.getName().equals(UnitName.CITYUNIT)) {
-            City goingToDestroy = Game.getGame().map.map.get(unit.getCoordinatesInMap().get('x') / 2).get(unit.getCoordinatesInMap().get('y')).getCity();
-            Game.getGame().map.map.get(unit.getCoordinatesInMap().get('x') / 2).get(unit.getCoordinatesInMap().get('y')).setCity(null);
+            Hex hex =Game.getGame().map.map.get(unit.getCoordinatesInMap().get('x') / 2).get(unit.getCoordinatesInMap().get('y'));
+            City goingToDestroy = hex.getCity();
+            for (Hex cityHex : goingToDestroy.getCityHexes()) {
+                cityHex.setCity(null);
+            }
             this.cities.remove(goingToDestroy);
+            if (hex.getMilitaryUnit()!=null)
+                deleteUnit(hex.getMilitaryUnit(),false);
+            if (hex.getCivilUnit()!=null)
+                deleteUnit(hex.getCivilUnit(),false);
             return;
         }
         if (isSelling) {
@@ -295,7 +302,7 @@ public class Civilization {
         if (this.visibilityMap.map.get(mapArrayX).get(mapArrayY).getHexVisibility().equals(HexVisibility.FOG_OF_WAR))
             return;
 
-        if (this.visibilityMap.map.get(mapArrayX).get(mapArrayY).getCity() != null) {
+        if (this.visibilityMap.map.get(mapArrayX).get(mapArrayY).getCity() != null && getVisibilityMap().isCenterOfCity(mapArrayX,mapArrayY)) {
             replaceText(printMap, x, y, -3, "CTY",
                     this.visibilityMap.map.get(mapArrayX).get(mapArrayY).getCity().getName().substring(0, 3), GlobalThings.BLUE);
         }

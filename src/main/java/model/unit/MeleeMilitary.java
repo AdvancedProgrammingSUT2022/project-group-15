@@ -27,14 +27,8 @@ public class MeleeMilitary extends MilitaryUnit {
 
 
         if (unit.nowHealth <= 0) {
-            moveToHex(unit.coordinatesInMap.get('x') / 2, unit.coordinatesInMap.get('y'));
             unit.owner.deleteUnit(unit, false);
-            if (unit.getName().equals(UnitName.CITYUNIT)) {
-                SettlerUnit settlerUnit = new SettlerUnit(unit.getCoordinatesInMap().get('x') / 2,
-                        unit.getCoordinatesInMap().get('y'), this.owner, UnitName.SETTLER);
-                settlerUnit.foundCity();
-            }
-
+            moveToHex(unit.coordinatesInMap.get('x') / 2, unit.coordinatesInMap.get('y'));
         }
 
         if (this.nowHealth <= 0) {

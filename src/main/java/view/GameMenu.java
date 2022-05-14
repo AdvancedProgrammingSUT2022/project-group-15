@@ -2,6 +2,7 @@ package view;
 
 import controller.GameMenuController;
 
+import java.util.Scanner;
 import java.util.regex.Matcher;
 
 public class GameMenu extends Menu {
@@ -91,7 +92,11 @@ public class GameMenu extends Menu {
         } else if (command.equals("unit delete")) {
             System.out.println(controller.deleteSelectedUnit());
         } else if ((matcher = getMatcher(command, "^unit attack (?<x>\\d+) (?<y>\\d+)$")) != null) {
-            System.out.println(controller.attackTo(Integer.parseInt(matcher.group("x")), Integer.parseInt(matcher.group("y"))));
+            String message = controller.attackTo(Integer.parseInt(matcher.group("x")), Integer.parseInt(matcher.group("y")));
+            System.out.println(message);
+            if (message.equals("city has fallen")){
+                askForCityCommand();
+            }
         } else if ((matcher = getMatcher(command, "^unit build (?<improvement>\\w+)$")) != null) {
             System.out.println(controller.buildImprovement(matcher.group("improvement")));
         } else if (command.equals("unit remove jungle or swamp")) {
@@ -165,5 +170,23 @@ public class GameMenu extends Menu {
         }
         System.out.println(controller.moveMap("null", 0)); // shows map after each command
         return "continue";
+    }
+
+    private void askForCityCommand() {
+        System.out.println("what do you want to with city?");
+        System.out.println("enter 1 for destroying or 2 for capturing the city:");
+        while (true){
+            String input = scanner.nextLine();
+            if (input.equals("1")) {
+                System.out.println("destroyed!!!");
+                return;
+            }
+            if (input.equals("2")) {
+                controller.captureCity();
+                System.out.println("captured!!!");
+                return;
+            }
+            System.out.println("invalid command");
+        }
     }
 }

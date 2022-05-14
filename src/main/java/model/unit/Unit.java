@@ -16,7 +16,7 @@ import static java.lang.Math.tan;
 
 public abstract class Unit {
     protected HashMap<Character, Integer> coordinatesInMap = new HashMap<>();
-    protected ArrayList<Hex> PlanedToGo = new ArrayList<>();
+    protected ArrayList<Hex> PlanedToGo = null;
     protected Civilization owner;
     protected int movementSpeed;
     protected int remainingMovement;
@@ -310,6 +310,11 @@ public abstract class Unit {
                 }
             }
         }
+        if (Game.getGame().map.map.get(x).get(y).getCity() != null)
+            if (Game.getGame().map.isCenterOfCity(x,y))
+                if (!Game.getGame().map.map.get(x).get(y).getCity().getOwner().equals(this.owner))
+                    return true;
+
         return false;
     }
 

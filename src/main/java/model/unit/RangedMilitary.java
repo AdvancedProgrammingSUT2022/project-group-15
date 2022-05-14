@@ -11,9 +11,9 @@ public class RangedMilitary extends MilitaryUnit {
 
     public RangedMilitary(int x, int y, Civilization owner, UnitName name) {
         super(x, y, owner, name);
-        this.rangedPower=name.getRangedCombatStrength();
+        this.rangedPower = name.getRangedCombatStrength();
         this.range = name.getRange();
-        this.isSetup=false;
+        this.isSetup = false;
     }
 
 
@@ -42,15 +42,20 @@ public class RangedMilitary extends MilitaryUnit {
     }
 
     @Override
-    public void attackTo(Unit unit){
+    public void attackTo(Unit unit) {
         this.remainingMovement = -1;
-        if (unit instanceof CivilUnit){
+        if (unit instanceof CivilUnit) {
             unit.owner.deleteUnit(unit, false);
             return;
         }
-        unit.loseHealth(this.rangedPower,this);
-        if (unit.nowHealth<=0) {
-            unit.owner.deleteUnit(unit, false);
+        unit.loseHealth(this.rangedPower, this);
+        if (unit.nowHealth <= 0) {
+
+            if (unit.getName().equals(UnitName.CITYUNIT)) {
+                unit.setNowHealth(1);
+            }
+            else
+                unit.owner.deleteUnit(unit, false);
         }
     }
 

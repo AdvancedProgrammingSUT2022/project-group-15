@@ -1,6 +1,7 @@
 package model;
 
 import enums.NeighborHex;
+import enums.Terrain;
 import enums.UnitName;
 import model.unit.*;
 
@@ -50,6 +51,10 @@ public class City {
         }
 
         cityUnit = new RangedMilitary(x, y, owner, UnitName.CITYUNIT);
+        if (Game.getGame().map.map.get(x).get(y).getTerrain().equals(Terrain.HILL)){
+            cityUnit.setMeleePower((int) (cityUnit.getRangedPower()*1.2));
+        }
+
     }
 
     public int getUnemployedCitizens() {
