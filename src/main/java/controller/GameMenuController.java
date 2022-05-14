@@ -129,12 +129,12 @@ public class GameMenuController {
 
     public String showMilitaryPanel() {
         // TODO : implement phase 2
-        return showUnitsPanel();
+        return Controller.addNotification(Game.getGame().getTurnNumber(),showUnitsPanel());
     }
 
     public String showEconomyPanel() {
         // TODO : implement phase 2
-        return showCitiesPanel();
+        return Controller.addNotification(Game.getGame().getTurnNumber(),showCitiesPanel());
     }
 
     public String showDealsPanel() {
@@ -214,7 +214,7 @@ public class GameMenuController {
                 ans.append(" ( ").append(cityHex.getCoordinatesInArray().get('x')).append(",").append(cityHex.getCoordinatesInArray().get('y')).append(" ) ");
         }
         ans.append(" are being worked");
-        return ans.toString();
+        return Controller.addNotification(Game.getGame().getTurnNumber(),ans.toString());
     }
 
     public String moveSelectedUnitTo(int x, int y) {
@@ -262,9 +262,7 @@ public class GameMenuController {
         }
         ((MilitaryUnit) selectedUnit).setAlerted(true);
         return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is alerted");
-
     }
-
 
     public String fortifySelectedUnit() {
         if (selectedUnit == null) {
@@ -281,8 +279,6 @@ public class GameMenuController {
             selectedUnit.setMeleePower((int) (selectedUnit.getMeleePower() * 1.5));
         }
         return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is fortified");
-
-
     }
 
     public String fortifySelectedUnitTillHeal() {
@@ -310,8 +306,7 @@ public class GameMenuController {
         selectedUnit.setRemainingMovement(-1);
         Game.getGame().map.map.get(selectedUnit.getCoordinatesInMap().get('x') / 2)
                 .get(selectedUnit.getCoordinatesInMap().get('y')).setHasDestroyedImprovement(true);
-        return "done";
-
+        return Controller.addNotification(Game.getGame().getTurnNumber(),"pillaged!");
     }
 
     public String garrisonSelectedUnit() {
@@ -332,7 +327,6 @@ public class GameMenuController {
             return Controller.addNotification(Game.getGame().getTurnNumber(), "Done");
         }
         return Controller.addNotification(Game.getGame().getTurnNumber(), "unit not in a city");
-
     }
 
     public String setupRangedSelectedUnit() {
@@ -367,7 +361,7 @@ public class GameMenuController {
         if (!selectedUnit.getOwner().equals(Game.getGame().getSelectedCivilization()))
             return Controller.addNotification(Game.getGame().getTurnNumber(), "unit not yours");
         selectedUnit.setPlanedToGo(null);
-        return "Done";
+        return Controller.addNotification(Game.getGame().getTurnNumber(),"Canceled!");
     }
 
     public String wakeUpSelectedUnit() {
@@ -429,13 +423,13 @@ public class GameMenuController {
     private String attackTo(City city) {
         Unit target = city.getCityUnit();
         if (target.getOwner() == selectedUnit.getOwner())
-            return "you can't attack yourself";
+            return Controller.addNotification(Game.getGame().getTurnNumber(),"you can't attack yourself");
         ((MilitaryUnit) selectedUnit).attackTo(target);
         if (target.getNowHealth() <= 0) {
             fallenCity = city;
-            return "city has fallen";
+            return Controller.addNotification(Game.getGame().getTurnNumber(),"city has fallen");
         }
-        return "attack is done";
+        return Controller.addNotification(Game.getGame().getTurnNumber(),"attack is done");
     }
 
     public String buildImprovement(String improvementName) {
@@ -487,7 +481,6 @@ public class GameMenuController {
     }
 
     public String removeRoute() {
-
         if (selectedUnit == null)
             return Controller.addNotification(Game.getGame().getTurnNumber(), "please select a unit first");
         if (!selectedUnit.getOwner().equals(Game.getGame().getSelectedCivilization()))
@@ -514,7 +507,6 @@ public class GameMenuController {
                 .get(selectedUnit.getCoordinatesInMap().get('y')).setHasDestroyedImprovement(false);
         return Controller.addNotification(Game.getGame().getTurnNumber(), "done");
     }
-
 
     public String moveMap(String directionName, int amount) {
         if (directionName.equals("null"))
@@ -599,7 +591,6 @@ public class GameMenuController {
         if (!Game.getGame().map.map.get(x).get(y).isAnyCitizenWorking())
             return Controller.addNotification(Game.getGame().getTurnNumber(), "tile is not being worked");
 
-
         selectedCity.removeCitizenFromHex(x, y);
         return Controller.addNotification(Game.getGame().getTurnNumber(), "done! citizen is not working any more");
     }
@@ -618,7 +609,6 @@ public class GameMenuController {
             return Controller.addNotification(Game.getGame().getTurnNumber(), "not near city");
         selectedCity.buyHex(x, y);
         return Controller.addNotification(Game.getGame().getTurnNumber(), "hex is bought");
-
     }
 
     public String buyUnit(String unitName) {

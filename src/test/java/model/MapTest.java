@@ -1,11 +1,7 @@
 package model;
 
 import enums.HexVisibility;
-import enums.Resource;
 import junit.framework.TestCase;
-import org.mockito.Mock;
-
-import java.util.ArrayList;
 
 public class MapTest extends TestCase {
 

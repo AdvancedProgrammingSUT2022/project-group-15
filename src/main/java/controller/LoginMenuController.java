@@ -1,5 +1,6 @@
 package controller;
 
+import model.Game;
 import model.User;
 
 import java.util.regex.Matcher;
@@ -18,19 +19,19 @@ public class LoginMenuController {
         String nickname = matcher.group("nickname");
 
         if (User.getUserByUsername(username) != null) {
-            return "user with username " + username + " already exists";
+            return Controller.addNotification(-1,"user with username " + username + " already exists");
         }
 
         if (User.getUserByNickname(nickname) != null) {
-            return "user with nickname " + nickname + " already exists";
+            return Controller.addNotification(-1,"user with nickname " + nickname + " already exists");
         }
 
         if (!(password.length() >= 6 && password.matches(".*\\d.*") && password.matches(".*[a-zA-Z].*"))) {
-            return "password is weak!";
+            return Controller.addNotification(-1,"password is weak!");
         }
 
         User.addUser(username, password, nickname);
-        return "user created successfully!";
+        return Controller.addNotification(-1,"user created successfully!");
     }
 
     /**
