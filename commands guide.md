@@ -28,7 +28,7 @@ The order of flags doesn't matter in each command below that contains dashes
 #### <li> General Commands
 
 1) info **_name of panel_** <br> **_name of panel_** can be "research", "units", "cities", "diplomacy", "victory", "
-   demographics", "notifications", "military", "economic", "deals"
+   demographics", "notifications", "military", "economic", "deals" <br> (some of them are not for phase 1)
 2) buy new technology : **_technology name_** <br> You can access the list of technology names using the previous
    command
 3) select unit combat **_x_** **_y_**
