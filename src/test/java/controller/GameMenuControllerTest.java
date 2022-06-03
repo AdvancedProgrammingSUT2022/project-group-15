@@ -57,7 +57,6 @@ public class GameMenuControllerTest {
 
     }
 
-
     public void seeMapWithSomeChanges() {
         GameMenuController gameMenuController = new GameMenuController();
         ArrayList<User> users = new ArrayList<>();
@@ -67,8 +66,6 @@ public class GameMenuControllerTest {
         users.add(new User("", "", "3"));
         Game.startNewGame(users);
         GameMenu gameMenu = new GameMenu();
-        gameMenu.run();
-
+//        gameMenu.run();
     }
-
 }

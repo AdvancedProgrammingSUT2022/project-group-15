@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" styleClass="backgroundPane" stylesheets="@../css/loginMenu.css"
+            xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.LoginMenu">
+    <AnchorPane layoutX="460.0" layoutY="70.0" prefHeight="580.0" prefWidth="360.0" styleClass="foregroundPane">
+        <Text fill="#3c3838" layoutX="128.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Login"
+              textAlignment="CENTER" wrappingWidth="104.6708984375">
+            <font>
+                <Font name="Berlin Sans FB Bold" size="36.0"/>
+            </font>
+        </Text>
+        <TextField fx:id="username" layoutX="55.0" layoutY="170.0" prefHeight="40.0" prefWidth="200.0"
+                   promptText="Enter your username">
+            <padding>
+                <Insets left="10.0"/>
+            </padding>
+        </TextField>
+        <TextField fx:id="password" layoutX="55.0" layoutY="258.0" promptText="Enter your password">
+            <padding>
+                <Insets left="10.0"/>
+            </padding>
+        </TextField>
+        <Text fill="#3c3838" layoutX="70.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username"
+              textAlignment="CENTER" wrappingWidth="104.6708984375">
+            <font>
+                <Font name="Calibri Light Italic" size="20.0"/>
+            </font>
+        </Text>
+        <Text fill="#3c3838" layoutX="70.0" layoutY="253.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password"
+              textAlignment="CENTER" wrappingWidth="104.6708984375">
+            <font>
+                <Font name="Calibri Light Italic" size="20.0"/>
+            </font>
+        </Text>
+        <Button layoutX="80.0" layoutY="387.0" mnemonicParsing="false" onMouseClicked="#login" styleClass="loginButton"
+                text="Login">
+            <font>
+                <Font size="20.0"/>
+            </font>
+        </Button>
+        <Button layoutX="130.0" layoutY="442.0" mnemonicParsing="false" onMouseClicked="#signUp"
+                styleClass="registerButton" text="or Sign Up"/>
+        <ImageView fx:id="continueAsGuest" accessibleText="continue as guest" fitHeight="60.0" fitWidth="60.0"
+                   layoutX="286.0" layoutY="506.0" onMouseClicked="#continueAsGuest" pickOnBounds="true"
+                   preserveRatio="true">
+            <Image url="@../avatars/guest.png"/>
+            <viewport>
+                <Rectangle2D height="60.0" width="60.0"/>
+            </viewport>
+            <cursor>
+                <Cursor fx:constant="HAND"/>
+            </cursor>
+        </ImageView>
+        <ImageView fx:id="forbiddenIcon" fitHeight="45.0" fitWidth="38.0" layoutX="65.0" layoutY="320.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <Image url="@../icons/forbidden_icon.png"/>
+        </ImageView>
+        <ImageView fx:id="checkIcon" fitHeight="45.0" fitWidth="38.0" layoutX="65.0" layoutY="319.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <Image url="@../icons/check_icon.png"/>
+        </ImageView>
+        <Text fx:id="message" fill="RED" layoutX="103.0" layoutY="343.0" strokeType="OUTSIDE" strokeWidth="0.0"
+              text="message" wrappingWidth="224.6708984375">
+            <font>
+                <Font name="Calibri Light" size="18.0"/>
+            </font>
+        </Text>
+    </AnchorPane>
+</AnchorPane>

@@ -1,6 +1,6 @@
 package controller;
 
-import model.Game;
+import enums.*;
 import model.User;
 
 import java.util.regex.Matcher;
@@ -12,7 +12,7 @@ public class LoginMenuController {
      * @return the message to be shown on the screen
      * @author Parsa
      */
-    public String createUser(Matcher matcher) {
+    public String signUp(Matcher matcher) {
         User.loadUsers();
         String username = matcher.group("username");
         String password = matcher.group("password");
@@ -57,5 +57,24 @@ public class LoginMenuController {
      */
     public boolean isUserLoggedIn() {
         return User.getLoggedInUser() != null;
+    }
+
+    public boolean isStrong(String password) {
+        return password.length() >= 6 && password.matches(".*\\w+.*") && password.matches(".*\\d+.*");
+    }
+
+    public Message signUp(String text, String text1) {
+        // TODO : delete
+        return Message.SUCCESS;
+    }
+
+    public Message login(String text, String text1) {
+        // TODO : delete
+        return Message.SUCCESS;
+    }
+
+    public String createUser(Matcher matcher) {
+        // TODO : delete
+        return null;
     }
 }

@@ -1,37 +1,52 @@
 package controller;
 
+import javafx.application.Application;
+import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.stage.Stage;
 import view.*;
 
 import java.util.ArrayList;
 
-public class Controller {
-    private final LoginMenu loginMenu= new LoginMenu();
-    private final MainMenu mainMenu = new MainMenu();
-    private final ProfileMenu profileMenu = new ProfileMenu();
-    private final GameMenu gameMenu = new GameMenu();
+public class Controller{
+    private static Stage window = null;
+    private static final LoginMenu loginMenu = new LoginMenu();
+    private static final MainMenu mainMenu = new MainMenu();
+    private static final ProfileMenu profileMenu = new ProfileMenu();
+    private static final GameMenu gameMenu = new GameMenu();
     private static final ArrayList<String> notificationHistory = new ArrayList<>();
 
-    /**
-     * controls the main flow of program (moving between menus)
-     * @author Parsa
-     */
-    public void run() {
-        if (loginMenu.run().equals("exit")) return;
 
-        while (true) {
-            switch (mainMenu.run()) {
-                case "game menu":
-                    gameMenu.run();
-                    break;
-                case "profile menu":
-                    profileMenu.run();
-                    break;
-                case "logout":
-                    if (loginMenu.run().equals("exit")) return;
-                    break;
-            }
-        }
+    public void run(Stage primaryStage) {
+        window = primaryStage;
+        window.setResizable(false);
+        window.setScene(loginMenu.getScene());
+        window.setTitle("Civilization");
+        window.getIcons().add(new Image(getClass().getResource("/icons/Civ-5-icon.png").toExternalForm()));
+        window.show();
     }
+
+    public static MainMenu getMainMenu() {
+        return mainMenu;
+    }
+
+//    public void run() {
+//        if (loginMenu.run().equals("exit")) return;
+//
+//        while (true) {
+//            switch (mainMenu.run()) {
+//                case "game menu":
+//                    gameMenu.run();
+//                    break;
+//                case "profile menu":
+//                    profileMenu.run();
+//                    break;
+//                case "logout":
+//                    if (loginMenu.run().equals("exit")) return;
+//                    break;
+//            }
+//        }
+//    }
 
     /**
      * add a message to the notification history
