@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" styleClass="backgroundPane" stylesheets="@../css/mainMenu.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.WinGameMenu">
+    <Label layoutX="362.0" layoutY="50.0" prefHeight="236.0" prefWidth="558.0" text="You Win!" textAlignment="CENTER">
+        <font>
+          <Font name="Bauhaus 93" size="140.0" />
+        </font>
+        <textFill>
+          <RadialGradient centerX="0.48863636363636365" centerY="0.5" radius="0.9390243902439024">
+              <stops>
+                  <Stop color="#bdff00" />
+                  <Stop color="#6ce8b8" offset="1.0" />
+              </stops>
+          </RadialGradient>
+        </textFill>
+    </Label>
+    <Button layoutX="416.0" layoutY="309.0" mnemonicParsing="false" onMouseClicked="#startNewGame" prefHeight="153.0" prefWidth="449.0" styleClass="start-new-game" text="Retry" textFill="WHITE">
+        <font>
+          <Font name="Impact" size="96.0" />
+        </font>
+        <cursor>
+          <Cursor fx:constant="HAND" />
+        </cursor>
+    </Button>
+    <Button layoutX="320.0" layoutY="491.0" mnemonicParsing="false" onMouseClicked="#returnMainMenu" prefHeight="123.0" prefWidth="640.0" styleClass="score-board" text="Return to Main Menu" textFill="WHITE">
+        <font>
+          <Font name="Impact" size="64.0" />
+        </font>
+        <cursor>
+          <Cursor fx:constant="HAND" />
+        </cursor>
+    </Button>
+   <Label fx:id="message" alignment="CENTER" layoutX="362.0" layoutY="257.0" prefHeight="58.0" prefWidth="558.0" textAlignment="CENTER">
+      <font>
+         <Font name="Bauhaus 93" size="48.0" />
+      </font>
+      <textFill>
+         <LinearGradient endX="1.0" endY="1.0">
+            <stops>
+               <Stop color="#00ffdf" />
+               <Stop color="#6db8e3" offset="0.9963768115942029" />
+               <Stop color="#6db8e3" offset="1.0" />
+            </stops>
+         </LinearGradient>
+      </textFill>
+      <effect>
+         <Glow level="1.0" />
+      </effect>
+   </Label>
+</AnchorPane>

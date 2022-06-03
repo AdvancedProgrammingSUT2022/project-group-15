@@ -1,0 +1,39 @@
+.backgroundPane {
+    -fx-background-image: url(../backgrounds/menus_background.jpg);
+}
+
+Button {
+    -fx-background-color: transparent;
+}
+
+.back-button {
+    -fx-effect: dropshadow( three-pass-box , rgb(255, 255, 255), 2 , 0.3 , 0 , 0 );
+}
+
+.back-button:hover {
+    -fx-effect: dropshadow( three-pass-box , rgb(255, 255, 255), 2 , 0.7 , 0 , 0 );
+}
+
+TextField {
+    -fx-pref-height: 40;
+    -fx-pref-width: 250;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+    -fx-border-style: solid;
+    -fx-background-color: white;
+    -fx-border-color: #c948fa;
+}
+
+.saveButton {
+    -fx-pref-height: 40;
+    -fx-pref-width: 200;
+    -fx-background-radius: 20;
+    -fx-font-size: 18;
+    -fx-background-color: rgba(12, 211, 29, 1);
+}
+
+.saveButton:hover {
+    -fx-background-color: rgb(112, 206, 120);
+    -fx-cursor: hand;
+    -fx-font-size: 19;
+}

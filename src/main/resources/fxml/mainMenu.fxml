@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" styleClass="backgroundPane" stylesheets="@../css/mainMenu.css"
+            xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MainMenu">
+    <Label layoutX="477.0" layoutY="28.0" text="Welcome To" textFill="#383c3bfc">
+        <font>
+            <Font name="Bauhaus 93" size="60.0"/>
+        </font>
+    </Label>
+    <Label layoutX="372.0" layoutY="86.0" text="Cuphead" textAlignment="CENTER">
+        <font>
+            <Font name="Bauhaus 93" size="130.0"/>
+        </font>
+        <textFill>
+            <RadialGradient centerX="0.48863636363636365" centerY="0.5" radius="0.9390243902439024">
+                <stops>
+                    <Stop color="#bdff00"/>
+                    <Stop color="#6ce8b8" offset="1.0"/>
+                </stops>
+            </RadialGradient>
+        </textFill>
+    </Label>
+    <VBox alignment="CENTER" layoutX="369.0" layoutY="290.0" prefHeight="380.0" prefWidth="543.0">
+        <Button mnemonicParsing="false" onMouseClicked="#startNewGame" prefHeight="153.0" prefWidth="449.0"
+                styleClass="start-new-game" text="New Game" textFill="WHITE">
+            <font>
+                <Font name="Impact" size="80.0"/>
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND"/>
+            </cursor>
+        </Button>
+        <Button fx:id="scoreBoardButton" mnemonicParsing="false" onMouseClicked="#showScoreBoard" prefHeight="80.0"
+                prefWidth="408.0" styleClass="score-board" text="Score Board" textFill="WHITE">
+            <font>
+                <Font name="Impact" size="64.0"/>
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND"/>
+            </cursor>
+        </Button>
+        <Button fx:id="profileButton" mnemonicParsing="false" onMouseClicked="#openProfileMenu" prefHeight="89.0"
+                prefWidth="268.0" styleClass="profile" text="Profile" textFill="WHITE">
+            <font>
+                <Font name="Impact" size="60.0"/>
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND"/>
+            </cursor>
+        </Button>
+    </VBox>
+    <ImageView fx:id="exitButton" fitHeight="80.0" fitWidth="88.0" layoutX="1186.0" layoutY="626.0"
+               onMouseClicked="#exitGame" pickOnBounds="true" preserveRatio="true" styleClass="exit-button">
+        <cursor>
+            <Cursor fx:constant="HAND"/>
+        </cursor>
+        <Image url="@../icons/shutdown_icon.png"/>
+    </ImageView>
+    <ImageView fx:id="avatarImage" fitHeight="80.0" fitWidth="80.0" layoutX="8.0" layoutY="8.0"
+               onMouseClicked="#openProfileMenu" pickOnBounds="true" preserveRatio="true">
+        <cursor>
+            <Cursor fx:constant="HAND"/>
+        </cursor>
+        <Image url="@../avatars/guest.png"/>
+    </ImageView>
+    <Label fx:id="username" layoutX="90.0" layoutY="27.0" prefHeight="24.0" prefWidth="183.0" text="You are a guest">
+        <font>
+            <Font name="Britannic Bold" size="24.0"/>
+        </font>
+    </Label>
+    <Label fx:id="score" layoutX="150.0" layoutY="55.0" prefHeight="21.0" prefWidth="248.0"
+           text="Not defined for guests">
+        <font>
+            <Font name="Britannic Bold" size="18.0"/>
+        </font>
+    </Label>
+    <Label layoutX="90.0" layoutY="54.0" prefHeight="21.0" prefWidth="68.0" text="Score : ">
+        <font>
+            <Font name="Britannic Bold" size="18.0"/>
+        </font>
+    </Label>
+</AnchorPane>

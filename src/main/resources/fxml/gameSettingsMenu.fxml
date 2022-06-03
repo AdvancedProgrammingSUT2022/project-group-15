@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" styleClass="backgroundPane" stylesheets="@../css/gameSettings.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.GameSettingsMenu">
+   <ImageView fitHeight="79.0" fitWidth="98.0" layoutX="24.0" layoutY="24.0" onMouseClicked="#openMainMenu" pickOnBounds="true" preserveRatio="true" styleClass="back-button">
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor>
+      <Image url="@../icons/back-icon.png" />
+   </ImageView>
+   <ComboBox fx:id="difficultyComboBox" layoutX="786.0" layoutY="225.0" onAction="#changeDifficulty" prefWidth="150.0" />
+   <Label layoutX="467.0" layoutY="33.0" prefHeight="141.0" prefWidth="346.0" text="Settings" textAlignment="CENTER">
+      <font>
+         <Font name="Bauhaus 93" size="96.0" />
+      </font>
+      <textFill>
+         <RadialGradient centerX="0.48863636363636365" centerY="0.5" radius="0.9390243902439024">
+            <stops>
+               <Stop color="#bdff00" />
+               <Stop color="#6ce8b8" offset="1.0" />
+            </stops>
+         </RadialGradient>
+      </textFill>
+   </Label>
+   <Label layoutX="345.0" layoutY="222.0" prefHeight="36.0" prefWidth="144.0" text="Difficulty">
+      <font>
+         <Font name="Britannic Bold" size="36.0" />
+      </font>
+   </Label>
+   <Label layoutX="369.0" layoutY="324.0" prefHeight="36.0" prefWidth="97.0" text="Music">
+      <font>
+         <Font name="Britannic Bold" size="36.0" />
+      </font>
+   </Label>
+   <ImageView fx:id="musicOn" fitHeight="79.0" fitWidth="98.0" layoutX="822.0" layoutY="303.0" onMouseClicked="#mute" pickOnBounds="true" preserveRatio="true" styleClass="back-button">
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor>
+      <Image url="@../icons/unmute_icon.png" />
+   </ImageView>
+   <ImageView fx:id="musicOff" fitHeight="79.0" fitWidth="98.0" layoutX="822.0" layoutY="303.0" onMouseClicked="#unmute" pickOnBounds="true" preserveRatio="true" styleClass="back-button">
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor>
+      <Image url="@../icons/mute_icon.png" />
+   </ImageView>
+   <ImageView fitHeight="86.0" fitWidth="97.0" layoutX="597.0" layoutY="544.0" onMouseClicked="#startGame" pickOnBounds="true" preserveRatio="true" styleClass="back-button">
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor>
+      <Image url="@../icons/play_icon.png" />
+   </ImageView>
+</AnchorPane>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" styleClass="backgroundPane" stylesheets="@../css/scoreboard.css"
+            xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="view.ScoreBoard">
+    <TableView fx:id="scoreboard" layoutX="341.0" layoutY="162.0" prefHeight="510.0" prefWidth="600.0"/>
+    <ImageView fitHeight="79.0" fitWidth="98.0" layoutX="26.0" layoutY="21.0" onMouseClicked="#openMainMenu"
+               pickOnBounds="true" preserveRatio="true" styleClass="back-button">
+        <cursor>
+            <Cursor fx:constant="HAND"/>
+        </cursor>
+        <Image url="@../icons/back-icon.png"/>
+    </ImageView>
+    <Label layoutX="387.0" layoutY="21.0" prefHeight="141.0" prefWidth="507.0" text="Score Board" textAlignment="RIGHT">
+        <font>
+            <Font name="Bauhaus 93" size="96.0"/>
+        </font>
+        <textFill>
+            <RadialGradient centerX="0.48863636363636365" centerY="0.5" radius="0.9390243902439024">
+                <stops>
+                    <Stop color="#bdff00"/>
+                    <Stop color="#6ce8b8" offset="1.0"/>
+                </stops>
+            </RadialGradient>
+        </textFill>
+    </Label>
+</AnchorPane>
