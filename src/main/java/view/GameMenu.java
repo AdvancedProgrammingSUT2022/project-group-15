@@ -58,6 +58,7 @@ public class GameMenu extends Menu {
                     System.out.println("invalid command!");
                     break;
             }
+            return "continue";
         } else if ((matcher = getMatcher(command, "^buy new technology : (?<tech>.*)$")) != null) {
             String technologyName = matcher.group("tech");
             System.out.println(controller.buyNewTechnology(technologyName));
