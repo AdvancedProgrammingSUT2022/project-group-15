@@ -29,6 +29,8 @@ public class LoginMenu extends Menu implements Initializable {
     @FXML
     private TextField password;
     @FXML
+    private TextField nickname;
+    @FXML
     private ImageView continueAsGuest;
     @FXML
     private ImageView forbiddenIcon;
