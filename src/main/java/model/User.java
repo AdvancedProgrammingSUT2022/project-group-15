@@ -1,6 +1,7 @@
 package model;
 
 import com.google.gson.Gson;
+import com.google.gson.annotations.Expose;
 import com.google.gson.reflect.TypeToken;
 import enums.Avatar;
 import javafx.beans.property.*;
@@ -14,15 +15,22 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-public class User implements Comparable<User>{
+public class User implements Comparable<User> {
     private static ArrayList<User> users = new ArrayList<>();
     private static User loggedInUser = null;
 
+    @Expose(serialize = false)
+    private ObjectProperty<Image> avatarImage = new SimpleObjectProperty<>();
+
+    @Expose
     private Avatar avatar;
-    private final ObjectProperty<Image> avatarImage = new SimpleObjectProperty<>();
+    @Expose
     private final StringProperty username = new SimpleStringProperty();
+    @Expose
     private final StringProperty password = new SimpleStringProperty();
+    @Expose
     private final StringProperty nickname = new SimpleStringProperty();
+    @Expose
     private final IntegerProperty score = new SimpleIntegerProperty();
 
     public User(String username, String password, String nickname, int score) {
@@ -73,13 +81,14 @@ public class User implements Comparable<User>{
 
     /**
      * save users in UserDatabase.json
+     * uses FxGson library
      *
      * @author Erfan & Parsa
      */
     public static void saveUsers() {
         try {
             FileWriter fileWriter = new FileWriter("./src/main/resources/UserDatabase.json");
-            Gson gson = FxGson.coreBuilder().setPrettyPrinting().disableHtmlEscaping().create();
+            Gson gson = FxGson.coreBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().disableHtmlEscaping().create();
             fileWriter.write(gson.toJson(users));
             fileWriter.close();
         } catch (IOException e) {
@@ -89,6 +98,7 @@ public class User implements Comparable<User>{
 
     /**
      * load users created before(Saved in UserDatabase.json)
+     * uses FxGson library
      *
      * @author Erfan & Parsa
      */
@@ -96,17 +106,19 @@ public class User implements Comparable<User>{
         try {
             String json = new String(Files.readAllBytes(Paths.get("./src/main/resources/UserDatabase.json")));
             ArrayList<User> createdUsers;
-            Gson gson = FxGson.coreBuilder().setPrettyPrinting().disableHtmlEscaping().create();
+            Gson gson = FxGson.coreBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().disableHtmlEscaping().create();
             createdUsers = gson.fromJson(json, new TypeToken<List<User>>() {
             }.getType());
-            if (createdUsers != null) users = createdUsers;
+            if (createdUsers != null) {
+                for (User user : createdUsers) {
+                    user.avatarImage = new SimpleObjectProperty<>();
+                    user.setAvatar(user.getAvatar());
+                }
+                users = createdUsers;
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public static void setUsers(ArrayList<User> users) {
-        User.users = users;
     }
 
     public String getUsername() {
@@ -172,7 +184,7 @@ public class User implements Comparable<User>{
         return users;
     }
 
-    public static User getLoggedInUser(){
+    public static User getLoggedInUser() {
         return loggedInUser;
     }
 

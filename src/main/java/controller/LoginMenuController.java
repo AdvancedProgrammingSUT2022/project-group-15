@@ -58,9 +58,4 @@ public class LoginMenuController {
     public boolean isStrong(String password) {
         return password.length() >= 6 && password.matches(".*\\w+.*") && password.matches(".*\\d+.*");
     }
-
-    public String createUser(Matcher matcher) {
-        // TODO : delete
-        return null;
-    }
 }

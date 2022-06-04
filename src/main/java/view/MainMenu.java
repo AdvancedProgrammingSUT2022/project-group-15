@@ -36,16 +36,9 @@ public class MainMenu extends Menu implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if (controller.getLoggedInPlayer() == null) {
-            profileButton.setDisable(true);
-            scoreBoardButton.setDisable(true);
-            avatarImage.setCursor(Cursor.DEFAULT);
-            avatarImage.setOnMouseClicked(null);
-        } else {
-            avatarImage.imageProperty().bind(controller.getLoggedInPlayer().avatarProperty());
-            username.textProperty().bind(controller.getLoggedInPlayer().usernameProperty());
-            score.textProperty().bind(controller.getLoggedInPlayer().scoreProperty().asString());
-        }
+        avatarImage.imageProperty().bind(controller.getLoggedInPlayer().avatarProperty());
+        username.textProperty().bind(controller.getLoggedInPlayer().usernameProperty());
+        score.textProperty().bind(controller.getLoggedInPlayer().scoreProperty().asString());
         Tooltip.install(exitButton, new Tooltip("Exit"));
     }
 
