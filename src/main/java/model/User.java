@@ -1,32 +1,37 @@
 package model;
 
 import com.google.gson.Gson;
+import com.google.gson.annotations.Expose;
 import com.google.gson.reflect.TypeToken;
+import enums.Avatar;
+import javafx.beans.property.*;
+import javafx.scene.image.Image;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-public class User {
+public class User implements Comparable<User>{
     private static ArrayList<User> users = new ArrayList<>();
     private static User loggedInUser = null;
 
+    private Avatar avatar;
+    @Expose
+    private final ObjectProperty<Image> avatarImage = new SimpleObjectProperty<>();
+    private final StringProperty username = new SimpleStringProperty();
+    private final StringProperty password = new SimpleStringProperty();
+    private final StringProperty nickname = new SimpleStringProperty();
+    private final IntegerProperty score = new SimpleIntegerProperty();
 
-    private String username;
-    private String password;
-    private String nickname;
-    private int score;
-
-    public User(String username, String password, String nickname) {
-        this.username = username;
-        this.password = password;
-        this.nickname = nickname;
-        this.score = 0;
-
+    public User(String username, String password, String nickname, int score) {
+        setAvatar(Avatar.getRandomAvatar());
+        this.username.setValue(username);
+        this.password.setValue(password);
+        this.nickname.setValue(nickname);
+        this.score.setValue(score);
     }
 
     /**
@@ -63,7 +68,7 @@ public class User {
      * @author Parsa
      */
     public static void addUser(String username, String password, String nickname) {
-        users.add(new User(username, password, nickname));
+        users.add(new User(username, password, nickname, 0));
         saveUsers();
     }
 
@@ -99,6 +104,59 @@ public class User {
         }
     }
 
+    public static void setUsers(ArrayList<User> users) {
+        User.users = users;
+    }
+
+    public String getUsername() {
+        return username.get();
+    }
+
+    public StringProperty usernameProperty() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username.set(username);
+    }
+
+    public String getPassword() {
+        return password.get();
+    }
+
+    public StringProperty passwordProperty() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password.set(password);
+    }
+
+    public String getNickname() {
+        return nickname.get();
+    }
+
+    public StringProperty nicknameProperty() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname.set(nickname);
+    }
+
+    public int getScore() {
+        return score.get();
+    }
+
+    public IntegerProperty scoreProperty() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score.set(score);
+    }
+
+
     /**
      * add amount to the user's score
      *
@@ -106,23 +164,11 @@ public class User {
      * @author Parsa
      */
     public void changeScore(int amount) {
-        this.score += amount;
+        this.score.setValue(this.score.get() + amount);
     }
 
     public static ArrayList<User> getUsers() {
         return users;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getNickname() {
-        return nickname;
     }
 
     public static User getLoggedInUser(){
@@ -133,19 +179,24 @@ public class User {
         User.loggedInUser = loggedInUser;
     }
 
-    public int getScore() {
-        return score;
+    public Avatar getAvatar() {
+        return avatar;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public ObjectProperty<Image> avatarProperty() {
+        return avatarImage;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setAvatar(Avatar avatar) {
+        this.avatar = avatar;
+        this.avatarImage.set(avatar.image);
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    @Override
+    public int compareTo(User o) {
+        // TODO : implement for scoreboard
+        Integer myScore = this.getScore();
+        Integer otherScore = o.getScore();
+        return otherScore.compareTo(myScore);
     }
 }

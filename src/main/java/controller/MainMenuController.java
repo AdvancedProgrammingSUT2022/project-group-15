@@ -45,4 +45,8 @@ public class MainMenuController {
     public boolean isGameStarted() {
         return Game.getGame() != null;
     }
+
+    public User getLoggedInPlayer() {
+        return User.getLoggedInUser();
+    }
 }

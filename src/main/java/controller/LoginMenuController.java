@@ -12,11 +12,8 @@ public class LoginMenuController {
      * @return the message to be shown on the screen
      * @author Parsa
      */
-    public String signUp(Matcher matcher) {
+    public String signUp(String username, String password, String nickname) {
         User.loadUsers();
-        String username = matcher.group("username");
-        String password = matcher.group("password");
-        String nickname = matcher.group("nickname");
 
         if (User.getUserByUsername(username) != null) {
             return Controller.addNotification(-1,"user with username " + username + " already exists");
@@ -31,6 +28,7 @@ public class LoginMenuController {
         }
 
         User.addUser(username, password, nickname);
+        login(username, password);
         return Controller.addNotification(-1,"user created successfully!");
     }
 
@@ -39,10 +37,8 @@ public class LoginMenuController {
      * @return the message to be shown on the screen
      * @author Parsa
      */
-    public String login(Matcher matcher) {
+    public String login(String username, String password) {
         User.loadUsers();
-        String username = matcher.group("username");
-        String password = matcher.group("password");
 
         if (User.getUserByUsername(username) == null || !User.getUserByUsername(username).getPassword().equals(password)) {
             return Controller.addNotification(-1,"Username and password didn't match!");
@@ -61,16 +57,6 @@ public class LoginMenuController {
 
     public boolean isStrong(String password) {
         return password.length() >= 6 && password.matches(".*\\w+.*") && password.matches(".*\\d+.*");
-    }
-
-    public Message signUp(String text, String text1) {
-        // TODO : delete
-        return Message.SUCCESS;
-    }
-
-    public Message login(String text, String text1) {
-        // TODO : delete
-        return Message.SUCCESS;
     }
 
     public String createUser(Matcher matcher) {

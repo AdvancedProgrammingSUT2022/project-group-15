@@ -31,8 +31,6 @@ public class LoginMenu extends Menu implements Initializable {
     @FXML
     private TextField nickname;
     @FXML
-    private ImageView continueAsGuest;
-    @FXML
     private ImageView forbiddenIcon;
     @FXML
     private ImageView checkIcon;
@@ -41,17 +39,10 @@ public class LoginMenu extends Menu implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Tooltip.install(continueAsGuest, new Tooltip("Continue as a guest!"));
         checkIcon.setVisible(false);
         forbiddenIcon.setVisible(false);
         message.setText("");
 
-        continueAsGuest.setOnMouseEntered(event -> {
-            continueAsGuest.setOpacity(0.5);
-            continueAsGuest.setCursor(Cursor.HAND);
-        });
-
-        continueAsGuest.setOnMouseExited(event -> continueAsGuest.setOpacity(1));
         username.setOnKeyReleased(event -> {
             if (username.getText().matches("^\\w+.*")) {
                 username.setStyle("-fx-border-color: green");
@@ -89,11 +80,11 @@ public class LoginMenu extends Menu implements Initializable {
 
     public void login() {
         setup(username);
-        Message loginResult = controller.login(username.getText(), password.getText());
-        if (loginResult != Message.SUCCESS) {
+        String loginResult = controller.login(username.getText(), password.getText());
+        if (!loginResult.equals("user logged in successfully!")) {
             message.setFill(Paint.valueOf("red"));
             forbiddenIcon.setVisible(true);
-            message.setText(loginResult.toString());
+            message.setText(loginResult);
         } else {
             forbiddenIcon.setVisible(false);
             checkIcon.setVisible(true);
@@ -107,11 +98,11 @@ public class LoginMenu extends Menu implements Initializable {
 
     public void signUp() {
         setup(username);
-        Message signupResult = controller.signUp(username.getText(), password.getText());
-        if (signupResult != Message.SUCCESS) {
+        String signupResult = controller.signUp(username.getText(), password.getText(), nickname.getText());
+        if (!signupResult.equals("user created successfully!")) {
             message.setFill(Paint.valueOf("red"));
             forbiddenIcon.setVisible(true);
-            message.setText(signupResult.toString());
+            message.setText(signupResult);
         } else {
             forbiddenIcon.setVisible(false);
             checkIcon.setVisible(true);
@@ -121,10 +112,6 @@ public class LoginMenu extends Menu implements Initializable {
             message.setText("SignUp successful! Wait...");
             nextPage();
         }
-    }
-
-    public void continueAsGuest() {
-
     }
 
     private void nextPage() {

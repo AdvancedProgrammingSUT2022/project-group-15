@@ -1,7 +1,5 @@
 package controller;
 
-import javafx.application.Application;
-import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import view.*;
@@ -14,7 +12,16 @@ public class Controller{
     private static final MainMenu mainMenu = new MainMenu();
     private static final ProfileMenu profileMenu = new ProfileMenu();
     private static final GameMenu gameMenu = new GameMenu();
+    private static final ScoreBoard scoreboard = new ScoreBoard();
     private static final ArrayList<String> notificationHistory = new ArrayList<>();
+
+    public static ProfileMenu getProfileMenu() {
+        return profileMenu;
+    }
+
+    public static ScoreBoard getScoreBoard() {
+        return scoreboard;
+    }
 
 
     public void run(Stage primaryStage) {
@@ -30,23 +37,9 @@ public class Controller{
         return mainMenu;
     }
 
-//    public void run() {
-//        if (loginMenu.run().equals("exit")) return;
-//
-//        while (true) {
-//            switch (mainMenu.run()) {
-//                case "game menu":
-//                    gameMenu.run();
-//                    break;
-//                case "profile menu":
-//                    profileMenu.run();
-//                    break;
-//                case "logout":
-//                    if (loginMenu.run().equals("exit")) return;
-//                    break;
-//            }
-//        }
-//    }
+    public static Stage getWindow() {
+        return window;
+    }
 
     /**
      * add a message to the notification history

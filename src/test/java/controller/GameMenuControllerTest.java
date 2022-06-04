@@ -22,10 +22,10 @@ public class GameMenuControllerTest {
     public void moveTest() {
         GameMenuController gameMenuController = new GameMenuController();
         ArrayList<User> users = new ArrayList<>();
-        users.add(new User("", "", "0"));
-        users.add(new User("", "", "1"));
-        users.add(new User("", "", "2"));
-        users.add(new User("", "", "3"));
+        users.add(new User("", "", "0", 0));
+        users.add(new User("", "", "1", 0));
+        users.add(new User("", "", "2", 0));
+        users.add(new User("", "", "3", 0));
         Game.startNewGame(users);
         WorkerUnit workerUnit = new WorkerUnit(4, 4, Game.getGame().getSelectedCivilization(), UnitName.WORKER);
 
@@ -42,10 +42,10 @@ public class GameMenuControllerTest {
     public void moveNotPossibleTest() {
         GameMenuController gameMenuController = new GameMenuController();
         ArrayList<User> users = new ArrayList<>();
-        users.add(new User("", "", "0"));
-        users.add(new User("", "", "1"));
-        users.add(new User("", "", "2"));
-        users.add(new User("", "", "3"));
+        users.add(new User("", "", "0", 0));
+        users.add(new User("", "", "1", 0));
+        users.add(new User("", "", "2", 0));
+        users.add(new User("", "", "3", 0));
         Game.startNewGame(users);
         WorkerUnit workerUnit = new WorkerUnit(4, 4, Game.getGame().getSelectedCivilization(), UnitName.WORKER);
 
@@ -60,10 +60,10 @@ public class GameMenuControllerTest {
     public void seeMapWithSomeChanges() {
         GameMenuController gameMenuController = new GameMenuController();
         ArrayList<User> users = new ArrayList<>();
-        users.add(new User("", "", "0"));
-        users.add(new User("", "", "1"));
-        users.add(new User("", "", "2"));
-        users.add(new User("", "", "3"));
+        users.add(new User("", "", "0", 0));
+        users.add(new User("", "", "1", 0));
+        users.add(new User("", "", "2", 0));
+        users.add(new User("", "", "3", 0));
         Game.startNewGame(users);
         GameMenu gameMenu = new GameMenu();
 //        gameMenu.run();

@@ -18,7 +18,7 @@ public class ProfileMenuControllerTest {
     String regex = "^(?<nickname>\\S+)$";
     String command = "parsabashari";
     Matcher matcher;
-    User user = new User("parsabsh", "oldPassword1234", "parsa");
+    User user = new User("parsabsh", "oldPassword1234", "parsa", 0);
     static MockedStatic<User> theMock = Mockito.mockStatic(User.class);
 
 

@@ -21,7 +21,7 @@ public class UnitTest extends TestCase {
 
     public void testUnitCanAttack() {
         ArrayList<User> users = new ArrayList<>();
-        users.add(new User("", "", ""));
+        users.add(new User("", "", "", 0));
         Game.startNewGame(users);
         Unit unit = new RangedMilitary(5, 5, Game.getGame().getSelectedCivilization(), UnitName.ARTILLERY);
         assertTrue(unit.unitCanAttack(3, 3));
@@ -29,7 +29,7 @@ public class UnitTest extends TestCase {
 
     public void testUnitCanNotAttack() {
         ArrayList<User> users = new ArrayList<>();
-        users.add(new User("", "", ""));
+        users.add(new User("", "", "", 0));
         Game.startNewGame(users);
         Unit unit = new RangedMilitary(5, 5, Game.getGame().getSelectedCivilization(), UnitName.ARTILLERY);
         assertFalse(unit.unitCanAttack(3, 2));
@@ -38,7 +38,7 @@ public class UnitTest extends TestCase {
     public void testFindShortestPathByDijkstra() {
 
         ArrayList<User> users = new ArrayList<>();
-        users.add(new User("", "", ""));
+        users.add(new User("", "", "", 0));
         Game.startNewGame(users);
 
 
@@ -55,7 +55,7 @@ public class UnitTest extends TestCase {
 
     public void testMoveToMountain() {
         ArrayList<User> users = new ArrayList<>();
-        users.add(new User("", "", ""));
+        users.add(new User("", "", "", 0));
         Game.startNewGame(users);
 
         Civilization mockedCivilization = mock(Civilization.class);
@@ -67,8 +67,8 @@ public class UnitTest extends TestCase {
 
     public void testZOCWorking(){
         ArrayList<User> users = new ArrayList<>();
-        users.add(new User("", "", "1"));
-        users.add(new User("", "", "2"));
+        users.add(new User("", "", "1", 0));
+        users.add(new User("", "", "2", 0));
         Game.startNewGame(users);
 
         MeleeMilitary meleeMilitary = new MeleeMilitary(5, 5, Game.getGame().getSelectedCivilization(), UnitName.ANTITANKGUN);
