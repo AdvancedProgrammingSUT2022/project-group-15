@@ -1,11 +1,11 @@
 package model;
 
 import com.google.gson.Gson;
-import com.google.gson.annotations.Expose;
 import com.google.gson.reflect.TypeToken;
 import enums.Avatar;
 import javafx.beans.property.*;
 import javafx.scene.image.Image;
+import org.hildan.fxgson.FxGson;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -19,7 +19,6 @@ public class User implements Comparable<User>{
     private static User loggedInUser = null;
 
     private Avatar avatar;
-    @Expose
     private final ObjectProperty<Image> avatarImage = new SimpleObjectProperty<>();
     private final StringProperty username = new SimpleStringProperty();
     private final StringProperty password = new SimpleStringProperty();
@@ -75,12 +74,13 @@ public class User implements Comparable<User>{
     /**
      * save users in UserDatabase.json
      *
-     * @author Erfan
+     * @author Erfan & Parsa
      */
     public static void saveUsers() {
         try {
             FileWriter fileWriter = new FileWriter("./src/main/resources/UserDatabase.json");
-            fileWriter.write(new Gson().toJson(users));
+            Gson gson = FxGson.coreBuilder().setPrettyPrinting().disableHtmlEscaping().create();
+            fileWriter.write(gson.toJson(users));
             fileWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -90,13 +90,14 @@ public class User implements Comparable<User>{
     /**
      * load users created before(Saved in UserDatabase.json)
      *
-     * @author Erfan
+     * @author Erfan & Parsa
      */
     public static void loadUsers() {
         try {
             String json = new String(Files.readAllBytes(Paths.get("./src/main/resources/UserDatabase.json")));
             ArrayList<User> createdUsers;
-            createdUsers = new Gson().fromJson(json, new TypeToken<List<User>>() {
+            Gson gson = FxGson.coreBuilder().setPrettyPrinting().disableHtmlEscaping().create();
+            createdUsers = gson.fromJson(json, new TypeToken<List<User>>() {
             }.getType());
             if (createdUsers != null) users = createdUsers;
         } catch (IOException e) {
