@@ -105,6 +105,11 @@ public class User implements Comparable<User> {
         }
     }
 
+    /**
+     * creates a Gson that has been customized
+     * @return the customized Gson object
+     * @author Parsa
+     */
     private static Gson createMyGson() {
         return FxGson.coreBuilder().excludeFieldsWithoutExposeAnnotation().registerTypeAdapter(LocalDateTime.class, new JsonDeserializer<LocalDateTime>() {
             @Override

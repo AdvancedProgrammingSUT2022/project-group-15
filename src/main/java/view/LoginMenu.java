@@ -2,7 +2,7 @@ package view;
 
 import controller.Controller;
 import controller.LoginMenuController;
-import enums.Message;
+
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

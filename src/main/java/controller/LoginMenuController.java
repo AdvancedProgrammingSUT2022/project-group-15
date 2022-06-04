@@ -1,9 +1,6 @@
 package controller;
 
-import enums.*;
 import model.User;
-
-import java.util.regex.Matcher;
 
 public class LoginMenuController {
 
@@ -15,6 +12,10 @@ public class LoginMenuController {
     public String signUp(String username, String password, String nickname) {
         User.loadUsers();
 
+        if (username.isEmpty() || password.isEmpty() || nickname.isEmpty()) {
+            return Controller.addNotification(-1, "please fill the fields!");
+        }
+
         if (User.getUserByUsername(username) != null) {
             return Controller.addNotification(-1,"user with username " + username + " already exists");
         }
@@ -23,7 +24,7 @@ public class LoginMenuController {
             return Controller.addNotification(-1,"user with nickname " + nickname + " already exists");
         }
 
-        if (!(password.length() >= 6 && password.matches(".*\\d.*") && password.matches(".*[a-zA-Z].*"))) {
+        if (!isStrong(password)) {
             return Controller.addNotification(-1,"password is weak!");
         }
 
@@ -39,6 +40,9 @@ public class LoginMenuController {
      */
     public String login(String username, String password) {
         User.loadUsers();
+        if (username.isEmpty() || password.isEmpty()) {
+            return Controller.addNotification(-1, "please fill the fields!");
+        }
 
         if (User.getUserByUsername(username) == null || !User.getUserByUsername(username).getPassword().equals(password)) {
             return Controller.addNotification(-1,"Username and password didn't match!");
