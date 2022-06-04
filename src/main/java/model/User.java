@@ -13,9 +13,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +43,7 @@ public class User implements Comparable<User> {
     public User(String username, String password, String nickname, int score) {
         setAvatar(Avatar.getRandomAvatar());
         this.lastScoreChangedTime = LocalDateTime.now();
+        this.score.addListener(e -> this.lastScoreChangedTime = LocalDateTime.now());
         this.username.setValue(username);
         this.password.setValue(password);
         this.nickname.setValue(nickname);
