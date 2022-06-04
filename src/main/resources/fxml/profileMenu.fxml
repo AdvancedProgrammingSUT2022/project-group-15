@@ -45,13 +45,13 @@
             <Font name="Britannic Bold" size="24.0" />
         </font>
     </Label>
-    <Label layoutX="556.0" layoutY="180.0" prefHeight="24.0" prefWidth="122.0" text="Username :">
+    <Label layoutX="557.0" layoutY="163.0" prefHeight="24.0" prefWidth="122.0" text="Username :">
         <font>
             <Font name="Britannic Bold" size="24.0" />
         </font>
     </Label>
-    <TextField fx:id="usernameField" layoutX="386.0" layoutY="425.0" />
-    <Label layoutX="556.0" layoutY="214.0" prefHeight="24.0" prefWidth="122.0" text="Password :">
+    <TextField fx:id="nicknameField" layoutX="386.0" layoutY="425.0" />
+    <Label layoutX="557.0" layoutY="197.0" prefHeight="24.0" prefWidth="122.0" text="Password :">
         <font>
             <Font name="Britannic Bold" size="24.0" />
         </font>
@@ -74,12 +74,12 @@
             <Font name="Britannic Bold" size="24.0" />
         </font>
     </Label>
-    <Label fx:id="username" layoutX="687.0" layoutY="180.0" prefHeight="24.0" prefWidth="282.0" text="username">
+    <Label fx:id="username" layoutX="688.0" layoutY="163.0" prefHeight="24.0" prefWidth="282.0" text="username">
         <font>
             <Font name="Britannic Bold" size="24.0" />
         </font>
     </Label>
-    <Label fx:id="password" layoutX="683.0" layoutY="214.0" prefHeight="24.0" prefWidth="282.0" text="password">
+    <Label fx:id="password" layoutX="684.0" layoutY="197.0" prefHeight="24.0" prefWidth="282.0" text="password">
         <font>
             <Font name="Britannic Bold" size="24.0" />
         </font>
@@ -89,7 +89,7 @@
             <Font name="Britannic Bold" size="36.0" />
         </font>
     </Label>
-    <Label layoutX="247.0" layoutY="433.0" prefHeight="24.0" prefWidth="130.0" text="Username :">
+    <Label layoutX="247.0" layoutY="433.0" prefHeight="24.0" prefWidth="130.0" text="Nickname :">
         <font>
             <Font name="Britannic Bold" size="24.0" />
         </font>
@@ -104,4 +104,14 @@
             <Font size="18.0" />
         </font>
     </Button>
+   <Label layoutX="557.0" layoutY="230.0" prefHeight="24.0" prefWidth="122.0" text="Nickname :">
+      <font>
+         <Font name="Britannic Bold" size="24.0" />
+      </font>
+   </Label>
+   <Label fx:id="nickname" layoutX="684.0" layoutY="230.0" prefHeight="24.0" prefWidth="282.0" text="nickname">
+      <font>
+         <Font name="Britannic Bold" size="24.0" />
+      </font>
+   </Label>
 </AnchorPane>

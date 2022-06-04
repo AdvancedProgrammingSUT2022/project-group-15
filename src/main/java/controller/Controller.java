@@ -23,7 +23,6 @@ public class Controller{
         return scoreboard;
     }
 
-
     public void run(Stage primaryStage) {
         window = primaryStage;
         window.setResizable(false);
@@ -36,7 +35,9 @@ public class Controller{
     public static MainMenu getMainMenu() {
         return mainMenu;
     }
-
+    public static LoginMenu getLoginMenu() {
+        return loginMenu;
+    }
     public static Stage getWindow() {
         return window;
     }

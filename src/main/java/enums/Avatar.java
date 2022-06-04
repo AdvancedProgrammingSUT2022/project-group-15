@@ -14,8 +14,7 @@ public enum Avatar {
     AVATAR_7("/avatars/avatar_7.png"),
     AVATAR_8("/avatars/avatar_8.png"),
     AVATAR_9("/avatars/avatar_9.png"),
-    AVATAR_10("/avatars/avatar_10.png"),
-    GUEST_AVATAR("/avatars/guest.png");
+    AVATAR_10("/avatars/avatar_10.png");
     public final Image image;
 
     Avatar(String path) {

@@ -1,6 +1,6 @@
 package model;
 
-import com.google.gson.Gson;
+import com.google.gson.*;
 import com.google.gson.annotations.Expose;
 import com.google.gson.reflect.TypeToken;
 import enums.Avatar;
@@ -10,8 +10,13 @@ import org.hildan.fxgson.FxGson;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +30,10 @@ public class User implements Comparable<User> {
     @Expose
     private Avatar avatar;
     @Expose
+    private LocalDateTime lastScoreChangedTime;
+    @Expose
+    private LocalDateTime lastOnlineTime;
+    @Expose
     private final StringProperty username = new SimpleStringProperty();
     @Expose
     private final StringProperty password = new SimpleStringProperty();
@@ -35,6 +44,7 @@ public class User implements Comparable<User> {
 
     public User(String username, String password, String nickname, int score) {
         setAvatar(Avatar.getRandomAvatar());
+        this.lastScoreChangedTime = LocalDateTime.now();
         this.username.setValue(username);
         this.password.setValue(password);
         this.nickname.setValue(nickname);
@@ -88,12 +98,30 @@ public class User implements Comparable<User> {
     public static void saveUsers() {
         try {
             FileWriter fileWriter = new FileWriter("./src/main/resources/UserDatabase.json");
-            Gson gson = FxGson.coreBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().disableHtmlEscaping().create();
+            Gson gson = createMyGson();
             fileWriter.write(gson.toJson(users));
             fileWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private static Gson createMyGson() {
+        return FxGson.coreBuilder().excludeFieldsWithoutExposeAnnotation().registerTypeAdapter(LocalDateTime.class, new JsonDeserializer<LocalDateTime>() {
+            @Override
+            public LocalDateTime deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+                    throws JsonParseException {
+                return LocalDateTime.parse(json.getAsString(),
+                        DateTimeFormatter.ofPattern("d::MMM::uuuu HH::mm::ss"));
+            }
+        }).registerTypeAdapter(LocalDateTime.class, new JsonSerializer<LocalDateTime>() {
+            private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d::MMM::uuuu HH::mm::ss");
+
+            @Override
+            public JsonElement serialize(LocalDateTime localDateTime, Type srcType, JsonSerializationContext context) {
+                return new JsonPrimitive(formatter.format(localDateTime));
+            }
+        }).setPrettyPrinting().disableHtmlEscaping().create();
     }
 
     /**
@@ -106,7 +134,7 @@ public class User implements Comparable<User> {
         try {
             String json = new String(Files.readAllBytes(Paths.get("./src/main/resources/UserDatabase.json")));
             ArrayList<User> createdUsers;
-            Gson gson = FxGson.coreBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().disableHtmlEscaping().create();
+            Gson gson = createMyGson();
             createdUsers = gson.fromJson(json, new TypeToken<List<User>>() {
             }.getType());
             if (createdUsers != null) {
@@ -119,6 +147,10 @@ public class User implements Comparable<User> {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void deleteAccountOfLoggedInPlayer(){
+        users.remove(User.getLoggedInUser());
     }
 
     public String getUsername() {
@@ -207,9 +239,20 @@ public class User implements Comparable<User> {
 
     @Override
     public int compareTo(User o) {
-        // TODO : implement for scoreboard
         Integer myScore = this.getScore();
         Integer otherScore = o.getScore();
-        return otherScore.compareTo(myScore);
+        if (!otherScore.equals(myScore))
+            return otherScore.compareTo(myScore);
+        if (!lastScoreChangedTime.equals(o.lastScoreChangedTime))
+            return this.lastScoreChangedTime.compareTo(o.lastScoreChangedTime);
+        return this.getUsername().compareTo(o.getUsername());
+    }
+
+    public LocalDateTime getLastScoreChanged() {
+        return lastScoreChangedTime;
+    }
+
+    public void setLastScoreChanged(LocalDateTime lastScoreChanged) {
+        this.lastScoreChangedTime = lastScoreChanged;
     }
 }
