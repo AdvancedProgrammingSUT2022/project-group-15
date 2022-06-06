@@ -1,40 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ProgressBar?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="pane" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../css/gameMenu.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.GameMenu">
-    <ImageView fx:id="cupHead" fitHeight="80.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true" x="85.0" y="150.0">
-        <Image url="@../frames/images/red.png" />
-    </ImageView>
-   <ImageView fx:id="boss" fitHeight="448.0" fitWidth="500.0" pickOnBounds="true" preserveRatio="true" x="760.0"
-              y="14.0">
-      <Image url="@../frames/BossFly/1.png"/>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" styleClass="backgroundPane" stylesheets="@../css/mainMenu.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.GameMenu">
+   <ImageView fitHeight="79.0" fitWidth="98.0" layoutX="14.0" layoutY="14.0"  pickOnBounds="true" preserveRatio="true" styleClass="back-button">
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor>
+      <Image url="@../icons/back-icon.png" />
    </ImageView>
-   <ProgressBar fx:id="cupHeadLives" layoutX="20.0" layoutY="20.0" prefHeight="20.0" prefWidth="400.0" progress="0.0" />
-   <ProgressBar fx:id="bossLives" layoutX="860.0" layoutY="20.0" prefHeight="20.0" prefWidth="400.0" progress="0.0" />
-   <Label fx:id="cupHeadLivesLabel" layoutX="427.0" layoutY="18.0" prefHeight="28.0" prefWidth="75.0" text="15">
-      <font>
-         <Font name="Bauhaus 93" size="24.0" />
-      </font>
-   </Label>
-   <Label fx:id="bossLivesLabel" alignment="CENTER_RIGHT" layoutX="770.0" layoutY="18.0" prefHeight="28.0" prefWidth="84.0" text="100" textAlignment="RIGHT">
-      <font>
-         <Font name="Bauhaus 93" size="24.0" />
-      </font>
-   </Label>
-   <Label fx:id="score" layoutX="676.0" layoutY="18.0" prefHeight="28.0" prefWidth="75.0" text="0">
-      <font>
-         <Font name="Bauhaus 93" size="24.0" />
-      </font>
-   </Label>
-   <Label layoutX="595.0" layoutY="18.0" prefHeight="28.0" prefWidth="75.0" text="Score :">
-      <font>
-         <Font name="Bauhaus 93" size="24.0" />
-      </font>
-   </Label>
+   <VBox alignment="CENTER" layoutX="369.0" layoutY="290.0" prefHeight="380.0" prefWidth="543.0">
+      <Button mnemonicParsing="false"  prefHeight="153.0" prefWidth="449.0" styleClass="start-new-game" text="New Game" textFill="WHITE">
+         <font>
+            <Font name="Impact" size="80.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button fx:id="scoreBoardButton" mnemonicParsing="false"  prefHeight="80.0" prefWidth="408.0" styleClass="score-board" text="Score Board" textFill="WHITE">
+         <font>
+            <Font name="Impact" size="64.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button fx:id="profileButton" mnemonicParsing="false"  prefHeight="89.0" prefWidth="268.0" styleClass="profile" text="Profile" textFill="WHITE">
+         <font>
+            <Font name="Impact" size="60.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+   </VBox>
 </AnchorPane>

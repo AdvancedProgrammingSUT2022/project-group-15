@@ -29,10 +29,6 @@ public class MainMenu extends Menu implements Initializable {
     private Label username;
     @FXML
     private Label score;
-    @FXML
-    private Button profileButton;
-    @FXML
-    private Button scoreBoardButton;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -72,6 +68,8 @@ public class MainMenu extends Menu implements Initializable {
 
     public void startNewGame() {
         setup(avatarImage);
-//        window.setScene(Controller.getGameSettings().getScene());
+        window.setScene(Controller.getGameSettingsMenu().getScene());
     }
 }
+
+

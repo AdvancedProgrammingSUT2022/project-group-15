@@ -12,6 +12,7 @@ public class Controller{
     private static final MainMenu mainMenu = new MainMenu();
     private static final ProfileMenu profileMenu = new ProfileMenu();
     private static final GameMenu gameMenu = new GameMenu();
+    private static final GameSettingsMenu gameSettingsMenu = new GameSettingsMenu();
     private static final ScoreBoard scoreboard = new ScoreBoard();
     private static final ArrayList<String> notificationHistory = new ArrayList<>();
 
@@ -22,6 +23,8 @@ public class Controller{
     public static ScoreBoard getScoreBoard() {
         return scoreboard;
     }
+
+
 
     public void run(Stage primaryStage) {
         window = primaryStage;
@@ -37,6 +40,12 @@ public class Controller{
     }
     public static LoginMenu getLoginMenu() {
         return loginMenu;
+    }
+    public static GameMenu getGameMenu() {
+        return gameMenu;
+    }
+    public static GameSettingsMenu getGameSettingsMenu() {
+        return gameSettingsMenu;
     }
     public static Stage getWindow() {
         return window;

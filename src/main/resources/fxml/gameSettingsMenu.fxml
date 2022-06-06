@@ -1,62 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.Cursor?>
-<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.paint.RadialGradient?>
-<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" styleClass="backgroundPane" stylesheets="@../css/gameSettings.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.GameSettingsMenu">
-   <ImageView fitHeight="79.0" fitWidth="98.0" layoutX="24.0" layoutY="24.0" onMouseClicked="#openMainMenu" pickOnBounds="true" preserveRatio="true" styleClass="back-button">
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" styleClass="backgroundPane" stylesheets="@../css/mainMenu.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.GameSettingsMenu">
+   <ImageView fitHeight="79.0" fitWidth="98.0" layoutX="14.0" layoutY="14.0" onMouseClicked="#backToMainMenu" pickOnBounds="true" preserveRatio="true" styleClass="back-button">
       <cursor>
          <Cursor fx:constant="HAND" />
       </cursor>
       <Image url="@../icons/back-icon.png" />
    </ImageView>
-   <ComboBox fx:id="difficultyComboBox" layoutX="786.0" layoutY="225.0" onAction="#changeDifficulty" prefWidth="150.0" />
-   <Label layoutX="467.0" layoutY="33.0" prefHeight="141.0" prefWidth="346.0" text="Settings" textAlignment="CENTER">
+   <HBox layoutX="73.0" layoutY="117.0" prefHeight="162.0" prefWidth="1134.0">
+      <children>
+         <Button onMouseClicked="#differ" mnemonicParsing="false" prefHeight="162.0" prefWidth="651.0" styleClass="start-new-game" text="invite friends" textFill="WHITE">
+            <font>
+               <Font name="Impact" size="70.0" />
+            </font>
+            <cursor>
+               <Cursor fx:constant="HAND" />
+            </cursor>
+         </Button>
+         <Button  mnemonicParsing="false" prefHeight="162.0" prefWidth="634.0" styleClass="score-board" text="find a game" textFill="WHITE">
+            <font>
+               <Font name="Impact" size="70.0" />
+            </font>
+            <cursor>
+               <Cursor fx:constant="HAND" />
+            </cursor>
+         </Button>
+      </children>
+   </HBox>
+   <ChoiceBox fx:id="numberOfPlayersBox" layoutX="985.0" layoutY="334.0" prefHeight="26.0" prefWidth="96.0" />
+   <Label layoutX="764.0" layoutY="329.0" text="number of players :">
       <font>
-         <Font name="Bauhaus 93" size="96.0" />
+         <Font size="25.0" />
       </font>
-      <textFill>
-         <RadialGradient centerX="0.48863636363636365" centerY="0.5" radius="0.9390243902439024">
-            <stops>
-               <Stop color="#bdff00" />
-               <Stop color="#6ce8b8" offset="1.0" />
-            </stops>
-         </RadialGradient>
-      </textFill>
    </Label>
-   <Label layoutX="345.0" layoutY="222.0" prefHeight="36.0" prefWidth="144.0" text="Difficulty">
+   <Label layoutX="178.0" layoutY="338.0" text="enter friends username" />
+   <TextField fx:id="usernameTextField" layoutX="335.0" layoutY="334.0" />
+   <VBox fx:id="friendsInGame" layoutX="172.0" layoutY="395.0" prefHeight="200.0" prefWidth="318.0" />
+   <Label fx:id="information" layoutX="561.0" layoutY="61.0" prefHeight="63.0" prefWidth="157.0" text="waiting for invite or finding" />
+   <Button fx:id="cancelButton" layoutX="451.0" layoutY="400.0" mnemonicParsing="false" onMouseClicked="#clicked"  prefHeight="212.0" prefWidth="308.0" text="cancel" visible="true">
       <font>
-         <Font name="Britannic Bold" size="36.0" />
+         <Font size="72.0" />
       </font>
-   </Label>
-   <Label layoutX="369.0" layoutY="324.0" prefHeight="36.0" prefWidth="97.0" text="Music">
-      <font>
-         <Font name="Britannic Bold" size="36.0" />
-      </font>
-   </Label>
-   <ImageView fx:id="musicOn" fitHeight="79.0" fitWidth="98.0" layoutX="822.0" layoutY="303.0" onMouseClicked="#mute" pickOnBounds="true" preserveRatio="true" styleClass="back-button">
-      <cursor>
-         <Cursor fx:constant="HAND" />
-      </cursor>
-      <Image url="@../icons/unmute_icon.png" />
-   </ImageView>
-   <ImageView fx:id="musicOff" fitHeight="79.0" fitWidth="98.0" layoutX="822.0" layoutY="303.0" onMouseClicked="#unmute" pickOnBounds="true" preserveRatio="true" styleClass="back-button">
-      <cursor>
-         <Cursor fx:constant="HAND" />
-      </cursor>
-      <Image url="@../icons/mute_icon.png" />
-   </ImageView>
-   <ImageView fitHeight="86.0" fitWidth="97.0" layoutX="597.0" layoutY="544.0" onMouseClicked="#startGame" pickOnBounds="true" preserveRatio="true" styleClass="back-button">
-      <cursor>
-         <Cursor fx:constant="HAND" />
-      </cursor>
-      <Image url="@../icons/play_icon.png" />
-   </ImageView>
+   </Button>
 </AnchorPane>
