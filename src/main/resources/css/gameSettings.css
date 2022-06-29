@@ -10,11 +10,33 @@
     -fx-effect: dropshadow(three-pass-box, rgb(255, 255, 255), 2, 0.7, 0, 0);
 }
 
-.combo-box {
-    -fx-background-color: rgba(94, 255, 106, 0.91);
+.cancel-button{
+
+    -fx-text-fill: white;
+    -fx-background-radius: 40;
+    -fx-border-insets: 0;
+    -fx-border-width: 0;
+    -fx-background-color: transparent,red ;
+    -fx-background-insets: 0, 20 ;
+
 }
 
-.combo-box:hover{
-    -fx-background-color: rgba(69, 181, 78, 0.63);
-    -fx-cursor: hand;
+.cancel-button:hover{
+    -fx-effect: dropshadow(three-pass-box, rgb(255, 255, 255), 2, 0.7, 0, 0);
+}
+
+.label-info{
+    -fx-text-fill: blue;
+    -fx-font-size: 30;
+}
+
+.label-alert{
+
+}
+
+.network-button{
+    -fx-text-fill: #4607e5;
+    -fx-background-color: #5d076f;
+    -fx-border-radius: 1000;
+    -fx-background-radius: 400;
 }

@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" styleClass="backgroundPane" stylesheets="@../css/mainMenu.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.GameSettingsMenu">
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" styleClass="backgroundPane" stylesheets="@../css/gameSettings.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.GameSettingsMenu">
    <ImageView fitHeight="79.0" fitWidth="98.0" layoutX="14.0" layoutY="14.0" onMouseClicked="#backToMainMenu" pickOnBounds="true" preserveRatio="true" styleClass="back-button">
       <cursor>
          <Cursor fx:constant="HAND" />
@@ -21,7 +21,7 @@
    </ImageView>
    <HBox layoutX="73.0" layoutY="117.0" prefHeight="162.0" prefWidth="1134.0">
       <children>
-         <Button onMouseClicked="#differ" mnemonicParsing="false" prefHeight="162.0" prefWidth="651.0" styleClass="start-new-game" text="invite friends" textFill="WHITE">
+         <Button mnemonicParsing="false" onMouseClicked="#differ" prefHeight="162.0" prefWidth="651.0" styleClass="network-button" text="invite friends" textFill="WHITE">
             <font>
                <Font name="Impact" size="70.0" />
             </font>
@@ -29,7 +29,7 @@
                <Cursor fx:constant="HAND" />
             </cursor>
          </Button>
-         <Button  mnemonicParsing="false" prefHeight="162.0" prefWidth="634.0" styleClass="score-board" text="find a game" textFill="WHITE">
+         <Button mnemonicParsing="false" prefHeight="162.0" prefWidth="634.0" styleClass="network-button" text="find a game" textFill="WHITE">
             <font>
                <Font name="Impact" size="70.0" />
             </font>
@@ -49,9 +49,9 @@
    <TextField fx:id="usernameTextField" layoutX="335.0" layoutY="334.0" />
    <VBox fx:id="friendsInGame" layoutX="172.0" layoutY="395.0" prefHeight="200.0" prefWidth="318.0" />
    <Label fx:id="information" layoutX="561.0" layoutY="61.0" prefHeight="63.0" prefWidth="157.0" text="waiting for invite or finding" />
-   <Button fx:id="cancelButton" layoutX="451.0" layoutY="400.0" mnemonicParsing="false" onMouseClicked="#clicked"  prefHeight="212.0" prefWidth="308.0" text="cancel" visible="true">
+   <Button fx:id="cancelButton" alignment="TOP_LEFT" contentDisplay="TOP" layoutX="530.0" layoutY="438.0" maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#clicked" prefHeight="114.0" prefWidth="220.0" snapToPixel="false" styleClass="cancel-button" text="cancel" textAlignment="CENTER" visible="false">
       <font>
-         <Font size="72.0" />
+         <Font size="52.0" />
       </font>
    </Button>
 </AnchorPane>
