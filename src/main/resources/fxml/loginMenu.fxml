@@ -40,17 +40,17 @@
             <font>
                 <Font name="Calibri Light Italic" size="20.0"/>
             </font>
-            <TextField fx:id="nickname" layoutX="59.0" layoutY="312.0" promptText="Enter your nickname">
-                <padding>
-                    <Insets left="10.0"/>
-                </padding>
-            </TextField>
-            <Text fill="#3c3838" layoutX="85.0" layoutY="306.0" strokeType="OUTSIDE" strokeWidth="0.0"
-                  text="Nickname (for sign up)" wrappingWidth="206.6708984375">
-                <font>
-                    <Font name="Calibri Light Italic" size="20.0"/>
-                </font>
-            </Text>
+        </Text>
+        <TextField fx:id="nickname" layoutX="59.0" layoutY="312.0" promptText="Enter your nickname">
+            <padding>
+                <Insets left="10.0"/>
+            </padding>
+        </TextField>
+        <Text fill="#3c3838" layoutX="85.0" layoutY="306.0" strokeType="OUTSIDE" strokeWidth="0.0"
+              text="Nickname (for sign up)" wrappingWidth="206.6708984375">
+            <font>
+                <Font name="Calibri Light Italic" size="20.0"/>
+            </font>
         </Text>
         <Button layoutX="84.0" layoutY="419.0" mnemonicParsing="false" onMouseClicked="#login" styleClass="loginButton"
                 text="Login">
