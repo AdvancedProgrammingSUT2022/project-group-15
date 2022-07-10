@@ -46,7 +46,7 @@
       </font>
    </Label>
    <Label layoutX="62.0" layoutY="338.0" styleClass="label-info" text="enter friends username" />
-   <TextField fx:id="usernameTextField" layoutX="376.0" layoutY="347.0" />
+   <TextField fx:id="usernameTextField" layoutX="376.0" layoutY="347.0" prefHeight="26.0" prefWidth="152.0" />
    <VBox fx:id="friendsInGame" alignment="TOP_CENTER" layoutX="172.0" layoutY="395.0" prefHeight="200.0" prefWidth="318.0">
       <children>
          <Label alignment="TOP_CENTER" text="Friends in lobby:" />
@@ -56,13 +56,37 @@
          <Font size="52.0" />
       </font>
    </Button>
-   <Button layoutX="548.0" layoutY="328.0" mnemonicParsing="false" onMouseClicked="#inviteFriend" styleClass="invite-button" text="invite">
+   <Button layoutX="550.0" layoutY="336.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#inviteFriend" prefHeight="35.0" prefWidth="110.0" styleClass="invite-button" text="invite">
       <font>
-         <Font name="Impact" size="33.0" />
+         <Font name="Impact" size="25.0" />
       </font></Button>
    <HBox alignment="CENTER" layoutX="147.0" layoutY="14.0" prefHeight="100.0" prefWidth="985.0">
       <children>
          <Label fx:id="information" alignment="CENTER" styleClass="label-alert" text="waiting for invite or finding" />
       </children>
    </HBox>
+   <ChoiceBox fx:id="mapWidth" layoutX="1007.0" layoutY="425.0" prefHeight="26.0" prefWidth="96.0" />
+   <ChoiceBox fx:id="mapLength" layoutX="1007.0" layoutY="482.0" prefHeight="26.0" prefWidth="96.0" />
+   <Label layoutX="802.0" layoutY="414.0" styleClass="label-info" text="map width">
+      <font>
+         <Font size="25.0" />
+      </font>
+   </Label>
+   <Label layoutX="799.0" layoutY="471.0" styleClass="label-info" text="map lenght">
+      <font>
+         <Font size="25.0" />
+      </font>
+   </Label>
+   <Label layoutX="741.0" layoutY="528.0" styleClass="label-info" text="auto save per rounds">
+      <font>
+         <Font size="25.0" />
+      </font>
+   </Label>
+   <ChoiceBox fx:id="autoSave" layoutX="1007.0" layoutY="538.0" prefHeight="26.0" prefWidth="96.0" />
+   <Label layoutX="768.0" layoutY="587.0" styleClass="label-info" text="load saved game">
+      <font>
+         <Font size="25.0" />
+      </font>
+   </Label>
+   <ChoiceBox fx:id="loadGame" layoutX="1007.0" layoutY="597.0" prefHeight="26.0" prefWidth="96.0" />
 </AnchorPane>

@@ -44,7 +44,7 @@ public class GameSettingMenuController {
      * @return message to be shown
      * @author amir and Parsa
      */
-    public String startGame(HashMap<Integer, String> usernames) {
+    public String startGame(HashMap<Integer, String> usernames,int length , int width , int roundPerSave) {
         ArrayList<User> users = new ArrayList<>();
         for (int i = 0; i < usernames.size(); i++) {
             users.add(null);
@@ -58,11 +58,11 @@ public class GameSettingMenuController {
             }
         }
 
-        Game.startNewGame(users);
+        Game.startNewGame(users,length,width,roundPerSave);
         return Controller.addNotification(-1, "a new game started with " + users.size() + " players");
     }
 
-    public String gameWithFriends(VBox friendsInGame) {
+    public String gameWithFriends(VBox friendsInGame,int length,int width, int autoSave) {
         if (friendsInGame.getChildren().size() == 2)
             return "no one is selected";
 
@@ -72,6 +72,6 @@ public class GameSettingMenuController {
             hashMap.put(i, ((Label) friendsInGame.getChildren().get(i)).getText());
         }
 
-        return startGame(hashMap);
+        return startGame(hashMap,length,width,autoSave);
     }
 }

@@ -53,11 +53,16 @@
 }
 
 .invite-button{
-    -fx-text-fill: radial-gradient(center 50% 50%, radius 50%, #e7f6e9, #33c773);
-    -fx-background-color: transparent;
+
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+    -fx-border-style: solid;
+    -fx-background-color: rgba(12, 211, 29, 0.4);
+    -fx-border-color: #c948fa;
+
 }
 
 .invite-button:hover{
-    -fx-text-fill: radial-gradient(center 50% 50%, radius 50%, #33c773, #e7f6e9);
-    -fx-background-color: transparent;
+    -fx-background-color: rgba(12, 211, 29, 0.82);
+    -fx-cursor: hand;
 }

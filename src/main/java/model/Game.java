@@ -37,9 +37,14 @@ public class Game {
         return civilizations;
     }
 
-    public static void startNewGame(ArrayList<User> users) {
+
+    public static void startNewGame(ArrayList<User> users){
+        startNewGame(users,10,10,0);
+    }
+    public static void startNewGame(ArrayList<User> users,int length , int width , int roundPerSave) {
         game = new Game();
-        game.map = new Map(10, 10); //this constants might change later or be given by user
+        game.map = new Map(width, length);
+        // TODO: 7/10/2022 save????
         //System.out.println(Game.getGame().getRows());
         game.map.fillMap();
         for (User user : users) {

@@ -2,7 +2,6 @@ package view;
 
 import controller.Controller;
 import controller.GameSettingMenuController;
-import controller.MainMenuController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -15,6 +14,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import model.User;
+import sun.security.util.Length;
 
 import java.io.IOException;
 import java.net.URL;
@@ -37,6 +37,11 @@ public class GameSettingsMenu extends Menu implements Initializable {
     public ChoiceBox<Integer> numberOfPlayersBox;
     public Button findGameButton;
     public Button startGameButton;
+    public ChoiceBox<Integer> mapWidth;
+    public ChoiceBox<Integer> mapLength;
+    public ChoiceBox<Integer> autoSave;
+    public ChoiceBox loadGame;
+
 
     @Override
     public Scene getScene() {
@@ -54,6 +59,15 @@ public class GameSettingsMenu extends Menu implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         numberOfPlayersBox.getItems().addAll(2, 3, 4, 5, 6, 7, 8, 9, 10);
+        mapWidth.getItems().addAll(6,8,10,12,14,16,18,20);
+        mapWidth.setValue(10);
+        mapLength.getItems().addAll(6,8,10,12,14,16,18,20);
+        mapLength.setValue(10);
+        autoSave.getItems().addAll(0,3,5,7,10);
+        autoSave.setValue(0);
+
+        // TODO: 7/10/2022 load saved games
+
         controller.inviteFriend(User.getLoggedInUser().getUsername(), friendsInGame);
     }
 
@@ -75,7 +89,7 @@ public class GameSettingsMenu extends Menu implements Initializable {
 
 
     public void startGameWithFriend(MouseEvent mouseEvent) {
-        information.setText(controller.gameWithFriends(friendsInGame));
+        information.setText(controller.gameWithFriends(friendsInGame, mapLength.getValue(),mapWidth.getValue(),autoSave.getValue()));
 
     }
 
@@ -102,7 +116,8 @@ public class GameSettingsMenu extends Menu implements Initializable {
                     else
                         hashMap.put(i, User.getUsers().get(User.getUsers().size()-1).getUsername());
                 }
-                System.out.println(controller.startGame(hashMap));
+                // TODO: 7/10/2022 phase 3
+
             }
         }).start();
 
