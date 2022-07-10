@@ -1,5 +1,6 @@
 .backgroundPane {
-    -fx-background-image: url(../backgrounds/menus_background.jpg);
+    -fx-background-image: url(../backgrounds/game_Background.png);
+    -fx-background-size:cover;
 }
 
 .back-button {
@@ -26,17 +27,37 @@
 }
 
 .label-info{
-    -fx-text-fill: blue;
+    -fx-text-fill: #1ed221;
     -fx-font-size: 30;
+    -fx-font-family: Andalus;
 }
 
 .label-alert{
+    -fx-background-color: #000000;
+    -fx-text-fill: #de00ff;
+    -fx-font-size: 30;
+    -fx-font-family: Andalus;
+    -fx-background-radius: 40;
 
 }
 
 .network-button{
-    -fx-text-fill: #4607e5;
-    -fx-background-color: #5d076f;
-    -fx-border-radius: 1000;
-    -fx-background-radius: 400;
+    -fx-text-fill: radial-gradient(center 50% 50%, radius 50%, #ffd3b7, #ed7c7c);
+    -fx-background-color: transparent;
+}
+
+
+.network-button:hover{
+    -fx-text-fill: radial-gradient(center 50% 50%, radius 50%, #ed7c7c, #ffd3b7);
+    -fx-background-color: transparent;
+}
+
+.invite-button{
+    -fx-text-fill: radial-gradient(center 50% 50%, radius 50%, #e7f6e9, #33c773);
+    -fx-background-color: transparent;
+}
+
+.invite-button:hover{
+    -fx-text-fill: radial-gradient(center 50% 50%, radius 50%, #33c773, #e7f6e9);
+    -fx-background-color: transparent;
 }

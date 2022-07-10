@@ -1,6 +1,8 @@
 package view;
 
 import controller.Controller;
+import controller.GameSettingMenuController;
+import controller.MainMenuController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -12,12 +14,17 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import model.User;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 public class GameSettingsMenu extends Menu implements Initializable {
+
+    private final GameSettingMenuController controller = new GameSettingMenuController();
+
     @FXML
     public Button cancelButton;
     @FXML
@@ -28,6 +35,8 @@ public class GameSettingsMenu extends Menu implements Initializable {
     public TextField usernameTextField;
     @FXML
     public ChoiceBox<Integer> numberOfPlayersBox;
+    public Button findGameButton;
+    public Button startGameButton;
 
     @Override
     public Scene getScene() {
@@ -44,21 +53,59 @@ public class GameSettingsMenu extends Menu implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        numberOfPlayersBox.getItems().addAll(0,1,2,3,4,5,6,7,8,9,10);
+        numberOfPlayersBox.getItems().addAll(2, 3, 4, 5, 6, 7, 8, 9, 10);
+        controller.inviteFriend(User.getLoggedInUser().getUsername(), friendsInGame);
     }
 
     public void backToMainMenu(MouseEvent mouseEvent) {
-            setup(cancelButton);
-            window.setScene(Controller.getMainMenu().getScene());
+        setup(cancelButton);
+        window.setScene(Controller.getMainMenu().getScene());
     }
 
-    public void clicked(MouseEvent mouseEvent) {
-        System.out.println("sdfasvadfvadf");
-        System.out.println("clicked");
+
+    public void cancel(MouseEvent mouseEvent) {
+        // TODO: 6/29/2022 phase3
     }
 
-    public void differ(MouseEvent mouseEvent) {
+
+    public void inviteFriend(MouseEvent mouseEvent) {
+        String out = controller.inviteFriend(usernameTextField.getCharacters().toString(), friendsInGame);
+        information.setText(out);
+    }
+
+
+    public void startGameWithFriend(MouseEvent mouseEvent) {
+        information.setText(controller.gameWithFriends(friendsInGame));
+
+    }
+
+    public void findGame(MouseEvent mouseEvent) throws InterruptedException {
+        String out = controller.findGame(numberOfPlayersBox);
+        information.setText(out);
+        if (out.startsWith("error"))
+            return;
         cancelButton.setVisible(!cancelButton.isVisible());
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                cancelButton.setVisible(!cancelButton.isVisible());
+                HashMap<Integer, String> hashMap = new HashMap<>();
+                hashMap.put(1, User.getLoggedInUser().getUsername());
+                for (int i = 2; i <= numberOfPlayersBox.getValue(); i++) {
+                    if (User.getUsers().get(i - 2) != User.getLoggedInUser())
+                        hashMap.put(i, User.getUsers().get(i - 2).getUsername());
+                    else
+                        hashMap.put(i, User.getUsers().get(User.getUsers().size()-1).getUsername());
+                }
+                System.out.println(controller.startGame(hashMap));
+            }
+        }).start();
+
     }
 }
 //else if (command.startsWith("play game ")) {

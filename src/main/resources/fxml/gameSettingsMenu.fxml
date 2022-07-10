@@ -19,9 +19,9 @@
       </cursor>
       <Image url="@../icons/back-icon.png" />
    </ImageView>
-   <HBox layoutX="73.0" layoutY="117.0" prefHeight="162.0" prefWidth="1134.0">
+   <HBox alignment="CENTER" layoutX="73.0" layoutY="117.0" prefHeight="162.0" prefWidth="1134.0" spacing="40.0">
       <children>
-         <Button mnemonicParsing="false" onMouseClicked="#differ" prefHeight="162.0" prefWidth="651.0" styleClass="network-button" text="invite friends" textFill="WHITE">
+         <Button fx:id="startGameButton" mnemonicParsing="false" onMouseClicked="#startGameWithFriend" prefHeight="162.0" prefWidth="651.0" styleClass="network-button" text="start game" textFill="WHITE">
             <font>
                <Font name="Impact" size="70.0" />
             </font>
@@ -29,7 +29,7 @@
                <Cursor fx:constant="HAND" />
             </cursor>
          </Button>
-         <Button mnemonicParsing="false" prefHeight="162.0" prefWidth="634.0" styleClass="network-button" text="find a game" textFill="WHITE">
+         <Button fx:id="findGameButton" mnemonicParsing="false" onMouseClicked="#findGame" prefHeight="162.0" prefWidth="634.0" styleClass="network-button" text="find a game" textFill="WHITE">
             <font>
                <Font name="Impact" size="70.0" />
             </font>
@@ -39,19 +39,30 @@
          </Button>
       </children>
    </HBox>
-   <ChoiceBox fx:id="numberOfPlayersBox" layoutX="985.0" layoutY="334.0" prefHeight="26.0" prefWidth="96.0" />
-   <Label layoutX="764.0" layoutY="329.0" text="number of players :">
+   <ChoiceBox fx:id="numberOfPlayersBox" layoutX="1007.0" layoutY="348.0" prefHeight="26.0" prefWidth="96.0" />
+   <Label layoutX="750.0" layoutY="338.0" styleClass="label-info" text="number of players :">
       <font>
          <Font size="25.0" />
       </font>
    </Label>
-   <Label layoutX="178.0" layoutY="338.0" text="enter friends username" />
-   <TextField fx:id="usernameTextField" layoutX="335.0" layoutY="334.0" />
-   <VBox fx:id="friendsInGame" layoutX="172.0" layoutY="395.0" prefHeight="200.0" prefWidth="318.0" />
-   <Label fx:id="information" layoutX="561.0" layoutY="61.0" prefHeight="63.0" prefWidth="157.0" text="waiting for invite or finding" />
-   <Button fx:id="cancelButton" alignment="TOP_LEFT" contentDisplay="TOP" layoutX="530.0" layoutY="438.0" maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#clicked" prefHeight="114.0" prefWidth="220.0" snapToPixel="false" styleClass="cancel-button" text="cancel" textAlignment="CENTER" visible="false">
+   <Label layoutX="62.0" layoutY="338.0" styleClass="label-info" text="enter friends username" />
+   <TextField fx:id="usernameTextField" layoutX="376.0" layoutY="347.0" />
+   <VBox fx:id="friendsInGame" alignment="TOP_CENTER" layoutX="172.0" layoutY="395.0" prefHeight="200.0" prefWidth="318.0">
+      <children>
+         <Label alignment="TOP_CENTER" text="Friends in lobby:" />
+      </children></VBox>
+   <Button fx:id="cancelButton" alignment="TOP_LEFT" contentDisplay="TOP" layoutX="530.0" layoutY="438.0" maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" prefHeight="114.0" prefWidth="220.0" snapToPixel="false" styleClass="cancel-button" text="cancel" textAlignment="CENTER" visible="false">
       <font>
          <Font size="52.0" />
       </font>
    </Button>
+   <Button layoutX="548.0" layoutY="328.0" mnemonicParsing="false" onMouseClicked="#inviteFriend" styleClass="invite-button" text="invite">
+      <font>
+         <Font name="Impact" size="33.0" />
+      </font></Button>
+   <HBox alignment="CENTER" layoutX="147.0" layoutY="14.0" prefHeight="100.0" prefWidth="985.0">
+      <children>
+         <Label fx:id="information" alignment="CENTER" styleClass="label-alert" text="waiting for invite or finding" />
+      </children>
+   </HBox>
 </AnchorPane>
