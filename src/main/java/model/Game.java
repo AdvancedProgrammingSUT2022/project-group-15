@@ -39,9 +39,9 @@ public class Game {
 
 
     public static void startNewGame(ArrayList<User> users){
-        startNewGame(users,10,10,0);
+        startNewGame(users,10,10,0,1);
     }
-    public static void startNewGame(ArrayList<User> users,int length , int width , int roundPerSave) {
+    public static void startNewGame(ArrayList<User> users,int length , int width , int roundPerSave,int keptSavedFiles) {
         game = new Game();
         game.map = new Map(width, length);
         // TODO: 7/10/2022 save????

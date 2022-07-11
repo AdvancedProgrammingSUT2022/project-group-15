@@ -14,7 +14,7 @@ import java.util.HashMap;
 
 public class GameSettingMenuController {
     public String inviteFriend(String username, VBox friendsInGame) {
-        if (friendsInGame.getChildren().size()>=10)
+        if (friendsInGame.getChildren().size()>=6)
             return "lobby is full";
         if (User.getUserByUsername(username)==null)
             return "no user with this name";
@@ -44,7 +44,7 @@ public class GameSettingMenuController {
      * @return message to be shown
      * @author amir and Parsa
      */
-    public String startGame(HashMap<Integer, String> usernames,int length , int width , int roundPerSave) {
+    public String startGame(HashMap<Integer, String> usernames,int length , int width , int roundPerSave , int keptSavedFiles) {
         ArrayList<User> users = new ArrayList<>();
         for (int i = 0; i < usernames.size(); i++) {
             users.add(null);
@@ -58,20 +58,20 @@ public class GameSettingMenuController {
             }
         }
 
-        Game.startNewGame(users,length,width,roundPerSave);
+        Game.startNewGame(users,length,width,roundPerSave,keptSavedFiles);
         return Controller.addNotification(-1, "a new game started with " + users.size() + " players");
     }
 
-    public String gameWithFriends(VBox friendsInGame,int length,int width, int autoSave) {
-        if (friendsInGame.getChildren().size() == 2)
+    public String gameWithFriends(VBox friendsInGame,int length,int width, int autoSave , int keptSavedFiles) {
+        if (friendsInGame.getChildren().size() == 1)
             return "no one is selected";
 
         HashMap<Integer, String> hashMap = new HashMap<>();
 
-        for (int i = 1; i <= friendsInGame.getChildren().size()-1 ; i++) {
-            hashMap.put(i, ((Label) friendsInGame.getChildren().get(i)).getText());
+        for (int i = 1; i <= friendsInGame.getChildren().size() ; i++) {
+            hashMap.put(i, ((Label) friendsInGame.getChildren().get(i-1)).getText());
         }
 
-        return startGame(hashMap,length,width,autoSave);
+        return startGame(hashMap,length,width,autoSave,keptSavedFiles);
     }
 }
