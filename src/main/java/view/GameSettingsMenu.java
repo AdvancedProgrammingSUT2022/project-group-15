@@ -78,7 +78,6 @@ public class GameSettingsMenu extends Menu implements Initializable {
         autoSave.setTooltip(new Tooltip("automatically save the game after X moves"));
         loadGame.setTooltip(new Tooltip("load a game from disk (after choosing click start game)"));
         numberOfKeptSavedFiles.setTooltip(new Tooltip("maximum number of saves to be saved on disk automatically (old saves will be replaced)"));
-
     }
 
     public void backToMainMenu(MouseEvent mouseEvent) {

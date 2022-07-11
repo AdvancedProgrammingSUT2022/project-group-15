@@ -39,8 +39,8 @@ public class ScoreBoard extends Menu implements Initializable {
         TableColumn<User, Image> avatarColumn = new TableColumn<>("Avatar");
         avatarColumn.setCellFactory(param -> {
             final ImageView imageview = new ImageView();
-            imageview.setFitHeight(108);
-            imageview.setFitWidth(108);
+            imageview.setFitHeight(100);
+            imageview.setFitWidth(100);
 
             TableCell<User, Image> cell = new TableCell<User, Image>() {
                 public void updateItem(Image item, boolean empty) {
@@ -53,11 +53,11 @@ public class ScoreBoard extends Menu implements Initializable {
             return cell;
         });
         avatarColumn.setCellValueFactory(new PropertyValueFactory<>("avatarImage"));
-        avatarColumn.setPrefWidth(108);
+        avatarColumn.setPrefWidth(100);
 
         TableColumn<User, String> usernameColumn = new TableColumn<>("Player");
         usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
-        usernameColumn.setPrefWidth(250);
+        usernameColumn.setPrefWidth(260);
 
         TableColumn<User, Integer> scoreColumn = new TableColumn<>("Score");
         scoreColumn.setCellValueFactory(new PropertyValueFactory<>("score"));
