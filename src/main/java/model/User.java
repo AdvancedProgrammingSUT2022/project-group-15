@@ -52,9 +52,6 @@ public class User implements Comparable<User> {
         this.password.setValue(password);
         this.nickname.setValue(nickname);
         this.score.setValue(score);
-        this.password.addListener(e -> saveUsers());
-        this.nickname.addListener(e -> saveUsers());
-        this.avatarImage.addListener(e -> saveUsers());
     }
 
     /**
@@ -186,6 +183,7 @@ public class User implements Comparable<User> {
 
     public void setPassword(String password) {
         this.password.set(password);
+        saveUsers();
     }
 
     public String getNickname() {
@@ -198,6 +196,7 @@ public class User implements Comparable<User> {
 
     public void setNickname(String nickname) {
         this.nickname.set(nickname);
+        saveUsers();
     }
 
     public int getScore() {
