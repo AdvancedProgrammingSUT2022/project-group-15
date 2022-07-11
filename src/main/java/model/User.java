@@ -242,6 +242,10 @@ public class User implements Comparable<User> {
         return avatarImage;
     }
 
+    public Image getAvatarImage() {
+        return avatar.image;
+    }
+
     public void setAvatar(Avatar avatar) {
         this.avatar = avatar;
         this.avatarImage.set(avatar.image);

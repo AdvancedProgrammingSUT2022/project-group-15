@@ -9,7 +9,7 @@ import java.util.Collections;
 public class ScoreBoardController {
 
     public void loadSortedPlayers(ObservableList<User> rawList) {
-        ArrayList<User> players = User.getUsers();
+        ArrayList<User> players = new ArrayList<>(User.getUsers());
         Collections.sort(players);
         rawList.addAll(players);
     }

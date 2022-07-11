@@ -9,10 +9,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import model.User;
 
@@ -31,18 +34,37 @@ public class ScoreBoard extends Menu implements Initializable {
         controller.loadSortedPlayers(listOfUser);
         TableColumn<User, Integer> rankingColumn = new TableColumn<>("Rank");
         rankingColumn.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(scoreboard.getItems().indexOf(p.getValue()) + 1));
-        rankingColumn.setPrefWidth(110);
+        rankingColumn.setPrefWidth(100);
+
+        TableColumn<User, Image> avatarColumn = new TableColumn<>("Avatar");
+        avatarColumn.setCellFactory(param -> {
+            final ImageView imageview = new ImageView();
+            imageview.setFitHeight(108);
+            imageview.setFitWidth(108);
+
+            TableCell<User, Image> cell = new TableCell<User, Image>() {
+                public void updateItem(Image item, boolean empty) {
+                    if (item != null) {
+                        imageview.setImage(item);
+                    }
+                }
+            };
+            cell.setGraphic(imageview);
+            return cell;
+        });
+        avatarColumn.setCellValueFactory(new PropertyValueFactory<>("avatarImage"));
+        avatarColumn.setPrefWidth(108);
 
         TableColumn<User, String> usernameColumn = new TableColumn<>("Player");
         usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
-        usernameColumn.setPrefWidth(350);
+        usernameColumn.setPrefWidth(250);
 
         TableColumn<User, Integer> scoreColumn = new TableColumn<>("Score");
         scoreColumn.setCellValueFactory(new PropertyValueFactory<>("score"));
         scoreColumn.setPrefWidth(120);
 
         scoreboard.setItems(listOfUser);
-        scoreboard.getColumns().addAll(rankingColumn, usernameColumn, scoreColumn);
+        scoreboard.getColumns().addAll(rankingColumn, avatarColumn, usernameColumn, scoreColumn);
 
         for (TableColumn<User, ?> column : scoreboard.getColumns()) {
             column.setSortable(false);

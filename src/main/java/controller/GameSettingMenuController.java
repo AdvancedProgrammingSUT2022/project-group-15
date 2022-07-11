@@ -1,10 +1,8 @@
 package controller;
 
-import com.sun.xml.internal.bind.v2.TODO;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.Tooltip;
 import javafx.scene.layout.VBox;
 import model.Game;
 import model.User;
