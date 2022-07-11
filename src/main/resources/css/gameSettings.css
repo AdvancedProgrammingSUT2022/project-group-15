@@ -1,6 +1,6 @@
 .backgroundPane {
     -fx-background-image: url(../backgrounds/game_Background.png);
-    -fx-background-size:cover;
+    -fx-background-size: cover;
 }
 
 .back-button {
@@ -11,58 +11,53 @@
     -fx-effect: dropshadow(three-pass-box, rgb(255, 255, 255), 2, 0.7, 0, 0);
 }
 
-.cancel-button{
+TextField {
+    -fx-pref-height: 40;
+    -fx-pref-width: 200;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+    -fx-border-style: solid;
+    -fx-background-color: white;
+    -fx-border-color: #c948fa;
+}
 
+.cancel-button {
     -fx-text-fill: white;
     -fx-background-radius: 40;
     -fx-border-insets: 0;
     -fx-border-width: 0;
-    -fx-background-color: transparent,red ;
-    -fx-background-insets: 0, 20 ;
-
+    -fx-background-color: transparent, red;
+    -fx-background-insets: 0, 20;
 }
 
-.cancel-button:hover{
+.cancel-button:hover {
     -fx-effect: dropshadow(three-pass-box, rgb(255, 255, 255), 2, 0.7, 0, 0);
 }
 
-.label-info{
-    -fx-text-fill: #1ed221;
-    -fx-font-size: 30;
-    -fx-font-family: Andalus;
-}
-
-.label-alert{
-    -fx-background-color: #000000;
+.label-alert {
+    -fx-background-color: rgba(0, 0, 0, 0.68);
     -fx-text-fill: #de00ff;
-    -fx-font-size: 30;
-    -fx-font-family: Andalus;
     -fx-background-radius: 40;
-
 }
 
-.network-button{
-    -fx-text-fill: radial-gradient(center 50% 50%, radius 50%, #ffd3b7, #ed7c7c);
+.start-game {
+    -fx-text-fill: radial-gradient(center 50% 50%, radius 50%, #b0f4b9, #33c773);
     -fx-background-color: transparent;
 }
 
-
-.network-button:hover{
-    -fx-text-fill: radial-gradient(center 50% 50%, radius 50%, #ed7c7c, #ffd3b7);
-    -fx-background-color: transparent;
+.start-game:hover {
+    -fx-text-fill: radial-gradient(center 50% 50%, radius 50%, #33c773, #b0f4b9);
 }
 
-.invite-button{
-
+.invite-button {
     -fx-border-radius: 20;
     -fx-background-radius: 20;
     -fx-border-style: solid;
     -fx-background-color: rgba(12, 211, 29, 0.4);
     -fx-border-color: #c948fa;
-
 }
 
-.invite-button:hover{
+.invite-button:hover {
     -fx-background-color: rgba(12, 211, 29, 0.82);
     -fx-cursor: hand;
 }
