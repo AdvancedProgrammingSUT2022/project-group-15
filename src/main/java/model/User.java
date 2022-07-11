@@ -21,6 +21,7 @@ import java.util.List;
 public class User implements Comparable<User> {
     private static ArrayList<User> users = new ArrayList<>();
     private static User loggedInUser = null;
+    private static final Gson gson = createMyGson();
 
     @Expose(serialize = false)
     private ObjectProperty<Image> avatarImage = new SimpleObjectProperty<>();
@@ -97,7 +98,6 @@ public class User implements Comparable<User> {
     public static void saveUsers() {
         try {
             FileWriter fileWriter = new FileWriter("./src/main/resources/UserDatabase.json");
-            Gson gson = createMyGson();
             fileWriter.write(gson.toJson(users));
             fileWriter.close();
         } catch (IOException e) {
@@ -138,7 +138,6 @@ public class User implements Comparable<User> {
         try {
             String json = new String(Files.readAllBytes(Paths.get("./src/main/resources/UserDatabase.json")));
             ArrayList<User> createdUsers;
-            Gson gson = createMyGson();
             createdUsers = gson.fromJson(json, new TypeToken<List<User>>() {
             }.getType());
             if (createdUsers != null) {
@@ -155,6 +154,7 @@ public class User implements Comparable<User> {
 
     public static void deleteAccountOfLoggedInPlayer(){
         users.remove(User.getLoggedInUser());
+        saveUsers();
     }
 
     public String getUsername() {
@@ -179,6 +179,7 @@ public class User implements Comparable<User> {
 
     public void setPassword(String password) {
         this.password.set(password);
+        saveUsers();
     }
 
     public String getNickname() {
@@ -191,6 +192,7 @@ public class User implements Comparable<User> {
 
     public void setNickname(String nickname) {
         this.nickname.set(nickname);
+        saveUsers();
     }
 
     public int getScore() {
@@ -214,6 +216,7 @@ public class User implements Comparable<User> {
      */
     public void changeScore(int amount) {
         this.score.setValue(this.score.get() + amount);
+        saveUsers();
     }
 
     public static ArrayList<User> getUsers() {
@@ -239,6 +242,7 @@ public class User implements Comparable<User> {
     public void setAvatar(Avatar avatar) {
         this.avatar = avatar;
         this.avatarImage.set(avatar.image);
+        saveUsers();
     }
 
     @Override
