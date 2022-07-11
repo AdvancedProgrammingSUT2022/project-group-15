@@ -7,5 +7,23 @@
     "password": "parsa1234",
     "nickname": "parsa bashari",
     "score": 0
+  },
+  {
+    "avatar": "AVATAR_7",
+    "lastScoreChangedTime": "11::Jul::2022 18::08::30",
+    "lastOnlineTime": null,
+    "username": "parsabashari",
+    "password": "parsa1234",
+    "nickname": "parsa",
+    "score": 0
+  },
+  {
+    "avatar": "AVATAR_8",
+    "lastScoreChangedTime": "11::Jul::2022 18::10::29",
+    "lastOnlineTime": null,
+    "username": "parsabsh",
+    "password": "parsa1234",
+    "nickname": "parsabash",
+    "score": 0
   }
 ]

@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
@@ -46,6 +47,16 @@ public class ScoreBoard extends Menu implements Initializable {
         for (TableColumn<User, ?> column : scoreboard.getColumns()) {
             column.setSortable(false);
         }
+
+        scoreboard.setRowFactory(tv -> new TableRow<User>() {
+            @Override
+            protected void updateItem(User item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item != null && item.getUsername().equals(User.getLoggedInUser().getUsername())) {
+                    setStyle("-fx-background-color: #d14dfa;");
+                }
+            }
+        });
     }
 
     @Override
