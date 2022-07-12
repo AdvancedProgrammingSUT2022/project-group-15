@@ -232,6 +232,7 @@ public class User implements Comparable<User> {
 
     public static void setLoggedInUser(User loggedInUser) {
         User.loggedInUser = loggedInUser;
+        User.getLoggedInUser().setLastOnlineTime(LocalDateTime.now()); //TODO : delete this line
     }
 
     public Avatar getAvatar() {
@@ -268,5 +269,20 @@ public class User implements Comparable<User> {
 
     public void setLastScoreChanged(LocalDateTime lastScoreChanged) {
         this.lastScoreChangedTime = lastScoreChanged;
+    }
+
+    public LocalDateTime getLastOnlineTime() {
+        return lastOnlineTime;
+    }
+
+    public void setLastOnlineTime(LocalDateTime lastOnlineTime) {
+        this.lastOnlineTime = lastOnlineTime;
+    }
+
+    public String getOnlineTime() {
+        if (this.lastOnlineTime != null)
+            return this.lastOnlineTime.format(DateTimeFormatter.ofPattern("d MMM, uuuu HH:mm:ss"));
+        else
+            return "null";
     }
 }

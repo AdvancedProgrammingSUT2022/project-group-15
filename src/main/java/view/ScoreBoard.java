@@ -21,6 +21,8 @@ import model.User;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 public class ScoreBoard extends Menu implements Initializable {
@@ -63,8 +65,12 @@ public class ScoreBoard extends Menu implements Initializable {
         scoreColumn.setCellValueFactory(new PropertyValueFactory<>("score"));
         scoreColumn.setPrefWidth(120);
 
+        TableColumn<User, String> lastOnlineTime = new TableColumn<>("Last Online Time");
+        lastOnlineTime.setCellValueFactory(new PropertyValueFactory<>("onlineTime"));
+        lastOnlineTime.setPrefWidth(300);
+
         scoreboard.setItems(listOfUser);
-        scoreboard.getColumns().addAll(rankingColumn, avatarColumn, usernameColumn, scoreColumn);
+        scoreboard.getColumns().addAll(rankingColumn, avatarColumn, usernameColumn, scoreColumn, lastOnlineTime);
 
         for (TableColumn<User, ?> column : scoreboard.getColumns()) {
             column.setSortable(false);
@@ -75,7 +81,7 @@ public class ScoreBoard extends Menu implements Initializable {
             protected void updateItem(User item, boolean empty) {
                 super.updateItem(item, empty);
                 if (item != null && item.getUsername().equals(User.getLoggedInUser().getUsername())) {
-                    setStyle("-fx-background-color: #d14dfa;");
+                    setStyle("-fx-background-color: rgba(209,77,250,0.73);");
                 }
             }
         });
