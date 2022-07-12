@@ -71,8 +71,6 @@ public class GameSettingsMenu extends Menu implements Initializable {
 
     private void addToolTips() {
         numberOfPlayersBox.setTooltip(new Tooltip("number of players in the game that we will find for you"));
-        findGameButton.setTooltip(new Tooltip("find a game with specified properties"));
-        startGameButton.setTooltip(new Tooltip("start a game with your friends in this lobby"));
         mapWidth.setTooltip(new Tooltip("number of tiles in the width"));
         mapLength.setTooltip(new Tooltip("number of tiles in the length"));
         autoSave.setTooltip(new Tooltip("automatically save the game after X moves"));

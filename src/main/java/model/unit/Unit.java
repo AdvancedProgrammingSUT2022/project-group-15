@@ -1,9 +1,6 @@
 package model.unit;
 
-import enums.Feature;
-import enums.NeighborHex;
-import enums.Terrain;
-import enums.UnitName;
+import enums.*;
 import model.*;
 
 import java.util.ArrayList;
@@ -160,12 +157,36 @@ public abstract class Unit {
         this.remainingMovement -= Game.getGame().map.map.get(this.coordinatesInMap.get('x') / 2).get(this.coordinatesInMap.get('y')).getMovementPrice();
         if (this.name.equals(UnitName.SCOUT) && Game.getGame().map.map.get(this.coordinatesInMap.get('x') / 2).
                 get(this.coordinatesInMap.get('y')).getFeature().equals(Feature.JUNGLE))
-            this.remainingMovement+=1;
+            this.remainingMovement += 1;
 
         if (this instanceof MilitaryUnit) {
             Game.getGame().map.map.get(this.coordinatesInMap.get('x') / 2).get(this.coordinatesInMap.get('y')).setMilitaryUnit((MilitaryUnit) this);
         } else {
             Game.getGame().map.map.get(this.coordinatesInMap.get('x') / 2).get(this.coordinatesInMap.get('y')).setCivilUnit((CivilUnit) this);
+        }
+        if (Game.getGame().map.map.get(this.coordinatesInMap.get('x') / 2).get(this.coordinatesInMap.get('y')).hasRuins()) {
+            exploreRuins(Game.getGame().map.map.get(this.coordinatesInMap.get('x') / 2).get(this.coordinatesInMap.get('y')));
+        }
+
+    }
+
+    private void exploreRuins(Hex hex) {
+        Ruins ruins = hex.getRuins();
+        hex.setHasRuins(false);
+        // TODO: 7/12/2022 pop up that says you find ruins with info
+        switch (ruins.code) {
+            case 1:
+                this.owner.getCapital().setNumberOfCitizen(this.owner.getCapital().getNumberOfCitizen() + 1);
+                break;
+            case 2:
+                this.owner.setGoldStorage(this.owner.getGoldStorage() + 30);
+                break;
+            case 3:
+                this.owner.setScienceStorage(this.owner.getScienceStorage() + 30);
+                break;
+            case 4:
+                this.owner.getCapital().setFoodStorage(this.owner.getCapital().getFoodStorage() + 5);
+                break;
         }
     }
 
@@ -175,7 +196,7 @@ public abstract class Unit {
         MilitaryUnit militaryUnit;
         for (NeighborHex neighborHex : NeighborHex.values()) {
             if (!Game.getGame().map.validCoordinateInArray((this.getCoordinatesInMap().get('x') + neighborHex.xDiff) / 2
-            , this.getCoordinatesInMap().get('y') + neighborHex.yDiff))
+                    , this.getCoordinatesInMap().get('y') + neighborHex.yDiff))
                 continue;
             militaryUnit = Game.getGame().map.map.get((this.getCoordinatesInMap().get('x') + neighborHex.xDiff) / 2)
                     .get(this.getCoordinatesInMap().get('y') + neighborHex.yDiff).getMilitaryUnit();
@@ -320,7 +341,7 @@ public abstract class Unit {
             }
         }
         if (Game.getGame().map.map.get(x).get(y).getCity() != null)
-            if (Game.getGame().map.isCenterOfCity(x,y))
+            if (Game.getGame().map.isCenterOfCity(x, y))
                 if (!Game.getGame().map.map.get(x).get(y).getCity().getOwner().equals(this.owner))
                     return true;
 

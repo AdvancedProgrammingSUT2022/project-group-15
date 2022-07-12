@@ -6,6 +6,8 @@ import model.unit.*;
 import java.util.HashMap;
 
 public class Hex {
+    private boolean hasRuins;
+    private Ruins ruins;
     private Civilization owner;
     private Terrain terrain;
     private Feature feature;
@@ -13,7 +15,7 @@ public class Hex {
     private Improvement improvement = Improvement.Null;
     private boolean hasDestroyedImprovement;
     private int percentOfBuildingImprovement;
-    private boolean isAnyCitizenWorking= false;
+    private boolean isAnyCitizenWorking = false;
     private double movementPrice;
     private boolean hasRiver;
     private boolean hasRoad;
@@ -24,9 +26,10 @@ public class Hex {
     private HashMap<Character, Integer> coordinatesInMap = new HashMap<>();
     private MilitaryUnit militaryUnit;
     private CivilUnit civilUnit;
-    private City city=null;
+    private City city = null;
 
     public Hex(Terrain terrain, Feature feature, Resource resource, boolean hasRiver, int x, int y) {
+        this.hasRuins = false;
         this.terrain = terrain;
         this.feature = feature;
         this.resource = resource;
@@ -36,7 +39,7 @@ public class Hex {
         this.coordinatesInMap.put('x', x * 2 + y % 2);
         this.coordinatesInMap.put('y', y);
         this.movementPrice = calculateMovementPrice();
-        this.defenceBonus = (100.0 -terrain.combatEffect - feature.combatEffect)/100;
+        this.defenceBonus = (100.0 - terrain.combatEffect - feature.combatEffect) / 100;
     }
 
     public Hex clone() {
@@ -51,7 +54,7 @@ public class Hex {
         newHex.hasRailRoad = this.hasRailRoad;
         newHex.militaryUnit = this.militaryUnit;
         newHex.civilUnit = this.civilUnit;
-        newHex.city=this.city;
+        newHex.city = this.city;
         return newHex;
     }
 
@@ -88,6 +91,22 @@ public class Hex {
 
     public void setPercentOfBuildingImprovement(int percentOfBuildingImprovement) {
         this.percentOfBuildingImprovement = percentOfBuildingImprovement;
+    }
+
+    public boolean hasRuins() {
+        return hasRuins;
+    }
+
+    public void setHasRuins(boolean hasRuins) {
+        this.hasRuins = hasRuins;
+    }
+
+    public Ruins getRuins() {
+        return ruins;
+    }
+
+    public void setRuins(Ruins ruins) {
+        this.ruins = ruins;
     }
 
     public HexVisibility getHexVisibility() {
