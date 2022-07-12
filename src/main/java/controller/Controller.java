@@ -6,7 +6,7 @@ import view.*;
 
 import java.util.ArrayList;
 
-public class Controller{
+public class Controller {
     private static Stage window = null;
     private static final LoginMenu loginMenu = new LoginMenu();
     private static final MainMenu mainMenu = new MainMenu();
@@ -14,7 +14,10 @@ public class Controller{
     private static final GameMenu gameMenu = new GameMenu();
     private static final GameSettingsMenu gameSettingsMenu = new GameSettingsMenu();
     private static final ScoreBoard scoreboard = new ScoreBoard();
+    private static final PublicChat chatRoom = new PublicChat();
     private static final ArrayList<String> notificationHistory = new ArrayList<>();
+
+
 
     public static ProfileMenu getProfileMenu() {
         return profileMenu;
@@ -24,7 +27,9 @@ public class Controller{
         return scoreboard;
     }
 
-
+    public static PublicChat getChatRoom() {
+        return chatRoom;
+    }
 
     public void run(Stage primaryStage) {
         window = primaryStage;
@@ -38,29 +43,34 @@ public class Controller{
     public static MainMenu getMainMenu() {
         return mainMenu;
     }
+
     public static LoginMenu getLoginMenu() {
         return loginMenu;
     }
+
     public static GameMenu getGameMenu() {
         return gameMenu;
     }
+
     public static GameSettingsMenu getGameSettingsMenu() {
         return gameSettingsMenu;
     }
+
     public static Stage getWindow() {
         return window;
     }
 
     /**
      * add a message to the notification history
+     *
      * @param turnNumber turn number to be mentioned at the beginning of notification
-     * @param message the body of notification
+     * @param message    the body of notification
      * @return the message
      * @author Parsa
      */
-    public static String addNotification(int turnNumber, String message){
+    public static String addNotification(int turnNumber, String message) {
         String notif = "";
-        if(turnNumber == -1){
+        if (turnNumber == -1) {
             notif += "<< Not in the game menu >> : ";
         } else {
             notif += "<< Turn " + turnNumber + " >> : ";

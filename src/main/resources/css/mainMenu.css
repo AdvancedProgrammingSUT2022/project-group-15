@@ -29,6 +29,14 @@ Button {
 .profile:hover {
     -fx-text-fill: radial-gradient(center 50% 50%, radius 50%, #ffafbd, #ffe3d1);
 }
+.chat-room {
+    -fx-text-fill: radial-gradient(center 50% 50%, radius 50%, #18e0e0, #33c773);
+}
+
+.chat-room:hover {
+    -fx-text-fill: radial-gradient(center 50% 50%, radius 50%, #33c773, #18e0e0);
+}
+
 
 .exit-button {
     -fx-effect: dropshadow( three-pass-box , rgb(255, 255, 255), 2 , 0.3 , 0 , 0 );

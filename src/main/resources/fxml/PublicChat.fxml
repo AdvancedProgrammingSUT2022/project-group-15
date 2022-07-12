@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" styleClass="backgroundPane" stylesheets="@../css/PublicChat.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.PublicChat">
+
+    <HBox alignment="BOTTOM_CENTER" layoutY="650" spacing="20">
+        <TextField alignment="CENTER_LEFT" id="textInput" prefHeight="50" prefWidth="1000" text="enter your message" />
+        <Button id="sendButton" prefHeight="50" prefWidth="160" text="send" onMouseClicked="#send" />
+    </HBox>
+</AnchorPane>
