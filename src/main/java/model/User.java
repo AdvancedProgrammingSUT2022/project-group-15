@@ -21,6 +21,7 @@ import java.util.List;
 public class User implements Comparable<User> {
     private static ArrayList<User> users = new ArrayList<>();
     private static User loggedInUser = null;
+    private static final Gson gson = createMyGson();
 
     @Expose(serialize = false)
     private ObjectProperty<Image> avatarImage = new SimpleObjectProperty<>();
@@ -43,7 +44,10 @@ public class User implements Comparable<User> {
     public User(String username, String password, String nickname, int score) {
         setAvatar(Avatar.getRandomAvatar());
         this.lastScoreChangedTime = LocalDateTime.now();
-        this.score.addListener(e -> this.lastScoreChangedTime = LocalDateTime.now());
+        this.score.addListener(e -> {
+            this.lastScoreChangedTime = LocalDateTime.now();
+            saveUsers();
+        });
         this.username.setValue(username);
         this.password.setValue(password);
         this.nickname.setValue(nickname);
@@ -97,7 +101,6 @@ public class User implements Comparable<User> {
     public static void saveUsers() {
         try {
             FileWriter fileWriter = new FileWriter("./src/main/resources/UserDatabase.json");
-            Gson gson = createMyGson();
             fileWriter.write(gson.toJson(users));
             fileWriter.close();
         } catch (IOException e) {
@@ -107,6 +110,7 @@ public class User implements Comparable<User> {
 
     /**
      * creates a Gson that has been customized
+     *
      * @return the customized Gson object
      * @author Parsa
      */
@@ -138,7 +142,6 @@ public class User implements Comparable<User> {
         try {
             String json = new String(Files.readAllBytes(Paths.get("./src/main/resources/UserDatabase.json")));
             ArrayList<User> createdUsers;
-            Gson gson = createMyGson();
             createdUsers = gson.fromJson(json, new TypeToken<List<User>>() {
             }.getType());
             if (createdUsers != null) {
@@ -153,8 +156,9 @@ public class User implements Comparable<User> {
         }
     }
 
-    public static void deleteAccountOfLoggedInPlayer(){
+    public static void deleteAccountOfLoggedInPlayer() {
         users.remove(User.getLoggedInUser());
+        saveUsers();
     }
 
     public String getUsername() {
@@ -179,6 +183,7 @@ public class User implements Comparable<User> {
 
     public void setPassword(String password) {
         this.password.set(password);
+        saveUsers();
     }
 
     public String getNickname() {
@@ -191,6 +196,7 @@ public class User implements Comparable<User> {
 
     public void setNickname(String nickname) {
         this.nickname.set(nickname);
+        saveUsers();
     }
 
     public int getScore() {
@@ -213,7 +219,7 @@ public class User implements Comparable<User> {
      * @author Parsa
      */
     public void changeScore(int amount) {
-        this.score.setValue(this.score.get() + amount);
+        setScore(getScore() + amount);
     }
 
     public static ArrayList<User> getUsers() {
@@ -226,6 +232,7 @@ public class User implements Comparable<User> {
 
     public static void setLoggedInUser(User loggedInUser) {
         User.loggedInUser = loggedInUser;
+        User.getLoggedInUser().setLastOnlineTime(LocalDateTime.now()); //TODO : delete this line
     }
 
     public Avatar getAvatar() {
@@ -234,6 +241,10 @@ public class User implements Comparable<User> {
 
     public ObjectProperty<Image> avatarProperty() {
         return avatarImage;
+    }
+
+    public Image getAvatarImage() {
+        return avatar.image;
     }
 
     public void setAvatar(Avatar avatar) {
@@ -258,5 +269,20 @@ public class User implements Comparable<User> {
 
     public void setLastScoreChanged(LocalDateTime lastScoreChanged) {
         this.lastScoreChangedTime = lastScoreChanged;
+    }
+
+    public LocalDateTime getLastOnlineTime() {
+        return lastOnlineTime;
+    }
+
+    public void setLastOnlineTime(LocalDateTime lastOnlineTime) {
+        this.lastOnlineTime = lastOnlineTime;
+    }
+
+    public String getOnlineTime() {
+        if (this.lastOnlineTime != null)
+            return this.lastOnlineTime.format(DateTimeFormatter.ofPattern("d MMM, uuuu HH:mm:ss"));
+        else
+            return "null";
     }
 }

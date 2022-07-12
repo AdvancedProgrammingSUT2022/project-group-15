@@ -9,59 +9,70 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" styleClass="backgroundPane" stylesheets="@../css/loginMenu.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.LoginMenu">
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" styleClass="backgroundPane" stylesheets="@../css/loginMenu.css"
+            xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.LoginMenu">
     <AnchorPane layoutX="460.0" layoutY="70.0" prefHeight="580.0" prefWidth="360.0" styleClass="foregroundPane">
-        <Text fill="#3c3838" layoutX="128.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Login" textAlignment="CENTER" wrappingWidth="104.6708984375">
+        <Text fill="#3c3838" layoutX="128.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Login"
+              textAlignment="CENTER" wrappingWidth="104.6708984375">
             <font>
-                <Font name="Berlin Sans FB Bold" size="36.0" />
+                <Font name="Berlin Sans FB Bold" size="36.0"/>
             </font>
         </Text>
-        <TextField fx:id="username" layoutX="59.0" layoutY="140.0" prefHeight="40.0" prefWidth="200.0" promptText="Enter your username">
+        <TextField fx:id="username" layoutX="59.0" layoutY="140.0" prefHeight="40.0" prefWidth="200.0"
+                   promptText="Enter your username">
             <padding>
-                <Insets left="10.0" />
+                <Insets left="10.0"/>
             </padding>
         </TextField>
         <TextField fx:id="password" layoutX="59.0" layoutY="228.0" promptText="Enter your password">
             <padding>
-                <Insets left="10.0" />
+                <Insets left="10.0"/>
             </padding>
         </TextField>
-        <Text fill="#3c3838" layoutX="85.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username" wrappingWidth="104.6708984375">
+        <Text fill="#3c3838" layoutX="85.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username"
+              wrappingWidth="104.6708984375">
             <font>
-                <Font name="Calibri Light Italic" size="20.0" />
+                <Font name="Calibri Light Italic" size="20.0"/>
             </font>
         </Text>
-        <Text fill="#3c3838" layoutX="85.0" layoutY="223.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password" wrappingWidth="104.6708984375">
+        <Text fill="#3c3838" layoutX="85.0" layoutY="223.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password"
+              wrappingWidth="104.6708984375">
             <font>
-                <Font name="Calibri Light Italic" size="20.0" />
+                <Font name="Calibri Light Italic" size="20.0"/>
             </font>
         </Text>
-        <Button layoutX="84.0" layoutY="419.0" mnemonicParsing="false" onMouseClicked="#login" styleClass="loginButton" text="Login">
+        <TextField fx:id="nickname" layoutX="59.0" layoutY="312.0" promptText="Enter your nickname">
+            <padding>
+                <Insets left="10.0"/>
+            </padding>
+        </TextField>
+        <Text fill="#3c3838" layoutX="85.0" layoutY="306.0" strokeType="OUTSIDE" strokeWidth="0.0"
+              text="Nickname (for sign up)" wrappingWidth="206.6708984375">
             <font>
-                <Font size="20.0" />
+                <Font name="Calibri Light Italic" size="20.0"/>
+            </font>
+        </Text>
+        <Button layoutX="84.0" layoutY="419.0" mnemonicParsing="false" onMouseClicked="#login" styleClass="loginButton"
+                text="Login">
+            <font>
+                <Font size="20.0"/>
             </font>
         </Button>
-        <Button layoutX="134.0" layoutY="474.0" mnemonicParsing="false" onMouseClicked="#signUp" styleClass="registerButton" text="or Sign Up" />
-        <ImageView fx:id="forbiddenIcon" fitHeight="45.0" fitWidth="38.0" layoutX="69.0" layoutY="369.0" pickOnBounds="true" preserveRatio="true">
-            <Image url="@../icons/forbidden_icon.png" />
+        <Button layoutX="134.0" layoutY="474.0" mnemonicParsing="false" onMouseClicked="#signUp"
+                styleClass="registerButton" text="or Sign Up"/>
+        <ImageView fx:id="forbiddenIcon" fitHeight="45.0" fitWidth="38.0" layoutX="69.0" layoutY="369.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <Image url="@../icons/forbidden_icon.png"/>
         </ImageView>
-        <ImageView fx:id="checkIcon" fitHeight="45.0" fitWidth="38.0" layoutX="69.0" layoutY="368.0" pickOnBounds="true" preserveRatio="true">
-            <Image url="@../icons/check_icon.png" />
+        <ImageView fx:id="checkIcon" fitHeight="45.0" fitWidth="38.0" layoutX="69.0" layoutY="368.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <Image url="@../icons/check_icon.png"/>
         </ImageView>
-        <Text fx:id="message" fill="RED" layoutX="107.0" layoutY="392.0" strokeType="OUTSIDE" strokeWidth="0.0" text="message" wrappingWidth="224.6708984375">
+        <Text fx:id="message" fill="RED" layoutX="107.0" layoutY="392.0" strokeType="OUTSIDE" strokeWidth="0.0"
+              text="message" wrappingWidth="224.6708984375">
             <font>
-                <Font name="Calibri Light" size="18.0" />
+                <Font name="Calibri Light" size="18.0"/>
             </font>
         </Text>
-      <TextField fx:id="nickname" layoutX="59.0" layoutY="312.0" promptText="Enter your nickname">
-         <padding>
-            <Insets left="10.0" />
-         </padding>
-      </TextField>
-      <Text fill="#3c3838" layoutX="85.0" layoutY="306.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nickname (for sign up)" wrappingWidth="206.6708984375">
-         <font>
-            <Font name="Calibri Light Italic" size="20.0" />
-         </font>
-      </Text>
     </AnchorPane>
 </AnchorPane>

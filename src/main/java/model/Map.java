@@ -11,8 +11,8 @@ import java.util.Random;
 import static java.lang.Math.abs;
 
 public class Map {
-    private int rowsNumber;
-    private int columnsNumber;
+    private final int rowsNumber;
+    private final int columnsNumber;
 
     public ArrayList<ArrayList<Hex>> map;
 
@@ -85,6 +85,35 @@ public class Map {
         }
         addingRiverOasisFlat();
         addingResources();
+        addingRuins();
+    }
+
+    private void addingRuins() {
+        Random random = new Random();
+        for (ArrayList<Hex> hexes : map) {
+            for (Hex hex : hexes) {
+                if (random.nextInt(25) == 3) {
+                    hex.setHasRuins(true);
+                    int rand = random.nextInt(4);
+                    Ruins ruins = null;
+                    switch (rand) {
+                        case 1:
+                            ruins = Ruins.addFood;
+                            break;
+                        case 2:
+                            ruins = Ruins.addScience;
+                            break;
+                        case 3:
+                            ruins = Ruins.addGold;
+                            break;
+                        case 0:
+                            ruins = Ruins.addPerson;
+                            break;
+                    }
+                    hex.setRuins(ruins);
+                }
+            }
+        }
     }
 
     private void addingResources() {
@@ -166,11 +195,11 @@ public class Map {
                     if (random.nextInt(100) < percent)
                         hex.setResource(Resource.COAL);
                 }
-                if (hex.getTerrain().equals(Terrain.TUNDRA)||hex.getTerrain().equals(Terrain.PLAIN)|| hex.getTerrain().equals(Terrain.GRASSLAND)){
+                if (hex.getTerrain().equals(Terrain.TUNDRA) || hex.getTerrain().equals(Terrain.PLAIN) || hex.getTerrain().equals(Terrain.GRASSLAND)) {
                     if (random.nextInt(100) < percent)
                         hex.setResource(Resource.HORSE);
                 }
-                if (true){
+                if (true) {
                     if (random.nextInt(100) < percent)
                         hex.setResource(Resource.IRON);
                 }
@@ -335,31 +364,31 @@ public class Map {
         return 100 - differenceFromMiddle * 100 / (columnsNumber / 2);
     }
 
-    public boolean hasTheCityAround(int x,int y , City city){
+    public boolean hasTheCityAround(int x, int y, City city) {
         for (NeighborHex neighborHex : NeighborHex.values()) {
-            if (map.get((2*x+y%2+neighborHex.xDiff)/2).get(y+ neighborHex.yDiff).getCity().equals(city))
+            if (map.get((2 * x + y % 2 + neighborHex.xDiff) / 2).get(y + neighborHex.yDiff).getCity().equals(city))
                 return true;
         }
         return false;
     }
 
-    public boolean isInACity(Unit unit){
-        Hex hex = map.get(unit.getCoordinatesInMap().get('x')/2 ).get(unit.getCoordinatesInMap().get('y'));
-        if (hex.getCity()==null)
+    public boolean isInACity(Unit unit) {
+        Hex hex = map.get(unit.getCoordinatesInMap().get('x') / 2).get(unit.getCoordinatesInMap().get('y'));
+        if (hex.getCity() == null)
             return false;
         if (hex.getCity().getOwner().equals(unit.getOwner()) &&
-                hex.getCity().getCoordinatesOfCenterInArray().get('x') == unit.getCoordinatesInMap().get('x')/2  &&
-        hex.getCity().getCoordinatesOfCenterInArray().get('y') == unit.getCoordinatesInMap().get('y') ){
+                hex.getCity().getCoordinatesOfCenterInArray().get('x') == unit.getCoordinatesInMap().get('x') / 2 &&
+                hex.getCity().getCoordinatesOfCenterInArray().get('y') == unit.getCoordinatesInMap().get('y')) {
             return true;
         }
         return false;
     }
 
-    public boolean isCenterOfCity(int x ,int y) {
-        if (map.get(x).get(y).getCity() ==null)
+    public boolean isCenterOfCity(int x, int y) {
+        if (map.get(x).get(y).getCity() == null)
             return false;
-        if (map.get(x).get(y).getCity().getCoordinatesOfCenterInArray().get('x')==x&&
-                map.get(x).get(y).getCity().getCoordinatesOfCenterInArray().get('y')==y)
+        if (map.get(x).get(y).getCity().getCoordinatesOfCenterInArray().get('x') == x &&
+                map.get(x).get(y).getCity().getCoordinatesOfCenterInArray().get('y') == y)
             return true;
         return false;
     }

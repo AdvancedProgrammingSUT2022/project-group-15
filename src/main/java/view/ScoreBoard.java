@@ -9,14 +9,20 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import model.User;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 public class ScoreBoard extends Menu implements Initializable {
@@ -30,22 +36,55 @@ public class ScoreBoard extends Menu implements Initializable {
         controller.loadSortedPlayers(listOfUser);
         TableColumn<User, Integer> rankingColumn = new TableColumn<>("Rank");
         rankingColumn.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(scoreboard.getItems().indexOf(p.getValue()) + 1));
-        rankingColumn.setPrefWidth(110);
+        rankingColumn.setPrefWidth(100);
+
+        TableColumn<User, Image> avatarColumn = new TableColumn<>("Avatar");
+        avatarColumn.setCellFactory(param -> {
+            final ImageView imageview = new ImageView();
+            imageview.setFitHeight(100);
+            imageview.setFitWidth(100);
+
+            TableCell<User, Image> cell = new TableCell<User, Image>() {
+                public void updateItem(Image item, boolean empty) {
+                    if (item != null) {
+                        imageview.setImage(item);
+                    }
+                }
+            };
+            cell.setGraphic(imageview);
+            return cell;
+        });
+        avatarColumn.setCellValueFactory(new PropertyValueFactory<>("avatarImage"));
+        avatarColumn.setPrefWidth(100);
 
         TableColumn<User, String> usernameColumn = new TableColumn<>("Player");
         usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
-        usernameColumn.setPrefWidth(350);
+        usernameColumn.setPrefWidth(260);
 
         TableColumn<User, Integer> scoreColumn = new TableColumn<>("Score");
         scoreColumn.setCellValueFactory(new PropertyValueFactory<>("score"));
         scoreColumn.setPrefWidth(120);
 
+        TableColumn<User, String> lastOnlineTime = new TableColumn<>("Last Online Time");
+        lastOnlineTime.setCellValueFactory(new PropertyValueFactory<>("onlineTime"));
+        lastOnlineTime.setPrefWidth(300);
+
         scoreboard.setItems(listOfUser);
-        scoreboard.getColumns().addAll(rankingColumn, usernameColumn, scoreColumn);
+        scoreboard.getColumns().addAll(rankingColumn, avatarColumn, usernameColumn, scoreColumn, lastOnlineTime);
 
         for (TableColumn<User, ?> column : scoreboard.getColumns()) {
             column.setSortable(false);
         }
+
+        scoreboard.setRowFactory(tv -> new TableRow<User>() {
+            @Override
+            protected void updateItem(User item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item != null && item.getUsername().equals(User.getLoggedInUser().getUsername())) {
+                    setStyle("-fx-background-color: rgba(209,77,250,0.73);");
+                }
+            }
+        });
     }
 
     @Override

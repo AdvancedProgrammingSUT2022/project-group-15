@@ -127,6 +127,7 @@ public class ProfileMenu extends Menu implements Initializable {
 
     public void changeAvatar() {
         User.getLoggedInUser().setAvatar(Avatar.values()[listOfAvatars.getSelectionModel().getSelectedIndex()]);
+        User.saveUsers();
         saveChangesButton.setDisable(passwordField.getText().isEmpty() && nicknameField.getText().isEmpty());
     }
 }
