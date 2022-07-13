@@ -22,6 +22,7 @@ public class Civilization {
     private ArrayList<Resource> openedResources = new ArrayList<>();
     private ArrayList<Feature> openedFeatures = new ArrayList<>();
     private ArrayList<Improvement> openedImprovements = new ArrayList<>();
+    private ArrayList<Building> openedBuildings = new ArrayList<>();
     private ArrayList<Resource> strategicResources =new ArrayList<>();
     private HashSet<Resource> luxuryResources =new HashSet<>();
     private City capital;
@@ -88,6 +89,7 @@ public class Civilization {
         openedFeatures.addAll(technologyInProgress.openingFeatures);
         openedImprovements.addAll(technologyInProgress.openingImprovements);
         openedResources.addAll(technologyInProgress.openingResources);
+        openedBuildings.addAll(technologyInProgress.openingBuildings);
         technologyInProgress = null;
     }
 
