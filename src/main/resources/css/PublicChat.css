@@ -2,23 +2,26 @@
     -fx-background-image: url(../backgrounds/menus_background.jpg);
 }
 
-#sendButton{
+#sendButton {
     -fx-font-family: "Tw Cen MT";
     -fx-background-color: #4faecc;
     -fx-background-radius: 20px;
     -fx-font-size: 25;
 
 }
-#textInput{
+
+#textInput {
     -fx-font-family: "Tw Cen MT";
     -fx-background-color: lightBlue;
     -fx-background-radius: 20px;
     -fx-font-size: 20;
 }
-.Pane{
+
+.Pane {
     -fx-background-color: #2c2f3c;
 }
-#back{
+
+#back {
     -fx-font-family: "Tw Cen MT";
     -fx-font-size: 20;
     -fx-background-color: #9494e5;

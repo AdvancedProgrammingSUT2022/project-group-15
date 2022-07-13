@@ -22,22 +22,29 @@ public class GameSettingsMenu extends Menu implements Initializable {
     private final GameSettingMenuController controller = new GameSettingMenuController();
 
     @FXML
-    public Button cancelButton;
+    private Button cancelButton;
     @FXML
-    public VBox friendsInGame;
+    private VBox friendsInGame;
     @FXML
-    public Label information;
+    private Label information;
     @FXML
-    public TextField usernameTextField;
+    private TextField usernameTextField;
     @FXML
-    public ChoiceBox<Integer> numberOfPlayersBox;
-    public Button findGameButton;
-    public Button startGameButton;
-    public ChoiceBox<Integer> mapWidth;
-    public ChoiceBox<Integer> mapLength;
-    public ChoiceBox<Integer> autoSave;
-    public ChoiceBox loadGame;
-    public ChoiceBox<Integer> numberOfKeptSavedFiles;
+    private ChoiceBox<Integer> numberOfPlayersBox;
+    @FXML
+    private Button findGameButton;
+    @FXML
+    private Button startGameButton;
+    @FXML
+    private ChoiceBox<Integer> mapWidth;
+    @FXML
+    private ChoiceBox<Integer> mapLength;
+    @FXML
+    private ChoiceBox<Integer> autoSave;
+    @FXML
+    private ChoiceBox loadGame;
+    @FXML
+    private ChoiceBox<Integer> numberOfKeptSavedFiles;
 
 
     @Override
