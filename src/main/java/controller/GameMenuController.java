@@ -15,6 +15,41 @@ public class GameMenuController {
     private int lastShownMapX = 0;
     private int lastShownMapY = 0;
 
+    public String getAvailableBuildingsForCity(){
+        if (selectedCity==null)
+            return "no city is selected";
+        if (selectedCity.getOwner()!=Game.getGame().getSelectedCivilization())
+            return "city not yours";
+        StringBuilder ans = new StringBuilder();
+        for (Building availableBuilding : selectedCity.getAvailableBuildings()) {
+            ans.append("building name : ").append(availableBuilding.name()).append(" production cost: ").append(availableBuilding.productionCost).append("\n");
+        }
+        if (ans.length()!=0)
+            ans.deleteCharAt(ans.length()-1);
+        return ans.toString();
+    }
+
+    public String buildBuilding(String buildingName){
+        if (selectedCity==null)
+            return "no city is selected";
+        if (selectedCity.getOwner()!=Game.getGame().getSelectedCivilization())
+            return "city not yours";
+        Building building = Building.getBuildingByName(buildingName);
+        if (building==null)
+            return "invalid building name";
+        if (!selectedCity.getAvailableBuildings().contains(building))
+            return "building not available";
+        if ((building==Building.STABLE||building==Building.CIRCUS) && !selectedCity.getOwner().getStrategicResources().contains(Resource.HORSE))
+            return "you need horse for this building";
+        if ((building==Building.FORGE) && !selectedCity.getOwner().getStrategicResources().contains(Resource.IRON))
+            return "you need iron for this building";
+        selectedCity.setBuildingUnit(false);
+        selectedCity.setBuildingInProgress(building);
+        selectedCity.setNeededProduction(building.productionCost);
+        return "it will be built";
+
+    }
+
     public String changeTurn(boolean ignoreNeedCommand) {
         for (Unit unit : Game.getGame().getSelectedCivilization().getUnits()) {
             if (unit.needsCommand())
@@ -620,7 +655,7 @@ public class GameMenuController {
         if (unit == null) {
             return Controller.addNotification(Game.getGame().getTurnNumber(), "invalid unit name");
         }
-        if (selectedCity.getOwner().getOpenedUnits().contains(unit)) {
+        if (!selectedCity.getOwner().getOpenedUnits().contains(unit)) {
             return Controller.addNotification(Game.getGame().getTurnNumber(), "Not proper technology");
         }
         if (!selectedCity.getOwner().getStrategicResources().contains(unit.getResource())) {
@@ -667,8 +702,8 @@ public class GameMenuController {
         if (unit == null) {
             return Controller.addNotification(Game.getGame().getTurnNumber(), "invalid unit name");
         }
-        if (selectedCity.getOwner().getOpenedUnits().contains(unit)) {
-            return Controller.addNotification(Game.getGame().getTurnNumber(), "Not proper teechnology");
+        if (!selectedCity.getOwner().getOpenedUnits().contains(unit)) {
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "Not proper technology");
         }
         if (!selectedCity.getOwner().getStrategicResources().contains(unit.getResource())) {
             return Controller.addNotification(Game.getGame().getTurnNumber(), "Not proper resource");
@@ -685,6 +720,7 @@ public class GameMenuController {
                     return Controller.addNotification(Game.getGame().getTurnNumber(), "military unit is full");
             }
         }
+        selectedCity.setBuildingUnit(true);
         selectedCity.setUnitInProgress(unit);
         selectedCity.setNeededProduction(unit.getCost());
         return Controller.addNotification(Game.getGame().getTurnNumber(), "it will be produced");

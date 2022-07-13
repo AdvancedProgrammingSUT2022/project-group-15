@@ -1,5 +1,6 @@
 package model;
 
+import enums.Building;
 import enums.NeighborHex;
 import enums.Terrain;
 import enums.UnitName;
@@ -15,7 +16,9 @@ public class City {
     private Civilization owner;
     private int neededProduction;
     private int remainedTurns;
+    private boolean isBuildingUnit;
     private UnitName unitInProgress;
+    private Building buildingInProgress;
     private int numberOfCitizen;
     private HashMap<Character, Integer> coordinatesOfCenterInArray = new HashMap<>();
     private int foodStorage;
@@ -26,11 +29,14 @@ public class City {
     private final ArrayList<Hex> cityHexes = new ArrayList<>();
     private RangedMilitary cityUnit;
     private int unemployedCitizens = 1;
+    private final ArrayList<Building> availableBuildings = new ArrayList<>();
+    private final ArrayList<Building> builtBuildings = new ArrayList<>();
 
     public City(String name, int x, int y, Civilization owner) {
         this.name = name;
         this.owner = owner;
         unitInProgress = UnitName.NULL;
+        isBuildingUnit = true;
         neededProduction = 999999;
         coordinatesOfCenterInArray.put('x', x);
         coordinatesOfCenterInArray.put('y', y);
@@ -51,11 +57,22 @@ public class City {
         }
 
         cityUnit = new RangedMilitary(x, y, owner, UnitName.CITYUNIT);
-        if (Game.getGame().map.map.get(x).get(y).getTerrain().equals(Terrain.HILL)){
-            cityUnit.setMeleePower((int) (cityUnit.getRangedPower()*1.2));
+        if (Game.getGame().map.map.get(x).get(y).getTerrain().equals(Terrain.HILL)) {
+            cityUnit.setMeleePower((int) (cityUnit.getRangedPower() * 1.2));
         }
 
+        updateAvailableBuildings();
     }
+
+    public void updateAvailableBuildings() {
+        for (Building openedBuilding : owner.getOpenedBuildings()) {
+            if (openedBuilding.prerequisiteBuilding == null && !builtBuildings.contains(openedBuilding))
+                availableBuildings.add(openedBuilding);
+            else if (builtBuildings.contains(openedBuilding.prerequisiteBuilding) && !builtBuildings.contains(openedBuilding))
+                availableBuildings.add(openedBuilding);
+        }
+    }
+
 
     public int getUnemployedCitizens() {
         return unemployedCitizens;
@@ -166,6 +183,22 @@ public class City {
         this.sciencePerTurn = sciencePerTurn;
     }
 
+    public boolean isBuildingUnit() {
+        return isBuildingUnit;
+    }
+
+    public void setBuildingUnit(boolean buildingUnit) {
+        isBuildingUnit = buildingUnit;
+    }
+
+    public Building getBuildingInProgress() {
+        return buildingInProgress;
+    }
+
+    public void setBuildingInProgress(Building buildingInProgress) {
+        this.buildingInProgress = buildingInProgress;
+    }
+
     public RangedMilitary getCityUnit() {
         return cityUnit;
     }
@@ -173,6 +206,11 @@ public class City {
     public void setCityUnit(RangedMilitary cityUnit) {
         this.cityUnit = cityUnit;
     }
+
+    public ArrayList<Building> getAvailableBuildings() {
+        return availableBuildings;
+    }
+
 
     public int calculateGoldPerTurn() {
         int ans = 0;
@@ -186,6 +224,9 @@ public class City {
             if (hex.getResource().requiredImprovement.equals(hex.getImprovement())) {
                 ans += hex.getResource().gold;
             }
+        }
+        for (Building builtBuilding : builtBuildings) {
+            ans -= builtBuilding.maintenanceCost;
         }
         return ans;
     }
@@ -205,7 +246,7 @@ public class City {
             }
 
         }
-        return ans + copyOfNumberOfCitizen+1;
+        return ans + copyOfNumberOfCitizen + 1;
     }
 
     public int calculateFoodPerTurn() {
@@ -255,11 +296,11 @@ public class City {
                 foodStorage = 0;
             else {
                 numberOfCitizen--;
-                if (unemployedCitizens>0)
+                if (unemployedCitizens > 0)
                     unemployedCitizens--;
                 else {
                     for (Hex cityHex : cityHexes) {
-                        if (cityHex.isAnyCitizenWorking()){
+                        if (cityHex.isAnyCitizenWorking()) {
                             cityHex.setAnyCitizenWorking(false);
                             break;
                         }
@@ -269,14 +310,28 @@ public class City {
                 foodStorage = (int) pow(2, numberOfCitizen);
             }
         }
-        if (unitInProgress != UnitName.NULL) {
+        if (unitInProgress != UnitName.NULL || !isBuildingUnit) {
             if (neededProduction <= 0) {
-                createUnitInCity(unitInProgress);
+                if (isBuildingUnit)
+                    createUnitInCity(unitInProgress);
+                else
+                    createBuildingInCity(buildingInProgress);
                 unitInProgress = UnitName.NULL;
+                isBuildingUnit = true;
                 neededProduction = 9999999;
             }
         }
         this.cityUnit.setNowHealth(min(this.cityUnit.getNowHealth() + this.cityUnit.getTotalHealth() / 10, this.cityUnit.getTotalHealth()));
+    }
+
+    public void createBuildingInCity(Building building) {
+        builtBuildings.add(building);
+
+        updateAvailableBuildings();
+        switch (building) {
+            // TODO: 7/14/2022 fill
+        }
+
     }
 
     public void createUnitInCity(UnitName unitName) {

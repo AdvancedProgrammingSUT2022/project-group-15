@@ -40,13 +40,21 @@ public enum Building {
     ;
 
 
-    public int productionCost;
-    public int maintenanceCost;
-    public Building prerequisiteBuilding;
+    public final int productionCost;
+    public final int maintenanceCost;
+    public final Building prerequisiteBuilding;
 
     Building(int productionCost, int maintenanceCost, Building prerequisiteBuildings) {
         this.productionCost = productionCost;
         this.maintenanceCost = maintenanceCost;
         this.prerequisiteBuilding = prerequisiteBuildings;
+    }
+
+    public static Building getBuildingByName(String name) {
+        for (Building building : Building.values()) {
+            if (name.equalsIgnoreCase(building.name()))
+                return building;
+        }
+        return null;
     }
 }

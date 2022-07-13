@@ -7,6 +7,7 @@ import model.unit.Unit;
 import model.unit.WorkerUnit;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Random;
 
@@ -18,7 +19,7 @@ public class Civilization {
     private ArrayList<Technology> technologies = new ArrayList<>();
     private ArrayList<Technology> availableTechnologies = new ArrayList<>();
     private Technology technologyInProgress;
-    private ArrayList<UnitName> openedUnits = new ArrayList<>();
+    private ArrayList<UnitName> openedUnits = new ArrayList<>(Arrays.asList(UnitName.WORKER,UnitName.SETTLER,UnitName.WARRIOR,UnitName.SCOUT));
     private ArrayList<Resource> openedResources = new ArrayList<>();
     private ArrayList<Feature> openedFeatures = new ArrayList<>();
     private ArrayList<Improvement> openedImprovements = new ArrayList<>();
@@ -91,6 +92,9 @@ public class Civilization {
         openedResources.addAll(technologyInProgress.openingResources);
         openedBuildings.addAll(technologyInProgress.openingBuildings);
         technologyInProgress = null;
+        for (City city : cities) {
+            city.updateAvailableBuildings();
+        }
     }
 
     private int calculateGoldPerTurn() {
@@ -464,6 +468,10 @@ public class Civilization {
 
     public void setOpenedFeatures(ArrayList<Feature> openedFeatures) {
         this.openedFeatures = openedFeatures;
+    }
+
+    public ArrayList<Building> getOpenedBuildings() {
+        return openedBuildings;
     }
 
     public HashSet<Resource> getLuxuryResources() {
