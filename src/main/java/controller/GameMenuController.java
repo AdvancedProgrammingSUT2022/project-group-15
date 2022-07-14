@@ -4,7 +4,6 @@ import enums.*;
 import model.*;
 
 import model.unit.*;
-import view.GameMenu;
 
 import java.util.ArrayList;
 
@@ -47,6 +46,28 @@ public class GameMenuController {
         selectedCity.setBuildingInProgress(building);
         selectedCity.setNeededProduction(building.productionCost);
         return "it will be built";
+
+    }
+
+    public String buyBuilding(String buildingName){
+        if (selectedCity==null)
+            return "no city is selected";
+        if (selectedCity.getOwner()!=Game.getGame().getSelectedCivilization())
+            return "city not yours";
+        Building building = Building.getBuildingByName(buildingName);
+        if (building==null)
+            return "invalid building name";
+        if (!selectedCity.getAvailableBuildings().contains(building))
+            return "building not available";
+        if ((building==Building.STABLE||building==Building.CIRCUS) && !selectedCity.getOwner().getStrategicResources().contains(Resource.HORSE))
+            return "you need horse for this building";
+        if ((building==Building.FORGE) && !selectedCity.getOwner().getStrategicResources().contains(Resource.IRON))
+            return "you need iron for this building";
+        if(selectedCity.getOwner().getGoldStorage()<building.productionCost)
+            return "you dont have enough money";
+        selectedCity.getOwner().setGoldStorage(selectedCity.getOwner().getGoldStorage() - building.productionCost);
+        selectedCity.createBuildingInCity(building);
+        return "it was bought";
 
     }
 
@@ -523,7 +544,7 @@ public class GameMenuController {
         if (!(selectedUnit instanceof WorkerUnit))
             return Controller.addNotification(Game.getGame().getTurnNumber(), "selected unit is not a worker");
         selectedUnit.setRemainingMovement(-1);
-        selectedUnit.getOwner().setBuildingMaintenance(selectedUnit.getOwner().getBuildingMaintenance() - 1);
+        selectedUnit.getOwner().setRoadMaintenance(selectedUnit.getOwner().getRoadMaintenance() - 1);
         Game.getGame().map.map.get(selectedUnit.getCoordinatesInMap().get('x') / 2).get(selectedUnit.getCoordinatesInMap().get('y')).setHasRoad(false);
         Game.getGame().map.map.get(selectedUnit.getCoordinatesInMap().get('x') / 2).get(selectedUnit.getCoordinatesInMap().get('y')).setHasRailRoad(false);
         return Controller.addNotification(Game.getGame().getTurnNumber(), "done");
@@ -675,9 +696,6 @@ public class GameMenuController {
                 if (cityHex.getMilitaryUnit() != null)
                     return Controller.addNotification(Game.getGame().getTurnNumber(), "military unit is full");
             }
-        }
-        if (Game.getGame().getSelectedCivilization().getOpenedUnits().contains(unit)) {
-            return Controller.addNotification(Game.getGame().getTurnNumber(), "This unit is not available for you");
         }
         selectedCity.getOwner().setGoldStorage(selectedCity.getOwner().getGoldStorage() - unit.getCost());
         selectedCity.createUnitInCity(unit);

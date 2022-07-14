@@ -325,8 +325,12 @@ public class City {
     }
 
     public void createBuildingInCity(Building building) {
+        if(!isBuildingUnit && buildingInProgress==building){
+            unitInProgress = UnitName.NULL;
+            isBuildingUnit = true;
+            neededProduction = 9999999;
+        }
         builtBuildings.add(building);
-
         updateAvailableBuildings();
         switch (building) {
             // TODO: 7/14/2022 fill

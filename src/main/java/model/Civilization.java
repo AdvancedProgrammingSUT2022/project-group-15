@@ -33,7 +33,7 @@ public class Civilization {
     private int scienceStorage = 0;
     private int sciencePerTurn = 0;
     private int happiness = 0;
-    private int buildingMaintenance = 0;
+    private int roadMaintenance = 0;
 
 
     public Civilization(User user) {
@@ -103,7 +103,7 @@ public class Civilization {
             ans += city.getGoldPerTurn();
         }
         ans -= units.size();
-        ans -= buildingMaintenance;
+        ans -= roadMaintenance;
         return ans;
     }
 
@@ -543,11 +543,11 @@ public class Civilization {
         return result;
     }
 
-    public int getBuildingMaintenance() {
-        return buildingMaintenance;
+    public int getRoadMaintenance() {
+        return roadMaintenance;
     }
 
-    public void setBuildingMaintenance(int buildingMaintenance) {
-        this.buildingMaintenance = buildingMaintenance;
+    public void setRoadMaintenance(int roadMaintenance) {
+        this.roadMaintenance = roadMaintenance;
     }
 }

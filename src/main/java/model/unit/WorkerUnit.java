@@ -6,9 +6,6 @@ import enums.UnitName;
 import model.Civilization;
 import model.Game;
 import model.Hex;
-import model.unit.CivilUnit;
-
-import java.util.IdentityHashMap;
 
 import static java.lang.Math.min;
 
@@ -59,7 +56,7 @@ public class WorkerUnit extends CivilUnit {
                     hex.setHasRailRoad(true);
                 else
                     hex.setHasRoad(true);
-                this.owner.setBuildingMaintenance(this.owner.getBuildingMaintenance() + 1);
+                this.owner.setRoadMaintenance(this.owner.getRoadMaintenance() + 1);
             }
             return false;
         }
