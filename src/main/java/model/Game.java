@@ -1,16 +1,10 @@
 package model;
 
-import controller.GameMenuController;
-import enums.Feature;
-import enums.NeighborHex;
-import enums.Resource;
-import enums.Terrain;
-import model.unit.Unit;
+import com.thoughtworks.xstream.XStream;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Random;
-
-import static java.lang.Math.abs;
 
 public class Game {
     private static Game game;
@@ -18,16 +12,23 @@ public class Game {
     private final ArrayList<Civilization> civilizations = new ArrayList<>();
     private final ArrayList<City> originalCapitals = new ArrayList<>();
     private int turn;
-    private int year = 4;
+    private int year;
+    private long idForSaving;
     private Civilization selectedCivilization;
     public Map map;
 
     private Game() {
         turn = 0;
+        year = 4;
+        idForSaving = System.currentTimeMillis();
     }
 
     public static Game getGame() {
         return game;
+    }
+
+    public static void setGame(Game game) {
+        Game.game = game;
     }
 
     public Civilization getSelectedCivilization() {
@@ -50,7 +51,7 @@ public class Game {
         game = new Game();
         game.map = new Map(width, length);
         // TODO: 7/10/2022 save????
-        //System.out.println(Game.getGame().getRows());
+        // System.out.println(Game.getGame().getRows());
         game.map.fillMap();
         for (User user : users) {
             game.civilizations.add(new Civilization(user));
@@ -59,6 +60,20 @@ public class Game {
             civilization.setUp();
         }
         game.selectedCivilization = game.civilizations.get(0);
+    }
+
+    public void saveGame() {
+
+        try {
+            FileWriter fileWriter = new FileWriter("./src/main/resources/savedGames/"+idForSaving+"_"+turn+".xml");
+            XStream xStream = new XStream();
+            fileWriter.write(xStream.toXML(this));
+            fileWriter.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public int getRows() {

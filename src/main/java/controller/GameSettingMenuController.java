@@ -1,12 +1,18 @@
 package controller;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.security.AnyTypePermission;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-import model.Game;
-import model.User;
+import model.*;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -58,6 +64,7 @@ public class GameSettingMenuController {
 
         Game.startNewGame(users,length,width,roundPerSave,keptSavedFiles);
         return Controller.addNotification(-1, "a new game started with " + users.size() + " players");
+
     }
 
     public String gameWithFriends(VBox friendsInGame,int length,int width, int autoSave , int keptSavedFiles) {
@@ -71,5 +78,23 @@ public class GameSettingMenuController {
         }
 
         return startGame(hashMap,length,width,autoSave,keptSavedFiles);
+    }
+
+    public String loadSavedGame(String id,String turn){
+        String xml;
+        try {
+            xml = new String(Files.readAllBytes(Paths.get("./src/main/resources/savedGames/"+id+"_"+turn+".xml")));
+        } catch (IOException e) {
+            return "file doesn't exists";
+        }
+
+        XStream xStream = new XStream();
+        xStream.addPermission(AnyTypePermission.ANY);
+        Game game = (Game) xStream.fromXML(xml);
+        Game.setGame(game);
+        for (Civilization civilization : Game.getGame().getCivilizations()) {
+            civilization.setUser(User.getUserByUsername(civilization.getUser().getUsername()));
+        }
+        return "game is loaded";
     }
 }
