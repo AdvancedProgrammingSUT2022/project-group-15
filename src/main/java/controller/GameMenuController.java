@@ -1,6 +1,7 @@
 package controller;
 
 import enums.*;
+import javafx.scene.image.Image;
 import model.*;
 
 import model.unit.*;
@@ -836,5 +837,15 @@ public class GameMenuController {
         SettlerUnit settlerUnit = new SettlerUnit(x, y, Game.getGame().getSelectedCivilization(), UnitName.SETTLER);
         settlerUnit.foundCity();
         fallenCity = null;
+    }
+
+    public Image graphicalHex(Hex hex) {
+        if (hex.getHexVisibility() == HexVisibility.FOG_OF_WAR) {
+            return GlobalThings.FOG_OF_WAR_IMAGE;
+        }
+        if (hex.getFeature() != Feature.NULL) {
+            return hex.getFeature().image;
+        }
+        return hex.getTerrain().image;
     }
 }

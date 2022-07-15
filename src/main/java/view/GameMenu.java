@@ -43,9 +43,4 @@ public class GameMenu extends Menu implements Initializable {
         return scene;
     }
 
-    public Image[] graphicalHex(Hex hex) {
-        // TODO : Parsa
-        return null;
-    }
-
 }

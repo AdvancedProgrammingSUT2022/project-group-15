@@ -1,5 +1,7 @@
 package model;
 
+import javafx.scene.image.Image;
+
 public class GlobalThings {
     public static int mapHeight = 110;
     public static int mapWidth = 220;
@@ -21,4 +23,5 @@ public class GlobalThings {
     public static final String WHITE_BACKGROUND = "\033[47m";
 
 
+    public static Image FOG_OF_WAR_IMAGE = new Image(GlobalThings.class.getResource("/tiles/Marsh1.png").toExternalForm());
 }
