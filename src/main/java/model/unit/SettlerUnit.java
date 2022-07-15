@@ -3,6 +3,7 @@ package model.unit;
 import enums.UnitName;
 import model.City;
 import model.Civilization;
+import model.Game;
 import model.unit.CivilUnit;
 
 public class SettlerUnit extends CivilUnit {
@@ -28,6 +29,10 @@ public class SettlerUnit extends CivilUnit {
     public void foundCity() {
         City city = new City(Integer.toString(this.owner.getCities().size()+1)+owner.getUser().getNickname(),
                 this.coordinatesInMap.get('x')/2,this.coordinatesInMap.get('y'),owner);
+        if (this.owner.getCities().size()==0) {
+            this.owner.setCapital(city);
+            Game.getGame().getOriginalCapitals().add(city);
+        }
         this.owner.getCities().add(city);
         owner.deleteUnit(this, false);
     }

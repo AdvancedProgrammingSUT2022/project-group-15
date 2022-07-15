@@ -18,6 +18,7 @@ public class Game {
     private final ArrayList<Civilization> civilizations = new ArrayList<>();
     private final ArrayList<City> originalCapitals = new ArrayList<>();
     private int turn;
+    private int year = 4;
     private Civilization selectedCivilization;
     public Map map;
 
@@ -37,11 +38,15 @@ public class Game {
         return civilizations;
     }
 
-
-    public static void startNewGame(ArrayList<User> users){
-        startNewGame(users,10,10,0,1);
+    public ArrayList<City> getOriginalCapitals() {
+        return originalCapitals;
     }
-    public static void startNewGame(ArrayList<User> users,int length , int width , int roundPerSave,int keptSavedFiles) {
+
+    public static void startNewGame(ArrayList<User> users) {
+        startNewGame(users, 10, 10, 0, 1);
+    }
+
+    public static void startNewGame(ArrayList<User> users, int length, int width, int roundPerSave, int keptSavedFiles) {
         game = new Game();
         game.map = new Map(width, length);
         // TODO: 7/10/2022 save????
@@ -73,7 +78,32 @@ public class Game {
         }
         selectedCivilization.nextTurn();
         turn++;
+        if (turn % civilizations.size() == 0)
+            year += 6;
+        if (year >= 2050)
+            showWinner();
         selectedCivilization = civilizations.get(turn % civilizations.size());
+    }
+
+    private void showWinner() {
+        if (year < 2050) {
+            System.out.println("congratulations " + selectedCivilization.getUser().getUsername() + "!!! you won");
+            return;
+        }
+        Civilization winner = civilizations.get(0);
+        int bestScore = 0;
+        for (Civilization civilization : civilizations) {
+            int thisCivScore = 0;
+            thisCivScore += civilization.getGoldStorage();
+            thisCivScore += civilization.getArea() * 50;
+            thisCivScore += civilization.getPopulation() * 10;
+            thisCivScore += civilization.getTechnologies().size() * 20;
+            if (thisCivScore > bestScore) {
+                winner = civilization;
+                bestScore = thisCivScore;
+            }
+        }
+        System.out.println("congratulations " + winner.getUser().getUsername() + "!!! you won");
     }
 
     public int getTurnNumber() {
@@ -85,7 +115,7 @@ public class Game {
         for (Civilization civilization : civilizations) {
             ans += civilization.getGoldStorage();
         }
-        return ans/civilizations.size();
+        return ans / civilizations.size();
     }
 
     public int getAverageCity() {
@@ -93,7 +123,7 @@ public class Game {
         for (Civilization civilization : civilizations) {
             ans += civilization.getCities().size();
         }
-        return ans/civilizations.size();
+        return ans / civilizations.size();
     }
 
     public int getAveragePopulation() {
@@ -101,7 +131,7 @@ public class Game {
         for (Civilization civilization : civilizations) {
             ans += civilization.getPopulation();
         }
-        return ans/civilizations.size();
+        return ans / civilizations.size();
     }
 
     public int getAverageUnit() {
@@ -109,21 +139,21 @@ public class Game {
         for (Civilization civilization : civilizations) {
             ans += civilization.getUnits().size();
         }
-        return ans/civilizations.size();
+        return ans / civilizations.size();
     }
 
-    public int getAverageArea(){
+    public int getAverageArea() {
         int result = 0;
         for (Civilization civilization : civilizations) {
             result += civilization.getArea();
         }
-        return result/civilizations.size();
+        return result / civilizations.size();
     }
 
     public int getBestGold() {
         int max = 0;
         for (Civilization civilization : civilizations) {
-            if(civilization.getGoldStorage() >= max){
+            if (civilization.getGoldStorage() >= max) {
                 max = civilization.getGoldStorage();
             }
         }
@@ -133,7 +163,7 @@ public class Game {
     public int getBestUnit() {
         int max = 0;
         for (Civilization civilization : civilizations) {
-            if(civilization.getUnits().size() >= max){
+            if (civilization.getUnits().size() >= max) {
                 max = civilization.getUnits().size();
             }
         }
@@ -143,7 +173,7 @@ public class Game {
     public int getBestPopulation() {
         int max = 0;
         for (Civilization civilization : civilizations) {
-            if(civilization.getPopulation() >= max){
+            if (civilization.getPopulation() >= max) {
                 max = civilization.getPopulation();
             }
         }
@@ -153,7 +183,7 @@ public class Game {
     public int getBestCity() {
         int max = 0;
         for (Civilization civilization : civilizations) {
-            if(civilization.getCities().size() >= max){
+            if (civilization.getCities().size() >= max) {
                 max = civilization.getCities().size();
             }
         }
@@ -163,7 +193,7 @@ public class Game {
     public int getBestArea() {
         int max = 0;
         for (Civilization civilization : civilizations) {
-            if(civilization.getArea() >= max){
+            if (civilization.getArea() >= max) {
                 max = civilization.getArea();
             }
         }

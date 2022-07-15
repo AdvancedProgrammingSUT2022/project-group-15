@@ -19,13 +19,13 @@ public class Civilization {
     private ArrayList<Technology> technologies = new ArrayList<>();
     private ArrayList<Technology> availableTechnologies = new ArrayList<>();
     private Technology technologyInProgress;
-    private ArrayList<UnitName> openedUnits = new ArrayList<>(Arrays.asList(UnitName.WORKER,UnitName.SETTLER,UnitName.WARRIOR,UnitName.SCOUT));
+    private ArrayList<UnitName> openedUnits = new ArrayList<>(Arrays.asList(UnitName.WORKER, UnitName.SETTLER, UnitName.WARRIOR, UnitName.SCOUT));
     private ArrayList<Resource> openedResources = new ArrayList<>();
     private ArrayList<Feature> openedFeatures = new ArrayList<>();
     private ArrayList<Improvement> openedImprovements = new ArrayList<>();
     private ArrayList<Building> openedBuildings = new ArrayList<>();
-    private ArrayList<Resource> strategicResources =new ArrayList<>();
-    private HashSet<Resource> luxuryResources =new HashSet<>();
+    private ArrayList<Resource> strategicResources = new ArrayList<>();
+    private HashSet<Resource> luxuryResources = new HashSet<>();
     private City capital;
     private ArrayList<Unit> units = new ArrayList<>();
     private ArrayList<City> cities = new ArrayList<>();
@@ -65,7 +65,7 @@ public class Civilization {
     }
 
     private int calculateHappiness() {
-        int ans =1;
+        int ans = 1;
         ans -= cities.size();
         for (City city : cities) {
             ans -= city.getNumberOfCitizen();
@@ -118,16 +118,22 @@ public class Civilization {
 
     public void deleteUnit(Unit unit, boolean isSelling) {
         if (unit.getName().equals(UnitName.CITYUNIT)) {
-            Hex hex =Game.getGame().map.map.get(unit.getCoordinatesInMap().get('x') / 2).get(unit.getCoordinatesInMap().get('y'));
+            Hex hex = Game.getGame().map.map.get(unit.getCoordinatesInMap().get('x') / 2).get(unit.getCoordinatesInMap().get('y'));
             City goingToDestroy = hex.getCity();
+            this.cities.remove(goingToDestroy);
+            if (capital == goingToDestroy) {
+                if (cities.size() == 0)
+                    lose();
+                else
+                    capital = cities.get(0);
+            }
             for (Hex cityHex : goingToDestroy.getCityHexes()) {
                 cityHex.setCity(null);
             }
-            this.cities.remove(goingToDestroy);
-            if (hex.getMilitaryUnit()!=null)
-                deleteUnit(hex.getMilitaryUnit(),false);
-            if (hex.getCivilUnit()!=null)
-                deleteUnit(hex.getCivilUnit(),false);
+            if (hex.getMilitaryUnit() != null)
+                deleteUnit(hex.getMilitaryUnit(), false);
+            if (hex.getCivilUnit() != null)
+                deleteUnit(hex.getCivilUnit(), false);
             return;
         }
         if (isSelling) {
@@ -138,6 +144,10 @@ public class Civilization {
         else
             Game.getGame().map.map.get(unit.getCoordinatesInMap().get('x') / 2).get(unit.getCoordinatesInMap().get('y')).setMilitaryUnit(null);
         units.remove(unit);
+    }
+
+    private void lose() {
+        // TODO: 7/15/2022
     }
 
     public ArrayList<Unit> getUnits() {
@@ -308,7 +318,7 @@ public class Civilization {
         if (this.visibilityMap.map.get(mapArrayX).get(mapArrayY).getHexVisibility().equals(HexVisibility.FOG_OF_WAR))
             return;
 
-        if (this.visibilityMap.map.get(mapArrayX).get(mapArrayY).getCity() != null && getVisibilityMap().isCenterOfCity(mapArrayX,mapArrayY)) {
+        if (this.visibilityMap.map.get(mapArrayX).get(mapArrayY).getCity() != null && getVisibilityMap().isCenterOfCity(mapArrayX, mapArrayY)) {
             replaceText(printMap, x, y, -3, "CTY",
                     this.visibilityMap.map.get(mapArrayX).get(mapArrayY).getCity().getName().substring(0, 3), GlobalThings.BLUE);
         }

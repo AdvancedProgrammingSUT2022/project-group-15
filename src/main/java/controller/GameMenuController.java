@@ -486,6 +486,7 @@ public class GameMenuController {
             return Controller.addNotification(Game.getGame().getTurnNumber(),"city has fallen");
         }
         return Controller.addNotification(Game.getGame().getTurnNumber(),"attack is done");
+        // TODO: 7/15/2022 asking if destroy or capture and update original capitals and check winning
     }
 
     public String buildImprovement(String improvementName) {
