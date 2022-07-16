@@ -11,12 +11,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import model.Civilization;
 import model.Game;
 import model.GlobalThings;
 import model.Hex;
@@ -30,6 +32,9 @@ public class GameMenu extends Menu implements Initializable {
     private final GameMenuController controller = new GameMenuController();
     @FXML
     public AnchorPane map;
+    public Label happiness;
+    public Label science;
+    public Label Gold;
 
     @FXML
     private ProgressBar currentResearchProgressBar;
@@ -38,6 +43,9 @@ public class GameMenu extends Menu implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        Gold.setText(Integer.toString(getGold()));
+        science.setText(Integer.toString(getScience()));
+        happiness.setText(Integer.toString(getHappiness()));
         // TODO: 7/16/2022 add event handler for map
 //        map.requestFocus();
 //        map.addEventHandler(KeyEvent.ANY, new EventHandler<Event>() {
@@ -52,6 +60,22 @@ public class GameMenu extends Menu implements Initializable {
         System.out.println("after");
     }
 
+    private int getHappiness() {
+        int result = 0;
+        for (Civilization civilization : Game.getGame().getCivilizations()) {
+            result += civilization.getHappiness();
+        }
+        return result;
+    }
+
+    private int getScience() {
+        int result = 0;
+        for (Civilization civilization : Game.getGame().getCivilizations()) {
+            result += civilization.getScienceStorage();
+        }
+        return result;
+    }
+
     public ImageView graphicalHex(Hex hex) {
         if (hex.getHexVisibility() == HexVisibility.FOG_OF_WAR) {
             return new ImageView(GlobalThings.FOG_OF_WAR_IMAGE);
@@ -63,18 +87,18 @@ public class GameMenu extends Menu implements Initializable {
     }
 
     public void fillMap() {
-        int i=0,j=0;
+        int i = 0, j = 0;
         Game.getGame().getSelectedCivilization().adjustVisibility();
         for (ArrayList<Hex> hexArrayList : Game.getGame().getSelectedCivilization().getVisibilityMap().map) {
-            i=0;
+            i = 0;
             for (Hex hex : hexArrayList) {
                 ImageView hexview = graphicalHex(hex);
                 hexview.setX(i);
                 hexview.setY(j);
                 map.getChildren().add(hexview);
-                i+=60;
+                i += 60;
             }
-            j+=70;
+            j += 70;
         }
     }
 
@@ -92,6 +116,10 @@ public class GameMenu extends Menu implements Initializable {
         return scene;
     }
 
-
+    private int getGold() {
+        int result = 0;
+        result = Game.getGame().getAverageGold() * Game.getGame().getCivilizations().size();
+        return result;
+    }
 
 }
