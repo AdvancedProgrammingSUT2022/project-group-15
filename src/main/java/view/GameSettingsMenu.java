@@ -103,11 +103,13 @@ public class GameSettingsMenu extends Menu implements Initializable {
 
 
     public void startGameWithFriend(MouseEvent mouseEvent) {
-        information.setText(controller.gameWithFriends(friendsInGame, mapLength.getValue(),mapWidth.getValue(),
-                autoSave.getValue(), numberOfKeptSavedFiles.getValue()));
-        // TODO: 7/11/2022 start game
-        setup(cancelButton);
-        window.setScene(Controller.getGameMenu().getScene());
+        String text = controller.gameWithFriends(friendsInGame, mapLength.getValue(),mapWidth.getValue(),
+                autoSave.getValue(), numberOfKeptSavedFiles.getValue());
+        information.setText(text);
+        if (text.startsWith("a new game started with ") ) {
+            setup(cancelButton);
+            window.setScene(Controller.getGameMenu().getScene());
+        }
     }
 
     public void findGame(MouseEvent mouseEvent) throws InterruptedException {

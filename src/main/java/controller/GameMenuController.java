@@ -2,6 +2,8 @@ package controller;
 
 import enums.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import model.*;
 
 import model.unit.*;
@@ -15,33 +17,33 @@ public class GameMenuController {
     private int lastShownMapX = 0;
     private int lastShownMapY = 0;
 
-    public String getAvailableBuildingsForCity(){
-        if (selectedCity==null)
+    public String getAvailableBuildingsForCity() {
+        if (selectedCity == null)
             return "no city is selected";
-        if (selectedCity.getOwner()!=Game.getGame().getSelectedCivilization())
+        if (selectedCity.getOwner() != Game.getGame().getSelectedCivilization())
             return "city not yours";
         StringBuilder ans = new StringBuilder();
         for (Building availableBuilding : selectedCity.getAvailableBuildings()) {
             ans.append("building name : ").append(availableBuilding.name()).append(" production cost: ").append(availableBuilding.productionCost).append("\n");
         }
-        if (ans.length()!=0)
-            ans.deleteCharAt(ans.length()-1);
+        if (ans.length() != 0)
+            ans.deleteCharAt(ans.length() - 1);
         return ans.toString();
     }
 
-    public String buildBuilding(String buildingName){
-        if (selectedCity==null)
+    public String buildBuilding(String buildingName) {
+        if (selectedCity == null)
             return "no city is selected";
-        if (selectedCity.getOwner()!=Game.getGame().getSelectedCivilization())
+        if (selectedCity.getOwner() != Game.getGame().getSelectedCivilization())
             return "city not yours";
         Building building = Building.getBuildingByName(buildingName);
-        if (building==null)
+        if (building == null)
             return "invalid building name";
         if (!selectedCity.getAvailableBuildings().contains(building))
             return "building not available";
-        if ((building==Building.STABLE||building==Building.CIRCUS) && !selectedCity.getOwner().getStrategicResources().contains(Resource.HORSE))
+        if ((building == Building.STABLE || building == Building.CIRCUS) && !selectedCity.getOwner().getStrategicResources().contains(Resource.HORSE))
             return "you need horse for this building";
-        if ((building==Building.FORGE) && !selectedCity.getOwner().getStrategicResources().contains(Resource.IRON))
+        if ((building == Building.FORGE) && !selectedCity.getOwner().getStrategicResources().contains(Resource.IRON))
             return "you need iron for this building";
         selectedCity.setBuildingUnit(false);
         selectedCity.setBuildingInProgress(building);
@@ -50,21 +52,21 @@ public class GameMenuController {
 
     }
 
-    public String buyBuilding(String buildingName){
-        if (selectedCity==null)
+    public String buyBuilding(String buildingName) {
+        if (selectedCity == null)
             return "no city is selected";
-        if (selectedCity.getOwner()!=Game.getGame().getSelectedCivilization())
+        if (selectedCity.getOwner() != Game.getGame().getSelectedCivilization())
             return "city not yours";
         Building building = Building.getBuildingByName(buildingName);
-        if (building==null)
+        if (building == null)
             return "invalid building name";
         if (!selectedCity.getAvailableBuildings().contains(building))
             return "building not available";
-        if ((building==Building.STABLE||building==Building.CIRCUS) && !selectedCity.getOwner().getStrategicResources().contains(Resource.HORSE))
+        if ((building == Building.STABLE || building == Building.CIRCUS) && !selectedCity.getOwner().getStrategicResources().contains(Resource.HORSE))
             return "you need horse for this building";
-        if ((building==Building.FORGE) && !selectedCity.getOwner().getStrategicResources().contains(Resource.IRON))
+        if ((building == Building.FORGE) && !selectedCity.getOwner().getStrategicResources().contains(Resource.IRON))
             return "you need iron for this building";
-        if(selectedCity.getOwner().getGoldStorage()<building.productionCost)
+        if (selectedCity.getOwner().getGoldStorage() < building.productionCost)
             return "you dont have enough money";
         selectedCity.getOwner().setGoldStorage(selectedCity.getOwner().getGoldStorage() - building.productionCost);
         selectedCity.createBuildingInCity(building);
@@ -186,12 +188,12 @@ public class GameMenuController {
 
     public String showMilitaryPanel() {
         // TODO : implement phase 2
-        return Controller.addNotification(Game.getGame().getTurnNumber(),showUnitsPanel());
+        return Controller.addNotification(Game.getGame().getTurnNumber(), showUnitsPanel());
     }
 
     public String showEconomyPanel() {
         // TODO : implement phase 2
-        return Controller.addNotification(Game.getGame().getTurnNumber(),showCitiesPanel());
+        return Controller.addNotification(Game.getGame().getTurnNumber(), showCitiesPanel());
     }
 
     public String showDealsPanel() {
@@ -271,7 +273,7 @@ public class GameMenuController {
                 ans.append(" ( ").append(cityHex.getCoordinatesInArray().get('x')).append(",").append(cityHex.getCoordinatesInArray().get('y')).append(" ) ");
         }
         ans.append(" are being worked");
-        return Controller.addNotification(Game.getGame().getTurnNumber(),ans.toString());
+        return Controller.addNotification(Game.getGame().getTurnNumber(), ans.toString());
     }
 
     public String moveSelectedUnitTo(int x, int y) {
@@ -363,7 +365,7 @@ public class GameMenuController {
         selectedUnit.setRemainingMovement(-1);
         Game.getGame().map.map.get(selectedUnit.getCoordinatesInMap().get('x') / 2)
                 .get(selectedUnit.getCoordinatesInMap().get('y')).setHasDestroyedImprovement(true);
-        return Controller.addNotification(Game.getGame().getTurnNumber(),"pillaged!");
+        return Controller.addNotification(Game.getGame().getTurnNumber(), "pillaged!");
     }
 
     public String garrisonSelectedUnit() {
@@ -418,7 +420,7 @@ public class GameMenuController {
         if (!selectedUnit.getOwner().equals(Game.getGame().getSelectedCivilization()))
             return Controller.addNotification(Game.getGame().getTurnNumber(), "unit not yours");
         selectedUnit.setPlanedToGo(null);
-        return Controller.addNotification(Game.getGame().getTurnNumber(),"Canceled!");
+        return Controller.addNotification(Game.getGame().getTurnNumber(), "Canceled!");
     }
 
     public String wakeUpSelectedUnit() {
@@ -480,13 +482,13 @@ public class GameMenuController {
     private String attackTo(City city) {
         Unit target = city.getCityUnit();
         if (target.getOwner() == selectedUnit.getOwner())
-            return Controller.addNotification(Game.getGame().getTurnNumber(),"you can't attack yourself");
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "you can't attack yourself");
         ((MilitaryUnit) selectedUnit).attackTo(target);
         if (target.getNowHealth() <= 0) {
             fallenCity = city;
-            return Controller.addNotification(Game.getGame().getTurnNumber(),"city has fallen");
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "city has fallen");
         }
-        return Controller.addNotification(Game.getGame().getTurnNumber(),"attack is done");
+        return Controller.addNotification(Game.getGame().getTurnNumber(), "attack is done");
         // TODO: 7/15/2022 asking if destroy or capture and update original capitals and check winning
     }
 
@@ -839,13 +841,4 @@ public class GameMenuController {
         fallenCity = null;
     }
 
-    public Image graphicalHex(Hex hex) {
-        if (hex.getHexVisibility() == HexVisibility.FOG_OF_WAR) {
-            return GlobalThings.FOG_OF_WAR_IMAGE;
-        }
-        if (hex.getFeature() != Feature.NULL) {
-            return hex.getFeature().image;
-        }
-        return hex.getTerrain().image;
-    }
 }

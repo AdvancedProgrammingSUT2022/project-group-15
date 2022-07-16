@@ -23,5 +23,5 @@ public class GlobalThings {
     public static final String WHITE_BACKGROUND = "\033[47m";
 
 
-    public static Image FOG_OF_WAR_IMAGE = new Image(GlobalThings.class.getResource("/tiles/Marsh1.png").toExternalForm());
+    public static Image FOG_OF_WAR_IMAGE = new Image(GlobalThings.class.getResource("/tiles/SciFiA3.png").toExternalForm());
 }
