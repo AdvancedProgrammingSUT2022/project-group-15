@@ -32,7 +32,7 @@
             <HBox spacing="40">
                 <Label fx:id="turn" prefHeight="42" prefWidth="60" text="year" styleClass="year-text"/>
                 <Label fx:id="year" prefHeight="42" prefWidth="60" text="year" styleClass="year-text"/>
-                <Label fx:id="menu" prefHeight="42" prefWidth="42" text="MENU" onMouseClicked="#goToGameMenu" styleClass="year-text">
+                <Label fx:id="menu" prefHeight="42" prefWidth="40" text="MENU" onMouseClicked="#goToGameMenu" styleClass="year-text">
                     <cursor>
                         <Cursor fx:constant="HAND" />
                     </cursor>
