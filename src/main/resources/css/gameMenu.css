@@ -8,3 +8,10 @@
     -fx-padding: 1px;
     -fx-background-insets: 0;
 }
+.status-bar{
+    -fx-background-color: black;
+}
+.text{
+    -fx-border-color: yellow;
+}
+
