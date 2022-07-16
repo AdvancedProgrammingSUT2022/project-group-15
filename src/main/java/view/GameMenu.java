@@ -38,7 +38,7 @@ public class GameMenu extends Menu implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // TODO: 7/16/2022 add event handler for map 
+        // TODO: 7/16/2022 add event handler for map
 //        map.requestFocus();
 //        map.addEventHandler(KeyEvent.ANY, new EventHandler<Event>() {
 //            @Override
