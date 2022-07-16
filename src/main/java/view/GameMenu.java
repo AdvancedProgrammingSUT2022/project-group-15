@@ -15,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -88,17 +89,19 @@ public class GameMenu extends Menu implements Initializable {
             //    i = 54;
             for (Hex hex : hexArrayList) {
                 ImageView hexView = graphicalHex(hex);
+                hexView.setFitHeight(144);
+                hexView.setFitWidth(144);
                 hexView.setX(i);
                 if (hexArrayList.indexOf(hex) % 2 == 1)
-                    hexView.setY(j+36);
+                    hexView.setY(j + 72);
                 else
                     hexView.setY(j);
                 map.getChildren().add(hexView);
                 //i += 108;
-                i+=54;
+                i += 108;
             }
             //j += 36;
-            j+=72;
+            j += 144;
         }
     }
 
@@ -122,9 +125,27 @@ public class GameMenu extends Menu implements Initializable {
         return result;
     }
 
-    public void dragMap() {
-        //TODO : 1) change from onKeyReleased to OnDragDetected    2) implement dragging the map
-        System.out.println("hello");
+    public void dragMap(KeyEvent keyEvent) {
+        switch (keyEvent.getCode()) {
+            case UP:
+                map.setLayoutY(map.getLayoutY() - 10);
+                break;
+            case DOWN:
+                map.setLayoutY(map.getLayoutY() + 10);
+                break;
+            case LEFT:
+                map.setLayoutX(map.getLayoutX() - 10);
+                break;
+            case RIGHT:
+                map.setLayoutX(map.getLayoutX() + 10);
+                break;
+        }
+
     }
+
+//    public void dragMap() {
+//        //TODO : 1) change from onKeyReleased to OnDragDetected    2) implement dragging the map
+//        System.out.println("hello");
+//    }
 
 }
