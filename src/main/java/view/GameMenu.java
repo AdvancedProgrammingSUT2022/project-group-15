@@ -63,18 +63,20 @@ public class GameMenu extends Menu implements Initializable {
     }
 
     public void fillMap() {
-        int i=0,j=0;
+        int i = 0, j = 0;
         Game.getGame().getSelectedCivilization().adjustVisibility();
         for (ArrayList<Hex> hexArrayList : Game.getGame().getSelectedCivilization().getVisibilityMap().map) {
-            i=0;
+            i = 0;
+            if (Game.getGame().getSelectedCivilization().getVisibilityMap().map.indexOf(hexArrayList) % 2 == 1)
+                i = 54;
             for (Hex hex : hexArrayList) {
-                ImageView hexview = graphicalHex(hex);
-                hexview.setX(i);
-                hexview.setY(j);
-                map.getChildren().add(hexview);
-                i+=60;
+                ImageView hexView = graphicalHex(hex);
+                hexView.setX(i);
+                hexView.setY(j);
+                map.getChildren().add(hexView);
+                i += 108;
             }
-            j+=70;
+            j += 36;
         }
     }
 
@@ -91,7 +93,6 @@ public class GameMenu extends Menu implements Initializable {
         }
         return scene;
     }
-
 
 
 }
