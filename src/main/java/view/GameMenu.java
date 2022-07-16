@@ -31,10 +31,13 @@ import java.util.ResourceBundle;
 public class GameMenu extends Menu implements Initializable {
     private final GameMenuController controller = new GameMenuController();
     @FXML
-    public AnchorPane map;
-    public Label happiness;
-    public Label science;
-    public Label Gold;
+    private AnchorPane map;
+    @FXML
+    private Label happiness;
+    @FXML
+    private Label science;
+    @FXML
+    private Label Gold;
 
     @FXML
     private ProgressBar currentResearchProgressBar;
@@ -46,16 +49,6 @@ public class GameMenu extends Menu implements Initializable {
         Gold.setText(Integer.toString(getGold()));
         science.setText(Integer.toString(getScience()));
         happiness.setText(Integer.toString(getHappiness()));
-        // TODO: 7/16/2022 add event handler for map
-//        map.requestFocus();
-//        map.addEventHandler(KeyEvent.ANY, new EventHandler<Event>() {
-//            @Override
-//            public void handle(Event event) {
-//                System.out.println("sssss");
-//                System.exit(0);
-//            }
-//        });
-
         fillMap();
         System.out.println("after");
     }
@@ -110,7 +103,7 @@ public class GameMenu extends Menu implements Initializable {
             try {
                 AnchorPane root = FXMLLoader.load(new URL(this.getClass().getResource("/fxml/gameMenu.fxml").toExternalForm()));
                 scene = new Scene(root);
-//                root.getChildren().get(0).requestFocus();
+                root.getChildren().get(0).requestFocus();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -122,6 +115,11 @@ public class GameMenu extends Menu implements Initializable {
         int result = 0;
         result = Game.getGame().getAverageGold() * Game.getGame().getCivilizations().size();
         return result;
+    }
+
+    public void dragMap() {
+        //TODO : 1) change from onKeyReleased to OnDragDetected    2) implement dragging the map
+        System.out.println("hello");
     }
 
 }
