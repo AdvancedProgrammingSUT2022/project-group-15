@@ -7,30 +7,27 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.text.Text?>
 <?import javafx.scene.Cursor?>
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" styleClass="backgroundPane" stylesheets="@../css/gameMenu.css"
-            xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.GameMenu">
+<?import javafx.scene.text.Text?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="backgroundPane" stylesheets="@../css/gameMenu.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.GameMenu">
     <children>
-        <AnchorPane fx:id="map" layoutX="131.0" layoutY="148.0" onKeyReleased="#dragMap" prefHeight="341.0"
-                    prefWidth="403.0"/>
-        <HBox prefHeight="28.0" prefWidth="1280.0" styleClass="status-bar" spacing="10">
+        <AnchorPane fx:id="map" layoutX="160.0" layoutY="148.0" onKeyReleased="#dragMap" prefHeight="341.0" prefWidth="403.0" />
+        <HBox prefHeight="28.0" prefWidth="1280.0" styleClass="status-bar" spacing="7">
             <ImageView fitHeight="28" fitWidth="50" pickOnBounds="true" preserveRatio="true">
-                <Image url="@../status bar/Coin.png"/>
+                <Image url="@../status bar/Coin.png" />
             </ImageView>
-            <Label fx:id="Gold" prefHeight="42" prefWidth="42" text="gold" styleClass="first-text"/>
+            <Label fx:id="Gold" prefHeight="42" prefWidth="42" text="label" styleClass="first-text"/>
             <ImageView fitHeight="28" fitWidth="50" pickOnBounds="true" preserveRatio="true">
-                <Image url="@../status bar/Smile.png"/>
+                <Image url="@../status bar/Smile.png" />
             </ImageView>
             <Label fx:id="happiness" prefHeight="42" prefWidth="42" text="label" styleClass="second-text"/>
             <ImageView fitHeight="28" fitWidth="50" pickOnBounds="true" preserveRatio="true">
-                <Image url="@../status bar/Science.png"/>
+                <Image url="@../status bar/Science.png" />
             </ImageView>
-            <Label fx:id="science" prefHeight="42" prefWidth="42" text="label" styleClass="third-text"/>
-            <HBox spacing="750" styleClass="status-bar">
-                <Text text="fsd" styleClass="year-text"/>
-                <Text text="sda" styleClass="year-text"/>
+            <Label fx:id="science" prefHeight="42" prefWidth="42" text="label" styleClass="third-text" />
+            <HBox spacing="850" styleClass="status-bar">
+                <Text text="" styleClass="year-text"/>
+                <Text text="" styleClass="year-text"/>
             </HBox>
             <HBox spacing="25">
                 <Label fx:id="turn" prefHeight="42" prefWidth="42" text="year" styleClass="year-text"/>
@@ -39,17 +36,14 @@
                     <cursor>
                         <Cursor fx:constant="HAND" />
                     </cursor>
-            </Label>
+                </Label>
 
             </HBox>
-
         </HBox>
-        <ProgressBar fx:id="currentResearchProgressBar" layoutX="85.0" layoutY="29.0" prefHeight="23.0"
-                     prefWidth="292.0" progress="0.31"/>
-        <ImageView fx:id="currentResearchImageView" fitHeight="129.0" fitWidth="129.0" layoutX="31.0" layoutY="19.0"
-                   pickOnBounds="true" preserveRatio="true">
+        <ProgressBar fx:id="currentResearchProgressBar" layoutX="85.0" layoutY="35.0" prefHeight="23.0" prefWidth="292.0" progress="0.31" />
+        <ImageView fx:id="currentResearchImageView" fitHeight="129.0" fitWidth="129.0" layoutX="31.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../Technologies/agriculture.png"/>
+                <Image url="@../Technologies/agriculture.png" />
             </image>
         </ImageView>
     </children>
