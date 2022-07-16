@@ -14,7 +14,7 @@ public enum Terrain {
     OCEAN("ocean", 0, 0, 0, 25, -1, "/tiles/Ocean1.png"),
     PLAIN("plain", 1, 1, 0, -33, 1, "/tiles/Brambles5.png"),
     SNOWLAND("snowland", 0, 0, 0, -33, 1, "/tiles/SnowLandClear05.png"),
-    TUNDRA("tundra", 1, 0, 0, -33, 1, "/tiles/Snow5.png");
+    TUNDRA("tundra", 1, 0, 0, -33, 1, "/tiles/SnowLandTrees01.png");
 
     public final String name;
     public final int food;

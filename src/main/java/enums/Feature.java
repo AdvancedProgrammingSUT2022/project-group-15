@@ -12,8 +12,8 @@ public enum Feature {
     JUNGLE("jungle", 1, 1, 0, 25, 2, "/tiles/Jungle4.png"),
     ICE("ice", 0, 0, 0, 0, -1, "/tiles/Ice1.png"),
     DENSE_FOREST("dense forest", 1, -1, 0, 25, 2, "/tiles/Woods4_1.png"),
-    SWAMP("swamp", -1, 0, 0, -33, 2, "/tiles/Lake3.png"),
-    OASIS("oasis", 3, 0, 1, -33, 1, "/tiles/Arid_Brush05.png"),
+    SWAMP("swamp", -1, 0, 0, -33, 2, "/tiles/SymSwamp1.png"),
+    OASIS("oasis", 3, 0, 1, -33, 1, "/tiles/Lake1.png"),
     RIVER("river", 0, 0, 0, 0, -2, "/tiles/River1-4.png"),
     NULL("null",0,0,0,0,0, "/tiles/003Clear1.png");
 
