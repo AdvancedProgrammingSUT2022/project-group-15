@@ -16,22 +16,22 @@
             <ImageView fitHeight="28" fitWidth="50" pickOnBounds="true" preserveRatio="true">
                 <Image url="@../status bar/Coin.png" />
             </ImageView>
-            <Label fx:id="Gold" prefHeight="42" prefWidth="42" text="label" styleClass="first-text"/>
+            <Label fx:id="Gold" prefHeight="42" prefWidth="70" text="label" styleClass="first-text"/>
             <ImageView fitHeight="28" fitWidth="50" pickOnBounds="true" preserveRatio="true">
                 <Image url="@../status bar/Smile.png" />
             </ImageView>
-            <Label fx:id="happiness" prefHeight="42" prefWidth="42" text="label" styleClass="second-text"/>
+            <Label fx:id="happiness" prefHeight="42" prefWidth="70" text="label" styleClass="second-text"/>
             <ImageView fitHeight="28" fitWidth="50" pickOnBounds="true" preserveRatio="true">
                 <Image url="@../status bar/Science.png" />
             </ImageView>
-            <Label fx:id="science" prefHeight="42" prefWidth="42" text="label" styleClass="third-text" />
-            <HBox spacing="850" styleClass="status-bar">
+            <Label fx:id="science" prefHeight="42" prefWidth="70" text="label" styleClass="third-text" />
+            <HBox spacing="730" styleClass="status-bar">
                 <Text text="" styleClass="year-text"/>
                 <Text text="" styleClass="year-text"/>
             </HBox>
-            <HBox spacing="25">
-                <Label fx:id="turn" prefHeight="42" prefWidth="42" text="year" styleClass="year-text"/>
-                <Label fx:id="year" prefHeight="42" prefWidth="42" text="year" styleClass="year-text"/>
+            <HBox spacing="40">
+                <Label fx:id="turn" prefHeight="42" prefWidth="60" text="year" styleClass="year-text"/>
+                <Label fx:id="year" prefHeight="42" prefWidth="60" text="year" styleClass="year-text"/>
                 <Label fx:id="menu" prefHeight="42" prefWidth="42" text="MENU" onMouseClicked="#goToGameMenu" styleClass="year-text">
                     <cursor>
                         <Cursor fx:constant="HAND" />

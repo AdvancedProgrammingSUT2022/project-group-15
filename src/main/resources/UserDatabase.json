@@ -25,5 +25,14 @@
     "password": "b",
     "nickname": "b",
     "score": 0
+  },
+  {
+    "avatar": "AVATAR_3",
+    "lastScoreChangedTime": "16::Jul::2022 11::58::52",
+    "lastOnlineTime": null,
+    "username": "erfan",
+    "password": "123erfan",
+    "nickname": "ali",
+    "score": 0
   }
 ]
