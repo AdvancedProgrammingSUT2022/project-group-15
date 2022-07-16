@@ -91,16 +91,21 @@ public class GameMenu extends Menu implements Initializable {
         Game.getGame().getSelectedCivilization().adjustVisibility();
         for (ArrayList<Hex> hexArrayList : Game.getGame().getSelectedCivilization().getVisibilityMap().map) {
             i = 0;
-            if (Game.getGame().getSelectedCivilization().getVisibilityMap().map.indexOf(hexArrayList) % 2 == 1)
-                i = 54;
+            //if (Game.getGame().getSelectedCivilization().getVisibilityMap().map.indexOf(hexArrayList) % 2 == 1)
+            //    i = 54;
             for (Hex hex : hexArrayList) {
                 ImageView hexView = graphicalHex(hex);
                 hexView.setX(i);
-                hexView.setY(j);
+                if (hexArrayList.indexOf(hex) % 2 == 1)
+                    hexView.setY(j+36);
+                else
+                    hexView.setY(j);
                 map.getChildren().add(hexView);
-                i += 108;
+                //i += 108;
+                i+=54;
             }
-            j += 36;
+            //j += 36;
+            j+=72;
         }
     }
 
