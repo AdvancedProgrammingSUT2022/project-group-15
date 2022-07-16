@@ -8,10 +8,23 @@
     -fx-padding: 1px;
     -fx-background-insets: 0;
 }
-.status-bar{
+
+.status-bar {
     -fx-background-color: black;
 }
-.text{
-    -fx-border-color: yellow;
+
+.first-text {
+    -fx-text-fill: yellow;
 }
 
+.second-text {
+    -fx-text-fill: green;
+}
+
+.third-text {
+    -fx-text-fill: blue;
+}
+
+.year-text {
+    -fx-text-fill: white;
+}

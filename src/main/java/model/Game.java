@@ -17,6 +17,14 @@ public class Game {
     private Civilization selectedCivilization;
     public Map map;
 
+    public int getYear() {
+        return year;
+    }
+
+    public int getTurn() {
+        return turn;
+    }
+
     private Game() {
         turn = 0;
         year = 4;

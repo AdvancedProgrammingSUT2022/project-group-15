@@ -1,5 +1,6 @@
 package view;
 
+import controller.Controller;
 import controller.GameMenuController;
 import enums.Feature;
 import enums.HexVisibility;
@@ -25,11 +26,14 @@ import model.Hex;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class GameMenu extends Menu implements Initializable {
     private final GameMenuController controller = new GameMenuController();
+    public Label year;
+    public Label turn;
     @FXML
     private AnchorPane map;
     @FXML
@@ -49,9 +53,12 @@ public class GameMenu extends Menu implements Initializable {
         Gold.setText(Integer.toString(getGold()));
         science.setText(Integer.toString(getScience()));
         happiness.setText(Integer.toString(getHappiness()));
+        turn.setText("Turn : " + Game.getGame().getTurn());
+        year.setText("Year : " + Game.getGame().getYear());
         fillMap();
         System.out.println("after");
     }
+
 
     private int getHappiness() {
         int result = 0;
@@ -90,15 +97,15 @@ public class GameMenu extends Menu implements Initializable {
                 ImageView hexView = graphicalHex(hex);
                 hexView.setX(i);
                 if (hexArrayList.indexOf(hex) % 2 == 1)
-                    hexView.setY(j+36);
+                    hexView.setY(j + 36);
                 else
                     hexView.setY(j);
                 map.getChildren().add(hexView);
                 //i += 108;
-                i+=54;
+                i += 54;
             }
             //j += 36;
-            j+=72;
+            j += 72;
         }
     }
 
@@ -127,4 +134,8 @@ public class GameMenu extends Menu implements Initializable {
         System.out.println("hello");
     }
 
+    public void goToGameMenu(MouseEvent mouseEvent) {
+        setup(map);
+        window.setScene(Controller.getGameSettingsMenu().getScene());
+    }
 }
