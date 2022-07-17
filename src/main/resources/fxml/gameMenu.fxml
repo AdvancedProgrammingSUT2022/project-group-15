@@ -9,9 +9,9 @@
 
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.text.Text?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="backgroundPane" stylesheets="@../css/gameMenu.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.GameMenu">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="backgroundPane" stylesheets="@../css/gameMenu.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.GameMenu">
     <children>
-        <AnchorPane fx:id="map" layoutX="160.0" layoutY="148.0" onKeyReleased="#dragMap" prefHeight="341.0" prefWidth="403.0" />
+        <AnchorPane fx:id="map" layoutX="160.0" layoutY="148.0" onKeyPressed="#dragMap" onKeyReleased="#dragMap" prefHeight="341.0" prefWidth="403.0" />
         <HBox prefHeight="28.0" prefWidth="1280.0" styleClass="status-bar" spacing="7">
             <ImageView fitHeight="28" fitWidth="50" pickOnBounds="true" preserveRatio="true">
                 <Image url="@../status bar/Coin.png" />

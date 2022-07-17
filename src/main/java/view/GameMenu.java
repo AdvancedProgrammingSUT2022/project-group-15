@@ -32,8 +32,10 @@ import java.util.ResourceBundle;
 
 public class GameMenu extends Menu implements Initializable {
     private final GameMenuController controller = new GameMenuController();
-    public Label turn;
-    public Label year;
+    @FXML
+    private Label turn;
+    @FXML
+    private Label year;
     @FXML
     private AnchorPane map;
     @FXML
@@ -42,7 +44,6 @@ public class GameMenu extends Menu implements Initializable {
     private Label science;
     @FXML
     private Label Gold;
-
     @FXML
     private ProgressBar currentResearchProgressBar;
     @FXML
@@ -56,7 +57,10 @@ public class GameMenu extends Menu implements Initializable {
         turn.setText("Turn : " + Game.getGame().getTurn());
         year.setText("Year : " + Game.getGame().getYear());
         fillMap();
-        System.out.println("after");
+    }
+
+    private void updateCurrentResearchStatus() {
+        //TODO Parsa
     }
 
     private int getHappiness() {
@@ -133,28 +137,23 @@ public class GameMenu extends Menu implements Initializable {
     public void dragMap(KeyEvent keyEvent) {
         switch (keyEvent.getCode()) {
             case UP:
-                map.setLayoutY(map.getLayoutY() - 10);
-                break;
-            case DOWN:
                 map.setLayoutY(map.getLayoutY() + 10);
                 break;
-            case LEFT:
-                map.setLayoutX(map.getLayoutX() - 10);
+            case DOWN:
+                map.setLayoutY(map.getLayoutY() - 10);
                 break;
-            case RIGHT:
+            case LEFT:
                 map.setLayoutX(map.getLayoutX() + 10);
                 break;
+            case RIGHT:
+                map.setLayoutX(map.getLayoutX() - 10);
+                break;
         }
-
     }
 
-//    public void dragMap() {
-//        //TODO : 1) change from onKeyReleased to OnDragDetected    2) implement dragging the map
-//        System.out.println("hello");
-//    }
-public void goToGameMenu(MouseEvent mouseEvent) {
-    setup(map);
-    window.setScene(Controller.getGameSettingsMenu().getScene());
-}
+    public void goToGameMenu(MouseEvent mouseEvent) {
+        setup(map);
+        window.setScene(Controller.getGameSettingsMenu().getScene());
+    }
 
 }
