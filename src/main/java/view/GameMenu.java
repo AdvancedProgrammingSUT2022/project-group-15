@@ -63,22 +63,6 @@ public class GameMenu extends Menu implements Initializable {
         //TODO Parsa
     }
 
-    private int getHappiness() {
-        int result = 0;
-        for (Civilization civilization : Game.getGame().getCivilizations()) {
-            result += civilization.getHappiness();
-        }
-        return result;
-    }
-
-    private int getScience() {
-        int result = 0;
-        for (Civilization civilization : Game.getGame().getCivilizations()) {
-            result += civilization.getScienceStorage();
-        }
-        return result;
-    }
-
     public ImageView graphicalHex(Hex hex) {
         if (hex.getHexVisibility() == HexVisibility.FOG_OF_WAR) {
             return new ImageView(GlobalThings.FOG_OF_WAR_IMAGE);
@@ -129,9 +113,15 @@ public class GameMenu extends Menu implements Initializable {
     }
 
     private int getGold() {
-        int result = 0;
-        result = Game.getGame().getAverageGold() * Game.getGame().getCivilizations().size();
-        return result;
+        return Game.getGame().getSelectedCivilization().getGoldStorage();
+    }
+
+    private int getHappiness() {
+        return Game.getGame().getSelectedCivilization().getHappiness();
+    }
+
+    private int getScience() {
+        return Game.getGame().getSelectedCivilization().getScienceStorage();
     }
 
     public void dragMap(KeyEvent keyEvent) {

@@ -25,14 +25,14 @@
                 <Image url="@../status bar/Science.png" />
             </ImageView>
             <Label fx:id="science" prefHeight="42" prefWidth="70" text="label" styleClass="third-text" />
-            <HBox spacing="730" styleClass="status-bar">
+            <HBox spacing="680" styleClass="status-bar">
                 <Text text="" styleClass="year-text"/>
                 <Text text="" styleClass="year-text"/>
             </HBox>
             <HBox spacing="40">
                 <Label fx:id="turn" prefHeight="42" prefWidth="60" text="year" styleClass="year-text"/>
                 <Label fx:id="year" prefHeight="42" prefWidth="60" text="year" styleClass="year-text"/>
-                <Label fx:id="menu" prefHeight="42" prefWidth="40" text="MENU" onMouseClicked="#goToGameMenu" styleClass="year-text">
+                <Label fx:id="menu" prefHeight="42" prefWidth="50" text="MENU" onMouseClicked="#goToGameMenu" styleClass="year-text">
                     <cursor>
                         <Cursor fx:constant="HAND" />
                     </cursor>
