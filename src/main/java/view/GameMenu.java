@@ -96,11 +96,29 @@ public class GameMenu extends Menu implements Initializable {
         hexView.setFitHeight(144);
         ImageView resource = new ImageView(hex.getResource().image);
         resource.setFitHeight(40);
-        resource.setFitHeight(40);
+        resource.setFitWidth(40);
         resource.setY(5);
         resource.setX(25);
+
+
         group.getChildren().add(hexView);
         group.getChildren().add(resource);
+        if (hex.getCivilUnit()!=null) {
+            ImageView civilUnit = new ImageView(hex.getCivilUnit().getName().getImage());
+            civilUnit.setFitHeight(50);
+            civilUnit.setFitWidth(50);
+            civilUnit.setY(0);
+            civilUnit.setX(75);
+            group.getChildren().add(civilUnit);
+        }
+        if (hex.getMilitaryUnit()!=null){
+            ImageView militaryUnit = new ImageView(hex.getCivilUnit().getName().getImage());
+            militaryUnit.setFitHeight(80);
+            militaryUnit.setFitWidth(80);
+            militaryUnit.setY(70);
+            militaryUnit.setX(40);
+            group.getChildren().add(militaryUnit);
+        }
         return group;
     }
 

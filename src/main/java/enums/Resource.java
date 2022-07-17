@@ -53,7 +53,10 @@ public enum Resource {
         this.production = production;
         this.requiredImprovement = requiredImprovement;
         this.type = type;
-        this.image = new Image(getClass().getResource("/gameResources/" + this.name + ".png").toExternalForm());
+        if (name.equals("null"))
+            this.image = new WritableImage(40, 40);
+        else
+            this.image = new Image(getClass().getResource("/gameResources/" + this.name + ".png").toExternalForm());
 
     }
 

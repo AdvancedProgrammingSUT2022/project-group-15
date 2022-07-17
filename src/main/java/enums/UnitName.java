@@ -1,5 +1,8 @@
 package enums;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.WritableImage;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -38,7 +41,7 @@ public enum UnitName {
     CAVALRY("cavalry", 260, "Mounted", 25, 0, 1, 3,
             Resource.HORSE),
     LANCER("lancer", 220, "Mounted", 22, 0, 1, 4,
-           Resource.HORSE),
+            Resource.HORSE),
     MUSKETMAN("musketman", 120, "Gunpowder", 16, 0, 1, 2,
             Resource.NULL),
     RIFLEMAN("rifleman", 200, "Gunpowder", 25, 0, 1, 2,
@@ -46,7 +49,7 @@ public enum UnitName {
     ANTITANKGUN("antitankgun", 300, "Gunpowder", 32, 0, 1, 2,
             Resource.NULL),
     ARTILLERY("artillery", 420, "Siege", 16, 32, 3, 2,
-           Resource.NULL),
+            Resource.NULL),
     INFANTRY("infantry", 300, "Gunpowder", 36, 0, 1, 2,
             Resource.NULL),
     PANZER("panzer", 450, "Armored", 60, 0, 1, 5,
@@ -62,6 +65,7 @@ public enum UnitName {
     private final int movement;
     private final String combatType;
     private final Resource resource;
+    private final Image image;
 
     public int getCost() {
         return cost;
@@ -91,6 +95,10 @@ public enum UnitName {
         return name;
     }
 
+    public Image getImage() {
+        return image;
+    }
+
     public Resource getResource() {
         return resource;
     }
@@ -114,5 +122,10 @@ public enum UnitName {
         this.range = range;
         this.movement = movement;
         this.resource = Resource;
+        if (name.equals("null") || name.equals("cityunit"))
+            this.image = new WritableImage(40, 40);
+        else
+            this.image = new Image(getClass().getResource("/units/" + Character.toUpperCase(name.charAt(0)) +
+                    name.substring(1) + "_(Civ5)" + ".png").toExternalForm());
     }
 }
