@@ -14,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -49,14 +50,16 @@ public class GameMenu extends Menu implements Initializable {
     private ProgressBar currentResearchProgressBar;
     @FXML
     private ImageView currentResearchImageView;
+    @FXML
+    private ScrollPane mapScrollPane;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Gold.setText(Integer.toString(getGold()));
-        science.setText(Integer.toString(getScience()));
-        happiness.setText(Integer.toString(getHappiness()));
-        turn.setText("Turn : " + Game.getGame().getTurn());
-        year.setText("Year : " + Game.getGame().getYear());
+        mapScrollPane.setContent(map);
+        mapScrollPane.setPannable(true);
+        mapScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        mapScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        updateStatusBar();
         updateCurrentResearchStatus();
         fillMap();
     }
@@ -67,6 +70,14 @@ public class GameMenu extends Menu implements Initializable {
         int remainingTurns = (int) Math.ceil((Game.getGame().getSelectedCivilization().getTechnologyInProgress().cost - Game.getGame().getSelectedCivilization().getScienceStorage())
                 / (double) Game.getGame().getSelectedCivilization().getSciencePerTurn());
         currentResearchProgressBar.setTooltip(new Tooltip(remainingTurns + " turns to achieve " + Game.getGame().getSelectedCivilization().getTechnologyInProgress().name));
+    }
+
+    public void updateStatusBar() {
+        Gold.setText(Integer.toString(Game.getGame().getSelectedCivilization().getGoldStorage()));
+        science.setText(Integer.toString(Game.getGame().getSelectedCivilization().getScienceStorage()));
+        happiness.setText(Integer.toString(Game.getGame().getSelectedCivilization().getHappiness()));
+        turn.setText("Turn : " + Game.getGame().getTurn());
+        year.setText("Year : " + Game.getGame().getYear());
     }
 
     public ImageView graphicalHex(Hex hex) {
@@ -80,12 +91,10 @@ public class GameMenu extends Menu implements Initializable {
     }
 
     public void fillMap() {
-        int i = 0, j = 0;
+        int j = 120;
         Game.getGame().getSelectedCivilization().adjustVisibility();
         for (ArrayList<Hex> hexArrayList : Game.getGame().getSelectedCivilization().getVisibilityMap().map) {
-            i = 0;
-            //if (Game.getGame().getSelectedCivilization().getVisibilityMap().map.indexOf(hexArrayList) % 2 == 1)
-            //    i = 54;
+            int i = 100;
             for (Hex hex : hexArrayList) {
                 ImageView hexView = graphicalHex(hex);
                 hexView.setFitHeight(144);
@@ -96,10 +105,8 @@ public class GameMenu extends Menu implements Initializable {
                 else
                     hexView.setY(j);
                 map.getChildren().add(hexView);
-                //i += 108;
                 i += 108;
             }
-            //j += 36;
             j += 144;
         }
     }
@@ -118,38 +125,8 @@ public class GameMenu extends Menu implements Initializable {
         return scene;
     }
 
-    private int getGold() {
-        return Game.getGame().getSelectedCivilization().getGoldStorage();
-    }
-
-    private int getHappiness() {
-        return Game.getGame().getSelectedCivilization().getHappiness();
-    }
-
-    private int getScience() {
-        return Game.getGame().getSelectedCivilization().getScienceStorage();
-    }
-
-    public void dragMap(KeyEvent keyEvent) {
-        switch (keyEvent.getCode()) {
-            case UP:
-                map.setLayoutY(map.getLayoutY() + 10);
-                break;
-            case DOWN:
-                map.setLayoutY(map.getLayoutY() - 10);
-                break;
-            case LEFT:
-                map.setLayoutX(map.getLayoutX() + 10);
-                break;
-            case RIGHT:
-                map.setLayoutX(map.getLayoutX() - 10);
-                break;
-        }
-    }
-
     public void goToGameMenu(MouseEvent mouseEvent) {
         setup(map);
         window.setScene(Controller.getGameSettingsMenu().getScene());
     }
-
 }

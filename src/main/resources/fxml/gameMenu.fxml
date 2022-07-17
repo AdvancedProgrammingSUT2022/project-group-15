@@ -3,6 +3,7 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -11,7 +12,11 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="backgroundPane" stylesheets="@../css/gameMenu.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.GameMenu">
     <children>
-        <AnchorPane fx:id="map" layoutX="160.0" layoutY="148.0" onKeyPressed="#dragMap" onKeyReleased="#dragMap" prefHeight="341.0" prefWidth="403.0" />
+      <ScrollPane fx:id="mapScrollPane" layoutY="27.0" prefHeight="694.0" prefWidth="1280.0">
+         <content>
+              <AnchorPane fx:id="map" prefHeight="543.0" prefWidth="1051.0" />
+         </content>
+      </ScrollPane>
         <HBox prefHeight="28.0" prefWidth="1280.0" spacing="7" styleClass="status-bar">
             <ImageView fitHeight="28" fitWidth="50" pickOnBounds="true" preserveRatio="true">
                 <Image url="@../status bar/Coin.png" />
