@@ -11,6 +11,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -28,6 +29,7 @@ import model.GlobalThings;
 import model.Hex;
 
 import java.io.IOException;
+import java.net.Socket;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -80,14 +82,26 @@ public class GameMenu extends Menu implements Initializable {
         year.setText("Year : " + Game.getGame().getYear());
     }
 
-    public ImageView graphicalHex(Hex hex) {
+    public Group graphicalHex(Hex hex) {
+        Group group = new Group();
+        ImageView hexView;
         if (hex.getHexVisibility() == HexVisibility.FOG_OF_WAR) {
-            return new ImageView(GlobalThings.FOG_OF_WAR_IMAGE);
+            hexView = new ImageView(GlobalThings.FOG_OF_WAR_IMAGE);
+        } else if (hex.getFeature() != Feature.NULL) {
+            hexView = new ImageView(hex.getFeature().image);
+        } else {
+            hexView = new ImageView(hex.getTerrain().image);
         }
-        if (hex.getFeature() != Feature.NULL) {
-            return new ImageView(hex.getFeature().image);
-        }
-        return new ImageView(hex.getTerrain().image);
+        hexView.setFitWidth(144);
+        hexView.setFitHeight(144);
+        ImageView resource = new ImageView(hex.getResource().image);
+        resource.setFitHeight(40);
+        resource.setFitHeight(40);
+        resource.setY(5);
+        resource.setX(25);
+        group.getChildren().add(hexView);
+        group.getChildren().add(resource);
+        return group;
     }
 
     public void fillMap() {
@@ -96,14 +110,15 @@ public class GameMenu extends Menu implements Initializable {
         for (ArrayList<Hex> hexArrayList : Game.getGame().getSelectedCivilization().getVisibilityMap().map) {
             int i = 100;
             for (Hex hex : hexArrayList) {
-                ImageView hexView = graphicalHex(hex);
-                hexView.setFitHeight(144);
-                hexView.setFitWidth(144);
-                hexView.setX(i);
+                Group hexView = graphicalHex(hex);
+
+
+                hexView.setLayoutX(i);
+
                 if (hexArrayList.indexOf(hex) % 2 == 1)
-                    hexView.setY(j + 72);
+                    hexView.setLayoutY(j + 72);
                 else
-                    hexView.setY(j);
+                    hexView.setLayoutY(j);
                 map.getChildren().add(hexView);
                 i += 108;
             }

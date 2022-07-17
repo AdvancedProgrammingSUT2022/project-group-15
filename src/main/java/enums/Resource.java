@@ -1,10 +1,15 @@
 package enums;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.WritableImage;
+
+import javax.imageio.ImageWriter;
+
 /**
  * @author Parsa
  */
 public enum Resource {
-    NULL("null",0,0,0, Improvement.Null, "null"),
+    NULL("null", 0, 0, 0, Improvement.Null, "null"),
     BANANA("banana", 1, 0, 0, Improvement.PLANTATION, "scoring"),
     COW("cow", 1, 0, 0, Improvement.PASTURE, "scoring"),
     GAZELLE("gazelle", 1, 0, 0, Improvement.CAMP, "scoring"),
@@ -16,7 +21,7 @@ public enum Resource {
     COTTON("cotton", 0, 0, 2, Improvement.PASTURE, "luxury"),
     COLOR("color", 0, 0, 2, Improvement.PASTURE, "luxury"),
     FUR("fur", 0, 0, 2, Improvement.CAMP, "luxury"),
-    GEM("gem", 0,0, 3,Improvement.MINE, "luxury"),
+    GEM("gem", 0, 0, 3, Improvement.MINE, "luxury"),
     GOLD("gold", 0, 0, 2, Improvement.MINE, "luxury"),
     FUMIGATION("fumigation", 0, 0, 2, Improvement.PLANTATION, "luxury"),
     TUSK("tusk", 0, 0, 2, Improvement.CAMP, "luxury"),
@@ -30,6 +35,7 @@ public enum Resource {
     public final int production;
     public final int gold;
     public final Improvement requiredImprovement;
+    public final Image image;
 
     /*
      1. scoring (can not be exchanged with other civilizations)
@@ -47,7 +53,10 @@ public enum Resource {
         this.production = production;
         this.requiredImprovement = requiredImprovement;
         this.type = type;
+        this.image = new Image(getClass().getResource("/gameResources/" + this.name + ".png").toExternalForm());
+
     }
+
 
     @Override
     public String toString() {
