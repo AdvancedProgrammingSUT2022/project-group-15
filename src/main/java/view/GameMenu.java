@@ -14,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -56,11 +57,16 @@ public class GameMenu extends Menu implements Initializable {
         happiness.setText(Integer.toString(getHappiness()));
         turn.setText("Turn : " + Game.getGame().getTurn());
         year.setText("Year : " + Game.getGame().getYear());
+        updateCurrentResearchStatus();
         fillMap();
     }
 
     private void updateCurrentResearchStatus() {
-        //TODO Parsa
+        currentResearchImageView.setImage(Game.getGame().getSelectedCivilization().getTechnologyInProgress().image);
+        currentResearchProgressBar.setProgress((double) Game.getGame().getSelectedCivilization().getScienceStorage() / Game.getGame().getSelectedCivilization().getTechnologyInProgress().cost);
+        int remainingTurns = (int) Math.ceil((Game.getGame().getSelectedCivilization().getTechnologyInProgress().cost - Game.getGame().getSelectedCivilization().getScienceStorage())
+                / (double) Game.getGame().getSelectedCivilization().getSciencePerTurn());
+        currentResearchProgressBar.setTooltip(new Tooltip(remainingTurns + " turns to achieve " + Game.getGame().getSelectedCivilization().getTechnologyInProgress().name));
     }
 
     public ImageView graphicalHex(Hex hex) {

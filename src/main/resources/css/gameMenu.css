@@ -10,7 +10,7 @@
 }
 
 .status-bar {
-    -fx-background-color: black;
+    -fx-background-color: rgba(76, 75, 75, 0.89);
 }
 
 .first-text {
@@ -18,11 +18,11 @@
 }
 
 .second-text {
-    -fx-text-fill: green;
+    -fx-text-fill: #27ff27;
 }
 
 .third-text {
-    -fx-text-fill: blue;
+    -fx-text-fill: #00fff7;
 }
 
 .year-text {

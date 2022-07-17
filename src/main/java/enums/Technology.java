@@ -1,5 +1,7 @@
 package enums;
 
+import javafx.scene.image.Image;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -63,6 +65,7 @@ public enum Technology {
     public final ArrayList<Improvement> openingImprovements;
     public final ArrayList<Technology> prerequisiteTechnologies;
     public final ArrayList<Building> openingBuildings;
+    public final Image image;
 
     Technology(String name, int cost, ArrayList<Resource> openingResources, ArrayList<Feature> openingFeatures, ArrayList<UnitName> openingUnits, ArrayList<Improvement> openingImprovements, ArrayList<Technology> prerequisiteTechnologies, ArrayList<Building> openingBuildings) {
         this.name = name;
@@ -73,6 +76,7 @@ public enum Technology {
         this.openingImprovements = openingImprovements;
         this.prerequisiteTechnologies = prerequisiteTechnologies;
         this.openingBuildings = openingBuildings;
+        this.image = new Image(getClass().getResource("/Technologies/" + this.name + ".png").toExternalForm());
     }
 
     @Override

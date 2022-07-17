@@ -18,7 +18,7 @@ public class Civilization {
     private Map visibilityMap;
     private ArrayList<Technology> technologies = new ArrayList<>();
     private ArrayList<Technology> availableTechnologies = new ArrayList<>();
-    private Technology technologyInProgress;
+    private Technology technologyInProgress = Technology.AGRICULTURE;
     private ArrayList<UnitName> openedUnits = new ArrayList<>(Arrays.asList(UnitName.WORKER, UnitName.SETTLER, UnitName.WARRIOR, UnitName.SCOUT));
     private ArrayList<Resource> openedResources = new ArrayList<>();
     private ArrayList<Feature> openedFeatures = new ArrayList<>();

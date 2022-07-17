@@ -97,8 +97,9 @@ public class GameSettingsMenu extends Menu implements Initializable {
 
 
     public void inviteFriend(MouseEvent mouseEvent) {
-        String out = controller.inviteFriend(usernameTextField.getCharacters().toString(), friendsInGame);
+        String out = controller.inviteFriend(usernameTextField.getText(), friendsInGame);
         information.setText(out);
+        usernameTextField.clear();
     }
 
 
