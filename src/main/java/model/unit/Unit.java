@@ -174,19 +174,23 @@ public abstract class Unit {
         Ruins ruins = hex.getRuins();
         hex.setHasRuins(false);
         // TODO: 7/12/2022 pop up that says you find ruins with info
-        switch (ruins.code) {
-            case 1:
-                this.owner.getCapital().setNumberOfCitizen(this.owner.getCapital().getNumberOfCitizen() + 1);
-                break;
-            case 2:
-                this.owner.setGoldStorage(this.owner.getGoldStorage() + 30);
-                break;
-            case 3:
-                this.owner.setScienceStorage(this.owner.getScienceStorage() + 30);
-                break;
-            case 4:
-                this.owner.getCapital().setFoodStorage(this.owner.getCapital().getFoodStorage() + 5);
-                break;
+        try {
+            switch (ruins.code) {
+                case 1:
+                    this.owner.getCapital().setNumberOfCitizen(this.owner.getCapital().getNumberOfCitizen() + 1);
+                    break;
+                case 2:
+                    this.owner.setGoldStorage(this.owner.getGoldStorage() + 30);
+                    break;
+                case 3:
+                    this.owner.setScienceStorage(this.owner.getScienceStorage() + 30);
+                    break;
+                case 4:
+                    this.owner.getCapital().setFoodStorage(this.owner.getCapital().getFoodStorage() + 5);
+                    break;
+            }
+        }catch (NullPointerException ignored){
+            
         }
     }
 

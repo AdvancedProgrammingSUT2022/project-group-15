@@ -841,4 +841,18 @@ public class GameMenuController {
         fallenCity = null;
     }
 
+    public void discard(boolean isUnit) {
+        if (isUnit)
+            selectedUnit = null;
+        else
+            selectedCity = null;
+    }
+
+    public Unit getSelectedUnit() {
+        return selectedUnit;
+    }
+
+    public City getSelectedCity() {
+        return selectedCity;
+    }
 }
