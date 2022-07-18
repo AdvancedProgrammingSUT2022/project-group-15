@@ -39,17 +39,17 @@ The order of flags doesn't matter in each command below that contains dashes
 
 #### <li> Unit Commands
 
-8) unit moveto **_x_** **_y_**
-9) unit sleep
+8) unit moveto **_x_** **_y_** XXXXX
+9) unit sleep XXXXX
 10) unit alert
 11) unit fortify
 12) unit garrison
 13) unit setup ranged
 14) unit fortify heal
-15) unit found city
+15) unit found city XXXXX
 16) unit cancel mission
-17) unit wake
-18) unit delete
+17) unit wake XXXXX
+18) unit delete XXXXX
 19) unit attack **_x_** **_y_**
 20) unit build **_improvement name_**
 21) unit remove jungle or swamp
@@ -64,7 +64,7 @@ The order of flags doesn't matter in each command below that contains dashes
 27) city choose production **_unit name_**
 28) city purchase unit **_unit name_**
 29) city buy hex **_x_** **_y_**
-30) city attack **_x_** **_y_**
+30) city attack **_x_** **_y_** (choosing building and buying building added in phase 2)
 
 #### <li> Map Commands
 

@@ -174,6 +174,7 @@ public abstract class Unit {
         Ruins ruins = hex.getRuins();
         hex.setHasRuins(false);
         // TODO: 7/12/2022 pop up that says you find ruins with info
+        System.out.println(hex.getRuins().message);
         try {
             switch (ruins.code) {
                 case 1:

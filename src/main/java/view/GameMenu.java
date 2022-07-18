@@ -1,5 +1,6 @@
 package view;
 
+import com.sun.org.apache.bcel.internal.generic.DCONST;
 import controller.Controller;
 import controller.GameMenuController;
 import enums.Feature;
@@ -14,6 +15,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -21,6 +23,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
+import model.City;
 import model.Game;
 import model.GlobalThings;
 import model.Hex;
@@ -117,15 +120,51 @@ public class GameMenu extends Menu implements Initializable {
                     createPopupAndGlowForNode(hexInfo(hex), hexView, false, false);
             }
         });
+        group.getChildren().add(hexView);
+        if (hex.getHexVisibility()==HexVisibility.FOG_OF_WAR)
+            return group;
+
+        addResourceAndRuin(hex, group);
+        addCity(hex, group);
+
+        if (hex.getHexVisibility()==HexVisibility.DETERMINED) {
+            ColorAdjust colorAdjust = new ColorAdjust();
+            colorAdjust.setBrightness(-0.4);
+            colorAdjust.setContrast(-0.4);
+            hexView.setEffect(colorAdjust);
+            return group;
+        }
+
+        addUnits(hex, group);
+        return group;
+    }
+
+    private void addCity(Hex hex, Group group) {
+        if (hex.getCity() != null) {
+            if (hex.getCity().getOwner().getVisibilityMap().isCenterOfCity(hex)) {
+                Label label = new Label(hex.getCity().getName());
+                label.setStyle("-fx-background-color: purple;-fx-text-fill: #04e2ff");
+                label.setLayoutX(60);
+                label.setLayoutY(5);
+                label.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        createCityPage(hex.getCity());
+                    }
+                });
+                group.getChildren().add(label);
+            }
+        }
+    }
+
+    private void addResourceAndRuin(Hex hex, Group group) {
         ImageView resource = new ImageView(hex.getResource().image);
         resource.setFitHeight(40);
         resource.setFitWidth(40);
         resource.setY(5);
         resource.setX(25);
-
-        group.getChildren().add(hexView);
         group.getChildren().add(resource);
-        addUnits(hex, group);
+
         if (hex.hasRuins()) {
             ImageView ruins = new ImageView(GlobalThings.RUINS_IMAGE);
             ruins.setFitWidth(40);
@@ -134,19 +173,27 @@ public class GameMenu extends Menu implements Initializable {
             ruins.setY(95);
             group.getChildren().add(ruins);
         }
-        if (hex.getCity() != null) {
-            if (hex.getCity().getOwner().getVisibilityMap().isCenterOfCity(hex)) {
-                System.out.println("city");
-                Label label = new Label(hex.getCity().getName());
-                label.setStyle("-fx-background-color: purple;-fx-text-fill: #04e2ff");
-                label.setLayoutX(60);
-                label.setLayoutY(5);
-                // TODO: 7/18/2022 label set on click 
-                group.getChildren().add(label);
-            }
-        }
+    }
 
-        return group;
+    private void createCityPage(City city) {
+        Popup popup = new Popup();
+
+        popupLabel.setText(controller.selectCity(city.getName()));
+        popupHBox.setVisible(true);
+        popup.getContent().add(popupHBox);
+
+        popup.setX(window.getX() + 500);
+        popup.setY(window.getY() + 300);
+        popup.setAutoHide(true);
+        addOptions(false);
+        popup.show(window);
+
+        popup.setOnAutoHide(new EventHandler<Event>() {
+            @Override
+            public void handle(Event event) {
+                controller.discard(false);
+            }
+        });
     }
 
     private String hexInfo(Hex hex) {
@@ -224,6 +271,7 @@ public class GameMenu extends Menu implements Initializable {
     }
 
     private void createPopupAndGlowForNode(String message, Node node, boolean OnEndDiscard, boolean isUnit) {
+        popupVBox.getChildren().clear();
         Popup popup = new Popup();
 
         popupLabel.setText(message);
@@ -265,10 +313,40 @@ public class GameMenu extends Menu implements Initializable {
 
     private void addOptions(boolean isUnit) {
         if (isUnit) {
+            Button button = new Button("delete unit");
+            button.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    String message = controller.deleteSelectedUnit();
+                    updateAll();
+                    createPopupAndGlowForNode(message, null, false, false);
+                }
+            });
+            popupVBox.getChildren().add(button);
+            button = new Button("sleep unit");
+            button.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    String message = controller.sleepSelectedUnit();
+                    updateAll();
+                    createPopupAndGlowForNode(message, null, false, false);
+                }
+            });
+            popupVBox.getChildren().add(button);
+            button = new Button("wake unit");
+            button.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    String message = controller.wakeUpSelectedUnit();
+                    updateAll();
+                    createPopupAndGlowForNode(message, null, false, false);
+                }
+            });
+            popupVBox.getChildren().add(button);
             Unit unit = controller.getSelectedUnit();
             if (unit instanceof SettlerUnit) {
 
-                Button button = new Button("found city");
+                button = new Button("found city");
                 button.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
@@ -278,14 +356,63 @@ public class GameMenu extends Menu implements Initializable {
                     }
                 });
                 popupVBox.getChildren().add(button);
-                button = new Button("delete unit");
-                popupVBox.getChildren().add(button);
+
             } else if (unit instanceof WorkerUnit)
                 ;
             else
                 ;
         } else {
-            // TODO: 7/18/2022 options for city
+            Button button = new Button("choose unit");
+            button.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    String message = controller.getAvailableUnitsInCity();
+                    if (message.startsWith("error"))
+                        createPopupAndGlowForNode(message, null, false, false);
+                    else {
+                        String[] units = message.split("\n");
+                        popupVBox.getChildren().clear();
+                        for (String unit : units) {
+                            Button unitButton =new Button(unit);
+                            unitButton.setOnAction(new EventHandler<ActionEvent>() {
+                                @Override
+                                public void handle(ActionEvent event) {
+                                    createPopupAndGlowForNode(controller.chooseProductionForUnit(unit),null,false,false);
+                                }
+                            });
+                            popupVBox.getChildren().add(unitButton);
+                        }
+                    }
+                }
+            });
+            popupVBox.getChildren().add(button);
+            button=new Button("buy unit");
+            button.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    String message = controller.getAvailableUnitsInCity();
+                    if (message.startsWith("error"))
+                        createPopupAndGlowForNode(message, null, false, false);
+                    else {
+                        String[] units = message.split("\n");
+                        popupVBox.getChildren().clear();
+                        for (String unit : units) {
+                            Button unitButton =new Button(unit);
+                            unitButton.setOnAction(new EventHandler<ActionEvent>() {
+                                @Override
+                                public void handle(ActionEvent event) {
+                                    String message = controller.buyUnit(unit);
+                                    updateAll();
+                                    createPopupAndGlowForNode(message,null,false,false);
+                                }
+                            });
+                            popupVBox.getChildren().add(unitButton);
+                        }
+                    }
+                }
+            });
+            popupVBox.getChildren().add(button);
+
         }
     }
 

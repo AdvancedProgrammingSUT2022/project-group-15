@@ -307,6 +307,7 @@ public class GameMenuController {
         }
         selectedUnit.setSleep(true);
         selectedUnit.setPlanedToGo(null);
+        discard(true);
         return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is slept");
 
     }
@@ -440,6 +441,7 @@ public class GameMenuController {
             ((MilitaryUnit) selectedUnit).setFortifying(false);
             ((MilitaryUnit) selectedUnit).setFortifyingTillHealed(false);
         }
+        discard(true);
         return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is woken up");
     }
 
@@ -450,6 +452,7 @@ public class GameMenuController {
         if (!selectedUnit.getOwner().equals(Game.getGame().getSelectedCivilization()))
             return Controller.addNotification(Game.getGame().getTurnNumber(), "Unit not yours");
         Game.getGame().getSelectedCivilization().deleteUnit(selectedUnit, true);
+        discard(true);
         return Controller.addNotification(Game.getGame().getTurnNumber(), "Unit Deleted Successfully");
     }
 
@@ -857,5 +860,18 @@ public class GameMenuController {
 
     public City getSelectedCity() {
         return selectedCity;
+    }
+
+    public String getAvailableUnitsInCity(){
+        if (selectedCity == null)
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "error : no city is selected");
+        if (!selectedCity.getOwner().equals(Game.getGame().getSelectedCivilization()))
+            return Controller.addNotification(Game.getGame().getTurnNumber(), "error : city not yours");
+        StringBuilder message = new StringBuilder();
+        for (UnitName unit : Game.getGame().getSelectedCivilization().getOpenedUnits()) {
+            message.append(unit.getName()).append("\n");
+        }
+        message.deleteCharAt(message.length()-1);
+        return Controller.addNotification(Game.getGame().getTurnNumber(), message.toString());
     }
 }
