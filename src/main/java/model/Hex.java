@@ -55,6 +55,8 @@ public class Hex {
         newHex.militaryUnit = this.militaryUnit;
         newHex.civilUnit = this.civilUnit;
         newHex.city = this.city;
+        newHex.hasRuins = this.hasRuins;
+        newHex.ruins = this.ruins;
         return newHex;
     }
 

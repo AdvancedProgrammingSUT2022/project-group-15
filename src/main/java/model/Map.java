@@ -383,6 +383,9 @@ public class Map {
         }
         return false;
     }
+    public boolean isCenterOfCity(Hex hex){
+        return isCenterOfCity(hex.getCoordinatesInArray().get('x'),hex.getCoordinatesInArray().get('y'));
+    }
 
     public boolean isCenterOfCity(int x, int y) {
         if (map.get(x).get(y).getCity() == null)

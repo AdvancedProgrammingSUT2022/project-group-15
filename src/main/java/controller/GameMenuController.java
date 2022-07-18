@@ -211,6 +211,7 @@ public class GameMenuController {
         selectedUnit = Game.getGame().map.map.get(x).get(y).getMilitaryUnit();
         String message = "unit selected!" + "\nowner : " + selectedUnit.getOwner().getUser().getNickname() +
                 "\nname : " + selectedUnit.getName() +
+                "\nmp : " + selectedUnit.getRemainingMovement() +
                 "\nhealth percent : " + selectedUnit.getNowHealth() * 100 / selectedUnit.getTotalHealth();
 
         return Controller.addNotification(Game.getGame().getTurnNumber(), message);
@@ -226,6 +227,7 @@ public class GameMenuController {
         selectedUnit = Game.getGame().map.map.get(x).get(y).getCivilUnit();
         String message = "unit selected!" + "\nowner : " + selectedUnit.getOwner().getUser().getNickname() +
                 "\nname : " + selectedUnit.getName() +
+                "\nmp : " + selectedUnit.getRemainingMovement() +
                 "\nhealth percent : " + selectedUnit.getNowHealth() * 100 / selectedUnit.getTotalHealth();
 
         return Controller.addNotification(Game.getGame().getTurnNumber(), message);
@@ -411,6 +413,7 @@ public class GameMenuController {
                 get(selectedUnit.getCoordinatesInMap().get('y')).getCity() != null)
             return Controller.addNotification(Game.getGame().getTurnNumber(), "cant build city in a city!!!");
         ((SettlerUnit) selectedUnit).foundCity();
+        discard(true);
         return Controller.addNotification(Game.getGame().getTurnNumber(), "city founded successfully!");
     }
 

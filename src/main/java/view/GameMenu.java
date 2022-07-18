@@ -1,10 +1,10 @@
 package view;
 
-import com.thoughtworks.xstream.io.xml.XomDriver;
 import controller.Controller;
 import controller.GameMenuController;
 import enums.Feature;
 import enums.HexVisibility;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -13,28 +13,34 @@ import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
 import model.Game;
 import model.GlobalThings;
 import model.Hex;
+import model.unit.SettlerUnit;
+import model.unit.Unit;
+import model.unit.WorkerUnit;
 
 import java.io.IOException;
-import java.net.NoRouteToHostException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class GameMenu extends Menu implements Initializable {
     private final GameMenuController controller = new GameMenuController();
+    @FXML
     public Label popupLabel;
+    @FXML
+    public HBox popupHBox;
+    @FXML
+    public VBox popupVBox;
     @FXML
     private Label turn;
     @FXML
@@ -62,6 +68,10 @@ public class GameMenu extends Menu implements Initializable {
         mapScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         updateStatusBar();
         updateCurrentResearchStatus();
+        fillMap();
+    }
+
+    private void updateAll() {
         fillMap();
     }
 
@@ -101,8 +111,8 @@ public class GameMenu extends Menu implements Initializable {
                     setup(map);
                 }
                 if (controller.getSelectedUnit() != null) {
-                    createPopupAndGlowForNode(controller.moveSelectedUnitTo(hex.getCoordinatesInArray().get('x'), hex.getCoordinatesInArray().get('y')), hexView, false, false);
-                    fillMap();
+                    createPopupAndGlowForNode(controller.moveSelectedUnitTo(hex.getCoordinatesInArray().get('x'), hex.getCoordinatesInArray().get('y')), null, false, false);
+                    updateAll();
                 } else
                     createPopupAndGlowForNode(hexInfo(hex), hexView, false, false);
             }
@@ -116,6 +126,26 @@ public class GameMenu extends Menu implements Initializable {
         group.getChildren().add(hexView);
         group.getChildren().add(resource);
         addUnits(hex, group);
+        if (hex.hasRuins()) {
+            ImageView ruins = new ImageView(GlobalThings.RUINS_IMAGE);
+            ruins.setFitWidth(40);
+            ruins.setFitHeight(40);
+            ruins.setX(25);
+            ruins.setY(95);
+            group.getChildren().add(ruins);
+        }
+        if (hex.getCity() != null) {
+            if (hex.getCity().getOwner().getVisibilityMap().isCenterOfCity(hex)) {
+                System.out.println("city");
+                Label label = new Label(hex.getCity().getName());
+                label.setStyle("-fx-background-color: purple;-fx-text-fill: #04e2ff");
+                label.setLayoutX(60);
+                label.setLayoutY(5);
+                // TODO: 7/18/2022 label set on click 
+                group.getChildren().add(label);
+            }
+        }
+
         return group;
     }
 
@@ -128,7 +158,7 @@ public class GameMenu extends Menu implements Initializable {
         if (hex.getMilitaryUnit() != null)
             message += "\n" + "military unit : " + hex.getMilitaryUnit().getName().getName();
         if (hex.getCity() != null)
-            message += "\n" + "city : " + hex.getImprovement().name;
+            message += "\n" + "city : " + hex.getCity().getName();
         return message;
     }
 
@@ -197,21 +227,25 @@ public class GameMenu extends Menu implements Initializable {
         Popup popup = new Popup();
 
         popupLabel.setText(message);
-        popupLabel.setVisible(true);
-        popup.getContent().add(popupLabel);
+        popupHBox.setVisible(true);
+        popup.getContent().add(popupHBox);
 
         popup.setX(window.getX() + 10);
-        popup.setY(window.getY() + 700 - popupLabel.getHeight());
+        popup.setY(window.getY() + 730 - popupHBox.getHeight());
         popup.setAutoHide(true);
-        System.out.println("pop up started");
+        if (OnEndDiscard) {
+            addOptions(isUnit);
+        }
         popup.show(window);
-
         Glow glow = new Glow(0.7);
-        node.setEffect(glow);
+        if (node != null)
+            node.setEffect(glow);
         popup.setOnAutoHide(new EventHandler<Event>() {
             @Override
             public void handle(Event event) {
-                node.setEffect(null);
+                if (node != null)
+                    node.setEffect(null);
+                popupVBox.getChildren().clear();
                 if (OnEndDiscard) {
                     new Thread(new Runnable() {
                         @Override
@@ -227,6 +261,36 @@ public class GameMenu extends Menu implements Initializable {
                 }
             }
         });
+    }
+
+    private void addOptions(boolean isUnit) {
+        if (isUnit) {
+            Unit unit = controller.getSelectedUnit();
+            if (unit instanceof SettlerUnit) {
+
+                Button button = new Button("found city");
+                button.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        String message = controller.foundCity();
+                        updateAll();
+                        createPopupAndGlowForNode(message, null, false, false);
+                    }
+                });
+                popupVBox.getChildren().add(button);
+                button = new Button("delete unit");
+                popupVBox.getChildren().add(button);
+            } else if (unit instanceof WorkerUnit)
+                ;
+            else
+                ;
+        } else {
+            // TODO: 7/18/2022 options for city
+        }
+    }
+
+    private void addButton(String message) {
+        popupVBox.getChildren().add(new Button(message));
     }
 
     @Override
