@@ -87,7 +87,6 @@ public class Civilization {
         scienceStorage = 0;
         technologies.add(technologyInProgress);
         openedUnits.addAll(technologyInProgress.openingUnits);
-        openedFeatures.addAll(technologyInProgress.openingFeatures);
         openedImprovements.addAll(technologyInProgress.openingImprovements);
         openedResources.addAll(technologyInProgress.openingResources);
         openedBuildings.addAll(technologyInProgress.openingBuildings);

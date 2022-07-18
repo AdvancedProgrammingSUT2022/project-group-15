@@ -438,4 +438,9 @@ public class GameMenu extends Menu implements Initializable {
         setup(map);
         window.setScene(Controller.getGameSettingsMenu().getScene());
     }
+
+    public void openTechnologyTree(MouseEvent mouseEvent) {
+        setup(map);
+        window.setScene(Controller.getTechnologyTree().getScene());
+    }
 }

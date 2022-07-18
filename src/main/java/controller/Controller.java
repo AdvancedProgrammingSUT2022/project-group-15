@@ -15,6 +15,7 @@ public class Controller {
     private static final GameSettingsMenu gameSettingsMenu = new GameSettingsMenu();
     private static final ScoreBoard scoreboard = new ScoreBoard();
     private static final PublicChat chatRoom = new PublicChat();
+    private static final TechnologyTree technologyTree = new TechnologyTree();
     private static final ArrayList<String> notificationHistory = new ArrayList<>();
 
 
@@ -54,6 +55,10 @@ public class Controller {
 
     public static GameSettingsMenu getGameSettingsMenu() {
         return gameSettingsMenu;
+    }
+
+    public static TechnologyTree getTechnologyTree() {
+        return technologyTree;
     }
 
     public static Stage getWindow() {

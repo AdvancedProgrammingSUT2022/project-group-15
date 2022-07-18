@@ -788,7 +788,6 @@ public class GameMenuController {
         for (Technology technology : Technology.values()) {
             Game.getGame().getSelectedCivilization().getTechnologies().add(technology);
             Game.getGame().getSelectedCivilization().getOpenedUnits().addAll(technology.openingUnits);
-            Game.getGame().getSelectedCivilization().getOpenedFeatures().addAll(technology.openingFeatures);
             Game.getGame().getSelectedCivilization().getOpenedImprovements().addAll(technology.openingImprovements);
             Game.getGame().getSelectedCivilization().getOpenedResources().addAll(technology.openingResources);
         }
