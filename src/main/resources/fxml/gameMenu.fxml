@@ -15,6 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.scene.ImageCursor?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="backgroundPane" stylesheets="@../css/gameMenu.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.GameMenu">
     <children>
       <ScrollPane fx:id="mapScrollPane" layoutY="27.0" prefHeight="694.0" prefWidth="1280.0" style="-fx-background-color: black;">
@@ -47,7 +48,6 @@
                         <Cursor fx:constant="HAND" />
                     </cursor>
                 </Label>
-
             </HBox>
         </HBox>
         <ProgressBar fx:id="currentResearchProgressBar" layoutX="87.0" layoutY="50.0" prefHeight="23.0" prefWidth="292.0" progress="0.31" />
@@ -56,6 +56,14 @@
                 <Image url="@../Technologies/agriculture.png" />
             </image>
         </ImageView>
+        <HBox layoutX="400" layoutY="52" prefWidth="20" prefHeight="20" >
+            <ImageView fitHeight="20" fitWidth="20" onMouseClicked="#cityPanel">
+                <Image url="@../1.png" />
+            </ImageView>
+            <cursor>
+                <ImageCursor fx:constant="HAND"/>
+            </cursor>
+        </HBox>
       <HBox fx:id="popupHBox" visible="false">
          <children>
             <Label fx:id="popupLabel" style="-fx-background-color: black;" text="pop up" textFill="WHITE">

@@ -29,7 +29,6 @@ public class MainMenu extends Menu implements Initializable {
     private Label score;
 
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         avatarImage.imageProperty().bind(controller.getLoggedInPlayer().avatarProperty());
@@ -69,11 +68,6 @@ public class MainMenu extends Menu implements Initializable {
     public void startNewGame() {
         setup(avatarImage);
         window.setScene(Controller.getGameSettingsMenu().getScene());
-    }
-    public void openChatRoom(){
-        setup(avatarImage);
-        window.setScene(Controller.getChatRoom().getScene());
-
     }
 }
 
