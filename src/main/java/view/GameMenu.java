@@ -454,7 +454,7 @@ public class GameMenu extends Menu implements Initializable {
         popupHBox.setVisible(true);
         popup.getContent().add(popupHBox);
         popup.setX(window.getX() + 387);
-        popup.setY(window.getY() + 95);
+        popup.setY(window.getY() + 105);
         popup.setAutoHide(true);
         popup.show(window);
     }
@@ -469,5 +469,26 @@ public class GameMenu extends Menu implements Initializable {
             }
             return message;
         }
+    }
+
+    public void unitPanel(MouseEvent mouseEvent) {
+        Popup popup = new Popup();
+        popupLabel.setText(unitNames());
+        popupHBox.setVisible(true);
+        popup.getContent().add(popupHBox);
+        popup.setX(window.getX() + 410);
+        popup.setY(window.getY() + 105);
+        popup.setAutoHide(true);
+        popup.show(window);
+    }
+
+    private String unitNames() {
+        String message = "";
+        if(Game.getGame().getSelectedCivilization().getUnits().size()==0)
+            return "no unit";
+        for (Unit unit : Game.getGame().getSelectedCivilization().getUnits()) {
+            message += unit.getName() + "\n";
+        }
+        return message;
     }
 }

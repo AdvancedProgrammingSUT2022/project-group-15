@@ -15,72 +15,93 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="backgroundPane" stylesheets="@../css/gameMenu.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.GameMenu">
+<?import javafx.scene.ImageCursor?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0"
+            prefWidth="1280.0" styleClass="backgroundPane" stylesheets="@../css/gameMenu.css"
+            xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.GameMenu">
     <children>
-      <ScrollPane fx:id="mapScrollPane" layoutY="27.0" prefHeight="694.0" prefWidth="1280.0" style="-fx-background-color: black;">
-         <content>
-              <AnchorPane fx:id="map" prefHeight="543.0" prefWidth="1051.0" />
-         </content>
-      </ScrollPane>
+        <ScrollPane fx:id="mapScrollPane" layoutY="27.0" prefHeight="694.0" prefWidth="1280.0"
+                    style="-fx-background-color: black;">
+            <content>
+                <AnchorPane fx:id="map" prefHeight="543.0" prefWidth="1051.0"/>
+            </content>
+        </ScrollPane>
         <HBox prefHeight="28.0" prefWidth="1280.0" spacing="7" styleClass="status-bar">
             <ImageView fitHeight="28" fitWidth="50" pickOnBounds="true" preserveRatio="true">
-                <Image url="@../status bar/Coin.png" />
+                <Image url="@../status bar/Coin.png"/>
             </ImageView>
-            <Label fx:id="Gold" prefHeight="42" prefWidth="70" styleClass="first-text" text="label" />
+            <Label fx:id="Gold" prefHeight="42" prefWidth="70" styleClass="first-text" text="label"/>
             <ImageView fitHeight="28" fitWidth="50" pickOnBounds="true" preserveRatio="true">
-                <Image url="@../status bar/Smile.png" />
+                <Image url="@../status bar/Smile.png"/>
             </ImageView>
-            <Label fx:id="happiness" prefHeight="42" prefWidth="70" styleClass="second-text" text="label" />
+            <Label fx:id="happiness" prefHeight="42" prefWidth="70" styleClass="second-text" text="label"/>
             <ImageView fitHeight="28" fitWidth="50" pickOnBounds="true" preserveRatio="true">
-                <Image url="@../status bar/Science.png" />
+                <Image url="@../status bar/Science.png"/>
             </ImageView>
-            <Label fx:id="science" prefHeight="42" prefWidth="70" styleClass="third-text" text="label" />
+            <Label fx:id="science" prefHeight="42" prefWidth="70" styleClass="third-text" text="label"/>
             <HBox spacing="680">
-                <Text styleClass="year-text" text="" />
-                <Text styleClass="year-text" text="" />
+                <Text styleClass="year-text" text=""/>
+                <Text styleClass="year-text" text=""/>
             </HBox>
             <HBox spacing="40">
-                <Label fx:id="turn" prefHeight="42" prefWidth="60" styleClass="year-text" text="year" />
-                <Label fx:id="year" prefHeight="42" prefWidth="60" styleClass="year-text" text="year" />
-                <Label fx:id="menu" onMouseClicked="#goToGameMenu" prefHeight="42" prefWidth="50" styleClass="year-text" text="MENU">
+                <Label fx:id="turn" prefHeight="42" prefWidth="60" styleClass="year-text" text="year"/>
+                <Label fx:id="year" prefHeight="42" prefWidth="60" styleClass="year-text" text="year"/>
+                <Label fx:id="menu" onMouseClicked="#goToGameMenu" prefHeight="42" prefWidth="50" styleClass="year-text"
+                       text="MENU">
                     <cursor>
-                        <Cursor fx:constant="HAND" />
+                        <Cursor fx:constant="HAND"/>
                     </cursor>
                 </Label>
-
             </HBox>
         </HBox>
-        <ProgressBar fx:id="currentResearchProgressBar" layoutX="87.0" layoutY="50.0" prefHeight="23.0" prefWidth="292.0" progress="0.31" />
-        <ImageView fx:id="currentResearchImageView" fitHeight="129.0" fitWidth="129.0" layoutX="22.0" layoutY="43.0" onMouseClicked="#openTechnologyTree" pickOnBounds="true" preserveRatio="true">
+        <ProgressBar fx:id="currentResearchProgressBar" layoutX="87.0" layoutY="50.0" prefHeight="23.0"
+                     prefWidth="292.0" progress="0.31"/>
+        <ImageView fx:id="currentResearchImageView" fitHeight="129.0" fitWidth="129.0" layoutX="22.0" layoutY="43.0"
+                   onMouseClicked="#openTechnologyTree" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../Technologies/agriculture.png" />
+                <Image url="@../Technologies/agriculture.png"/>
             </image>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
+            <cursor>
+                <Cursor fx:constant="HAND"/>
+            </cursor>
         </ImageView>
-      <HBox fx:id="popupHBox" visible="false">
-         <children>
-            <Label fx:id="popupLabel" style="-fx-background-color: black;" text="pop up" textFill="WHITE">
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <effect>
-                  <DropShadow>
-                     <color>
-                        <Color blue="0.01666666753590107" green="1.0" />
-                     </color>
-                  </DropShadow>
-               </effect>
-               <font>
-                  <Font name="Bradley Hand ITC" size="19.0" />
-               </font>
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
-            </Label>
-            <VBox fx:id="popupVBox" prefHeight="200.0" prefWidth="100.0" />
-         </children>
-      </HBox>
+        <HBox layoutX="400" layoutY="52" prefWidth="20" prefHeight="20" spacing="20">
+            <ImageView fitHeight="20" fitWidth="20" onMouseClicked="#cityPanel">
+                <Image url="@../1.png"/>
+            </ImageView>
+            <cursor>
+                <ImageCursor fx:constant="HAND"/>
+            </cursor>
+            <ImageView fitHeight="20" fitWidth="20" onMouseClicked="#unitPanel">
+                <Image url="@../1.png"/>
+            </ImageView>
+            <cursor>
+                <ImageCursor fx:constant="HAND"/>
+            </cursor>
+
+        </HBox>
+        <HBox fx:id="popupHBox" visible="false">
+            <children>
+                <Label fx:id="popupLabel" style="-fx-background-color: black;" text="pop up" textFill="WHITE">
+                    <opaqueInsets>
+                        <Insets/>
+                    </opaqueInsets>
+                    <effect>
+                        <DropShadow>
+                            <color>
+                                <Color blue="0.01666666753590107" green="1.0"/>
+                            </color>
+                        </DropShadow>
+                    </effect>
+                    <font>
+                        <Font name="Bradley Hand ITC" size="19.0"/>
+                    </font>
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                    </padding>
+                </Label>
+                <VBox fx:id="popupVBox" prefHeight="200.0" prefWidth="100.0"/>
+            </children>
+        </HBox>
     </children>
 </AnchorPane>
