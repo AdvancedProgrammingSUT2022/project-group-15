@@ -18,6 +18,7 @@ public enum Building {
     TEMPLE(120,2,MONUMENT),
     CASTLE(200,3,WALLS),
     FORGE(150,2,null),
+    GARDEN(150, 2, null),
     MARKET(120,0,null),
     MINT(120,0,null),
     MONASTERY(120,2,null),
