@@ -22,6 +22,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Popup;
 import model.City;
 import model.Game;
@@ -32,12 +33,15 @@ import model.unit.Unit;
 import model.unit.WorkerUnit;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class GameMenu extends Menu implements Initializable {
     private final GameMenuController controller = new GameMenuController();
+    @FXML
+    public VBox cityInfo;
     @FXML
     public Label popupLabel;
     @FXML
@@ -121,13 +125,13 @@ public class GameMenu extends Menu implements Initializable {
             }
         });
         group.getChildren().add(hexView);
-        if (hex.getHexVisibility()==HexVisibility.FOG_OF_WAR)
+        if (hex.getHexVisibility() == HexVisibility.FOG_OF_WAR)
             return group;
 
         addResourceAndRuin(hex, group);
         addCity(hex, group);
 
-        if (hex.getHexVisibility()==HexVisibility.DETERMINED) {
+        if (hex.getHexVisibility() == HexVisibility.DETERMINED) {
             ColorAdjust colorAdjust = new ColorAdjust();
             colorAdjust.setBrightness(-0.4);
             colorAdjust.setContrast(-0.4);
@@ -373,11 +377,11 @@ public class GameMenu extends Menu implements Initializable {
                         String[] units = message.split("\n");
                         popupVBox.getChildren().clear();
                         for (String unit : units) {
-                            Button unitButton =new Button(unit);
+                            Button unitButton = new Button(unit);
                             unitButton.setOnAction(new EventHandler<ActionEvent>() {
                                 @Override
                                 public void handle(ActionEvent event) {
-                                    createPopupAndGlowForNode(controller.chooseProductionForUnit(unit),null,false,false);
+                                    createPopupAndGlowForNode(controller.chooseProductionForUnit(unit), null, false, false);
                                 }
                             });
                             popupVBox.getChildren().add(unitButton);
@@ -386,7 +390,7 @@ public class GameMenu extends Menu implements Initializable {
                 }
             });
             popupVBox.getChildren().add(button);
-            button=new Button("buy unit");
+            button = new Button("buy unit");
             button.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
@@ -397,13 +401,13 @@ public class GameMenu extends Menu implements Initializable {
                         String[] units = message.split("\n");
                         popupVBox.getChildren().clear();
                         for (String unit : units) {
-                            Button unitButton =new Button(unit);
+                            Button unitButton = new Button(unit);
                             unitButton.setOnAction(new EventHandler<ActionEvent>() {
                                 @Override
                                 public void handle(ActionEvent event) {
                                     String message = controller.buyUnit(unit);
                                     updateAll();
-                                    createPopupAndGlowForNode(message,null,false,false);
+                                    createPopupAndGlowForNode(message, null, false, false);
                                 }
                             });
                             popupVBox.getChildren().add(unitButton);
@@ -442,5 +446,28 @@ public class GameMenu extends Menu implements Initializable {
     public void openTechnologyTree(MouseEvent mouseEvent) {
         setup(map);
         window.setScene(Controller.getTechnologyTree().getScene());
+    }
+
+    public void cityPanel(MouseEvent mouseEvent) {
+        Popup popup = new Popup();
+        popupLabel.setText(cityNames());
+        popupHBox.setVisible(true);
+        popup.getContent().add(popupHBox);
+        popup.setX(window.getX() + 387);
+        popup.setY(window.getY() + 95);
+        popup.setAutoHide(true);
+        popup.show(window);
+    }
+
+    private String cityNames() {
+        String message = "";
+        if (Game.getGame().getSelectedCivilization().getCities().size() == 0)
+            return "no city";
+        else {
+            for (City city : Game.getGame().getSelectedCivilization().getCities()) {
+                message += city.getName() + "\n";
+            }
+            return message;
+        }
     }
 }

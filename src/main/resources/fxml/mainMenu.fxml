@@ -41,14 +41,6 @@
             </cursor>
         </Button>
     </VBox>
-    <Button fx:id="ChatRoomButton" mnemonicParsing="false" layoutX="1140.0" layoutY="460.0" onMouseClicked="#openChatRoom" styleClass="chat-room" text="CHAT" textFill="WHITE">//onMouseClicked
-        <font>
-            <Font name="Impact" size="40.0" />
-        </font>
-        <cursor>
-            <Cursor fx:constant="HAND" />
-        </cursor>
-    </Button>
     <ImageView fx:id="exitButton" fitHeight="80.0" fitWidth="88.0" layoutX="1186.0" layoutY="626.0" onMouseClicked="#exitGame" pickOnBounds="true" preserveRatio="true" styleClass="exit-button">
         <cursor>
             <Cursor fx:constant="HAND" />
