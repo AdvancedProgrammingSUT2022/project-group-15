@@ -56,3 +56,7 @@
 .back-button:hover {
     -fx-effect: dropshadow(three-pass-box, rgb(255, 255, 255), 2, 0.7, 0, 0);
 }
+
+.backgroundPane {
+    -fx-background-image: url("../backgrounds/paper.jpg");
+}
