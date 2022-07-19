@@ -79,6 +79,8 @@ public class GameMenu extends Menu implements Initializable {
     }
 
     private void updateAll() {
+        updateStatusBar();
+        updateCurrentResearchStatus();
         fillMap();
     }
 
@@ -111,18 +113,15 @@ public class GameMenu extends Menu implements Initializable {
         hexView.setFitWidth(144);
         hexView.setFitHeight(144);
 
-        hexView.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                if (window == null) {
-                    setup(map);
-                }
-                if (controller.getSelectedUnit() != null) {
-                    createPopupAndGlowForNode(controller.moveSelectedUnitTo(hex.getCoordinatesInArray().get('x'), hex.getCoordinatesInArray().get('y')), null, false, false);
-                    updateAll();
-                } else
-                    createPopupAndGlowForNode(hexInfo(hex), hexView, false, false);
+        hexView.setOnMouseClicked(event -> {
+            if (window == null) {
+                setup(map);
             }
+            if (controller.getSelectedUnit() != null) {
+                createPopupAndGlowForNode(controller.moveSelectedUnitTo(hex.getCoordinatesInArray().get('x'), hex.getCoordinatesInArray().get('y')), null, false, false);
+                updateAll();
+            } else
+                createPopupAndGlowForNode(hexInfo(hex), hexView, false, false);
         });
         group.getChildren().add(hexView);
         if (hex.getHexVisibility() == HexVisibility.FOG_OF_WAR)
@@ -150,12 +149,7 @@ public class GameMenu extends Menu implements Initializable {
                 label.setStyle("-fx-background-color: purple;-fx-text-fill: #04e2ff");
                 label.setLayoutX(60);
                 label.setLayoutY(5);
-                label.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                        createCityPage(hex.getCity());
-                    }
-                });
+                label.setOnMouseClicked(event -> createCityPage(hex.getCity()));
                 group.getChildren().add(label);
             }
         }
@@ -192,12 +186,7 @@ public class GameMenu extends Menu implements Initializable {
         addOptions(false);
         popup.show(window);
 
-        popup.setOnAutoHide(new EventHandler<Event>() {
-            @Override
-            public void handle(Event event) {
-                controller.discard(false);
-            }
-        });
+        popup.setOnAutoHide(event -> controller.discard(false));
     }
 
     private String hexInfo(Hex hex) {
@@ -221,15 +210,12 @@ public class GameMenu extends Menu implements Initializable {
             civilUnit.setY(0);
             civilUnit.setX(75);
             group.getChildren().add(civilUnit);
-            civilUnit.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    if (window == null) {
-                        setup(map);
-                    }
-                    createPopupAndGlowForNode(controller.selectCivilUnit(hex.getCoordinatesInArray().get('x'), hex.getCoordinatesInArray().get('y'))
-                            , civilUnit, true, true);
+            civilUnit.setOnMouseClicked(event -> {
+                if (window == null) {
+                    setup(map);
                 }
+                createPopupAndGlowForNode(controller.selectCivilUnit(hex.getCoordinatesInArray().get('x'), hex.getCoordinatesInArray().get('y'))
+                        , civilUnit, true, true);
             });
         }
         if (hex.getMilitaryUnit() != null) {
@@ -239,15 +225,12 @@ public class GameMenu extends Menu implements Initializable {
             militaryUnit.setY(70);
             militaryUnit.setX(40);
             group.getChildren().add(militaryUnit);
-            militaryUnit.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    if (window == null) {
-                        setup(map);
-                    }
-                    createPopupAndGlowForNode(controller.selectMilitaryUnit(hex.getCoordinatesInArray().get('x'), hex.getCoordinatesInArray().get('y'))
-                            , militaryUnit, true, true);
+            militaryUnit.setOnMouseClicked(event -> {
+                if (window == null) {
+                    setup(map);
                 }
+                createPopupAndGlowForNode(controller.selectMilitaryUnit(hex.getCoordinatesInArray().get('x'), hex.getCoordinatesInArray().get('y'))
+                        , militaryUnit, true, true);
             });
         }
     }
@@ -292,25 +275,22 @@ public class GameMenu extends Menu implements Initializable {
         Glow glow = new Glow(0.7);
         if (node != null)
             node.setEffect(glow);
-        popup.setOnAutoHide(new EventHandler<Event>() {
-            @Override
-            public void handle(Event event) {
-                if (node != null)
-                    node.setEffect(null);
-                popupVBox.getChildren().clear();
-                if (OnEndDiscard) {
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                Thread.sleep(200);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                            controller.discard(isUnit);
+        popup.setOnAutoHide(event -> {
+            if (node != null)
+                node.setEffect(null);
+            popupVBox.getChildren().clear();
+            if (OnEndDiscard) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(200);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
                         }
-                    }).start();
-                }
+                        controller.discard(isUnit);
+                    }
+                }).start();
             }
         });
     }
@@ -318,13 +298,10 @@ public class GameMenu extends Menu implements Initializable {
     private void addOptions(boolean isUnit) {
         if (isUnit) {
             Button button = new Button("delete unit");
-            button.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    String message = controller.deleteSelectedUnit();
-                    updateAll();
-                    createPopupAndGlowForNode(message, null, false, false);
-                }
+            button.setOnAction(event -> {
+                String message = controller.deleteSelectedUnit();
+                updateAll();
+                createPopupAndGlowForNode(message, null, false, false);
             });
             popupVBox.getChildren().add(button);
             button = new Button("sleep unit");

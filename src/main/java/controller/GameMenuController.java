@@ -136,6 +136,10 @@ public class GameMenuController {
         return Controller.addNotification(Game.getGame().getTurnNumber(), technologyName + " activated! (is your technology in progress)");
     }
 
+    public void buyNewTechnology(Technology technology) {
+        Game.getGame().getSelectedCivilization().setTechnologyInProgress(technology);
+    }
+
     public String showUnitsPanel() {
         String message = "";
         int number = 1;

@@ -1,6 +1,7 @@
 package view;
 
 import controller.Controller;
+import controller.GameMenuController;
 import enums.Technology;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,18 +18,27 @@ import java.util.ResourceBundle;
 public class TechnologyTree extends Menu implements Initializable {
     @FXML
     private ScrollPane scrollPane;
+
     private final ArrayList<TechnologyNode> technologyNodes = new ArrayList<>();
+    GameMenuController controller = new GameMenuController();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         scrollPane.setPannable(true);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.setFitToHeight(true);
 
         for (Technology technology : Technology.values()) {
             technologyNodes.add(new TechnologyNode(technology));
         }
         ((AnchorPane) scrollPane.getContent()).getChildren().addAll(technologyNodes);
-        scrollPane.setFitToHeight(true);
+
+        for (TechnologyNode technologyNode : technologyNodes) {
+            technologyNode.setOnMouseClicked(e -> {
+                if (technologyNode.handleClick(controller))
+                    technologyNode.updateNode();
+            });
+        }
     }
 
     @Override
@@ -39,6 +49,10 @@ public class TechnologyTree extends Menu implements Initializable {
                 scene = new Scene(root);
             } catch (IOException e) {
                 e.printStackTrace();
+            }
+        } else {
+            for (TechnologyNode node : technologyNodes) {
+                node.updateNode();
             }
         }
         return scene;
