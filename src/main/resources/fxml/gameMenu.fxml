@@ -23,6 +23,23 @@
                 <AnchorPane fx:id="map" prefHeight="689.0" prefWidth="1277.0" styleClass="backgroundPane" />
             </content>
         </ScrollPane>
+      <ImageView fitHeight="129.0" fitWidth="129.0" layoutX="1140.0" layoutY="580.0" onMouseClicked="#nextTurn" pickOnBounds="true" preserveRatio="true" styleClass="back-button">
+         <image>
+            <Image url="@../icons/next-turn.png" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </ImageView>
+        <ProgressBar fx:id="currentResearchProgressBar" layoutX="87.0" layoutY="50.0" prefHeight="23.0" prefWidth="292.0" progress="0.31" />
+        <ImageView fx:id="currentResearchImageView" fitHeight="129.0" fitWidth="129.0" layoutX="22.0" layoutY="43.0" onMouseClicked="#openTechnologyTree" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../Technologies/agriculture.png" />
+            </image>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </ImageView>
         <HBox prefHeight="28.0" prefWidth="1280.0" spacing="7" styleClass="status-bar">
             <ImageView fitHeight="28" fitWidth="50" pickOnBounds="true" preserveRatio="true">
                 <Image url="@../status bar/Coin.png" />
@@ -50,15 +67,6 @@
                 </Label>
             </HBox>
         </HBox>
-        <ProgressBar fx:id="currentResearchProgressBar" layoutX="87.0" layoutY="50.0" prefHeight="23.0" prefWidth="292.0" progress="0.31" />
-        <ImageView fx:id="currentResearchImageView" fitHeight="129.0" fitWidth="129.0" layoutX="22.0" layoutY="43.0" onMouseClicked="#openTechnologyTree" pickOnBounds="true" preserveRatio="true">
-            <image>
-                <Image url="@../Technologies/agriculture.png" />
-            </image>
-            <cursor>
-                <Cursor fx:constant="HAND" />
-            </cursor>
-        </ImageView>
         <HBox layoutX="400" layoutY="52" prefHeight="20" prefWidth="20" spacing="20">
             <ImageView fitHeight="20" fitWidth="20" onMouseClicked="#cityPanel">
                 <Image url="@../1.png" />

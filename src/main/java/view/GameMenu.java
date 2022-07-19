@@ -468,4 +468,9 @@ public class GameMenu extends Menu implements Initializable {
         }
         return message;
     }
+
+    public void nextTurn() {
+        controller.changeTurn(false);
+        updateAll();
+    }
 }
