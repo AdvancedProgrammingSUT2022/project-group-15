@@ -40,6 +40,10 @@
     -fx-background-color: rgba(206, 246, 164, 0.2);
 }
 
+.button.guides {
+    -fx-background-color: rgba(128, 128, 128, 0.33);
+}
+
 .button.guides:hover {
     -fx-cursor: default;
     -fx-background-color: rgba(206, 246, 164, 0.2);

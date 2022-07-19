@@ -22,11 +22,11 @@
             <cursor>
                <Cursor fx:constant="DEFAULT" />
             </cursor></Button>
-         <Button layoutX="63.0" layoutY="581.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="150.0" style="-fx-border-color: green; -fx-text-fill: green;" styleClass="guides" text="Available" textAlignment="CENTER">
+         <Button layoutX="63.0" layoutY="581.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="150.0" style="-fx-border-color: lightgreen; -fx-text-fill: lightgreen;" styleClass="guides" text="Available" textAlignment="CENTER">
             <cursor>
                <Cursor fx:constant="DEFAULT" />
             </cursor></Button>
-         <Button layoutX="63.0" layoutY="631.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="150.0" style="-fx-border-color: gray; -fx-text-fill: gray;" styleClass="guides" text="Not Available" textAlignment="CENTER">
+         <Button layoutX="63.0" layoutY="631.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="150.0" style="-fx-border-color: gray; -fx-text-fill: black;" styleClass="guides" text="Not Available" textAlignment="CENTER">
             <cursor>
                <Cursor fx:constant="DEFAULT" />
             </cursor></Button>
