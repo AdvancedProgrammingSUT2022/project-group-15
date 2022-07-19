@@ -69,18 +69,20 @@
         </HBox>
         <HBox layoutX="400" layoutY="52" prefHeight="20" prefWidth="20" spacing="20">
             <ImageView fitHeight="20" fitWidth="20" onMouseClicked="#cityPanel">
-                <Image url="@../1.png" />
+                <Image url="@../status bar/city.png" />
             </ImageView>
             <ImageView fitHeight="20" fitWidth="20" onMouseClicked="#unitPanel">
-                <Image url="@../1.png" />
+                <Image url="@../status bar/unit.png" />
+            </ImageView>
+            <ImageView fitHeight="20" fitWidth="20" onMouseClicked="#demographicPanel">
+                <Image url="@../status bar/demographic.png" />
+            </ImageView>
+            <ImageView fitHeight="20" fitWidth="20" onMouseClicked="#notificationHistory">
+                <Image url="@../status bar/notification.png" />
             </ImageView>
             <cursor>
                 <ImageCursor fx:constant="HAND" />
             </cursor>
-            <cursor>
-                <ImageCursor fx:constant="HAND" />
-            </cursor>
-
         </HBox>
         <HBox fx:id="popupHBox" visible="false">
             <children>

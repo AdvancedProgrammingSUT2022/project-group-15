@@ -14,10 +14,8 @@ public class Controller {
     private static final GameMenu gameMenu = new GameMenu();
     private static final GameSettingsMenu gameSettingsMenu = new GameSettingsMenu();
     private static final ScoreBoard scoreboard = new ScoreBoard();
-    private static final PublicChat chatRoom = new PublicChat();
     private static final TechnologyTree technologyTree = new TechnologyTree();
     private static final ArrayList<String> notificationHistory = new ArrayList<>();
-
 
 
     public static ProfileMenu getProfileMenu() {
@@ -26,10 +24,6 @@ public class Controller {
 
     public static ScoreBoard getScoreBoard() {
         return scoreboard;
-    }
-
-    public static PublicChat getChatRoom() {
-        return chatRoom;
     }
 
     public void run(Stage primaryStage) {

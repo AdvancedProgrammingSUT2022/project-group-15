@@ -461,7 +461,7 @@ public class GameMenu extends Menu implements Initializable {
 
     private String unitNames() {
         String message = "";
-        if(Game.getGame().getSelectedCivilization().getUnits().size()==0)
+        if (Game.getGame().getSelectedCivilization().getUnits().size() == 0)
             return "no unit";
         for (Unit unit : Game.getGame().getSelectedCivilization().getUnits()) {
             message += unit.getName() + "\n";
@@ -472,5 +472,27 @@ public class GameMenu extends Menu implements Initializable {
     public void nextTurn() {
         controller.changeTurn(false);
         updateAll();
+    }
+
+    public void notificationHistory(MouseEvent mouseEvent) {
+        Popup popup = new Popup();
+        popupLabel.setText(controller.showNotificationHistory());
+        popupHBox.setVisible(true);
+        popup.getContent().add(popupHBox);
+        popup.setX(window.getX() + 520);
+        popup.setY(window.getY() + 105);
+        popup.setAutoHide(true);
+        popup.show(window);
+    }
+
+    public void demographicPanel(MouseEvent mouseEvent) {
+        Popup popup = new Popup();
+        popupLabel.setText(controller.showDemographicsPanel());
+        popupHBox.setVisible(true);
+        popup.getContent().add(popupHBox);
+        popup.setX(window.getX() + 480);
+        popup.setY(window.getY() + 105);
+        popup.setAutoHide(true);
+        popup.show(window);
     }
 }
