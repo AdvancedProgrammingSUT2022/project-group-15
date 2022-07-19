@@ -17,7 +17,7 @@ public enum Technology {
     POTTERY("pottery", 35, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(Arrays.asList(AGRICULTURE)), new ArrayList<>(Arrays.asList(Building.GRANARY)), 348, 95),
     CALENDAR("calendar", 70, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(Arrays.asList(Improvement.PLANTATION)), new ArrayList<>(Arrays.asList(POTTERY)), new ArrayList<>(), 695, 95),
     MASONRY("masonry", 55, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(Arrays.asList(Improvement.QUARRY)), new ArrayList<>(Arrays.asList(MINING)), new ArrayList<>(Arrays.asList(Building.WALLS)), 695, 547),
-    WHEEL("The wheel", 55, new ArrayList<>(), new ArrayList<>(Arrays.asList(UnitName.CHARIOTARCHER)), new ArrayList<>(Arrays.asList(Improvement.ROAD)), new ArrayList<>(Arrays.asList(ANIMAL_HUSBANDRY)), new ArrayList<>(Arrays.asList(Building.WATERMILL)), 695, 351),
+    WHEEL("the wheel", 55, new ArrayList<>(), new ArrayList<>(Arrays.asList(UnitName.CHARIOTARCHER)), new ArrayList<>(Arrays.asList(Improvement.ROAD)), new ArrayList<>(Arrays.asList(ANIMAL_HUSBANDRY)), new ArrayList<>(Arrays.asList(Building.WATERMILL)), 695, 351),
     TRAPPING("trapping", 55, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(Arrays.asList(Improvement.TRADING_POST, Improvement.CAMP)), new ArrayList<>(Arrays.asList(ANIMAL_HUSBANDRY)), new ArrayList<>(), 695, 223),
     WRITING("writing", 55, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(Arrays.asList(POTTERY)), new ArrayList<>(Arrays.asList(Building.LIBRARY)), 695, 158),
     CONSTRUCTION("construction", 100, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(Arrays.asList(MASONRY)), new ArrayList<>(Arrays.asList(Building.COLOSSEUM)), 1043, 547),
@@ -83,27 +83,27 @@ public enum Technology {
 
     @Override
     public String toString() {
-        StringBuilder result = new StringBuilder("name : " + this.name + "\ncost(science): " + this.cost + "\n");
+        StringBuilder result = new StringBuilder("name : " + this.name + "\ncost (science) : " + this.cost + "\n");
         if (!openingResources.isEmpty()) {
-            result.append("opening resources : ");
+            result.append("opening resources : \n");
             for (Resource resource : openingResources) {
                 result.append("\t").append(resource.name).append("\n");
             }
         }
         if (!openingUnits.isEmpty()) {
-            result.append("opening units : ");
+            result.append("opening units : \n");
             for (UnitName unitName : openingUnits) {
                 result.append("\t").append(unitName.getName()).append("\n");
             }
         }
         if (!openingImprovements.isEmpty()) {
-            result.append("opening improvements : ");
+            result.append("opening improvements : \n");
             for (Improvement improvement : openingImprovements) {
                 result.append("\t").append(improvement.name).append("\n");
             }
         }
         if (!openingBuildings.isEmpty()) {
-            result.append("opening improvements : ");
+            result.append("opening improvements : \n");
             for (Building building : openingBuildings) {
                 result.append("\t").append(building.name).append("\n");
             }

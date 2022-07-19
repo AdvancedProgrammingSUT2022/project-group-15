@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -12,7 +14,29 @@
                 <ImageView fitHeight="720.0" fitWidth="4139.0" pickOnBounds="true" preserveRatio="true">
                     <Image url="@../Technologies/TechnologyTree.png" />
                 </ImageView>
+         <Button layoutX="63.0" layoutY="481.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="150.0" style="-fx-border-color: gold; -fx-text-fill: gold;" styleClass="guides" text="Researched" textAlignment="CENTER">
+            <cursor>
+               <Cursor fx:constant="DEFAULT" />
+            </cursor></Button>
+         <Button layoutX="63.0" layoutY="531.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="150.0" style="-fx-border-color: blue; -fx-text-fill: blue;" styleClass="guides" text="In Progress" textAlignment="CENTER">
+            <cursor>
+               <Cursor fx:constant="DEFAULT" />
+            </cursor></Button>
+         <Button layoutX="63.0" layoutY="581.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="150.0" style="-fx-border-color: green; -fx-text-fill: green;" styleClass="guides" text="Available" textAlignment="CENTER">
+            <cursor>
+               <Cursor fx:constant="DEFAULT" />
+            </cursor></Button>
+         <Button layoutX="63.0" layoutY="631.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="150.0" style="-fx-border-color: gray; -fx-text-fill: gray;" styleClass="guides" text="Not Available" textAlignment="CENTER">
+            <cursor>
+               <Cursor fx:constant="DEFAULT" />
+            </cursor></Button>
 
             </AnchorPane>
     </ScrollPane>
+          <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="7.0" layoutY="23.0" onMouseClicked="#back" pickOnBounds="true" preserveRatio="true" styleClass="back-button">
+              <cursor>
+                  <Cursor fx:constant="HAND" />
+              </cursor>
+              <Image url="@../icons/back-icon.png" />
+          </ImageView>
 </AnchorPane>
