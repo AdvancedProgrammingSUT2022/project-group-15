@@ -92,7 +92,7 @@ public class GameMenu extends Menu implements Initializable {
         fillMap();
         new Thread(() -> {
             try {
-                Thread.sleep(200);
+                Thread.sleep(600);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -857,5 +857,19 @@ public class GameMenu extends Menu implements Initializable {
     private Matcher getMatcher(String command, String regex) {
         Matcher matcher = Pattern.compile(regex).matcher(command);
         return matcher.matches() ? matcher : null;
+    }
+    public void pause(MouseEvent mouseEvent) {
+        popupVBox.getChildren().clear();
+        popupVBox.setSpacing(10);
+        Popup popup = new Popup();
+        popupVBox.getChildren().add(new Button("resume"));
+        popupVBox.getChildren().add(new Button("save"));
+        popupVBox.getChildren().add(new Button("menu"));
+        popupVBox.setVisible(true);
+        popup.getContent().add(popupVBox);
+        popup.setX(window.getX() + 480);
+        popup.setY(window.getY() + 105);
+        popup.setAutoHide(true);
+        popup.show(window);
     }
 }
