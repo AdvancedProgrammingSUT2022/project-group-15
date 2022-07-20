@@ -12,6 +12,8 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -24,9 +26,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Popup;
@@ -92,7 +92,7 @@ public class GameMenu extends Menu implements Initializable {
         fillMap();
         new Thread(() -> {
             try {
-                Thread.sleep(600);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -770,11 +770,10 @@ public class GameMenu extends Menu implements Initializable {
                 continue;
             HBox hBox = new HBox();
             Label label = new Label();
-
             if (civilization.getEnemies().contains(nowCivilization))
-                label.setText("civilization : " + civilization.getUser().getNickname() + " at war  ") ;
+                label.setText("civilization : " + civilization.getUser().getNickname() + " at war  ");
             else
-                label.setText("civilization : " + civilization.getUser().getNickname() + " piece  ") ;
+                label.setText("civilization : " + civilization.getUser().getNickname() + " piece  ");
 
             label.setStyle("-fx-background-color: white");
             label.setFont(new Font("Arial", 23));
@@ -858,17 +857,31 @@ public class GameMenu extends Menu implements Initializable {
         Matcher matcher = Pattern.compile(regex).matcher(command);
         return matcher.matches() ? matcher : null;
     }
+
     public void pause(MouseEvent mouseEvent) {
         popupVBox.getChildren().clear();
         popupVBox.setSpacing(10);
+        popupLabel.setText("Pause");
         Popup popup = new Popup();
-        popupVBox.getChildren().add(new Button("resume"));
-        popupVBox.getChildren().add(new Button("save"));
-        popupVBox.getChildren().add(new Button("menu"));
+        popupVBox.setLayoutX(100);
+        popupVBox.setLayoutY(100);
+        popupVBox.prefWidth(100);
+        popupVBox.prefHeight(100);
+        popupVBox.setAlignment(Pos.CENTER);
+        popupVBox.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+        Button button = new Button("resume");
+        button.setStyle("-fx-base: red;");
+        Button button1 = new Button("save");
+        button1.setStyle("-fx-base: red;");
+        Button button2 = new Button("menu");
+        button2.setStyle("-fx-base: red;");
+        popupVBox.getChildren().add(button);
+        popupVBox.getChildren().add(button1);
+        popupVBox.getChildren().add(button2);
         popupVBox.setVisible(true);
         popup.getContent().add(popupVBox);
         popup.setX(window.getX() + 480);
-        popup.setY(window.getY() + 105);
+        popup.setY(window.getY() + 200);
         popup.setAutoHide(true);
         popup.show(window);
     }

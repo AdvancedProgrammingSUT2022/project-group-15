@@ -70,11 +70,12 @@
             <HBox spacing="40">
                 <Label fx:id="turn" prefHeight="42" prefWidth="60" styleClass="year-text" text="year" />
                 <Label fx:id="year" prefHeight="42" prefWidth="60" styleClass="year-text" text="year" />
-                <Label fx:id="pause" onMouseClicked="#pause" prefHeight="42" prefWidth="50" styleClass="year-text" text="PAUSE">
+                <ImageView fx:id="pause" onMouseClicked="#pause" fitWidth="25" fitHeight="25">
+                    <Image url="@../status bar/m.png" />
                     <cursor>
-                        <Cursor fx:constant="HAND" />
+                        <ImageCursor fx:constant="HAND"/>
                     </cursor>
-                </Label>
+                </ImageView>
             </HBox>
         </HBox>
         <HBox layoutX="400" layoutY="52" prefHeight="20" prefWidth="20" spacing="20">
