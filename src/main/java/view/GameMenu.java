@@ -759,9 +759,9 @@ public class GameMenu extends Menu implements Initializable {
             Label label = new Label();
 
             if (civilization.getEnemies().contains(nowCivilization))
-                label.setText("civilization : " + civilization.getUser().getNickname() + " at war  ") ;
+                label.setText("civilization : " + civilization.getUser().getNickname() + " at war  ");
             else
-                label.setText("civilization : " + civilization.getUser().getNickname() + " piece  ") ;
+                label.setText("civilization : " + civilization.getUser().getNickname() + " piece  ");
 
             label.setStyle("-fx-background-color: white");
             label.setFont(new Font("Arial", 23));
@@ -796,5 +796,19 @@ public class GameMenu extends Menu implements Initializable {
 
             vBox.getChildren().add(hBox);
         }
+    }
+    public void pause(MouseEvent mouseEvent) {
+        popupVBox.getChildren().clear();
+        popupVBox.setSpacing(10);
+        Popup popup = new Popup();
+        popupVBox.getChildren().add(new Button("resume"));
+        popupVBox.getChildren().add(new Button("save"));
+        popupVBox.getChildren().add(new Button("menu"));
+        popupVBox.setVisible(true);
+        popup.getContent().add(popupVBox);
+        popup.setX(window.getX() + 480);
+        popup.setY(window.getY() + 105);
+        popup.setAutoHide(true);
+        popup.show(window);
     }
 }
