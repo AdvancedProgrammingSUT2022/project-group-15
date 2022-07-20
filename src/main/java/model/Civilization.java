@@ -20,7 +20,7 @@ public class Civilization {
     private ArrayList<Resource> openedResources = new ArrayList<>();
     private ArrayList<Feature> openedFeatures = new ArrayList<>();
     private ArrayList<Improvement> openedImprovements = new ArrayList<>();
-    private ArrayList<Building> openedBuildings = new ArrayList<>();
+    private ArrayList<Building> openedBuildings = new ArrayList<>(Arrays.asList(Building.MONUMENT));
     private ArrayList<Resource> strategicResources = new ArrayList<>();
     private HashSet<Resource> luxuryResources = new HashSet<>();
     private City capital;

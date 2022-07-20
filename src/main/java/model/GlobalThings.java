@@ -25,4 +25,5 @@ public class GlobalThings {
 
     public static Image FOG_OF_WAR_IMAGE = new Image(GlobalThings.class.getResource("/tiles/fog of war.png").toExternalForm());
     public static Image RUINS_IMAGE = new Image(GlobalThings.class.getResource("/icons/ruins.png").toExternalForm());
+    public static Image CITY_IMAGE = new Image(GlobalThings.class.getResource("/tiles/city.png").toExternalForm());
 }

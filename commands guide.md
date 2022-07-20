@@ -61,10 +61,11 @@ The order of flags doesn't matter in each command below that contains dashes
 
 25) city remove citizen from work on **_x_** **_y_**
 26) city lock citizen on **_x_** **_y_**
-27) city choose production **_unit name_**
-28) city purchase unit **_unit name_**
+27) city choose production **_unit name_** XXXXXXX
+28) city purchase unit **_unit name_** XXXXXXXXXXXX
 29) city buy hex **_x_** **_y_**
-30) city attack **_x_** **_y_** (choosing building and buying building added in phase 2)
+30) city attack **_x_** **_y_**   xxxxxxx  
+(choosing building and buying building added in phase 2) XXXXXXX
 
 #### <li> Map Commands
 

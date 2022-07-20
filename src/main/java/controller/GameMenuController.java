@@ -19,12 +19,12 @@ public class GameMenuController {
 
     public String getAvailableBuildingsForCity() {
         if (selectedCity == null)
-            return "no city is selected";
+            return "error : no city is selected";
         if (selectedCity.getOwner() != Game.getGame().getSelectedCivilization())
-            return "city not yours";
+            return "error : city not yours";
         StringBuilder ans = new StringBuilder();
         for (Building availableBuilding : selectedCity.getAvailableBuildings()) {
-            ans.append("building name : ").append(availableBuilding.name()).append(" production cost: ").append(availableBuilding.productionCost).append("\n");
+            ans.append(availableBuilding.name).append(" ").append(availableBuilding.productionCost).append("\n");
         }
         if (ans.length() != 0)
             ans.deleteCharAt(ans.length() - 1);
@@ -494,6 +494,8 @@ public class GameMenuController {
             return Controller.addNotification(Game.getGame().getTurnNumber(), "you can't attack yourself");
         ((MilitaryUnit) selectedUnit).attackTo(target);
 
+        discard(true);
+        discard(false);
         return Controller.addNotification(Game.getGame().getTurnNumber(), "attack is done");
     }
 
@@ -667,7 +669,7 @@ public class GameMenuController {
             return Controller.addNotification(Game.getGame().getTurnNumber(), "no city is selected");
         if (!selectedCity.getOwner().equals(Game.getGame().getSelectedCivilization()))
             return Controller.addNotification(Game.getGame().getTurnNumber(), "city not yours");
-        if (Game.getGame().map.map.get(x).get(y).getCity().equals(selectedCity))
+        if (!Game.getGame().map.map.get(x).get(y).getCity().equals(selectedCity))
             return Controller.addNotification(Game.getGame().getTurnNumber(), "hex not in this city");
 
         if (!Game.getGame().map.map.get(x).get(y).isAnyCitizenWorking())

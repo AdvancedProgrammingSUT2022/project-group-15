@@ -51,7 +51,7 @@ public enum Building {
 
     public static Building getBuildingByName(String name) {
         for (Building building : Building.values()) {
-            if (name.equalsIgnoreCase(building.name()))
+            if (name.equalsIgnoreCase(building.name))
                 return building;
         }
         return null;

@@ -366,8 +366,11 @@ public class Map {
 
     public boolean hasTheCityAround(int x, int y, City city) {
         for (NeighborHex neighborHex : NeighborHex.values()) {
-            if (map.get((2 * x + y % 2 + neighborHex.xDiff) / 2).get(y + neighborHex.yDiff).getCity().equals(city))
-                return true;
+            int nx = (2 * x + y % 2 + neighborHex.xDiff) / 2;
+            int ny = y + neighborHex.yDiff;
+            if (validCoordinateInArray(nx, ny))
+                if (city.equals(map.get(nx).get(ny).getCity()))
+                    return true;
         }
         return false;
     }
@@ -383,8 +386,9 @@ public class Map {
         }
         return false;
     }
-    public boolean isCenterOfCity(Hex hex){
-        return isCenterOfCity(hex.getCoordinatesInArray().get('x'),hex.getCoordinatesInArray().get('y'));
+
+    public boolean isCenterOfCity(Hex hex) {
+        return isCenterOfCity(hex.getCoordinatesInArray().get('x'), hex.getCoordinatesInArray().get('y'));
     }
 
     public boolean isCenterOfCity(int x, int y) {

@@ -55,7 +55,7 @@ public enum UnitName {
     PANZER("panzer", 450, "Armored", 60, 0, 1, 5,
             Resource.NULL),
     TANK("tank", 450, "Armored", 50, 0, 1, 4, Resource.NULL),
-    CITYUNIT("cityunit", 0, "city", 14, 14, 2, 0, Resource.NULL);
+    CITYUNIT("cityunit", 0, "city", 14, 14, 2, 1, Resource.NULL);
 
     private final String name;
     private final int cost;

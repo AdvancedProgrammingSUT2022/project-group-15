@@ -70,6 +70,9 @@ public class GameMenu extends Menu implements Initializable {
     @FXML
     private ScrollPane mapScrollPane;
 
+    private boolean isSelectingTile = false;
+    private int codeForFunction = 0;// 1:remove citizen from work    2:lock citizen    3:buy hex
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         mapScrollPane.setContent(map);
@@ -136,6 +139,8 @@ public class GameMenu extends Menu implements Initializable {
         ImageView hexView;
         if (hex.getHexVisibility() == HexVisibility.FOG_OF_WAR) {
             hexView = new ImageView(GlobalThings.FOG_OF_WAR_IMAGE);
+        } else if (hex.getCity() != null && hex.getCity().getOwner().getVisibilityMap().isCenterOfCity(hex)) {
+            hexView = new ImageView(GlobalThings.CITY_IMAGE);
         } else if (hex.getFeature() != Feature.NULL) {
             hexView = new ImageView(hex.getFeature().image);
         } else {
@@ -145,13 +150,21 @@ public class GameMenu extends Menu implements Initializable {
         hexView.setFitHeight(144);
 
         hexView.setOnMouseClicked(event -> {
-
+            if (isSelectingTile) {
+                doFunctionForCode(hex.getCoordinatesInArray().get('x'), hex.getCoordinatesInArray().get('y'));
+                return;
+            }
             if (event.getButton() == MouseButton.SECONDARY) {
                 if (controller.getSelectedUnit() != null) {
                     createPopupAndGlowForNode(controller.attackTo(hex.getCoordinatesInArray().get('x'),
                             hex.getCoordinatesInArray().get('y')), null, false, true);
                     fillMap();
+                } else if (controller.getSelectedCity() != null) {
+                    createPopupAndGlowForNode(controller.cityAttackTo(hex.getCoordinatesInArray().get('x'),
+                            hex.getCoordinatesInArray().get('y')), null, false, true);
+                    fillMap();
                 }
+
             } else {
                 if (controller.getSelectedUnit() != null) {
                     createPopupAndGlowForNode(controller.moveSelectedUnitTo(hex.getCoordinatesInArray().get('x'), hex.getCoordinatesInArray().get('y')), null, false, false);
@@ -177,6 +190,23 @@ public class GameMenu extends Menu implements Initializable {
 
         addUnits(hex, group);
         return group;
+    }
+
+    private void doFunctionForCode(int x, int y) {
+        isSelectingTile = false;
+        switch (codeForFunction) {
+            case 1:
+                createPopupAndGlowForNode(controller.removeCitizenFromWork(x, y), null, false, false);
+                break;
+            case 2:
+                createPopupAndGlowForNode(controller.lockCitizenToHex(x, y), null, false, false);
+                break;
+            case 3:
+                createPopupAndGlowForNode(controller.buyHex(x, y), null, false, false);
+                break;
+        }
+        fillMap();
+        codeForFunction = 0;
     }
 
     private void addCity(Hex hex, Group group) {
@@ -212,7 +242,7 @@ public class GameMenu extends Menu implements Initializable {
 
     private void createCityPage(City city) {
         Popup popup = new Popup();
-
+        popupVBox.getChildren().clear();
         popupLabel.setText(controller.selectCity(city.getName()));
         popupHBox.setVisible(true);
         popup.getContent().add(popupHBox);
@@ -223,7 +253,18 @@ public class GameMenu extends Menu implements Initializable {
         addOptions(false);
         popup.show(window);
 
-        popup.setOnAutoHide(event -> controller.discard(false));
+        popup.setOnAutoHide(event ->
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(300);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        controller.discard(false);
+                    }
+                }).start());
     }
 
     private String hexInfo(Hex hex) {
@@ -525,6 +566,79 @@ public class GameMenu extends Menu implements Initializable {
                         });
                         popupVBox.getChildren().add(unitButton);
                     }
+                }
+            });
+            popupVBox.getChildren().add(button);
+            button = new Button("buy building");
+            button.setOnAction(event -> {
+                String message = controller.getAvailableBuildingsForCity();
+                if (message.startsWith("error"))
+                    createPopupAndGlowForNode(message, null, false, false);
+                else if (message.length() == 0)
+                    createPopupAndGlowForNode("no building is possible now", null, false, false);
+                else {
+                    String[] buildings = message.split("\n");
+                    popupVBox.getChildren().clear();
+                    for (String building : buildings) {
+                        Button unitButton = new Button(building.split(" ")[0]);
+                        unitButton.setTooltip(new Tooltip(building));
+                        unitButton.setOnAction(event12 -> {
+                            String message1 = controller.buyBuilding(building.split(" ")[0]);
+                            updateAll();
+                            createPopupAndGlowForNode(message1, null, false, false);
+                        });
+                        popupVBox.getChildren().add(unitButton);
+                    }
+                }
+            });
+            popupVBox.getChildren().add(button);
+            button = new Button("choose building");
+            button.setOnAction(event -> {
+                String message = controller.getAvailableBuildingsForCity();
+                if (message.startsWith("error"))
+                    createPopupAndGlowForNode(message, null, false, false);
+                else if (message.length() == 0)
+                    createPopupAndGlowForNode("no building is possible now", null, false, false);
+                else {
+                    String[] buildings = message.split("\n");
+                    popupVBox.getChildren().clear();
+                    for (String building : buildings) {
+                        Button unitButton = new Button(building.split(" ")[0]);
+                        unitButton.setTooltip(new Tooltip(building));
+                        unitButton.setOnAction(event12 -> {
+                            String message1 = controller.buildBuilding(building.split(" ")[0]);
+                            updateAll();
+                            createPopupAndGlowForNode(message1, null, false, false);
+                        });
+                        popupVBox.getChildren().add(unitButton);
+                    }
+                }
+            });
+            popupVBox.getChildren().add(button);
+            button = new Button("buy hex");
+            button.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    isSelectingTile = true;
+                    codeForFunction = 3;
+                }
+            });
+            popupVBox.getChildren().add(button);
+            button = new Button("lock citizen");
+            button.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    isSelectingTile = true;
+                    codeForFunction = 2;
+                }
+            });
+            popupVBox.getChildren().add(button);
+            button = new Button("remove citizen");
+            button.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    isSelectingTile = true;
+                    codeForFunction = 1;
                 }
             });
             popupVBox.getChildren().add(button);

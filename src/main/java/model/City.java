@@ -375,14 +375,14 @@ public class City {
     public void lockCitizenToHex(int x, int y) {
 
         Game.getGame().map.map.get(x).get(y).setAnyCitizenWorking(true);
-        unemployedCitizens++;
+        unemployedCitizens--;
 
     }
 
     public void removeCitizenFromHex(int x, int y) {
 
         Game.getGame().map.map.get(x).get(y).setAnyCitizenWorking(false);
-        unemployedCitizens--;
+        unemployedCitizens++;
     }
 
     public void buyHex(int x, int y) {
