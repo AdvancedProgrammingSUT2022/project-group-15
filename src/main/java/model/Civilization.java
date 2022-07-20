@@ -32,6 +32,7 @@ public class Civilization {
     private int happiness = 0;
     private int roadMaintenance = 0;
     private int cityBuildingHappiness;
+    private ArrayList<Civilization> enemies = new ArrayList<>();
 
 
     public Civilization(User user) {
@@ -145,7 +146,10 @@ public class Civilization {
     }
 
     private void lose() {
-        // TODO: 7/15/2022
+        for (Unit unit : units) {
+            deleteUnit(unit,false);
+        }
+        Game.getGame().getCivilizations().remove(this);
     }
 
     public ArrayList<Unit> getUnits() {
@@ -533,6 +537,10 @@ public class Civilization {
 
     public void setAvailableTechnologies(ArrayList<Technology> availableTechnologies) {
         this.availableTechnologies = availableTechnologies;
+    }
+
+    public ArrayList<Civilization> getEnemies() {
+        return enemies;
     }
 
     public int getPopulation() {

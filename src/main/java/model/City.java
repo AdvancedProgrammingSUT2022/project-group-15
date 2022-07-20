@@ -365,7 +365,7 @@ public class City {
                 this.owner.addHappinessFromBuilding(4);
                 break;
             case COURTHOUSE:
-                // TODO: 7/20/2022
+                this.owner.addHappinessFromBuilding(1);
                 break;
             case STABLE:
                 productionChange += productionPerTurn / 6;
