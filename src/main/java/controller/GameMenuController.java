@@ -86,10 +86,35 @@ public class GameMenuController {
                             + unit.getCoordinatesInMap().get('x') / 2 + " y: " + unit.getCoordinatesInMap().get('y'));
         }
 
+        if (Game.getGame().getYear() >= 2050 || Game.getGame().selectedHasAllCapitals())
+            return Controller.addNotification(Game.getGame().getTurnNumber(), showWinner());
         Game.getGame().nextTurn();
+
+
         selectedUnit = null;
         selectedCity = null;
         return Controller.addNotification(Game.getGame().getTurnNumber(), "change turn done \nIt's now your turn " + Game.getGame().getSelectedCivilization().getUser().getNickname() + "!");
+    }
+
+    private String showWinner() {
+        // TODO: 7/20/2022 scoressssssss
+        if (Game.getGame().getYear() < 2050) {
+            return "congratulations " + Game.getGame().getSelectedCivilization().getUser().getUsername() + "!!! you won";
+        }
+        Civilization winner = Game.getGame().getCivilizations().get(0);
+        int bestScore = 0;
+        for (Civilization civilization : Game.getGame().getCivilizations()) {
+            int thisCivScore = 0;
+            thisCivScore += civilization.getGoldStorage();
+            thisCivScore += civilization.getArea() * 50;
+            thisCivScore += civilization.getPopulation() * 10;
+            thisCivScore += civilization.getTechnologies().size() * 20;
+            if (thisCivScore > bestScore) {
+                winner = civilization;
+                bestScore = thisCivScore;
+            }
+        }
+        return "congratulations " + winner.getUser().getUsername() + "!!! you won";
     }
 
     /**
@@ -497,10 +522,40 @@ public class GameMenuController {
         if (target.getOwner() == selectedUnit.getOwner())
             return Controller.addNotification(Game.getGame().getTurnNumber(), "you can't attack yourself");
         ((MilitaryUnit) selectedUnit).attackTo(target);
-
+        declareWar(target.getOwner().getUser().getNickname());
         discard(true);
         discard(false);
         return Controller.addNotification(Game.getGame().getTurnNumber(), "attack is done");
+    }
+
+    public String declareWar(String nicknameOfOther) {
+        Civilization other = null;
+        for (Civilization civilization : Game.getGame().getCivilizations()) {
+            if (civilization.getUser().getNickname().equals(nicknameOfOther))
+                other = civilization;
+        }
+        if (other == null)
+            return "this not a valid civilization";
+        if (other == Game.getGame().getSelectedCivilization())
+            return "u cant attack yourself";
+        other.getEnemies().add(Game.getGame().getSelectedCivilization());
+        Game.getGame().getSelectedCivilization().getEnemies().add(other);
+        return "done";
+    }
+
+    public String piece(String nicknameOfOther) {
+        Civilization other = null;
+        for (Civilization civilization : Game.getGame().getCivilizations()) {
+            if (civilization.getUser().getNickname().equals(nicknameOfOther))
+                other = civilization;
+        }
+        if (other == null)
+            return "this not a valid civilization";
+        if (other == Game.getGame().getSelectedCivilization())
+            return "u cant make piece with yourself";
+        other.getEnemies().remove(Game.getGame().getSelectedCivilization());
+        Game.getGame().getSelectedCivilization().getEnemies().remove(other);
+        return "done";
     }
 
     private String attackTo(City city) {
@@ -826,7 +881,8 @@ public class GameMenuController {
     }
 
     public String cheatWin() {
-        // TODO : Phase 2 : implement
+        Game.getGame().setYear(3000);
+        Game.getGame().getSelectedCivilization().setGoldStorage(999999999);
         return Controller.addNotification(Game.getGame().getTurnNumber(), "Cheat code accepted : You won!");
     }
 
@@ -883,7 +939,7 @@ public class GameMenuController {
         return selectedCity;
     }
 
-    public String getAvailableUnitsInCity(){
+    public String getAvailableUnitsInCity() {
         if (selectedCity == null)
             return Controller.addNotification(Game.getGame().getTurnNumber(), "error : no city is selected");
         if (!selectedCity.getOwner().equals(Game.getGame().getSelectedCivilization()))
@@ -892,7 +948,7 @@ public class GameMenuController {
         for (UnitName unit : Game.getGame().getSelectedCivilization().getOpenedUnits()) {
             message.append(unit.getName()).append("\n");
         }
-        message.deleteCharAt(message.length()-1);
+        message.deleteCharAt(message.length() - 1);
         return Controller.addNotification(Game.getGame().getTurnNumber(), message.toString());
     }
 }

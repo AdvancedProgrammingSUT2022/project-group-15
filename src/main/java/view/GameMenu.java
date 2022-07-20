@@ -28,11 +28,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Popup;
-import model.City;
-import model.Game;
-import model.GlobalThings;
-import model.Hex;
+import model.*;
 import model.unit.SettlerUnit;
 import model.unit.Unit;
 import model.unit.WorkerUnit;
@@ -756,6 +754,61 @@ public class GameMenu extends Menu implements Initializable {
         popup.setY(window.getY() + 105);
         popup.setAutoHide(true);
         popup.show(window);
+    }
+
+    public void openDiplomacyPanel(MouseEvent mouseEvent) {
+        Popup popup = new Popup();
+        VBox vBox = new VBox();
+        popup.getContent().add(vBox);
+        popup.setX(window.getX() + 480);
+        popup.setY(window.getY() + 105);
+        popup.setAutoHide(true);
+        popup.show(window);
+        Civilization nowCivilization = Game.getGame().getSelectedCivilization();
+        for (Civilization civilization : Game.getGame().getCivilizations()) {
+            if (civilization == nowCivilization)
+                continue;
+            HBox hBox = new HBox();
+            Label label = new Label();
+
+            if (civilization.getEnemies().contains(nowCivilization))
+                label.setText("civilization : " + civilization.getUser().getNickname() + " at war  ") ;
+            else
+                label.setText("civilization : " + civilization.getUser().getNickname() + " piece  ") ;
+
+            label.setStyle("-fx-background-color: white");
+            label.setFont(new Font("Arial", 23));
+            Button trade = new Button("trade");
+            Button warOrPiece = new Button();
+            if (civilization.getEnemies().contains(nowCivilization))
+                warOrPiece.setText("piece");
+            else
+                warOrPiece.setText("start war");
+            warOrPiece.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    if (warOrPiece.getText().equals("piece")) {
+                        createPopupAndGlowForNode(controller.piece(civilization.getUser().getNickname()), null, false, false);
+                    } else {
+                        createPopupAndGlowForNode(controller.declareWar(civilization.getUser().getNickname()), null, false, false);
+                    }
+                    popup.hide();
+                }
+            });
+
+            trade.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    // TODO: 7/20/2022 trade coin and resource
+                }
+            });
+            hBox.getChildren().add(label);
+            hBox.getChildren().add(trade);
+            hBox.getChildren().add(warOrPiece);
+
+
+            vBox.getChildren().add(hBox);
+        }
     }
 
     public void applyCheat() {

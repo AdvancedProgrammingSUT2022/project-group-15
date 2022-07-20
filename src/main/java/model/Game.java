@@ -103,31 +103,20 @@ public class Game {
         turn++;
         if (turn % civilizations.size() == 0)
             year += 6;
-        if (year >= 2050)
-            showWinner();
+
         selectedCivilization = civilizations.get(turn % civilizations.size());
     }
 
-    private void showWinner() {
-        if (year < 2050) {
-            System.out.println("congratulations " + selectedCivilization.getUser().getUsername() + "!!! you won");
-            return;
+    public boolean selectedHasAllCapitals() {
+        if (originalCapitals.size()<=1)
+            return false;
+        for (City city : originalCapitals) {
+            if (city.getOwner()!=selectedCivilization)
+                return false;
         }
-        Civilization winner = civilizations.get(0);
-        int bestScore = 0;
-        for (Civilization civilization : civilizations) {
-            int thisCivScore = 0;
-            thisCivScore += civilization.getGoldStorage();
-            thisCivScore += civilization.getArea() * 50;
-            thisCivScore += civilization.getPopulation() * 10;
-            thisCivScore += civilization.getTechnologies().size() * 20;
-            if (thisCivScore > bestScore) {
-                winner = civilization;
-                bestScore = thisCivScore;
-            }
-        }
-        System.out.println("congratulations " + winner.getUser().getUsername() + "!!! you won");
+        return true;
     }
+
 
     public int getTurnNumber() {
         return turn;
@@ -221,5 +210,9 @@ public class Game {
             }
         }
         return max;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
     }
 }
