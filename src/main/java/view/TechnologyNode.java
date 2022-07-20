@@ -20,8 +20,9 @@ public class TechnologyNode extends Button {
     }
 
     public void updateNode() {
-        this.setTooltip(new Tooltip(this.technology.toString() + "\n" + (int) Math.ceil((Game.getGame().getSelectedCivilization().getTechnologyInProgress().cost - Game.getGame().getSelectedCivilization().getScienceStorage())
-                / (double) Game.getGame().getSelectedCivilization().getSciencePerTurn()) + " Turns"));
+        int remainingTurns = (int) Math.ceil((Game.getGame().getSelectedCivilization().getTechnologyInProgress().cost - Game.getGame().getSelectedCivilization().getScienceStorage())
+                / (double) Game.getGame().getSelectedCivilization().getSciencePerTurn());
+        this.setTooltip(new Tooltip(this.technology.toString() + "\n" + remainingTurns + " Turns"));
         if (technology == Game.getGame().getSelectedCivilization().getTechnologyInProgress()) {
             this.setStyle("-fx-border-color: blue");
         } else if (Game.getGame().getSelectedCivilization().getTechnologies().contains(technology)) {
