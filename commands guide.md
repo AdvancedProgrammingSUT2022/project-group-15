@@ -41,11 +41,11 @@ The order of flags doesn't matter in each command below that contains dashes
 
 8) unit moveto **_x_** **_y_** XXXXX
 9) unit sleep XXXXX
-10) unit alert
-11) unit fortify
-12) unit garrison
-13) unit setup ranged
-14) unit fortify heal
+10) unit alert XXXXXXx
+11) unit fortify XXXXXXXXX
+12) unit garrisonXXXXXXX
+13) unit setup ranged XXXXXXXXXXX
+14) unit fortify heal XXXXXXX
 15) unit found city XXXXX
 16) unit cancel mission XXXXX
 17) unit wake XXXXX
@@ -55,7 +55,7 @@ The order of flags doesn't matter in each command below that contains dashes
 21) unit remove jungle or swamp XXXXXX
 22) unit remove route XXXXX
 23) unit repair XXXXXXXXX
-24) unit pillage
+24) unit pillageXXXXXXXXX
 
 #### <li> City Commands
 

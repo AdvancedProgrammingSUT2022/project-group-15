@@ -430,7 +430,66 @@ public class GameMenu extends Menu implements Initializable {
                 });
                 popupVBox.getChildren().add(button);
             } else {
-
+                button = new Button("alert");
+                button.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        String message = controller.alertSelectedUnit();
+                        updateAll();
+                        createPopupAndGlowForNode(message, null, false, false);
+                    }
+                });
+                popupVBox.getChildren().add(button);
+                button = new Button("fortify");
+                button.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        String message = controller.fortifySelectedUnit();
+                        updateAll();
+                        createPopupAndGlowForNode(message, null, false, false);
+                    }
+                });
+                popupVBox.getChildren().add(button);
+                button = new Button("fortify till healed");
+                button.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        String message = controller.fortifySelectedUnitTillHeal();
+                        updateAll();
+                        createPopupAndGlowForNode(message, null, false, false);
+                    }
+                });
+                popupVBox.getChildren().add(button);
+                button = new Button("garrison");
+                button.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        String message = controller.garrisonSelectedUnit();
+                        updateAll();
+                        createPopupAndGlowForNode(message, null, false, false);
+                    }
+                });
+                popupVBox.getChildren().add(button);
+                button = new Button("set up");
+                button.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        String message = controller.setupRangedSelectedUnit();
+                        updateAll();
+                        createPopupAndGlowForNode(message, null, false, false);
+                    }
+                });
+                popupVBox.getChildren().add(button);
+                button = new Button("pillage");
+                button.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        String message = controller.pillage();
+                        updateAll();
+                        createPopupAndGlowForNode(message, null, false, false);
+                    }
+                });
+                popupVBox.getChildren().add(button);
             }
         } else {
             Button button = new Button("choose unit");

@@ -231,7 +231,7 @@ public class Civilization {
                     Game.getGame().map.map.get(xRand).get(yRand).getCivilUnit() == null)
                 break;
         }
-        new WorkerUnit(xRand, yRand, this, UnitName.WORKER);
+        new SettlerUnit(xRand, yRand, this, UnitName.SETTLER);
     }
 
     public int getScienceStorage() {

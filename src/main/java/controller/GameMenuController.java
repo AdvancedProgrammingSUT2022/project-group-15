@@ -327,6 +327,7 @@ public class GameMenuController {
             return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is a CivilUnit");
         }
         ((MilitaryUnit) selectedUnit).setAlerted(true);
+        discard(true);
         return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is alerted");
     }
 
@@ -344,6 +345,7 @@ public class GameMenuController {
             ((MilitaryUnit) selectedUnit).setFortifying(true);
             selectedUnit.setMeleePower((int) (selectedUnit.getMeleePower() * 1.5));
         }
+        discard(true);
         return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is fortified");
     }
 
@@ -358,6 +360,7 @@ public class GameMenuController {
             return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is a CivilUnit");
         }
         ((MilitaryUnit) selectedUnit).setFortifyingTillHealed(true);
+        discard(true);
         return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is fortified till healed");
 
     }
@@ -372,6 +375,7 @@ public class GameMenuController {
         selectedUnit.setRemainingMovement(-1);
         Game.getGame().map.map.get(selectedUnit.getCoordinatesInMap().get('x') / 2)
                 .get(selectedUnit.getCoordinatesInMap().get('y')).setHasDestroyedImprovement(true);
+        discard(true);
         return Controller.addNotification(Game.getGame().getTurnNumber(), "pillaged!");
     }
 
@@ -390,6 +394,7 @@ public class GameMenuController {
                 ((MilitaryUnit) selectedUnit).setGarrisoning(true);
                 ((MilitaryUnit) selectedUnit).garrisonCity();
             }
+            discard(true);
             return Controller.addNotification(Game.getGame().getTurnNumber(), "Done");
         }
         return Controller.addNotification(Game.getGame().getTurnNumber(), "unit not in a city");
@@ -402,8 +407,10 @@ public class GameMenuController {
             return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is not yours");
         if (!selectedUnit.getName().getCombatType().equals("Siege"))
             return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is not siege");
+
         ((RangedMilitary) selectedUnit).setSetup(true);
         selectedUnit.setRemainingMovement(-1);
+        discard(true);
         return Controller.addNotification(Game.getGame().getTurnNumber(), "unit is set up");
     }
 
