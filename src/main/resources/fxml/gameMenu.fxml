@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -23,6 +24,15 @@
                 <AnchorPane fx:id="map" prefHeight="689.0" prefWidth="1277.0" styleClass="backgroundPane" />
             </content>
         </ScrollPane>
+      <TextField fx:id="cheatTextField" layoutX="32.0" layoutY="650.0" prefWidth="265.0" promptText="Enter Your Cheat Code Hear :)" />
+      <ImageView fx:id="applyCheat" fitHeight="80.0" fitWidth="70.0" layoutX="346.0" layoutY="635.0" onMouseClicked="#applyCheat" pickOnBounds="true" preserveRatio="true" styleClass="back-button">
+         <image>
+            <Image url="@../icons/play_icon.png" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </ImageView>
       <ImageView fitHeight="129.0" fitWidth="129.0" layoutX="1140.0" layoutY="580.0" onMouseClicked="#nextTurn" pickOnBounds="true" preserveRatio="true" styleClass="back-button">
          <image>
             <Image url="@../icons/next-turn.png" />
