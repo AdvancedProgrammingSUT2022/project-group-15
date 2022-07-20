@@ -19,7 +19,7 @@ public class TechnologyTree extends Menu implements Initializable {
     @FXML
     private ScrollPane scrollPane;
 
-    private final ArrayList<TechnologyNode> technologyNodes = new ArrayList<>();
+    public final ArrayList<TechnologyNode> technologyNodes = new ArrayList<>();
     GameMenuController controller = new GameMenuController();
 
     @Override
@@ -35,26 +35,24 @@ public class TechnologyTree extends Menu implements Initializable {
 
         for (TechnologyNode technologyNode : technologyNodes) {
             technologyNode.setOnMouseClicked(e -> {
-                if (technologyNode.handleClick(controller))
-                    technologyNode.updateNode();
+                if (technologyNode.handleClick(controller)) {
+                    for (TechnologyNode node : technologyNodes) {
+                        node.updateNode();
+                    }
+                }
             });
         }
     }
 
     @Override
     public Scene getScene() {
-        if (scene == null) {
-            try {
-                AnchorPane root = FXMLLoader.load(new URL(this.getClass().getResource("/fxml/TechnologyTree.fxml").toExternalForm()));
-                scene = new Scene(root);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            for (TechnologyNode node : technologyNodes) {
-                node.updateNode();
-            }
+        try {
+            AnchorPane root = FXMLLoader.load(new URL(this.getClass().getResource("/fxml/TechnologyTree.fxml").toExternalForm()));
+            scene = new Scene(root);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
         return scene;
     }
 

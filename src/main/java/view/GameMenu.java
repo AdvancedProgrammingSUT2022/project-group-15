@@ -17,6 +17,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.Glow;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -85,6 +86,23 @@ public class GameMenu extends Menu implements Initializable {
     }
 
     private void updateCurrentResearchStatus() {
+        if (Game.getGame().getSelectedCivilization().getCities().isEmpty()) {
+            currentResearchImageView.setVisible(false);
+            currentResearchProgressBar.setVisible(false);
+            return;
+        } else {
+            currentResearchImageView.setVisible(true);
+            currentResearchProgressBar.setVisible(true);
+        }
+
+        if (Game.getGame().getSelectedCivilization().getTechnologyInProgress() == null) {
+            currentResearchProgressBar.setVisible(false);
+            currentResearchImageView.setImage(new Image(getClass().getResource("/icons/gear.png").toExternalForm()));
+            return;
+        } else {
+            currentResearchProgressBar.setVisible(true);
+        }
+
         currentResearchImageView.setImage(Game.getGame().getSelectedCivilization().getTechnologyInProgress().image);
         currentResearchProgressBar.setProgress((double) Game.getGame().getSelectedCivilization().getScienceStorage() / Game.getGame().getSelectedCivilization().getTechnologyInProgress().cost);
         int remainingTurns = (int) Math.ceil((Game.getGame().getSelectedCivilization().getTechnologyInProgress().cost - Game.getGame().getSelectedCivilization().getScienceStorage())
@@ -328,13 +346,10 @@ public class GameMenu extends Menu implements Initializable {
             if (unit instanceof SettlerUnit) {
 
                 button = new Button("found city");
-                button.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent event) {
-                        String message = controller.foundCity();
-                        updateAll();
-                        createPopupAndGlowForNode(message, null, false, false);
-                    }
+                button.setOnAction(event -> {
+                    String message = controller.foundCity();
+                    updateAll();
+                    createPopupAndGlowForNode(message, null, false, false);
                 });
                 popupVBox.getChildren().add(button);
 
@@ -344,51 +359,37 @@ public class GameMenu extends Menu implements Initializable {
                 ;
         } else {
             Button button = new Button("choose unit");
-            button.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    String message = controller.getAvailableUnitsInCity();
-                    if (message.startsWith("error"))
-                        createPopupAndGlowForNode(message, null, false, false);
-                    else {
-                        String[] units = message.split("\n");
-                        popupVBox.getChildren().clear();
-                        for (String unit : units) {
-                            Button unitButton = new Button(unit);
-                            unitButton.setOnAction(new EventHandler<ActionEvent>() {
-                                @Override
-                                public void handle(ActionEvent event) {
-                                    createPopupAndGlowForNode(controller.chooseProductionForUnit(unit), null, false, false);
-                                }
-                            });
-                            popupVBox.getChildren().add(unitButton);
-                        }
+            button.setOnAction(event -> {
+                String message = controller.getAvailableUnitsInCity();
+                if (message.startsWith("error"))
+                    createPopupAndGlowForNode(message, null, false, false);
+                else {
+                    String[] units = message.split("\n");
+                    popupVBox.getChildren().clear();
+                    for (String unit : units) {
+                        Button unitButton = new Button(unit);
+                        unitButton.setOnAction(event1 -> createPopupAndGlowForNode(controller.chooseProductionForUnit(unit), null, false, false));
+                        popupVBox.getChildren().add(unitButton);
                     }
                 }
             });
             popupVBox.getChildren().add(button);
             button = new Button("buy unit");
-            button.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    String message = controller.getAvailableUnitsInCity();
-                    if (message.startsWith("error"))
-                        createPopupAndGlowForNode(message, null, false, false);
-                    else {
-                        String[] units = message.split("\n");
-                        popupVBox.getChildren().clear();
-                        for (String unit : units) {
-                            Button unitButton = new Button(unit);
-                            unitButton.setOnAction(new EventHandler<ActionEvent>() {
-                                @Override
-                                public void handle(ActionEvent event) {
-                                    String message = controller.buyUnit(unit);
-                                    updateAll();
-                                    createPopupAndGlowForNode(message, null, false, false);
-                                }
-                            });
-                            popupVBox.getChildren().add(unitButton);
-                        }
+            button.setOnAction(event -> {
+                String message = controller.getAvailableUnitsInCity();
+                if (message.startsWith("error"))
+                    createPopupAndGlowForNode(message, null, false, false);
+                else {
+                    String[] units = message.split("\n");
+                    popupVBox.getChildren().clear();
+                    for (String unit : units) {
+                        Button unitButton = new Button(unit);
+                        unitButton.setOnAction(event12 -> {
+                            String message1 = controller.buyUnit(unit);
+                            updateAll();
+                            createPopupAndGlowForNode(message1, null, false, false);
+                        });
+                        popupVBox.getChildren().add(unitButton);
                     }
                 }
             });
