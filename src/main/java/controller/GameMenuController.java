@@ -45,6 +45,8 @@ public class GameMenuController {
             return "you need horse for this building";
         if ((building == Building.FORGE) && !selectedCity.getOwner().getStrategicResources().contains(Resource.IRON))
             return "you need iron for this building";
+        if ((building == Building.FACTORY) && !selectedCity.getOwner().getOpenedResources().contains(Resource.COAL))
+            return "you need coal for this building";
         selectedCity.setBuildingUnit(false);
         selectedCity.setBuildingInProgress(building);
         selectedCity.setNeededProduction(building.productionCost);
@@ -66,6 +68,8 @@ public class GameMenuController {
             return "you need horse for this building";
         if ((building == Building.FORGE) && !selectedCity.getOwner().getStrategicResources().contains(Resource.IRON))
             return "you need iron for this building";
+        if ((building == Building.FACTORY) && !selectedCity.getOwner().getOpenedResources().contains(Resource.COAL))
+            return "you need coal for this building";
         if (selectedCity.getOwner().getGoldStorage() < building.productionCost)
             return "you dont have enough money";
         selectedCity.getOwner().setGoldStorage(selectedCity.getOwner().getGoldStorage() - building.productionCost);

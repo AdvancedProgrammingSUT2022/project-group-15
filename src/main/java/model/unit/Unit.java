@@ -86,6 +86,14 @@ public abstract class Unit {
         return this.meleePower;
     }
 
+    public int getExperience() {
+        return experience;
+    }
+
+    public void setExperience(int experience) {
+        this.experience = experience;
+    }
+
     public UnitName getName() {
         return name;
     }

@@ -31,6 +31,7 @@ public class Civilization {
     private int sciencePerTurn = 0;
     private int happiness = 0;
     private int roadMaintenance = 0;
+    private int cityBuildingHappiness;
 
 
     public Civilization(User user) {
@@ -69,6 +70,7 @@ public class Civilization {
         }
         ans /= 3;
         ans += 4 * luxuryResources.size();
+        ans += cityBuildingHappiness;
         return ans;
     }
 
@@ -555,5 +557,9 @@ public class Civilization {
 
     public void setRoadMaintenance(int roadMaintenance) {
         this.roadMaintenance = roadMaintenance;
+    }
+
+    public void addHappinessFromBuilding(int i) {
+        cityBuildingHappiness += i;
     }
 }

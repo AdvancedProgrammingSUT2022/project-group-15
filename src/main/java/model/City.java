@@ -1,9 +1,7 @@
 package model;
 
-import enums.Building;
-import enums.NeighborHex;
-import enums.Terrain;
-import enums.UnitName;
+import enums.*;
+import jdk.nashorn.internal.ir.CaseNode;
 import model.unit.*;
 
 import java.util.ArrayList;
@@ -31,6 +29,11 @@ public class City {
     private int unemployedCitizens = 1;
     private final ArrayList<Building> availableBuildings = new ArrayList<>();
     private final ArrayList<Building> builtBuildings = new ArrayList<>();
+    private int xpChange = 0;
+    private int foodChange = 0;
+    private int scienceChange = 0;
+    private int goldChange = 0;
+    private int productionChange = 0;
 
     public City(String name, int x, int y, Civilization owner) {
         this.name = name;
@@ -228,6 +231,7 @@ public class City {
         for (Building builtBuilding : builtBuildings) {
             ans -= builtBuilding.maintenanceCost;
         }
+        ans += goldChange;
         return ans;
     }
 
@@ -268,6 +272,7 @@ public class City {
         } else if (unitInProgress.equals(UnitName.SETTLER) && ans > 0) {
             return 0;
         }
+        ans += foodChange;
         return ans;
     }
 
@@ -275,7 +280,7 @@ public class City {
         productionPerTurn = calculateProductionPerTurn();
         goldPerTurn = calculateGoldPerTurn();
         foodPerTurn = calculateFoodPerTurn();
-        sciencePerTurn = numberOfCitizen;
+        sciencePerTurn = numberOfCitizen + scienceChange;
         if (productionPerTurn <= 0 || neededProduction > 99999)
             remainedTurns = 9999999;
         else
@@ -325,7 +330,7 @@ public class City {
     }
 
     public void createBuildingInCity(Building building) {
-        if(!isBuildingUnit && buildingInProgress==building){
+        if (!isBuildingUnit && buildingInProgress == building) {
             unitInProgress = UnitName.NULL;
             isBuildingUnit = true;
             neededProduction = 9999999;
@@ -333,43 +338,127 @@ public class City {
         builtBuildings.add(building);
         updateAvailableBuildings();
         switch (building) {
-            // TODO: 7/14/2022 fill
+            case BARRACKS:
+            case ARMORY:
+            case MILITARY_ACADEMY:
+                xpChange += 15;
+                break;
+            case GRANARY:
+            case WATERMILL:
+                foodChange += 2;
+                break;
+            case LIBRARY:
+                scienceChange += 2 + numberOfCitizen / 2;
+                break;
+            case WALLS:
+                cityUnit.setTotalHealth(cityUnit.getTotalHealth() + 5);
+                cityUnit.setNowHealth(cityUnit.getNowHealth() + 5);
+                break;
+            case BURIAL_TOMB:
+                this.owner.addHappinessFromBuilding(2);
+                break;
+            case CIRCUS:
+                this.owner.addHappinessFromBuilding(3);
+                break;
+            case COLOSSEUM:
+            case THEATER:
+                this.owner.addHappinessFromBuilding(4);
+                break;
+            case COURTHOUSE:
+                // TODO: 7/20/2022
+                break;
+            case STABLE:
+                productionChange += productionPerTurn / 6;
+                break;
+            case CASTLE:
+                cityUnit.setTotalHealth(cityUnit.getTotalHealth() + 8);
+                cityUnit.setNowHealth(cityUnit.getNowHealth() + 8);
+                break;
+            case FORGE:
+                productionChange += productionPerTurn / 7;
+                break;
+            case MARKET:
+                goldChange += 2 + goldPerTurn / 4;
+            case MINT:
+                if (this.owner.getLuxuryResources().contains(Resource.GOLD))
+                    goldChange += 3;
+                if (this.owner.getLuxuryResources().contains(Resource.SILVER))
+                    goldChange += 3;
+                break;
+            case UNIVERSITY:
+                scienceChange += sciencePerTurn / 2 + 1;
+                // TODO: 7/20/2022 jungle
+                break;
+            case WORKSHOP:
+                productionChange += productionPerTurn / 8;
+                break;
+            case BANK:
+                goldChange += goldPerTurn / 4 + 1;
+                break;
+            case PUBLIC_SCHOOL:
+                scienceChange += sciencePerTurn / 2;
+                break;
+            case SATRAP_COURT:
+                this.owner.addHappinessFromBuilding(2);
+                goldChange += goldPerTurn / 4;
+                break;
+            case WINDMILL:
+                productionChange += productionPerTurn/10;
+                break;
+            case ARSENAL:
+                productionChange += productionPerTurn / 9;
+                break;
+            case FACTORY:
+                productionChange += productionPerTurn/2;
+                break;
+            case HOSPITAL:
+                foodChange += foodPerTurn;
+                break;
+            case MILITARY_BASE:
+                cityUnit.setTotalHealth(cityUnit.getTotalHealth() + 12);
+                cityUnit.setNowHealth(cityUnit.getNowHealth() + 12);
+                break;
+            case STOCK_EXCHANGE:
+                goldChange += goldPerTurn/3;
+                break;
         }
 
     }
 
     public void createUnitInCity(UnitName unitName) {
+        Unit unit;
         if (unitName.getCombatType().equals("Civilian")) {
             if (Game.getGame().map.map.get(coordinatesOfCenterInArray.get('x')).get(coordinatesOfCenterInArray.get('y'))
                     .getCivilUnit() == null) {
                 if (unitName.equals(UnitName.SETTLER)) {
-                    new SettlerUnit(coordinatesOfCenterInArray.get('x'), coordinatesOfCenterInArray.get('y'), this.owner, unitName);
+                    unit = new SettlerUnit(coordinatesOfCenterInArray.get('x'), coordinatesOfCenterInArray.get('y'), this.owner, unitName);
                 } else {
-                    new WorkerUnit(coordinatesOfCenterInArray.get('x'), coordinatesOfCenterInArray.get('y'), this.owner, unitName);
+                    unit = new WorkerUnit(coordinatesOfCenterInArray.get('x'), coordinatesOfCenterInArray.get('y'), this.owner, unitName);
                 }
             } else {
                 if (unitName.equals(UnitName.SETTLER)) {
-                    new SettlerUnit(coordinatesOfCenterInArray.get('x') + 1, coordinatesOfCenterInArray.get('y'), this.owner, unitName);
+                    unit = new SettlerUnit(coordinatesOfCenterInArray.get('x') + 1, coordinatesOfCenterInArray.get('y'), this.owner, unitName);
                 } else {
-                    new WorkerUnit(coordinatesOfCenterInArray.get('x') + 1, coordinatesOfCenterInArray.get('y'), this.owner, unitName);
+                    unit = new WorkerUnit(coordinatesOfCenterInArray.get('x') + 1, coordinatesOfCenterInArray.get('y'), this.owner, unitName);
                 }
             }
         } else {
             if (Game.getGame().map.map.get(coordinatesOfCenterInArray.get('x')).get(coordinatesOfCenterInArray.get('y'))
                     .getMilitaryUnit() == null) {
                 if (unitName.getRangedCombatStrength() == 0) {
-                    new MeleeMilitary(coordinatesOfCenterInArray.get('x'), coordinatesOfCenterInArray.get('y'), this.owner, unitName);
+                    unit = new MeleeMilitary(coordinatesOfCenterInArray.get('x'), coordinatesOfCenterInArray.get('y'), this.owner, unitName);
                 } else {
-                    new RangedMilitary(coordinatesOfCenterInArray.get('x'), coordinatesOfCenterInArray.get('y'), this.owner, unitName);
+                    unit = new RangedMilitary(coordinatesOfCenterInArray.get('x'), coordinatesOfCenterInArray.get('y'), this.owner, unitName);
                 }
             } else {
                 if (unitName.getRangedCombatStrength() == 0) {
-                    new MeleeMilitary(coordinatesOfCenterInArray.get('x') + 1, coordinatesOfCenterInArray.get('y'), this.owner, unitName);
+                    unit = new MeleeMilitary(coordinatesOfCenterInArray.get('x') + 1, coordinatesOfCenterInArray.get('y'), this.owner, unitName);
                 } else {
-                    new RangedMilitary(coordinatesOfCenterInArray.get('x') + 1, coordinatesOfCenterInArray.get('y'), this.owner, unitName);
+                    unit = new RangedMilitary(coordinatesOfCenterInArray.get('x') + 1, coordinatesOfCenterInArray.get('y'), this.owner, unitName);
                 }
             }
         }
+        unit.setExperience(unit.getExperience() + xpChange);
     }
 
     public void lockCitizenToHex(int x, int y) {
