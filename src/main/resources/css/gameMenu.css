@@ -60,3 +60,13 @@
 .backgroundPane {
     -fx-background-image: url("../backgrounds/paper.jpg");
 }
+
+TextField {
+    -fx-pref-height: 40;
+    -fx-pref-width: 300;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+    -fx-border-style: solid;
+    -fx-background-color: white;
+    -fx-border-color: #c948fa;
+}

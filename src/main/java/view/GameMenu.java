@@ -20,6 +20,8 @@ import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -40,6 +42,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class GameMenu extends Menu implements Initializable {
     private final GameMenuController controller = new GameMenuController();
@@ -69,6 +73,10 @@ public class GameMenu extends Menu implements Initializable {
     private ImageView currentResearchImageView;
     @FXML
     private ScrollPane mapScrollPane;
+    @FXML
+    private ImageView applyCheat;
+    @FXML
+    private TextField cheatTextField;
 
     private boolean isSelectingTile = false;
     private int codeForFunction = 0;// 1:remove citizen from work    2:lock citizen    3:buy hex
@@ -79,20 +87,25 @@ public class GameMenu extends Menu implements Initializable {
         mapScrollPane.setPannable(true);
         mapScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         mapScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        applyCheat.setVisible(false);
+        cheatTextField.setVisible(false);
         updateStatusBar();
         updateCurrentResearchStatus();
         fillMap();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(200);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                setup(map);
+        new Thread(() -> {
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+            setup(map);
         }).start();
+        mapScrollPane.setOnKeyReleased(event -> {
+            if (event.isControlDown() && event.isAltDown() && event.getCode() == KeyCode.C) {
+                applyCheat.setVisible(true);
+                cheatTextField.setVisible(true);
+            }
+        });
     }
 
     private void updateAll() {
@@ -743,5 +756,53 @@ public class GameMenu extends Menu implements Initializable {
         popup.setY(window.getY() + 105);
         popup.setAutoHide(true);
         popup.show(window);
+    }
+
+    public void applyCheat() {
+        String command = cheatTextField.getText();
+        String result = "invalid cheat command";
+        Matcher matcher;
+        if ((matcher = getMatcher(command, "^cheat increase --(?<flag>\\w+) (?<amount>\\d+)$")) != null) {
+            int amount = Integer.parseInt(matcher.group("amount"));
+            switch (matcher.group("flag")) {
+                case "turn":
+                    result = controller.cheatIncreaseTurn(amount);
+                    break;
+                case "gold":
+                    result = controller.cheatIncreaseGold(amount);
+                    break;
+                case "science":
+                    result = controller.cheatIncreaseScience(amount);
+                    break;
+                case "citizens":
+                    result = controller.cheatIncreaseCitizens(amount);
+                    break;
+                case "score":
+                    result = controller.cheatIncreaseScore(amount);
+                    break;
+            }
+        } else if (command.equals("cheat open all technologies")) {
+            result = controller.cheatOpenAllTechnologies();
+        } else if (command.equals("cheat make the whole map visible")) {
+            result = controller.cheatMakeMapDetermined();
+        } else if (command.equals("cheat win")) {
+            result = controller.cheatWin();
+        } else if ((matcher = getMatcher(command, "^cheat found city on (?<x>\\d+) (?<y>\\d+)$")) != null) {
+            result = controller.cheatFoundCityOn(Integer.parseInt(matcher.group("x")), Integer.parseInt(matcher.group("y")));
+        } else if ((command.equals("cheat increase health of selected unit$"))) {
+            result = controller.cheatIncreaseHealthOfSelectedUnit();
+        } else if ((command.equals("cheat increase power of selected unit"))) {
+            result = controller.cheatIncreasePowerOfSelectedUnit();
+        }
+        createPopupAndGlowForNode(result, null, false, false);
+        cheatTextField.clear();
+        cheatTextField.setVisible(false);
+        applyCheat.setVisible(false);
+        updateAll();
+    }
+
+    private Matcher getMatcher(String command, String regex) {
+        Matcher matcher = Pattern.compile(regex).matcher(command);
+        return matcher.matches() ? matcher : null;
     }
 }
