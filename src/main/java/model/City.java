@@ -276,7 +276,7 @@ public class City {
         goldPerTurn = calculateGoldPerTurn();
         foodPerTurn = calculateFoodPerTurn();
         sciencePerTurn = numberOfCitizen;
-        if (productionPerTurn < 0 || neededProduction > 99999)
+        if (productionPerTurn <= 0 || neededProduction > 99999)
             remainedTurns = 9999999;
         else
             remainedTurns = neededProduction / productionPerTurn;

@@ -5,6 +5,7 @@ import controller.Controller;
 import controller.GameMenuController;
 import enums.Feature;
 import enums.HexVisibility;
+import enums.Improvement;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -18,6 +19,7 @@ import javafx.scene.control.*;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -76,6 +78,17 @@ public class GameMenu extends Menu implements Initializable {
         updateStatusBar();
         updateCurrentResearchStatus();
         fillMap();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                setup(map);
+            }
+        }).start();
     }
 
     private void updateAll() {
@@ -114,14 +127,20 @@ public class GameMenu extends Menu implements Initializable {
         hexView.setFitHeight(144);
 
         hexView.setOnMouseClicked(event -> {
-            if (window == null) {
-                setup(map);
+
+            if (event.getButton() == MouseButton.SECONDARY) {
+                if (controller.getSelectedUnit() != null) {
+                    createPopupAndGlowForNode(controller.attackTo(hex.getCoordinatesInArray().get('x'),
+                            hex.getCoordinatesInArray().get('y')), null, false, true);
+                    fillMap();
+                }
+            } else {
+                if (controller.getSelectedUnit() != null) {
+                    createPopupAndGlowForNode(controller.moveSelectedUnitTo(hex.getCoordinatesInArray().get('x'), hex.getCoordinatesInArray().get('y')), null, false, false);
+                    updateAll();
+                } else
+                    createPopupAndGlowForNode(hexInfo(hex), hexView, false, false);
             }
-            if (controller.getSelectedUnit() != null) {
-                createPopupAndGlowForNode(controller.moveSelectedUnitTo(hex.getCoordinatesInArray().get('x'), hex.getCoordinatesInArray().get('y')), null, false, false);
-                updateAll();
-            } else
-                createPopupAndGlowForNode(hexInfo(hex), hexView, false, false);
         });
         group.getChildren().add(hexView);
         if (hex.getHexVisibility() == HexVisibility.FOG_OF_WAR)
@@ -211,26 +230,23 @@ public class GameMenu extends Menu implements Initializable {
             civilUnit.setX(75);
             group.getChildren().add(civilUnit);
             civilUnit.setOnMouseClicked(event -> {
-                if (window == null) {
-                    setup(map);
-                }
                 createPopupAndGlowForNode(controller.selectCivilUnit(hex.getCoordinatesInArray().get('x'), hex.getCoordinatesInArray().get('y'))
                         , civilUnit, true, true);
             });
         }
         if (hex.getMilitaryUnit() != null) {
-            ImageView militaryUnit = new ImageView(hex.getCivilUnit().getName().getImage());
-            militaryUnit.setFitHeight(80);
-            militaryUnit.setFitWidth(80);
-            militaryUnit.setY(70);
-            militaryUnit.setX(40);
+            ImageView militaryUnit = new ImageView(hex.getMilitaryUnit().getName().getImage());
+            militaryUnit.setFitHeight(60);
+            militaryUnit.setFitWidth(60);
+            militaryUnit.setY(75);
+            militaryUnit.setX(45);
             group.getChildren().add(militaryUnit);
-            militaryUnit.setOnMouseClicked(event -> {
-                if (window == null) {
-                    setup(map);
+            militaryUnit.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    createPopupAndGlowForNode(controller.selectMilitaryUnit(hex.getCoordinatesInArray().get('x'),
+                            hex.getCoordinatesInArray().get('y')), militaryUnit, true, true);
                 }
-                createPopupAndGlowForNode(controller.selectMilitaryUnit(hex.getCoordinatesInArray().get('x'), hex.getCoordinatesInArray().get('y'))
-                        , militaryUnit, true, true);
             });
         }
     }
@@ -284,7 +300,7 @@ public class GameMenu extends Menu implements Initializable {
                     @Override
                     public void run() {
                         try {
-                            Thread.sleep(200);
+                            Thread.sleep(400);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -324,6 +340,16 @@ public class GameMenu extends Menu implements Initializable {
                 }
             });
             popupVBox.getChildren().add(button);
+            button = new Button("cancel mission");
+            button.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    String message = controller.cancelSelectedUnitMission();
+                    updateAll();
+                    createPopupAndGlowForNode(message, null, false, false);
+                }
+            });
+            popupVBox.getChildren().add(button);
             Unit unit = controller.getSelectedUnit();
             if (unit instanceof SettlerUnit) {
 
@@ -338,10 +364,59 @@ public class GameMenu extends Menu implements Initializable {
                 });
                 popupVBox.getChildren().add(button);
 
-            } else if (unit instanceof WorkerUnit)
-                ;
-            else
-                ;
+            } else if (unit instanceof WorkerUnit) {
+                button = new Button("remove jungle or swamp");
+                button.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        String message = controller.removeJungleOrSwamp();
+                        updateAll();
+                        createPopupAndGlowForNode(message, null, false, false);
+                    }
+                });
+                popupVBox.getChildren().add(button);
+                button = new Button("remove route");
+                button.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        String message = controller.removeRoute();
+                        updateAll();
+                        createPopupAndGlowForNode(message, null, false, false);
+                    }
+                });
+                popupVBox.getChildren().add(button);
+                button = new Button("repair");
+                button.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        String message = controller.repair();
+                        updateAll();
+                        createPopupAndGlowForNode(message, null, false, false);
+                    }
+                });
+                popupVBox.getChildren().add(button);
+                button = new Button("build improvement");
+                button.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        ArrayList<Improvement> improvements = Game.getGame().getSelectedCivilization().getOpenedImprovements();
+                        popupVBox.getChildren().clear();
+                        for (Improvement improvement : improvements) {
+                            Button improvementButton = new Button(improvement.name);
+                            improvementButton.setOnAction(new EventHandler<ActionEvent>() {
+                                @Override
+                                public void handle(ActionEvent event) {
+                                    createPopupAndGlowForNode(controller.buildImprovement(improvement.name), null, false, false);
+                                }
+                            });
+                            popupVBox.getChildren().add(improvementButton);
+                        }
+                    }
+                });
+                popupVBox.getChildren().add(button);
+            } else {
+
+            }
         } else {
             Button button = new Button("choose unit");
             button.setOnAction(new EventHandler<ActionEvent>() {
@@ -416,12 +491,12 @@ public class GameMenu extends Menu implements Initializable {
     }
 
     public void goToGameMenu(MouseEvent mouseEvent) {
-        setup(map);
+
         window.setScene(Controller.getGameSettingsMenu().getScene());
     }
 
     public void openTechnologyTree(MouseEvent mouseEvent) {
-        setup(map);
+
         window.setScene(Controller.getTechnologyTree().getScene());
     }
 
@@ -470,7 +545,7 @@ public class GameMenu extends Menu implements Initializable {
     }
 
     public void nextTurn() {
-        controller.changeTurn(false);
+        createPopupAndGlowForNode(controller.changeTurn(false), null, false, false);
         updateAll();
     }
 

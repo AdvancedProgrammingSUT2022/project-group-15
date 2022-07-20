@@ -1,10 +1,7 @@
 package model;
 
 import enums.*;
-import model.unit.CivilUnit;
-import model.unit.SettlerUnit;
-import model.unit.Unit;
-import model.unit.WorkerUnit;
+import model.unit.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -234,7 +231,7 @@ public class Civilization {
                     Game.getGame().map.map.get(xRand).get(yRand).getCivilUnit() == null)
                 break;
         }
-        new SettlerUnit(xRand, yRand, this, UnitName.SETTLER);
+        new WorkerUnit(xRand, yRand, this, UnitName.WORKER);
     }
 
     public int getScienceStorage() {

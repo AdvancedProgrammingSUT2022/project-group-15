@@ -47,14 +47,14 @@ The order of flags doesn't matter in each command below that contains dashes
 13) unit setup ranged
 14) unit fortify heal
 15) unit found city XXXXX
-16) unit cancel mission
+16) unit cancel mission XXXXX
 17) unit wake XXXXX
 18) unit delete XXXXX
-19) unit attack **_x_** **_y_**
-20) unit build **_improvement name_**
-21) unit remove jungle or swamp
-22) unit remove route
-23) unit repair
+19) unit attack **_x_** **_y_** XXXXX
+20) unit build **_improvement name_** XXXXX
+21) unit remove jungle or swamp XXXXXX
+22) unit remove route XXXXX
+23) unit repair XXXXXXXXX
 24) unit pillage
 
 #### <li> City Commands

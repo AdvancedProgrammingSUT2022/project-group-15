@@ -428,6 +428,7 @@ public class GameMenuController {
         if (!selectedUnit.getOwner().equals(Game.getGame().getSelectedCivilization()))
             return Controller.addNotification(Game.getGame().getTurnNumber(), "unit not yours");
         selectedUnit.setPlanedToGo(null);
+        discard(true);
         return Controller.addNotification(Game.getGame().getTurnNumber(), "Canceled!");
     }
 
@@ -524,6 +525,7 @@ public class GameMenuController {
         if (!(improvement.features.contains(hex.getFeature()) || improvement.terrains.contains(hex.getTerrain())))
             return Controller.addNotification(Game.getGame().getTurnNumber(), "cant build this improvement here");
         ((WorkerUnit) selectedUnit).buildImprovement(improvement);
+        discard(true);
         return Controller.addNotification(Game.getGame().getTurnNumber(), "it will be done");
     }
 
@@ -547,6 +549,7 @@ public class GameMenuController {
             if (!selectedUnit.getOwner().getTechnologies().contains(Technology.MASONRY))
                 return Controller.addNotification(Game.getGame().getTurnNumber(), "you need masonry technology");
         ((WorkerUnit) selectedUnit).removeJungle();
+        discard(true);
         return Controller.addNotification(Game.getGame().getTurnNumber(), "it will be done");
     }
 
@@ -561,6 +564,7 @@ public class GameMenuController {
         selectedUnit.getOwner().setRoadMaintenance(selectedUnit.getOwner().getRoadMaintenance() - 1);
         Game.getGame().map.map.get(selectedUnit.getCoordinatesInMap().get('x') / 2).get(selectedUnit.getCoordinatesInMap().get('y')).setHasRoad(false);
         Game.getGame().map.map.get(selectedUnit.getCoordinatesInMap().get('x') / 2).get(selectedUnit.getCoordinatesInMap().get('y')).setHasRailRoad(false);
+        discard(true);
         return Controller.addNotification(Game.getGame().getTurnNumber(), "done");
     }
 
@@ -575,6 +579,7 @@ public class GameMenuController {
 
         Game.getGame().map.map.get(selectedUnit.getCoordinatesInMap().get('x') / 2)
                 .get(selectedUnit.getCoordinatesInMap().get('y')).setHasDestroyedImprovement(false);
+        discard(true);
         return Controller.addNotification(Game.getGame().getTurnNumber(), "done");
     }
 
