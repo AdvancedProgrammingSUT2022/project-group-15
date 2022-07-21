@@ -94,7 +94,7 @@ public class GameMenu extends Menu implements Initializable {
         fillMap();
         new Thread(() -> {
             try {
-                Thread.sleep(800);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -350,7 +350,6 @@ public class GameMenu extends Menu implements Initializable {
             return;
         popupVBox.getChildren().clear();
         Popup popup = new Popup();
-
         popupLabel.setText(message);
         popupHBox.setVisible(true);
         popup.getContent().add(popupHBox);
@@ -689,11 +688,13 @@ public class GameMenu extends Menu implements Initializable {
         window.setScene(Controller.getTechnologyTree().getScene());
     }
 
+    @FXML
+    public Popup popup = new Popup();
+
     public void cityPanel(MouseEvent mouseEvent) {
-        Popup popup = new Popup();
+        popup.getContent().clear();
         popupLabel.setText(cityNames());
-        popupHBox.setVisible(true);
-        popup.getContent().add(popupHBox);
+        popup.getContent().add(popupLabel);
         popup.setX(window.getX() + 387);
         popup.setY(window.getY() + 105);
         popup.setAutoHide(true);
@@ -713,10 +714,10 @@ public class GameMenu extends Menu implements Initializable {
     }
 
     public void unitPanel(MouseEvent mouseEvent) {
-        Popup popup = new Popup();
+        popup.getContent().clear();
         popupLabel.setText(unitNames());
         popupHBox.setVisible(true);
-        popup.getContent().add(popupHBox);
+        popup.getContent().add(popupLabel);
         popup.setX(window.getX() + 410);
         popup.setY(window.getY() + 105);
         popup.setAutoHide(true);
@@ -739,21 +740,29 @@ public class GameMenu extends Menu implements Initializable {
     }
 
     public void notificationHistory(MouseEvent mouseEvent) {
-        Popup popup = new Popup();
-        popupLabel.setText(controller.showNotificationHistory());
+        popup.getContent().clear();
+        popupLabel.setText(notif());
         popupHBox.setVisible(true);
-        popup.getContent().add(popupHBox);
+        popup.getContent().add(popupLabel);
         popup.setX(window.getX() + 520);
         popup.setY(window.getY() + 105);
         popup.setAutoHide(true);
         popup.show(window);
     }
+    public String notif(){
+        String message="<<Notification History>>\n";
+        ArrayList<String> allMessages = Controller.getNotificationHistory();
+        for (String allMessage : allMessages) {
+            message += allMessage + "\n";
+        }
+        return message;
+    }
 
     public void demographicPanel(MouseEvent mouseEvent) {
-        Popup popup = new Popup();
+        popup.getContent().clear();
         popupLabel.setText(controller.showDemographicsPanel());
         popupHBox.setVisible(true);
-        popup.getContent().add(popupHBox);
+        popup.getContent().add(popupLabel);
         popup.setX(window.getX() + 480);
         popup.setY(window.getY() + 105);
         popup.setAutoHide(true);
@@ -864,7 +873,7 @@ public class GameMenu extends Menu implements Initializable {
 
     public void pause(MouseEvent mouseEvent) {
         popupVBox.getChildren().clear();
-        popupVBox.setSpacing(10);
+        popupVBox.setSpacing(15);
         popupLabel.setText("Pause");
         Popup popup = new Popup();
         popupVBox.setLayoutX(100);
@@ -872,6 +881,7 @@ public class GameMenu extends Menu implements Initializable {
         popupVBox.prefWidth(100);
         popupVBox.prefHeight(100);
         popupVBox.setAlignment(Pos.CENTER);
+        popupVBox.setStyle("-fx-border-color: green;");
         popupVBox.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
         Button button = new Button("resume");
         button.setStyle("-fx-base: red;");
