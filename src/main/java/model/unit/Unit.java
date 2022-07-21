@@ -1,5 +1,6 @@
 package model.unit;
 
+import controller.Controller;
 import enums.*;
 import model.*;
 
@@ -9,7 +10,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static java.lang.Math.min;
-import static java.lang.Math.tan;
 
 public abstract class Unit {
     protected HashMap<Character, Integer> coordinatesInMap = new HashMap<>();
@@ -141,7 +141,6 @@ public abstract class Unit {
         }
         if (PlanedToGo.isEmpty())
             PlanedToGo = null;
-
     }
 
     protected void moveToHex(int x, int y) {
@@ -175,14 +174,11 @@ public abstract class Unit {
         if (Game.getGame().map.map.get(this.coordinatesInMap.get('x') / 2).get(this.coordinatesInMap.get('y')).hasRuins()) {
             exploreRuins(Game.getGame().map.map.get(this.coordinatesInMap.get('x') / 2).get(this.coordinatesInMap.get('y')));
         }
-
     }
 
     private void exploreRuins(Hex hex) {
         Ruins ruins = hex.getRuins();
         hex.setHasRuins(false);
-        // TODO: 7/12/2022 pop up that says you find ruins with info
-        System.out.println(hex.getRuins().message);
         try {
             switch (ruins.code) {
                 case 1:
@@ -198,9 +194,11 @@ public abstract class Unit {
                     this.owner.getCapital().setFoodStorage(this.owner.getCapital().getFoodStorage() + 5);
                     break;
             }
-        }catch (NullPointerException ignored){
-            
+        } catch (NullPointerException ignored) {
+
         }
+        Controller.getGameMenu().createPopupAndGlowForNode(hex.getRuins().message,null,false,false);
+        Controller.getGameMenu().dontChangePopup();
     }
 
     protected boolean ZOCInPath(int x, int y) {

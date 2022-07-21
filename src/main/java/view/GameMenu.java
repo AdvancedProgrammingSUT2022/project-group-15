@@ -77,10 +77,12 @@ public class GameMenu extends Menu implements Initializable {
     private TextField cheatTextField;
 
     private boolean isSelectingTile = false;
+    private boolean canChangePopup = true;
     private int codeForFunction = 0;// 1:remove citizen from work    2:lock citizen    3:buy hex
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        Controller.setGameMenu(this);
         mapScrollPane.setContent(map);
         mapScrollPane.setPannable(true);
         mapScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -92,7 +94,7 @@ public class GameMenu extends Menu implements Initializable {
         fillMap();
         new Thread(() -> {
             try {
-                Thread.sleep(1000);
+                Thread.sleep(800);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -343,7 +345,9 @@ public class GameMenu extends Menu implements Initializable {
         }
     }
 
-    private void createPopupAndGlowForNode(String message, Node node, boolean OnEndDiscard, boolean isUnit) {
+    public void createPopupAndGlowForNode(String message, Node node, boolean OnEndDiscard, boolean isUnit) {
+        if (!canChangePopup)
+            return;
         popupVBox.getChildren().clear();
         Popup popup = new Popup();
 
@@ -906,5 +910,20 @@ public class GameMenu extends Menu implements Initializable {
         popup.setY(window.getY() + 200);
         popup.setAutoHide(true);
         popup.show(window);
+    }
+
+    public void dontChangePopup() {
+        canChangePopup = false;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                canChangePopup = true;
+            }
+        }).start();
     }
 }
