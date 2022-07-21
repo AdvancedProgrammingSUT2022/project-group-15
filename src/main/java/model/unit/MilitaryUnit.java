@@ -47,6 +47,9 @@ public abstract class MilitaryUnit extends Unit {
             return false;
         if (this.remainingMovement < 0)
             return false;
+        if (isGarrisoning || isFortifyingTillHealed || isAlerted)
+            return false;
+
         if (PlanedToGo != null) {
             return false;
         }

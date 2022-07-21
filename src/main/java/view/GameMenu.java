@@ -311,13 +311,18 @@ public class GameMenu extends Menu implements Initializable {
     private String hexInfo(Hex hex) {
         String message = "terrain : " + hex.getTerrain().name + "\n"
                 + "feature : " + hex.getFeature().name + "\n"
-                + "resource : " + hex.getResource().name;
+                + "resource : " + hex.getResource().name + "\n"
+                + "improvement : " + hex.getImprovement().name;
         if (hex.getCivilUnit() != null)
             message += "\n" + "civil unit : " + hex.getCivilUnit().getName().getName();
         if (hex.getMilitaryUnit() != null)
             message += "\n" + "military unit : " + hex.getMilitaryUnit().getName().getName();
         if (hex.getCity() != null)
             message += "\n" + "city : " + hex.getCity().getName();
+        if (hex.isHasRoad())
+            message += "\n" + "has road";
+        if (hex.doesHaveRiver())
+            message += "\n" + "has river";
         return message;
     }
 
@@ -622,10 +627,10 @@ public class GameMenu extends Menu implements Initializable {
                     String[] buildings = message.split("\n");
                     popupVBox.getChildren().clear();
                     for (String building : buildings) {
-                        Button unitButton = new Button(building.split(" ")[0]);
+                        Button unitButton = new Button(building.split(" :")[0]);
                         unitButton.setTooltip(new Tooltip(building));
                         unitButton.setOnAction(event12 -> {
-                            String message1 = controller.buyBuilding(building.split(" ")[0]);
+                            String message1 = controller.buyBuilding(building.split(" :")[0]);
                             updateAll();
                             createPopupAndGlowForNode(message1, null, false, false);
                         });
@@ -645,10 +650,10 @@ public class GameMenu extends Menu implements Initializable {
                     String[] buildings = message.split("\n");
                     popupVBox.getChildren().clear();
                     for (String building : buildings) {
-                        Button unitButton = new Button(building.split(" ")[0]);
+                        Button unitButton = new Button(building.split(" :")[0]);
                         unitButton.setTooltip(new Tooltip(building));
                         unitButton.setOnAction(event12 -> {
-                            String message1 = controller.buildBuilding(building.split(" ")[0]);
+                            String message1 = controller.buildBuilding(building.split(" :")[0]);
                             updateAll();
                             createPopupAndGlowForNode(message1, null, false, false);
                         });

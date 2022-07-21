@@ -68,6 +68,7 @@ public class City {
     }
 
     public void updateAvailableBuildings() {
+        availableBuildings.clear();
         for (Building openedBuilding : owner.getOpenedBuildings()) {
             if (openedBuilding.prerequisiteBuilding == null && !builtBuildings.contains(openedBuilding))
                 availableBuildings.add(openedBuilding);

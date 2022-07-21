@@ -21,7 +21,7 @@ public class GameMenuController {
             return "error : city not yours";
         StringBuilder ans = new StringBuilder();
         for (Building availableBuilding : selectedCity.getAvailableBuildings()) {
-            ans.append(availableBuilding.name).append(" ").append(availableBuilding.productionCost).append("\n");
+            ans.append(availableBuilding.name).append(" :").append(availableBuilding.productionCost).append("\n");
         }
         if (ans.length() != 0)
             ans.deleteCharAt(ans.length() - 1);
@@ -192,10 +192,6 @@ public class GameMenuController {
         return null;
     }
 
-    public String showVictoryPanel() {
-        // TODO : implement phase 2
-        return null;
-    }
 
     public String showDemographicsPanel() {
         String info = "gold: " + Game.getGame().getSelectedCivilization().getGoldStorage() + " average: " + Game.getGame().getAverageGold() + " best: " + Game.getGame().getBestGold();
@@ -292,6 +288,7 @@ public class GameMenuController {
                 "\nowner : " + city.getOwner().getUser().getNickname() +
                 "\nhealth percent : " + city.getCityUnit().getNowHealth() * 100 / selectedCity.getCityUnit().getTotalHealth() +
                 "\nnumber of citizens : " + city.getNumberOfCitizen() +
+                "\nnumber of unemployed citizens : " + city.getUnemployedCitizens() +
                 "\nbuilding unit : " + city.getUnitInProgress().name() +
                 "\ngold per turn : " + city.getGoldPerTurn() +
                 "\nscience per turn : " + city.getSciencePerTurn() +
@@ -861,6 +858,7 @@ public class GameMenuController {
             Game.getGame().getSelectedCivilization().getOpenedUnits().addAll(technology.openingUnits);
             Game.getGame().getSelectedCivilization().getOpenedImprovements().addAll(technology.openingImprovements);
             Game.getGame().getSelectedCivilization().getOpenedResources().addAll(technology.openingResources);
+            Game.getGame().getSelectedCivilization().getOpenedBuildings().addAll(technology.openingBuildings);
         }
         for (City city : Game.getGame().getSelectedCivilization().getCities()) {
             city.updateAvailableBuildings();
