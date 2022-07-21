@@ -12,6 +12,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import model.User;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
@@ -42,7 +43,7 @@ public class GameSettingsMenu extends Menu implements Initializable {
     @FXML
     private ChoiceBox<Integer> autoSave;
     @FXML
-    private ChoiceBox loadGame;
+    private ChoiceBox<String > loadGame;
     @FXML
     private ChoiceBox<Integer> numberOfKeptSavedFiles;
 
@@ -71,9 +72,25 @@ public class GameSettingsMenu extends Menu implements Initializable {
         autoSave.setValue(0);
         numberOfKeptSavedFiles.getItems().addAll(1,2,3,4,5);
         numberOfKeptSavedFiles.setValue(1);
-        // TODO: 7/10/2022 load saved games
+        addSavedGames();
         addToolTips();
         controller.inviteFriend(User.getLoggedInUser().getUsername(), friendsInGame);
+    }
+
+    private void addSavedGames() {
+        File folder = new File("./src/main/resources/savedGames");
+        File[] listOfFiles = folder.listFiles();
+
+        loadGame.getItems().add("none");
+        for (int i = 0; i < listOfFiles.length; i++) {
+            if (listOfFiles[i].getName().startsWith("dont"))
+                continue;
+            if (listOfFiles[i].isFile()) {
+                loadGame.getItems().add(listOfFiles[i].getName());
+            }
+        }
+        loadGame.setValue("none");
+
     }
 
     private void addToolTips() {
@@ -104,13 +121,23 @@ public class GameSettingsMenu extends Menu implements Initializable {
 
 
     public void startGameWithFriend(MouseEvent mouseEvent) {
-        String text = controller.gameWithFriends(friendsInGame, mapLength.getValue(),mapWidth.getValue(),
-                autoSave.getValue(), numberOfKeptSavedFiles.getValue());
-        information.setText(text);
-        if (text.startsWith("a new game started with ") ) {
-            setup(cancelButton);
-            Controller.setGameMenu(new GameMenu());
-            window.setScene(Controller.getGameMenu().getScene());
+        if (loadGame.getValue().equals("none")) {
+            String text = controller.gameWithFriends(friendsInGame, mapLength.getValue(), mapWidth.getValue(),
+                    autoSave.getValue(), numberOfKeptSavedFiles.getValue());
+            information.setText(text);
+            if (text.startsWith("a new game started with ")) {
+                setup(cancelButton);
+                Controller.setGameMenu(new GameMenu());
+                window.setScene(Controller.getGameMenu().getScene());
+            }
+        }else {
+            String text = controller.loadSavedGame(loadGame.getValue());
+            if (text.endsWith("successfully")){
+                setup(cancelButton);
+                Controller.setGameMenu(new GameMenu());
+                window.setScene(Controller.getGameMenu().getScene());
+            }
+
         }
     }
 

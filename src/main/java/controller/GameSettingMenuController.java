@@ -18,12 +18,12 @@ import java.util.HashMap;
 
 public class GameSettingMenuController {
     public String inviteFriend(String username, VBox friendsInGame) {
-        if (friendsInGame.getChildren().size()>=6)
+        if (friendsInGame.getChildren().size() >= 6)
             return "lobby is full";
-        if (User.getUserByUsername(username)==null)
+        if (User.getUserByUsername(username) == null)
             return "no user with this name";
         for (Node child : friendsInGame.getChildren()) {
-            if (((Label)child).getText().equals(username))
+            if (((Label) child).getText().equals(username))
                 return "this user is already in lobby";
         }
         Label label = new Label(username);
@@ -48,7 +48,7 @@ public class GameSettingMenuController {
      * @return message to be shown
      * @author amir and Parsa
      */
-    public String startGame(HashMap<Integer, String> usernames,int length , int width , int roundPerSave , int keptSavedFiles) {
+    public String startGame(HashMap<Integer, String> usernames, int length, int width, int roundPerSave, int keptSavedFiles) {
         ArrayList<User> users = new ArrayList<>();
         for (int i = 0; i < usernames.size(); i++) {
             users.add(null);
@@ -62,28 +62,28 @@ public class GameSettingMenuController {
             }
         }
 
-        Game.startNewGame(users,length,width,roundPerSave,keptSavedFiles);
+        Game.startNewGame(users, length, width, roundPerSave, keptSavedFiles);
         return Controller.addNotification(-1, "a new game started with " + users.size() + " players");
 
     }
 
-    public String gameWithFriends(VBox friendsInGame,int length,int width, int autoSave , int keptSavedFiles) {
+    public String gameWithFriends(VBox friendsInGame, int length, int width, int autoSave, int keptSavedFiles) {
         if (friendsInGame.getChildren().size() == 1)
             return "no one is selected";
 
         HashMap<Integer, String> hashMap = new HashMap<>();
 
-        for (int i = 1; i <= friendsInGame.getChildren().size() ; i++) {
-            hashMap.put(i, ((Label) friendsInGame.getChildren().get(i-1)).getText());
+        for (int i = 1; i <= friendsInGame.getChildren().size(); i++) {
+            hashMap.put(i, ((Label) friendsInGame.getChildren().get(i - 1)).getText());
         }
 
-        return startGame(hashMap,length,width,autoSave,keptSavedFiles);
+        return startGame(hashMap, length, width, autoSave, keptSavedFiles);
     }
 
-    public String loadSavedGame(String id,String turn){
+    public String loadSavedGame(String name) {
         String xml;
         try {
-            xml = new String(Files.readAllBytes(Paths.get("./src/main/resources/savedGames/"+id+"_"+turn+".xml")));
+            xml = new String(Files.readAllBytes(Paths.get("./src/main/resources/savedGames/" + name)));
         } catch (IOException e) {
             return "file doesn't exists";
         }
@@ -93,8 +93,8 @@ public class GameSettingMenuController {
         Game game = (Game) xStream.fromXML(xml);
         Game.setGame(game);
         for (Civilization civilization : Game.getGame().getCivilizations()) {
-            civilization.setUser(User.getUserByUsername(civilization.getUser().getUsername()));
+            civilization.setUser(User.getUserByUsername(civilization.getUsername()));
         }
-        return "game is loaded";
+        return "game is loaded successfully";
     }
 }

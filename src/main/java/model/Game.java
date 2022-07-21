@@ -4,6 +4,10 @@ import com.thoughtworks.xstream.XStream;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 
 public class Game {
@@ -13,6 +17,8 @@ public class Game {
     private final ArrayList<City> originalCapitals = new ArrayList<>();
     private int turn;
     private int year;
+    private int roundPerSave;
+    private int keptSavedFiles;
     private long idForSaving;
     private Civilization selectedCivilization;
     public Map map;
@@ -60,6 +66,10 @@ public class Game {
         game.map = new Map(width, length);
         // TODO: 7/10/2022 save????
         // System.out.println(Game.getGame().getRows());
+        if (roundPerSave <=0 )
+            roundPerSave = Integer.MAX_VALUE;
+        game.roundPerSave = roundPerSave;
+        game.keptSavedFiles = keptSavedFiles;
         game.map.fillMap();
         for (User user : users) {
             game.civilizations.add(new Civilization(user));
@@ -70,16 +80,18 @@ public class Game {
         game.selectedCivilization = game.civilizations.get(0);
     }
 
-    public void saveGame() {
+    public String saveGame() {
 
         try {
-            FileWriter fileWriter = new FileWriter("./src/main/resources/savedGames/"+idForSaving+"_"+turn+".xml");
+            FileWriter fileWriter = new FileWriter("./src/main/resources/savedGames/" + idForSaving + "_" + turn + ".xml");
             XStream xStream = new XStream();
             fileWriter.write(xStream.toXML(this));
             fileWriter.close();
+            return "saved with name : " + idForSaving + "_" + turn;
 
         } catch (IOException e) {
             e.printStackTrace();
+            return "an error occurred while saving";
         }
 
     }
@@ -94,6 +106,10 @@ public class Game {
 
 
     public void nextTurn() {
+        if ( (turn+1) % roundPerSave==0){
+            saveGame();
+            DeleteExtraSaved();
+        }
         for (ArrayList<Hex> hexArrayList : map.map) {
             for (Hex hex : hexArrayList) {
                 hex.setMovementPrice(hex.calculateMovementPrice());
@@ -107,11 +123,29 @@ public class Game {
         selectedCivilization = civilizations.get(turn % civilizations.size());
     }
 
+    private void DeleteExtraSaved() {
+        if (turn+1 > keptSavedFiles * roundPerSave ){
+            deleteSavedFile(idForSaving + "_" + (turn- keptSavedFiles * roundPerSave));
+        }
+    }
+
+    private void deleteSavedFile(String name) {
+        
+        Path path = FileSystems.getDefault().getPath("./src/main/resources/savedGames/" + name + ".xml");
+        try {
+            Files.delete(path);
+        } catch (NoSuchFileException x) {
+            System.err.format("%s: no such" + " file or directory%n", path);
+        } catch (IOException x) {
+            System.err.println(x);
+        }
+    }
+
     public boolean selectedHasAllCapitals() {
-        if (originalCapitals.size()<=1)
+        if (originalCapitals.size() <= 1)
             return false;
         for (City city : originalCapitals) {
-            if (city.getOwner()!=selectedCivilization)
+            if (city.getOwner() != selectedCivilization)
                 return false;
         }
         return true;

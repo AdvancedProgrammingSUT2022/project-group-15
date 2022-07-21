@@ -887,7 +887,7 @@ public class GameMenu extends Menu implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 popup.hide();
-                controller.save();
+                createPopupAndGlowForNode(controller.save(), null, false, false);
             }
         });
         Button button2 = new Button("menu");

@@ -1,9 +1,6 @@
 package controller;
 
 import enums.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import model.*;
 
 import model.unit.*;
@@ -952,8 +949,8 @@ public class GameMenuController {
         return Controller.addNotification(Game.getGame().getTurnNumber(), message.toString());
     }
 
-    public void save() {
-        Game.getGame().saveGame();
+    public String save() {
+        return Game.getGame().saveGame();
     }
 
     public void clean() {

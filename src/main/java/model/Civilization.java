@@ -10,7 +10,8 @@ import java.util.Random;
 
 
 public class Civilization {
-    private User user;
+    transient private User user;
+    private String username;
     private boolean isYourTurn;
     private Map visibilityMap;
     private ArrayList<Technology> technologies = new ArrayList<>();
@@ -37,6 +38,7 @@ public class Civilization {
 
     public Civilization(User user) {
         this.user = user;
+        this.username = user.getUsername();
         visibilityMap = Game.getGame().map.clone();
         strategicResources.add(Resource.NULL);
     }
@@ -569,5 +571,9 @@ public class Civilization {
 
     public void addHappinessFromBuilding(int i) {
         cityBuildingHappiness += i;
+    }
+
+    public String getUsername() {
+        return username;
     }
 }
