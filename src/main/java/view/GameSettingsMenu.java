@@ -109,6 +109,7 @@ public class GameSettingsMenu extends Menu implements Initializable {
         information.setText(text);
         if (text.startsWith("a new game started with ") ) {
             setup(cancelButton);
+            Controller.setGameMenu(new GameMenu());
             window.setScene(Controller.getGameMenu().getScene());
         }
     }

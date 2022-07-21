@@ -951,4 +951,12 @@ public class GameMenuController {
         message.deleteCharAt(message.length() - 1);
         return Controller.addNotification(Game.getGame().getTurnNumber(), message.toString());
     }
+
+    public void save() {
+        Game.getGame().saveGame();
+    }
+
+    public void clean() {
+        Game.setGame(null);
+    }
 }

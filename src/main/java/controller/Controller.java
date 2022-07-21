@@ -11,8 +11,8 @@ public class Controller {
     private static final LoginMenu loginMenu = new LoginMenu();
     private static final MainMenu mainMenu = new MainMenu();
     private static final ProfileMenu profileMenu = new ProfileMenu();
-    private static final GameMenu gameMenu = new GameMenu();
-    private static final GameSettingsMenu gameSettingsMenu = new GameSettingsMenu();
+    private static GameMenu gameMenu = new GameMenu();
+    private static GameSettingsMenu gameSettingsMenu = new GameSettingsMenu();
     private static final ScoreBoard scoreboard = new ScoreBoard();
     private static final TechnologyTree technologyTree = new TechnologyTree();
     private static final ArrayList<String> notificationHistory = new ArrayList<>();
@@ -47,8 +47,16 @@ public class Controller {
         return gameMenu;
     }
 
+    public static void setGameMenu(GameMenu gameMenu) {
+        Controller.gameMenu = gameMenu;
+    }
+
     public static GameSettingsMenu getGameSettingsMenu() {
         return gameSettingsMenu;
+    }
+
+    public static void setGameSettingsMenu(GameSettingsMenu gameSettingsMenu) {
+        Controller.gameSettingsMenu = gameSettingsMenu;
     }
 
     public static TechnologyTree getTechnologyTree() {

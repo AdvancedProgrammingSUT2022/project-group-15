@@ -871,10 +871,32 @@ public class GameMenu extends Menu implements Initializable {
         popupVBox.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
         Button button = new Button("resume");
         button.setStyle("-fx-base: red;");
+        button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                popup.hide();
+            }
+        });
         Button button1 = new Button("save");
         button1.setStyle("-fx-base: red;");
+        button1.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                popup.hide();
+                controller.save();
+            }
+        });
         Button button2 = new Button("menu");
         button2.setStyle("-fx-base: red;");
+        button2.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                popup.hide();
+                controller.clean();
+                Controller.setGameSettingsMenu(new GameSettingsMenu());
+                window.setScene(Controller.getGameSettingsMenu().getScene());
+            }
+        });
         popupVBox.getChildren().add(button);
         popupVBox.getChildren().add(button1);
         popupVBox.getChildren().add(button2);
