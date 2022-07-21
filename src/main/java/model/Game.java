@@ -130,7 +130,7 @@ public class Game {
     }
 
     private void deleteSavedFile(String name) {
-        
+
         Path path = FileSystems.getDefault().getPath("./src/main/resources/savedGames/" + name + ".xml");
         try {
             Files.delete(path);

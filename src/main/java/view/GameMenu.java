@@ -36,6 +36,7 @@ import model.unit.Unit;
 import model.unit.WorkerUnit;
 
 import java.io.IOException;
+import java.lang.annotation.ElementType;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -169,8 +170,35 @@ public class GameMenu extends Menu implements Initializable {
             }
             if (event.getButton() == MouseButton.SECONDARY) {
                 if (controller.getSelectedUnit() != null) {
-                    createPopupAndGlowForNode(controller.attackTo(hex.getCoordinatesInArray().get('x'),
-                            hex.getCoordinatesInArray().get('y')), null, false, true);
+                    String message = controller.attackTo(hex.getCoordinatesInArray().get('x'), hex.getCoordinatesInArray().get('y'));
+                    if (message.equals("city has fallen")) {
+                        message = message + ". what do you do with the captured city?";
+                    }
+                    createPopupAndGlowForNode(message, null, false, true);
+                    if (message.startsWith("city has fallen")) {
+                        Button button = new Button("capture city");
+                        button.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent event) {
+                                String message = controller.captureCity();
+                                updateAll();
+                                createPopupAndGlowForNode(message, null, false, false);
+                            }
+                        });
+                        popupVBox.getChildren().add(button);
+                        button = new Button("destroy city");
+                        button.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent event) {
+                                String message = controller.destroyCity();
+                                updateAll();
+                                createPopupAndGlowForNode(message, null, false, false);
+                            }
+                        });
+                        popupVBox.getChildren().add(button);
+
+                    }
+
                     fillMap();
                 } else if (controller.getSelectedCity() != null) {
                     createPopupAndGlowForNode(controller.cityAttackTo(hex.getCoordinatesInArray().get('x'),
@@ -734,8 +762,19 @@ public class GameMenu extends Menu implements Initializable {
         return message;
     }
 
-    public void nextTurn() {
-        createPopupAndGlowForNode(controller.changeTurn(false), null, false, false);
+    public synchronized void nextTurn() {
+        String message = controller.changeTurn(false);
+        createPopupAndGlowForNode(message, null, false, false);
+        if (message.startsWith("congratulations")) {
+            scene.setOnMouseMoved(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    controller.clean();
+                    Controller.setGameSettingsMenu(new GameSettingsMenu());
+                    window.setScene(Controller.getGameSettingsMenu().getScene());
+                }
+            });
+        }
         updateAll();
     }
 
@@ -749,8 +788,9 @@ public class GameMenu extends Menu implements Initializable {
         popup.setAutoHide(true);
         popup.show(window);
     }
-    public String notif(){
-        String message="<<Notification History>>\n";
+
+    public String notif() {
+        String message = "<<Notification History>>\n";
         ArrayList<String> allMessages = Controller.getNotificationHistory();
         for (String allMessage : allMessages) {
             message += allMessage + "\n";

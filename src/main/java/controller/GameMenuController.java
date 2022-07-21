@@ -565,7 +565,6 @@ public class GameMenuController {
             return Controller.addNotification(Game.getGame().getTurnNumber(), "city has fallen");
         }
         return Controller.addNotification(Game.getGame().getTurnNumber(), "attack is done");
-        // TODO: 7/15/2022 asking if destroy or capture and update original capitals and check winning
     }
 
     public String buildImprovement(String improvementName) {
@@ -769,17 +768,15 @@ public class GameMenuController {
 
         if (selectedCity.getOwner().getGoldStorage() < unit.getCost())
             return Controller.addNotification(Game.getGame().getTurnNumber(), "not enough money");
+        Hex center = Game.getGame().map.map.get(selectedCity.getCoordinatesOfCenterInArray().get('x'))
+                .get(selectedCity.getCoordinatesOfCenterInArray().get('y'));
         if (unit.getCombatType().equals("Civilian")) {
-            for (Hex cityHex : selectedCity.getCityHexes()) {
-                if (cityHex.getCivilUnit() != null)
-                    return Controller.addNotification(Game.getGame().getTurnNumber(), "civil unit is full");
-            }
+            if (center.getCivilUnit() != null)
+                return Controller.addNotification(Game.getGame().getTurnNumber(), "civil unit is full");
         }
         if (!unit.getCombatType().equals("Civilian")) {
-            for (Hex cityHex : selectedCity.getCityHexes()) {
-                if (cityHex.getMilitaryUnit() != null)
-                    return Controller.addNotification(Game.getGame().getTurnNumber(), "military unit is full");
-            }
+            if (center.getMilitaryUnit() != null)
+                return Controller.addNotification(Game.getGame().getTurnNumber(), "military unit is full");
         }
         selectedCity.getOwner().setGoldStorage(selectedCity.getOwner().getGoldStorage() - unit.getCost());
         selectedCity.createUnitInCity(unit);
@@ -865,6 +862,9 @@ public class GameMenuController {
             Game.getGame().getSelectedCivilization().getOpenedImprovements().addAll(technology.openingImprovements);
             Game.getGame().getSelectedCivilization().getOpenedResources().addAll(technology.openingResources);
         }
+        for (City city : Game.getGame().getSelectedCivilization().getCities()) {
+            city.updateAvailableBuildings();
+        }
         return Controller.addNotification(Game.getGame().getTurnNumber(), "Cheat code accepted : All technologies are opened for you!");
     }
 
@@ -913,12 +913,23 @@ public class GameMenuController {
         return Controller.addNotification(Game.getGame().getTurnNumber(), "Cheat code accepted : Power of attack increased");
     }
 
-    public void captureCity() {
+    public String captureCity() {
         int x = fallenCity.getCoordinatesOfCenterInArray().get('x');
         int y = fallenCity.getCoordinatesOfCenterInArray().get('y');
         SettlerUnit settlerUnit = new SettlerUnit(x, y, Game.getGame().getSelectedCivilization(), UnitName.SETTLER);
         settlerUnit.foundCity();
-        fallenCity = null;
+        if (Game.getGame().getOriginalCapitals().contains(fallenCity)) {
+            Game.getGame().getOriginalCapitals().remove(fallenCity);
+            City newCity = Game.getGame().getSelectedCivilization().getCities().get(Game.getGame().getSelectedCivilization().getCities().size() - 1);
+            Game.getGame().getOriginalCapitals().add(newCity);
+            fallenCity = null;
+            return "you captured a capital !!!";
+        } else {
+            fallenCity = null;
+            return "city is captured";
+        }
+
+
     }
 
     public void discard(boolean isUnit) {
@@ -955,5 +966,13 @@ public class GameMenuController {
 
     public void clean() {
         Game.setGame(null);
+    }
+
+    public String destroyCity() {
+        if (Game.getGame().getOriginalCapitals().contains(fallenCity)) {
+            captureCity();
+            return "city is capital u can only capture it";
+        }
+        return "destroyed !!!";
     }
 }
