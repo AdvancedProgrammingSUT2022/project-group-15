@@ -96,12 +96,12 @@
                <Image url="@../icons/trade.png" />
             </image>
          </ImageView>
-            <ImageView fitHeight="26.0" fitWidth="61.0"  pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="26.0" fitWidth="61.0" onMouseClicked="#openMilitaryPanel" pickOnBounds="true" preserveRatio="true">
                 <image>
                     <Image url="@../icons/military.png" />
                 </image>
             </ImageView>
-            <ImageView fitHeight="26.0" fitWidth="61.0"  pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="26.0" fitWidth="61.0" onMouseClicked="#openEconomicPanel" pickOnBounds="true" preserveRatio="true">
                 <image>
                     <Image url="@../icons/economic.png" />
                 </image>

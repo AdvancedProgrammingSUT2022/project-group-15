@@ -1002,8 +1002,15 @@ public class GameMenu extends Menu implements Initializable {
             Controller.setGameSettingsMenu(new GameSettingsMenu());
             window.setScene(Controller.getGameSettingsMenu().getScene());
         });
+        Button button3 = new Button("mute");
+        button3.setStyle("-fx-base: red;");
+        button3.setOnAction(event -> {
+            popup.hide();
+            GlobalThings.pauseMusic();
+        });
         popupVBox.getChildren().add(button);
         popupVBox.getChildren().add(button1);
+        popupVBox.getChildren().add(button3);
         popupVBox.getChildren().add(button2);
         popupVBox.setVisible(true);
         popup.getContent().add(popupVBox);
@@ -1026,5 +1033,46 @@ public class GameMenu extends Menu implements Initializable {
     }
 
     public void openMilitaryPanel(MouseEvent mouseEvent) {
+        popup.getContent().clear();
+        String message = controller.showUnitsPanel().trim();
+        String[] units = message.split("\n");
+        for (String unit : units) {
+            Label label = new Label(unit);
+            label.setStyle("-fx-background-color: white");
+            label.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    popup.hide();
+                    createPopupAndGlowForNode(controller.selectUnit(Integer.parseInt(unit.substring(0, 1))), null, true, true);
+                }
+            });
+            popup.getContent().add(label);
+        }
+        popup.setX(window.getX() + 625);
+        popup.setY(window.getY() + 115);
+        popup.setAutoHide(true);
+        popup.show(window);
+    }
+
+    public void openEconomicPanel(MouseEvent mouseEvent) {
+        popup.getContent().clear();
+        String message = controller.showCitiesPanel().trim();
+        String[] units = message.split("\n");
+        for (String unit : units) {
+            Label label = new Label(unit);
+            label.setStyle("-fx-background-color: white");
+            label.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    popup.hide();
+                    createCityPage(controller.selectCity(Integer.parseInt(unit.substring(0, 1))));
+                }
+            });
+            popup.getContent().add(label);
+        }
+        popup.setX(window.getX() + 670);
+        popup.setY(window.getY() + 115);
+        popup.setAutoHide(true);
+        popup.show(window);
     }
 }
