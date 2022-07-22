@@ -71,7 +71,7 @@
                 <Label fx:id="turn" prefHeight="42" prefWidth="60" styleClass="year-text" text="year" />
                 <Label fx:id="year" prefHeight="42" prefWidth="60" styleClass="year-text" text="year" />
                 <ImageView fx:id="pause" fitHeight="25" fitWidth="25" onMouseClicked="#pause">
-                    <Image url="@../status bar/m.png" />
+                    <Image url="@../status bar/pause.png" />
                     <cursor>
                         <ImageCursor fx:constant="HAND" />
                     </cursor>
@@ -80,22 +80,32 @@
         </HBox>
         <HBox layoutX="400" layoutY="52" prefHeight="20" prefWidth="20" spacing="20">
             <ImageView fitHeight="20" fitWidth="20" onMouseClicked="#cityPanel">
-                <Image url="@../status bar/city.png" />
+                <Image url="@../icons/city.png" />
             </ImageView>
             <ImageView fitHeight="20" fitWidth="20" onMouseClicked="#unitPanel">
-                <Image url="@../status bar/unit.png" />
+                <Image url="@../icons/unit.png" />
             </ImageView>
             <ImageView fitHeight="20" fitWidth="20" onMouseClicked="#demographicPanel">
-                <Image url="@../status bar/demographic.png" />
+                <Image url="@../icons/demographic.png" />
             </ImageView>
             <ImageView fitHeight="20" fitWidth="20" onMouseClicked="#notificationHistory">
-                <Image url="@../status bar/notification.png" />
+                <Image url="@../icons/notification.png" />
             </ImageView>
          <ImageView fitHeight="26.0" fitWidth="61.0" onMouseClicked="#openDiplomacyPanel" pickOnBounds="true" preserveRatio="true">
             <image>
                <Image url="@../icons/trade.png" />
             </image>
          </ImageView>
+            <ImageView fitHeight="26.0" fitWidth="61.0"  pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="@../icons/military.png" />
+                </image>
+            </ImageView>
+            <ImageView fitHeight="26.0" fitWidth="61.0"  pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="@../icons/economic.png" />
+                </image>
+            </ImageView>
             <cursor>
                 <ImageCursor fx:constant="HAND" />
             </cursor>

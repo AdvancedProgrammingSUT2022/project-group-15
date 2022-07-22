@@ -1024,4 +1024,7 @@ public class GameMenu extends Menu implements Initializable {
             canChangePopup = true;
         }).start();
     }
+
+    public void openMilitaryPanel(MouseEvent mouseEvent) {
+    }
 }
