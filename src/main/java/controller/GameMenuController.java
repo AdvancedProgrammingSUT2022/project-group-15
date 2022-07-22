@@ -181,7 +181,8 @@ public class GameMenuController {
     public String showCitiesPanel() {
         String message = "";
         for (City city : Game.getGame().getSelectedCivilization().getCities()) {
-            message += city.getName() + " population:" + city.getNumberOfCitizen();
+            message += city.getName() + " population:" + city.getNumberOfCitizen() + " gold per turn:" + city.getGoldPerTurn();
+            message += " science per turn:" + city.getSciencePerTurn();
             message += "\n";
         }
         return message;
@@ -288,14 +289,17 @@ public class GameMenuController {
                 "\nhealth percent : " + city.getCityUnit().getNowHealth() * 100 / selectedCity.getCityUnit().getTotalHealth() +
                 "\nnumber of citizens : " + city.getNumberOfCitizen() +
                 "\nnumber of unemployed citizens : " + city.getUnemployedCitizens() +
-                "\nbuilding unit : " + city.getUnitInProgress().name() +
-                "\ngold per turn : " + city.getGoldPerTurn() +
-                "\nscience per turn : " + city.getSciencePerTurn() +
-                "\nproduction per turn : " + city.getProductionPerTurn() +
-                "\nfood per turn : " + city.getFoodPerTurn() +
-                "\nfood storage : " + city.getFoodStorage() +
-                "\nwill build unit in " + (city.getRemainedTurns()) + " turns!" +
-                "\nhexes in ");
+                "\nbuilding unit or building : ");
+        if (city.isBuildingUnit())
+            ans.append(city.getUnitInProgress().name());
+        else
+            ans.append(city.getBuildingInProgress().name);
+
+        ans.append("\ngold per turn : ").append(city.getGoldPerTurn()).append("\nscience per turn : ").append(city.getSciencePerTurn())
+                .append("\nproduction per turn : ").append(city.getProductionPerTurn()).append("\nfood per turn : ").append(city.getFoodPerTurn())
+                .append("\nfood storage : ").append(city.getFoodStorage()).append("\nwill build unit in ")
+                .append(city.getRemainedTurns()).append(" turns!").append("\nhexes in ");
+        
         for (Hex cityHex : city.getCityHexes()) {
             if (cityHex.isAnyCitizenWorking())
                 ans.append(" ( ").append(cityHex.getCoordinatesInArray().get('x')).append(",").append(cityHex.getCoordinatesInArray().get('y')).append(" ) ");
