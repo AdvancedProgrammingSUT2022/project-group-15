@@ -7,9 +7,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import model.GlobalThings;
 import model.User;
 
 import java.io.File;
@@ -46,7 +48,10 @@ public class GameSettingsMenu extends Menu implements Initializable {
     private ChoiceBox<String > loadGame;
     @FXML
     private ChoiceBox<Integer> numberOfKeptSavedFiles;
-
+    @FXML
+    private ImageView musicOn;
+    @FXML
+    private ImageView musicOff;
 
     @Override
     public Scene getScene() {
@@ -63,6 +68,10 @@ public class GameSettingsMenu extends Menu implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        musicOff.visibleProperty().bind(GlobalThings.musicOnProperty().not());
+        musicOff.disableProperty().bind(GlobalThings.musicOnProperty());
+        musicOn.visibleProperty().bind(GlobalThings.musicOnProperty());
+        musicOn.disableProperty().bind(GlobalThings.musicOnProperty().not());
         numberOfPlayersBox.getItems().addAll(2, 3, 4, 5, 6, 7, 8, 9, 10);
         mapWidth.getItems().addAll(6,8,10,12,14,16,18,20);
         mapWidth.setValue(10);
@@ -169,6 +178,14 @@ public class GameSettingsMenu extends Menu implements Initializable {
             }
         }).start();
 
+    }
+
+    public void mute() {
+        GlobalThings.pauseMusic();
+    }
+
+    public void unmute() {
+        GlobalThings.playMusic();
     }
 }
 //else if (command.startsWith("play game ")) {

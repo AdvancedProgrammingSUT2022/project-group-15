@@ -17,7 +17,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="backgroundPane" stylesheets="@../css/gameMenu.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.GameMenu">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="backgroundPane" stylesheets="@../css/gameMenu.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.GameMenu">
     <children>
         <ScrollPane fx:id="mapScrollPane" layoutY="27.0" prefHeight="694.0" prefWidth="1280.0" style="-fx-background-color: black;">
             <content>
@@ -70,10 +70,10 @@
             <HBox spacing="40">
                 <Label fx:id="turn" prefHeight="42" prefWidth="60" styleClass="year-text" text="year" />
                 <Label fx:id="year" prefHeight="42" prefWidth="60" styleClass="year-text" text="year" />
-                <ImageView fx:id="pause" onMouseClicked="#pause" fitWidth="25" fitHeight="25">
+                <ImageView fx:id="pause" fitHeight="25" fitWidth="25" onMouseClicked="#pause">
                     <Image url="@../status bar/m.png" />
                     <cursor>
-                        <ImageCursor fx:constant="HAND"/>
+                        <ImageCursor fx:constant="HAND" />
                     </cursor>
                 </ImageView>
             </HBox>
@@ -91,7 +91,7 @@
             <ImageView fitHeight="20" fitWidth="20" onMouseClicked="#notificationHistory">
                 <Image url="@../status bar/notification.png" />
             </ImageView>
-         <ImageView fitHeight="26.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#openDiplomacyPanel">
+         <ImageView fitHeight="26.0" fitWidth="61.0" onMouseClicked="#openDiplomacyPanel" pickOnBounds="true" preserveRatio="true">
             <image>
                <Image url="@../icons/trade.png" />
             </image>
@@ -109,7 +109,7 @@
                     <effect>
                         <DropShadow>
                             <color>
-                                <Color green="1.0" blue="0.01666666753590107" />
+                                <Color blue="0.01666666753590107" green="1.0" />
                             </color>
                         </DropShadow>
                     </effect>
@@ -123,6 +123,5 @@
                 <VBox fx:id="popupVBox" prefHeight="200.0" prefWidth="100.0" />
             </children>
         </HBox>
-      <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
     </children>
 </AnchorPane>

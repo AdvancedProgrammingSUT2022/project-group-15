@@ -944,31 +944,20 @@ public class GameMenu extends Menu implements Initializable {
         popupVBox.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
         Button button = new Button("resume");
         button.setStyle("-fx-base: red;");
-        button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                popup.hide();
-            }
-        });
+        button.setOnAction(event -> popup.hide());
         Button button1 = new Button("save");
         button1.setStyle("-fx-base: red;");
-        button1.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                popup.hide();
-                createPopupAndGlowForNode(controller.save(), null, false, false);
-            }
+        button1.setOnAction(event -> {
+            popup.hide();
+            createPopupAndGlowForNode(controller.save(), null, false, false);
         });
         Button button2 = new Button("menu");
         button2.setStyle("-fx-base: red;");
-        button2.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                popup.hide();
-                controller.clean();
-                Controller.setGameSettingsMenu(new GameSettingsMenu());
-                window.setScene(Controller.getGameSettingsMenu().getScene());
-            }
+        button2.setOnAction(event -> {
+            popup.hide();
+            controller.clean();
+            Controller.setGameSettingsMenu(new GameSettingsMenu());
+            window.setScene(Controller.getGameSettingsMenu().getScene());
         });
         popupVBox.getChildren().add(button);
         popupVBox.getChildren().add(button1);
@@ -983,16 +972,13 @@ public class GameMenu extends Menu implements Initializable {
 
     public void dontChangePopup() {
         canChangePopup = false;
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-                canChangePopup = true;
+        new Thread(() -> {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
+            canChangePopup = true;
         }).start();
     }
 }

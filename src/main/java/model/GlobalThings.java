@@ -1,6 +1,12 @@
 package model;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.image.Image;
+
+import javax.sound.sampled.*;
+import java.io.File;
+import java.io.IOException;
 
 public class GlobalThings {
     public static int mapHeight = 110;
@@ -26,4 +32,38 @@ public class GlobalThings {
     public static Image FOG_OF_WAR_IMAGE = new Image(GlobalThings.class.getResource("/tiles/fog of war.png").toExternalForm());
     public static Image RUINS_IMAGE = new Image(GlobalThings.class.getResource("/icons/ruins.png").toExternalForm());
     public static Image CITY_IMAGE = new Image(GlobalThings.class.getResource("/tiles/city.png").toExternalForm());
+    public static Image CIVILIZATION_IMAGE = new Image(GlobalThings.class.getResource("/icons/Civ-5-icon.png").toExternalForm());
+
+    public static final BooleanProperty musicOn = new SimpleBooleanProperty(true);
+    public static Clip clip;
+
+    public static BooleanProperty musicOnProperty() {
+        return musicOn;
+    }
+
+    public static void setMusicOn(boolean musicOn) {
+        GlobalThings.musicOn.set(musicOn);
+    }
+
+    static {
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("./src/main/resources/backgroundMusic/Background Music.wav").getAbsoluteFile());
+            clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+            playMusic();
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void playMusic() {
+        setMusicOn(true);
+        clip.start();
+    }
+
+    public static void pauseMusic() {
+        setMusicOn(false);
+        clip.stop();
+    }
 }

@@ -2,6 +2,7 @@ package controller;
 
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import model.GlobalThings;
 import view.*;
 
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class Controller {
         window.setResizable(false);
         window.setScene(loginMenu.getScene());
         window.setTitle("Civilization");
-        window.getIcons().add(new Image(getClass().getResource("/icons/Civ-5-icon.png").toExternalForm()));
+        window.getIcons().add(GlobalThings.CIVILIZATION_IMAGE);
         window.show();
     }
 

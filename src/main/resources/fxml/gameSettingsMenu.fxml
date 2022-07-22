@@ -125,4 +125,20 @@
       <cursor>
          <Cursor fx:constant="HAND" />
       </cursor></ChoiceBox>
+   <ImageView fx:id="musicOn" fitHeight="79.0" fitWidth="98.0" layoutX="1187.0" layoutY="627.0" onMouseClicked="#mute" pickOnBounds="true" preserveRatio="true" styleClass="back-button">
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor>
+      <image>
+         <Image url="@../icons/unmute_icon.png" />
+      </image>
+   </ImageView>
+   <ImageView fx:id="musicOff" fitHeight="79.0" fitWidth="98.0" layoutX="1187.0" layoutY="627.0" onMouseClicked="#unmute" pickOnBounds="true" preserveRatio="true" styleClass="back-button">
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor>
+      <image>
+         <Image url="@../icons/mute_icon.png" />
+      </image>
+   </ImageView>
 </AnchorPane>
