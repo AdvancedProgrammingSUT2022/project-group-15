@@ -726,10 +726,22 @@ public class GameMenu extends Menu implements Initializable {
 
     public void cityPanel(MouseEvent mouseEvent) {
         popup.getContent().clear();
-        popupLabel.setText(cityNames());
-        popup.getContent().add(popupLabel);
+        String message = controller.showCitiesPanel().trim();
+        String[] units = message.split("\n");
+        for (String unit : units) {
+            Label label = new Label(unit);
+            label.setStyle("-fx-background-color: white");
+            label.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    popup.hide();
+                    createCityPage(controller.selectCity(Integer.parseInt(unit.substring(0,1))));
+                }
+            });
+            popup.getContent().add(label);
+        }
         popup.setX(window.getX() + 387);
-        popup.setY(window.getY() + 105);
+        popup.setY(window.getY() + 115);
         popup.setAutoHide(true);
         popup.show(window);
     }
@@ -748,24 +760,26 @@ public class GameMenu extends Menu implements Initializable {
 
     public void unitPanel(MouseEvent mouseEvent) {
         popup.getContent().clear();
-        popupLabel.setText(unitNames());
-        popupHBox.setVisible(true);
-        popup.getContent().add(popupLabel);
+        String message = controller.showUnitsPanel().trim();
+        String[] units = message.split("\n");
+        for (String unit : units) {
+            Label label = new Label(unit);
+            label.setStyle("-fx-background-color: white");
+            label.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    popup.hide();
+                    createPopupAndGlowForNode(controller.selectUnit(Integer.parseInt(unit.substring(0,1))),null,true,true);
+                }
+            });
+            popup.getContent().add(label);
+        }
         popup.setX(window.getX() + 410);
-        popup.setY(window.getY() + 105);
+        popup.setY(window.getY() + 115);
         popup.setAutoHide(true);
         popup.show(window);
     }
 
-    private String unitNames() {
-        String message = "";
-        if (Game.getGame().getSelectedCivilization().getUnits().size() == 0)
-            return "no unit";
-        for (Unit unit : Game.getGame().getSelectedCivilization().getUnits()) {
-            message += unit.getName() + "\n";
-        }
-        return message;
-    }
 
     public synchronized void nextTurn() {
         String message = controller.changeTurn(false);

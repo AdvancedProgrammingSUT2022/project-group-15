@@ -181,7 +181,7 @@ public class GameMenuController {
     public String showCitiesPanel() {
         String message = "";
         for (City city : Game.getGame().getSelectedCivilization().getCities()) {
-            message += cityInfo(city);
+            message += city.getName() + " population:" + city.getNumberOfCitizen();
             message += "\n";
         }
         return message;
@@ -213,7 +213,6 @@ public class GameMenuController {
     }
 
     public String showMilitaryPanel() {
-        // TODO : implement phase 2
         return Controller.addNotification(Game.getGame().getTurnNumber(), showUnitsPanel());
     }
 
@@ -972,5 +971,19 @@ public class GameMenuController {
             return "city is capital u can only capture it";
         }
         return "destroyed !!!";
+    }
+
+    public String selectUnit(int turn) {
+        selectedUnit = Game.getGame().getSelectedCivilization().getUnits().get(turn - 1);
+        if (selectedUnit instanceof CivilUnit)
+            return selectCivilUnit(selectedUnit.getCoordinatesInMap().get('x') / 2, selectedUnit.getCoordinatesInMap().get('y'));
+        else
+            return selectMilitaryUnit(selectedUnit.getCoordinatesInMap().get('x') / 2, selectedUnit.getCoordinatesInMap().get('y'));
+
+    }
+
+    public City selectCity(int turn) {
+
+        return Game.getGame().getSelectedCivilization().getCities().get(turn - 1);
     }
 }
