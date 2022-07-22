@@ -1002,15 +1002,8 @@ public class GameMenu extends Menu implements Initializable {
             Controller.setGameSettingsMenu(new GameSettingsMenu());
             window.setScene(Controller.getGameSettingsMenu().getScene());
         });
-        Button button3 = new Button("mute");
-        button3.setStyle("-fx-base: red;");
-        button3.setOnAction(event -> {
-            popup.hide();
-            GlobalThings.pauseMusic();
-        });
         popupVBox.getChildren().add(button);
         popupVBox.getChildren().add(button1);
-        popupVBox.getChildren().add(button3);
         popupVBox.getChildren().add(button2);
         popupVBox.setVisible(true);
         popup.getContent().add(popupVBox);
