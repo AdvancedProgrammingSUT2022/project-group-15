@@ -6,6 +6,7 @@ import controller.GameMenuController;
 import enums.Feature;
 import enums.HexVisibility;
 import enums.Improvement;
+import enums.Resource;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -76,6 +77,7 @@ public class GameMenu extends Menu implements Initializable {
     private ImageView applyCheat;
     @FXML
     private TextField cheatTextField;
+
 
     private boolean isSelectingTile = false;
     private boolean canChangePopup = true;
@@ -735,7 +737,7 @@ public class GameMenu extends Menu implements Initializable {
                 @Override
                 public void handle(MouseEvent event) {
                     popup.hide();
-                    createCityPage(controller.selectCity(Integer.parseInt(unit.substring(0,1))));
+                    createCityPage(controller.selectCity(Integer.parseInt(unit.substring(0, 1))));
                 }
             });
             popup.getContent().add(label);
@@ -769,7 +771,7 @@ public class GameMenu extends Menu implements Initializable {
                 @Override
                 public void handle(MouseEvent event) {
                     popup.hide();
-                    createPopupAndGlowForNode(controller.selectUnit(Integer.parseInt(unit.substring(0,1))),null,true,true);
+                    createPopupAndGlowForNode(controller.selectUnit(Integer.parseInt(unit.substring(0, 1))), null, true, true);
                 }
             });
             popup.getContent().add(label);
@@ -870,7 +872,48 @@ public class GameMenu extends Menu implements Initializable {
             trade.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    // TODO: 7/20/2022 trade coin and resource
+                    popup.getContent().clear();
+                    popupVBox.getChildren().clear();
+                    popupVBox.setSpacing(10);
+                    popupVBox.prefHeight(400);
+                    popupVBox.prefWidth(200);
+                    popupVBox.setAlignment(Pos.CENTER);
+                    popupVBox.setStyle("-fx-border-color: green;");
+                    popupVBox.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+                    Label label1 = new Label("own resources");
+                    label1.setTextFill(Color.WHITE);
+                    popupVBox.getChildren().add(label1);
+                    ChoiceBox choiceBox = new ChoiceBox<String>();
+                    for (Resource resource : Game.getGame().getSelectedCivilization().getOpenedResources()) {
+                        choiceBox.getItems().add(resource.name());
+                    }
+                    Label label2 = new Label("other resources");
+                    label2.setTextFill(Color.WHITE);
+                    ChoiceBox choiceBox1 = new ChoiceBox<>();
+                    for (Civilization enemy : Game.getGame().getSelectedCivilization().getEnemies()) {
+                        for (Resource openedResource : enemy.getOpenedResources()) {
+                            choiceBox1.getItems().add(openedResource.name());
+                        }
+                    }
+                    Label label3 = new Label("Gold you give :");
+                    label3.setTextFill(Color.WHITE);
+                    TextField textField = new TextField("Gold...");
+                    Label label4 = new Label("Gold you want :");
+                    label4.setTextFill(Color.WHITE);
+                    TextField textField1 = new TextField("Gold...");
+                    Button button = new Button("TRADE");
+                    button.setStyle("-fx-base: green;");
+                    popupVBox.getChildren().add(choiceBox);
+                    popupVBox.getChildren().add(label2);
+                    popupVBox.getChildren().add(choiceBox1);
+                    popupVBox.getChildren().add(label3);
+                    popupVBox.getChildren().add(textField);
+                    popupVBox.getChildren().add(label4);
+                    popupVBox.getChildren().add(textField1);
+                    popupVBox.getChildren().add(button);
+                    popup.getContent().add(popupVBox);
+                    popupVBox.setVisible(true);
+                    popup.show(window);
                 }
             });
             hBox.getChildren().add(label);

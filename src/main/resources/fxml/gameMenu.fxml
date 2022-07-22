@@ -24,7 +24,7 @@
                 <AnchorPane fx:id="map" prefHeight="689.0" prefWidth="1277.0" styleClass="backgroundPane" />
             </content>
         </ScrollPane>
-      <TextField fx:id="cheatTextField" layoutX="32.0" layoutY="650.0" prefWidth="265.0" promptText="Enter Your Cheat Code Hear :)" />
+      <TextField fx:id="cheatTextField" layoutX="32.0" layoutY="650.0" prefWidth="265.0" promptText="Enter Your Cheat Code Here :)" />
       <ImageView fx:id="applyCheat" fitHeight="80.0" fitWidth="70.0" layoutX="346.0" layoutY="635.0" onMouseClicked="#applyCheat" pickOnBounds="true" preserveRatio="true" styleClass="back-button">
          <image>
             <Image url="@../icons/play_icon.png" />
