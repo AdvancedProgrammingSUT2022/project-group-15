@@ -314,7 +314,8 @@ public class GameMenu extends Menu implements Initializable {
         String message = "terrain : " + hex.getTerrain().name + "\n"
                 + "feature : " + hex.getFeature().name + "\n"
                 + "resource : " + hex.getResource().name + "\n"
-                + "improvement : " + hex.getImprovement().name;
+                + "improvement : " + hex.getImprovement().name+"\n"
+                + "percent of improvement = " + hex.getPercentOfBuildingImprovement();
         if (hex.getCivilUnit() != null)
             message += "\n" + "civil unit : " + hex.getCivilUnit().getName().getName();
         if (hex.getMilitaryUnit() != null)
@@ -510,8 +511,10 @@ public class GameMenu extends Menu implements Initializable {
                             Button improvementButton = new Button(improvement.name);
                             improvementButton.setOnAction(new EventHandler<ActionEvent>() {
                                 @Override
-                                public void handle(ActionEvent event) {
-                                    createPopupAndGlowForNode(controller.buildImprovement(improvement.name), null, false, false);
+                                public void handle(ActionEvent event){
+                                    String message = controller.buildImprovement(improvement.name);
+                                    updateAll();
+                                    createPopupAndGlowForNode(message, null, false, false);
                                 }
                             });
                             popupVBox.getChildren().add(improvementButton);
@@ -886,20 +889,20 @@ public class GameMenu extends Menu implements Initializable {
                     vBox.getChildren().add(label1);
                     ChoiceBox<String> choiceBox = new ChoiceBox<String>();
                     for (Resource resource : Game.getGame().getSelectedCivilization().getStrategicResources()) {
-                        choiceBox.getItems().add(resource.name());
+                        choiceBox.getItems().add(resource.name);
                     }
                     for (Resource resource : Game.getGame().getSelectedCivilization().getLuxuryResources()) {
-                        choiceBox.getItems().add(resource.name());
+                        choiceBox.getItems().add(resource.name);
                     }
                     Label label2 = new Label("other resources");
                     label2.setTextFill(Color.WHITE);
                     ChoiceBox<String> choiceBox1 = new ChoiceBox<>();
 
                     for (Resource openedResource : civilization.getStrategicResources()) {
-                        choiceBox1.getItems().add(openedResource.name());
+                        choiceBox1.getItems().add(openedResource.name);
                     }
                     for (Resource openedResource : civilization.getLuxuryResources()) {
-                        choiceBox1.getItems().add(openedResource.name());
+                        choiceBox1.getItems().add(openedResource.name);
                     }
 
                     Label label3 = new Label("Gold you give :");

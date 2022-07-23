@@ -1014,7 +1014,6 @@ public class GameMenuController {
         Resource resourceYouLoss = Resource.getByName(resourceYouLossName);
         if (resourceYouLoss != null)
             getResourceFromTo(Game.getGame().getSelectedCivilization(), other, resourceYouLoss);
-        ;
 
         return "done";
     }
@@ -1025,7 +1024,7 @@ public class GameMenuController {
             to.getLuxuryResources().add(resource);
         } else {
             from.getStrategicResources().remove(resource);
-            to.getStrategicResources().remove(resource);
+            to.getStrategicResources().add(resource);
         }
     }
 }

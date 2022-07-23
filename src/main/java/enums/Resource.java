@@ -61,6 +61,7 @@ public enum Resource {
     }
 
     public static Resource getByName(String name) {
+        System.out.println(name);
         if (name == null)
             return null;
         if (name.equals("null"))
