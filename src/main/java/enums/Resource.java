@@ -60,6 +60,18 @@ public enum Resource {
 
     }
 
+    public static Resource getByName(String name) {
+        if (name == null)
+            return null;
+        if (name.equals("null"))
+            return null;
+        for (Resource resource : Resource.values()) {
+            if (resource.name.equals(name))
+                return resource;
+        }
+        return null;
+    }
+
 
     @Override
     public String toString() {

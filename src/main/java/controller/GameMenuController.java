@@ -299,7 +299,7 @@ public class GameMenuController {
                 .append("\nproduction per turn : ").append(city.getProductionPerTurn()).append("\nfood per turn : ").append(city.getFoodPerTurn())
                 .append("\nfood storage : ").append(city.getFoodStorage()).append("\nwill build unit in ")
                 .append(city.getRemainedTurns()).append(" turns!").append("\nhexes in ");
-        
+
         for (Hex cityHex : city.getCityHexes()) {
             if (cityHex.isAnyCitizenWorking())
                 ans.append(" ( ").append(cityHex.getCoordinatesInArray().get('x')).append(",").append(cityHex.getCoordinatesInArray().get('y')).append(" ) ");
@@ -989,5 +989,43 @@ public class GameMenuController {
     public City selectCity(int turn) {
 
         return Game.getGame().getSelectedCivilization().getCities().get(turn - 1);
+    }
+
+    public String trade(String resourceYouGetName, String resourceYouLossName, String goldYouGet, String goldYouLoss, String usernameOfOther) {
+        Civilization other = null;
+
+        for (Civilization civilization : Game.getGame().getCivilizations()) {
+            if (civilization.getUser().getUsername().equals(usernameOfOther))
+                other = civilization;
+        }
+
+        int goldDifference;
+        try {
+            goldDifference = Integer.parseInt(goldYouGet) - Integer.parseInt(goldYouLoss);
+        } catch (Exception e) {
+            return "format of gold is invalid";
+        }
+        Game.getGame().getSelectedCivilization().setGoldStorage(Game.getGame().getSelectedCivilization().getGoldStorage() + goldDifference);
+        other.setGoldStorage(other.getGoldStorage() - goldDifference);
+
+        Resource resourceYouGet = Resource.getByName(resourceYouGetName);
+        if (resourceYouGet != null)
+            getResourceFromTo(other, Game.getGame().getSelectedCivilization(), resourceYouGet);
+        Resource resourceYouLoss = Resource.getByName(resourceYouLossName);
+        if (resourceYouLoss != null)
+            getResourceFromTo(Game.getGame().getSelectedCivilization(), other, resourceYouLoss);
+        ;
+
+        return "done";
+    }
+
+    private void getResourceFromTo(Civilization from, Civilization to, Resource resource) {
+        if (resource.type.equals("luxury")) {
+            from.getLuxuryResources().remove(resource);
+            to.getLuxuryResources().add(resource);
+        } else {
+            from.getStrategicResources().remove(resource);
+            to.getStrategicResources().remove(resource);
+        }
     }
 }

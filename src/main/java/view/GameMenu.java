@@ -873,46 +873,82 @@ public class GameMenu extends Menu implements Initializable {
                 @Override
                 public void handle(ActionEvent event) {
                     popup.getContent().clear();
-                    popupVBox.getChildren().clear();
-                    popupVBox.setSpacing(10);
-                    popupVBox.prefHeight(400);
-                    popupVBox.prefWidth(200);
-                    popupVBox.setAlignment(Pos.CENTER);
-                    popupVBox.setStyle("-fx-border-color: green;");
-                    popupVBox.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+
+                    vBox.getChildren().clear();
+                    vBox.setSpacing(10);
+                    vBox.prefHeight(400);
+                    vBox.prefWidth(200);
+                    vBox.setAlignment(Pos.CENTER);
+                    vBox.setStyle("-fx-border-color: green;");
+                    vBox.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
                     Label label1 = new Label("own resources");
                     label1.setTextFill(Color.WHITE);
-                    popupVBox.getChildren().add(label1);
-                    ChoiceBox choiceBox = new ChoiceBox<String>();
-                    for (Resource resource : Game.getGame().getSelectedCivilization().getOpenedResources()) {
+                    vBox.getChildren().add(label1);
+                    ChoiceBox<String> choiceBox = new ChoiceBox<String>();
+                    for (Resource resource : Game.getGame().getSelectedCivilization().getStrategicResources()) {
+                        choiceBox.getItems().add(resource.name());
+                    }
+                    for (Resource resource : Game.getGame().getSelectedCivilization().getLuxuryResources()) {
                         choiceBox.getItems().add(resource.name());
                     }
                     Label label2 = new Label("other resources");
                     label2.setTextFill(Color.WHITE);
-                    ChoiceBox choiceBox1 = new ChoiceBox<>();
-                    for (Civilization enemy : Game.getGame().getSelectedCivilization().getEnemies()) {
-                        for (Resource openedResource : enemy.getOpenedResources()) {
-                            choiceBox1.getItems().add(openedResource.name());
-                        }
+                    ChoiceBox<String> choiceBox1 = new ChoiceBox<>();
+
+                    for (Resource openedResource : civilization.getStrategicResources()) {
+                        choiceBox1.getItems().add(openedResource.name());
                     }
+                    for (Resource openedResource : civilization.getLuxuryResources()) {
+                        choiceBox1.getItems().add(openedResource.name());
+                    }
+
                     Label label3 = new Label("Gold you give :");
                     label3.setTextFill(Color.WHITE);
-                    TextField textField = new TextField("Gold...");
+                    TextField goldYouLoss = new TextField("Gold...");
                     Label label4 = new Label("Gold you want :");
                     label4.setTextFill(Color.WHITE);
-                    TextField textField1 = new TextField("Gold...");
+                    TextField goldYouGet = new TextField("Gold...");
                     Button button = new Button("TRADE");
+                    button.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent event) {
+                            createPopupAndGlowForNode("accept deal?",null,false,false);
+                            Button reject = new Button("reject");
+                            reject.setOnAction(new EventHandler<ActionEvent>() {
+                                @Override
+                                public void handle(ActionEvent event) {
+                                    createPopupAndGlowForNode("ok",null,false,false);
+                                    popup.hide();
+                                }
+                            });
+                            popupVBox.getChildren().add(reject);
+                            Button accept = new Button("accept");
+                            accept.setOnAction(new EventHandler<ActionEvent>() {
+                                @Override
+                                public void handle(ActionEvent event) {
+                                    String message = controller.trade(choiceBox1.getValue(), choiceBox.getValue(),
+                                            goldYouGet.getText(), goldYouLoss.getText(), civilization.getUsername());
+                                    updateAll();
+                                    createPopupAndGlowForNode(message,null,false,false);
+                                    popup.hide();
+
+                                }
+                            });
+                            popupVBox.getChildren().add(accept);
+                        }
+                    });
                     button.setStyle("-fx-base: green;");
-                    popupVBox.getChildren().add(choiceBox);
-                    popupVBox.getChildren().add(label2);
-                    popupVBox.getChildren().add(choiceBox1);
-                    popupVBox.getChildren().add(label3);
-                    popupVBox.getChildren().add(textField);
-                    popupVBox.getChildren().add(label4);
-                    popupVBox.getChildren().add(textField1);
-                    popupVBox.getChildren().add(button);
-                    popup.getContent().add(popupVBox);
-                    popupVBox.setVisible(true);
+                    vBox.getChildren().add(choiceBox);
+                    vBox.getChildren().add(label2);
+                    vBox.getChildren().add(choiceBox1);
+                    vBox.getChildren().add(label3);
+                    vBox.getChildren().add(goldYouLoss);
+                    vBox.getChildren().add(label4);
+                    vBox.getChildren().add(goldYouGet);
+                    vBox.getChildren().add(button);
+                    popup.hide();
+                    popup.getContent().add(vBox);
+                    vBox.setVisible(true);
                     popup.show(window);
                 }
             });
