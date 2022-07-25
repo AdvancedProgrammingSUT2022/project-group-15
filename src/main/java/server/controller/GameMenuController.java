@@ -224,7 +224,6 @@ public class GameMenuController {
     }
 
     public String showEconomyPanel() {
-        // TODO : implement phase 2
         return Game.getGame().addNotification(Game.getGame().getTurnNumber(), showCitiesPanel());
     }
 
