@@ -1,6 +1,7 @@
 package controller;
 
-import model.User;
+import server.controller.LoginMenuController;
+import server.model.User;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

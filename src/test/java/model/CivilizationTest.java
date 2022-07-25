@@ -1,7 +1,10 @@
 package model;
 
-import controller.GameMenuController;
+import server.controller.GameMenuController;
 import junit.framework.TestCase;
+import server.model.City;
+import server.model.Game;
+import server.model.User;
 
 import java.util.ArrayList;
 

@@ -1,38 +1,20 @@
 [
   {
-    "avatar": "AVATAR_4",
-    "lastScoreChangedTime": "16::Jul::2022 00::35::19",
-    "lastOnlineTime": null,
-    "username": "aaa",
-    "password": "qw12qw",
-    "nickname": "aaa",
-    "score": 0
-  },
-  {
-    "avatar": "AVATAR_2",
-    "lastScoreChangedTime": "16::Jul::2022 00::41::01",
-    "lastOnlineTime": "16::Jul::2022 16::17::11",
+    "avatar": "AVATAR_6",
+    "lastScoreChangedTime": "23::Jul::2022 22::42::43",
+    "lastOnlineTime": "23::Jul::2022 22::42::43",
     "username": "a",
     "password": "a",
-    "nickname": "a",
+    "nickname": "amir",
     "score": 0
   },
   {
-    "avatar": "AVATAR_9",
-    "lastScoreChangedTime": "16::Jul::2022 00::41::01",
+    "avatar": "AVATAR_4",
+    "lastScoreChangedTime": "23::Jul::2022 22::44::46",
     "lastOnlineTime": null,
-    "username": "b",
-    "password": "b",
-    "nickname": "b",
-    "score": 0
-  },
-  {
-    "avatar": "AVATAR_10",
-    "lastScoreChangedTime": "16::Jul::2022 11::58::52",
-    "lastOnlineTime": "17::Jul::2022 13::55::57",
-    "username": "erfan",
-    "password": "123erfan",
-    "nickname": "aa",
+    "username": "ali",
+    "password": "aliqwrqweq12",
+    "nickname": "aliNick",
     "score": 0
   }
 ]

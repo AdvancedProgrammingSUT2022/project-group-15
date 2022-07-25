@@ -1,7 +1,8 @@
 package controller;
 
-import model.Game;
-import model.User;
+import server.controller.MainMenuController;
+import server.model.Game;
+import server.model.User;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

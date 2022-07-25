@@ -2,6 +2,7 @@ package controller;
 
 import org.junit.Assert;
 import org.junit.Test;
+import server.controller.Controller;
 
 public class ControllerTest {
 

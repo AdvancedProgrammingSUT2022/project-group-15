@@ -1,16 +1,18 @@
 package model.unit;
 
-import enums.Feature;
-import enums.Resource;
-import enums.Terrain;
-import enums.UnitName;
+import server.enums.Feature;
+import server.enums.Resource;
+import server.enums.Terrain;
+import server.enums.UnitName;
 import junit.framework.TestCase;
-import model.Civilization;
-import model.Game;
-import model.Hex;
-import model.User;
+import server.model.Civilization;
+import server.model.Game;
+import server.model.Hex;
+import server.model.User;
 import org.junit.Assert;
-import org.junit.Test;
+import server.model.unit.MeleeMilitary;
+import server.model.unit.RangedMilitary;
+import server.model.unit.Unit;
 
 import java.util.ArrayList;
 

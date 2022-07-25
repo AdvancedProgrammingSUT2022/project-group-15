@@ -1,7 +1,7 @@
 package controller;
 
-import model.User;
-import org.junit.Assert;
+import server.controller.ProfileMenuController;
+import server.model.User;
 import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.MockedStatic;

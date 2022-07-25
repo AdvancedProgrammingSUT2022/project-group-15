@@ -1,7 +1,8 @@
 package model;
 
-import enums.HexVisibility;
+import server.enums.HexVisibility;
 import junit.framework.TestCase;
+import server.model.Map;
 
 public class MapTest extends TestCase {
 

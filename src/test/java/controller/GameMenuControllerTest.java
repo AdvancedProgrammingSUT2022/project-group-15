@@ -1,15 +1,16 @@
 package controller;
 
-import enums.Feature;
-import enums.Resource;
-import enums.Terrain;
-import enums.UnitName;
-import model.Game;
-import model.Hex;
-import model.User;
-import model.unit.WorkerUnit;
+import server.enums.Feature;
+import server.enums.Resource;
+import server.enums.Terrain;
+import server.enums.UnitName;
+import server.controller.GameMenuController;
+import server.model.Game;
+import server.model.Hex;
+import server.model.User;
+import server.model.unit.WorkerUnit;
 import org.junit.Test;
-import view.GameMenu;
+import client.view.GameMenu;
 
 import java.util.ArrayList;
 
