@@ -2,6 +2,7 @@ package client.view;
 
 import client.controller.Controller;
 
+import client.model.Response;
 import client.model.User;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
@@ -124,6 +125,7 @@ public class LoginMenu extends Menu implements Initializable {
         checkIconFade.play();
         messageFade.play();
         Controller.send("change menu Main");
+        User.setLoggedInUser(Controller.getUser(username.getText()));
     }
 
 //    @Override

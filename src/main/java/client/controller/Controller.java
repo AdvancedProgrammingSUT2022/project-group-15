@@ -2,6 +2,7 @@ package client.controller;
 
 import client.model.Request;
 import client.model.Response;
+import client.model.User;
 import client.view.*;
 import javafx.stage.Stage;
 import server.model.GlobalThings;
@@ -38,6 +39,14 @@ public class Controller {
         }
         Response response = SOCKET_CONTROLLER.send(request);
         return response.getAnswer();
+    }
+
+    public static User getUser(String username) {
+        Request request = new Request();
+        request.setMethodName("getUser");
+        request.addParameter(username);
+        Response response = SOCKET_CONTROLLER.send(request);
+        return User.fromJson((String) response.getAnswer());
     }
 
     public void run(Stage primaryStage) {

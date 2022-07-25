@@ -6,6 +6,7 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.security.AnyTypePermission;
 import server.model.Request;
 import server.model.Response;
+import server.model.User;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -59,6 +60,11 @@ public class SocketHandler extends Thread {
         if (methodName.startsWith("change menu")) {
             changeMenu(methodName.substring(12));
             return new Response();
+        }
+        if (methodName.equals("getUser")){
+            Response response = new Response();
+            response.setAnswer(User.getLoggedInUser().toJson());
+            return response;
         }
         Class<?>[] types = new Class[request.getParameters().size()];
         for (int i = 0; i < request.getParameters().size(); i++) {

@@ -30,7 +30,7 @@ public class MainMenu extends Menu implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        avatarImage.imageProperty().bind(((User)Controller.send("getLoggedInPlayer")).avatarProperty());
+   //     avatarImage.imageProperty().bind(User.getLoggedInUser().getAvatar());
         username.textProperty().bind(((User)Controller.send("getLoggedInPlayer")).usernameProperty());
         score.textProperty().bind(((User)Controller.send("getLoggedInPlayer")).scoreProperty().asString());
         Tooltip.install(exitButton, new Tooltip("Exit"));
