@@ -2,29 +2,15 @@ package client.model;
 
 import com.google.gson.*;
 import com.google.gson.annotations.Expose;
-import com.google.gson.reflect.TypeToken;
-import javafx.beans.property.*;
-import javafx.scene.image.Image;
-import org.hildan.fxgson.FxGson;
 import client.enums.Avatar;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.lang.reflect.Type;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 
 public class User implements Comparable<User> {
-    private static ArrayList<User> users = new ArrayList<>();
     private static User loggedInUser = null;
     private static final Gson gson = createMyGson();
-
-    @Expose(serialize = false)
-    private ObjectProperty<Image> avatarImage = new SimpleObjectProperty<>();
 
     @Expose
     private Avatar avatar;
@@ -33,80 +19,13 @@ public class User implements Comparable<User> {
     @Expose
     private LocalDateTime lastOnlineTime;
     @Expose
-    private final StringProperty username = new SimpleStringProperty();
+    private String username;
     @Expose
-    private final StringProperty password = new SimpleStringProperty();
+    private String password;
     @Expose
-    private final StringProperty nickname = new SimpleStringProperty();
+    private String nickname;
     @Expose
-    private final IntegerProperty score = new SimpleIntegerProperty();
-
-    public User(String username, String password, String nickname, int score) {
-        setAvatar(Avatar.getRandomAvatar());
-        this.lastScoreChangedTime = LocalDateTime.now();
-        this.score.addListener(e -> {
-            this.lastScoreChangedTime = LocalDateTime.now();
-            saveUsers();
-        });
-        this.username.setValue(username);
-        this.password.setValue(password);
-        this.nickname.setValue(nickname);
-        this.score.setValue(score);
-    }
-
-    /**
-     * return the user with a specific username
-     *
-     * @author Parsa
-     */
-    public static User getUserByUsername(String username) {
-        for (User user : users) {
-            if (user.getUsername().equals(username)) {
-                return user;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * return the user with a specific nickname
-     *
-     * @author Parsa
-     */
-    public static User getUserByNickname(String nickname) {
-        for (User user : users) {
-            if (user.getNickname().equals(nickname)) {
-                return user;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * add a new user to the users list
-     *
-     * @author Parsa
-     */
-    public static void addUser(String username, String password, String nickname) {
-        users.add(new User(username, password, nickname, 0));
-        saveUsers();
-    }
-
-    /**
-     * save users in UserDatabase.json
-     * uses FxGson library
-     *
-     * @author Erfan & Parsa
-     */
-    public static void saveUsers() {
-        try {
-            FileWriter fileWriter = new FileWriter("./src/main/resources/UserDatabase.json");
-            fileWriter.write(gson.toJson(users));
-            fileWriter.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    private int score;
 
     /**
      * creates a Gson that has been customized
@@ -115,7 +34,7 @@ public class User implements Comparable<User> {
      * @author Parsa
      */
     private static Gson createMyGson() {
-        return FxGson.coreBuilder().excludeFieldsWithoutExposeAnnotation().registerTypeAdapter(LocalDateTime.class, new JsonDeserializer<LocalDateTime>() {
+        return new GsonBuilder().excludeFieldsWithoutExposeAnnotation().registerTypeAdapter(LocalDateTime.class, new JsonDeserializer<LocalDateTime>() {
             @Override
             public LocalDateTime deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
                     throws JsonParseException {
@@ -132,124 +51,20 @@ public class User implements Comparable<User> {
         }).setPrettyPrinting().disableHtmlEscaping().create();
     }
 
-    /**
-     * load users created before(Saved in UserDatabase.json)
-     * uses FxGson library
-     *
-     * @author Erfan & Parsa
-     */
-    public static void loadUsers() {
-        try {
-            String json = new String(Files.readAllBytes(Paths.get("./src/main/resources/UserDatabase.json")));
-            ArrayList<User> createdUsers;
-            createdUsers = gson.fromJson(json, new TypeToken<List<User>>() {
-            }.getType());
-            if (createdUsers != null) {
-                for (User user : createdUsers) {
-                    user.avatarImage = new SimpleObjectProperty<>();
-                    user.setAvatar(user.getAvatar());
-                }
-                users = createdUsers;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public static User fromJson(String json) {
+        return gson.fromJson(json, User.class);
     }
 
-    public static void deleteAccountOfLoggedInPlayer() {
-        users.remove(User.getLoggedInUser());
-        saveUsers();
-    }
-
-    public String getUsername() {
-        return username.get();
-    }
-
-    public StringProperty usernameProperty() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username.set(username);
-    }
-
-    public String getPassword() {
-        return password.get();
-    }
-
-    public StringProperty passwordProperty() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password.set(password);
-        saveUsers();
-    }
-
-    public String getNickname() {
-        return nickname.get();
-    }
-
-    public StringProperty nicknameProperty() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname.set(nickname);
-        saveUsers();
-    }
-
-    public int getScore() {
-        return score.get();
-    }
-
-    public IntegerProperty scoreProperty() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score.set(score);
-    }
-
-
-    /**
-     * add amount to the user's score
-     *
-     * @param amount the amount that we want to add or subtract from user's score
-     * @author Parsa
-     */
-    public void changeScore(int amount) {
-        setScore(getScore() + amount);
-    }
-
-    public static ArrayList<User> getUsers() {
-        return users;
-    }
-
-    public static User getLoggedInUser() {
-        return loggedInUser;
-    }
-
-    public static void setLoggedInUser(User loggedInUser) {
-        User.loggedInUser = loggedInUser;
-        User.getLoggedInUser().setLastOnlineTime(LocalDateTime.now()); //TODO : delete this line
+    public String toJson() {
+        return gson.toJson(this);
     }
 
     public Avatar getAvatar() {
         return avatar;
     }
 
-    public ObjectProperty<Image> avatarProperty() {
-        return avatarImage;
-    }
-
-    public Image getAvatarImage() {
-        return avatar.image;
-    }
-
     public void setAvatar(Avatar avatar) {
         this.avatar = avatar;
-        this.avatarImage.set(avatar.image);
     }
 
     @Override
@@ -261,14 +76,6 @@ public class User implements Comparable<User> {
         if (!lastScoreChangedTime.equals(o.lastScoreChangedTime))
             return this.lastScoreChangedTime.compareTo(o.lastScoreChangedTime);
         return this.getUsername().compareTo(o.getUsername());
-    }
-
-    public LocalDateTime getLastScoreChanged() {
-        return lastScoreChangedTime;
-    }
-
-    public void setLastScoreChanged(LocalDateTime lastScoreChanged) {
-        this.lastScoreChangedTime = lastScoreChanged;
     }
 
     public LocalDateTime getLastOnlineTime() {
@@ -284,5 +91,53 @@ public class User implements Comparable<User> {
             return this.lastOnlineTime.format(DateTimeFormatter.ofPattern("d MMM, uuuu HH:mm:ss"));
         else
             return "null";
+    }
+
+    public static User getLoggedInUser() {
+        return loggedInUser;
+    }
+
+    public static void setLoggedInUser(User loggedInUser) {
+        User.loggedInUser = loggedInUser;
+    }
+
+    public LocalDateTime getLastScoreChangedTime() {
+        return lastScoreChangedTime;
+    }
+
+    public void setLastScoreChangedTime(LocalDateTime lastScoreChangedTime) {
+        this.lastScoreChangedTime = lastScoreChangedTime;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 }

@@ -4,9 +4,6 @@ import com.google.gson.*;
 import com.google.gson.annotations.Expose;
 import com.google.gson.reflect.TypeToken;
 import server.enums.Avatar;
-import javafx.beans.property.*;
-import javafx.scene.image.Image;
-import org.hildan.fxgson.FxGson;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -30,25 +27,21 @@ public class User implements Comparable<User> {
     @Expose
     private LocalDateTime lastOnlineTime;
     @Expose
-    private final StringProperty username = new SimpleStringProperty();
+    private String username;
     @Expose
-    private final StringProperty password = new SimpleStringProperty();
+    private String password;
     @Expose
-    private final StringProperty nickname = new SimpleStringProperty();
+    private String nickname;
     @Expose
-    private final IntegerProperty score = new SimpleIntegerProperty();
+    private int score;
 
     public User(String username, String password, String nickname, int score) {
         setAvatar(Avatar.getRandomAvatar());
         this.lastScoreChangedTime = LocalDateTime.now();
-        this.score.addListener(e -> {
-            this.lastScoreChangedTime = LocalDateTime.now();
-            saveUsers();
-        });
-        this.username.setValue(username);
-        this.password.setValue(password);
-        this.nickname.setValue(nickname);
-        this.score.setValue(score);
+        this.username = username;
+        this.password = password;
+        this.nickname = nickname;
+        this.score = score;
     }
 
     /**
@@ -112,7 +105,7 @@ public class User implements Comparable<User> {
      * @author Parsa
      */
     private static Gson createMyGson() {
-        return FxGson.coreBuilder().excludeFieldsWithoutExposeAnnotation().registerTypeAdapter(LocalDateTime.class, new JsonDeserializer<LocalDateTime>() {
+        return new GsonBuilder().excludeFieldsWithoutExposeAnnotation().registerTypeAdapter(LocalDateTime.class, new JsonDeserializer<LocalDateTime>() {
             @Override
             public LocalDateTime deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
                     throws JsonParseException {
@@ -154,56 +147,6 @@ public class User implements Comparable<User> {
         saveUsers();
     }
 
-    public String getUsername() {
-        return username.get();
-    }
-
-    public StringProperty usernameProperty() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username.set(username);
-    }
-
-    public String getPassword() {
-        return password.get();
-    }
-
-    public StringProperty passwordProperty() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password.set(password);
-        saveUsers();
-    }
-
-    public String getNickname() {
-        return nickname.get();
-    }
-
-    public StringProperty nicknameProperty() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname.set(nickname);
-        saveUsers();
-    }
-
-    public int getScore() {
-        return score.get();
-    }
-
-    public IntegerProperty scoreProperty() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score.set(score);
-    }
-
 
     /**
      * add amount to the user's score
@@ -212,15 +155,13 @@ public class User implements Comparable<User> {
      * @author Parsa
      */
     public void changeScore(int amount) {
-        setScore(getScore() + amount);
+        this.score = getScore() + amount;
+        setLastScoreChangedTime(LocalDateTime.now());
+        saveUsers();
     }
 
     public static ArrayList<User> getUsers() {
         return users;
-    }
-
-    public static User getLoggedInUser() {
-        return loggedInUser;
     }
 
     public static void setLoggedInUser(User loggedInUser) {
@@ -255,6 +196,15 @@ public class User implements Comparable<User> {
         this.lastScoreChangedTime = lastScoreChanged;
     }
 
+
+    public static User fromJson(String json) {
+        return gson.fromJson(json, User.class);
+    }
+
+    public String toJson() {
+        return gson.toJson(this);
+    }
+
     public LocalDateTime getLastOnlineTime() {
         return lastOnlineTime;
     }
@@ -268,5 +218,50 @@ public class User implements Comparable<User> {
             return this.lastOnlineTime.format(DateTimeFormatter.ofPattern("d MMM, uuuu HH:mm:ss"));
         else
             return "null";
+    }
+
+    public static User getLoggedInUser() {
+        return loggedInUser;
+    }
+
+
+    public LocalDateTime getLastScoreChangedTime() {
+        return lastScoreChangedTime;
+    }
+
+    public void setLastScoreChangedTime(LocalDateTime lastScoreChangedTime) {
+        this.lastScoreChangedTime = lastScoreChangedTime;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 }

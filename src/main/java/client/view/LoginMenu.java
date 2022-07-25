@@ -67,7 +67,6 @@ public class LoginMenu extends Menu implements Initializable {
             try {
                 AnchorPane root = FXMLLoader.load(new URL(this.getClass().getResource("/fxml/loginMenu.fxml").toExternalForm()));
                 scene = new Scene(root);
-//                root.getChildren().get(0).requestFocus();
             } catch (IOException e) {
                 e.printStackTrace();
             }
