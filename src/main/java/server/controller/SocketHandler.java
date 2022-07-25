@@ -42,8 +42,8 @@ public class SocketHandler extends Thread {
             while (true) {
 
                 Gson gson = new Gson();
-                String s =dataInputStream.readUTF();
-                Request request =  gson.fromJson(s, Request.class);
+                String s = dataInputStream.readUTF();
+                Request request = gson.fromJson(s, Request.class);
                 System.out.println("New request from " + socket);
                 Response response = handleRequest(request);
                 dataOutputStream.writeUTF(gson.toJson(response));
@@ -56,7 +56,7 @@ public class SocketHandler extends Thread {
 
     private Response handleRequest(Request request) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         String methodName = request.getMethodName();
-        if (methodName.startsWith("change menu")){
+        if (methodName.startsWith("change menu")) {
             changeMenu(methodName.substring(12));
             return new Response();
         }
@@ -69,30 +69,30 @@ public class SocketHandler extends Thread {
         arguments = request.getParameters().toArray(arguments);
         Method method;
         Object answer = null;
-        switch (menu){
+        switch (menu) {
             case "Game":
-                method = gameMenuController.getClass().getMethod(methodName,types);
-                answer = method.invoke(gameMenuController,arguments);
+                method = gameMenuController.getClass().getMethod(methodName, types);
+                answer = method.invoke(gameMenuController, arguments);
                 break;
             case "GameSetting":
-                method = gameSettingMenuController.getClass().getMethod(methodName,types);
-                answer = method.invoke(gameSettingMenuController,arguments);
+                method = gameSettingMenuController.getClass().getMethod(methodName, types);
+                answer = method.invoke(gameSettingMenuController, arguments);
                 break;
             case "Login":
-                method = loginMenuController.getClass().getMethod(methodName,types);
-                answer = method.invoke(loginMenuController,arguments);
+                method = loginMenuController.getClass().getMethod(methodName, types);
+                answer = method.invoke(loginMenuController, arguments);
                 break;
             case "Main":
-                method = mainMenuController.getClass().getMethod(methodName,types);
-                answer = method.invoke(mainMenuController,arguments);
+                method = mainMenuController.getClass().getMethod(methodName, types);
+                answer = method.invoke(mainMenuController, arguments);
                 break;
             case "Profile":
-                method = profileMenuController.getClass().getMethod(methodName,types);
-                answer = method.invoke(profileMenuController,arguments);
+                method = profileMenuController.getClass().getMethod(methodName, types);
+                answer = method.invoke(profileMenuController, arguments);
                 break;
             case "ScoreBoard":
-                method = scoreBoardController.getClass().getMethod(methodName,types);
-                answer = method.invoke(scoreBoardController,arguments);
+                method = scoreBoardController.getClass().getMethod(methodName, types);
+                answer = method.invoke(scoreBoardController, arguments);
                 break;
         }
         Response response = new Response();
@@ -102,7 +102,7 @@ public class SocketHandler extends Thread {
 
     private void changeMenu(String name) {
         menu = name;
-        switch (menu){
+        switch (menu) {
             case "Game":
                 gameMenuController = new GameMenuController();
                 break;

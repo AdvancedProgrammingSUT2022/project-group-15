@@ -23,9 +23,6 @@ public class User implements Comparable<User> {
     private static User loggedInUser = null;
     private static final Gson gson = createMyGson();
 
-    @Expose(serialize = false)
-    private ObjectProperty<Image> avatarImage = new SimpleObjectProperty<>();
-
     @Expose
     private Avatar avatar;
     @Expose
@@ -145,10 +142,6 @@ public class User implements Comparable<User> {
             createdUsers = gson.fromJson(json, new TypeToken<List<User>>() {
             }.getType());
             if (createdUsers != null) {
-                for (User user : createdUsers) {
-                    user.avatarImage = new SimpleObjectProperty<>();
-                    user.setAvatar(user.getAvatar());
-                }
                 users = createdUsers;
             }
         } catch (IOException e) {
@@ -239,17 +232,8 @@ public class User implements Comparable<User> {
         return avatar;
     }
 
-    public ObjectProperty<Image> avatarProperty() {
-        return avatarImage;
-    }
-
-    public Image getAvatarImage() {
-        return avatar.image;
-    }
-
     public void setAvatar(Avatar avatar) {
         this.avatar = avatar;
-        this.avatarImage.set(avatar.image);
     }
 
     @Override

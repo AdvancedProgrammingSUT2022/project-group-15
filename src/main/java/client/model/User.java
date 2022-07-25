@@ -6,7 +6,7 @@ import com.google.gson.reflect.TypeToken;
 import javafx.beans.property.*;
 import javafx.scene.image.Image;
 import org.hildan.fxgson.FxGson;
-import server.enums.Avatar;
+import client.enums.Avatar;
 
 import java.io.FileWriter;
 import java.io.IOException;
