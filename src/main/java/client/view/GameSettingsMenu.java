@@ -114,6 +114,7 @@ public class GameSettingsMenu extends Menu implements Initializable {
     public void backToMainMenu(MouseEvent mouseEvent) {
         setup(cancelButton);
         window.setScene(Controller.getMainMenu().getScene());
+        Controller.send("change menu Main");
     }
 
 
@@ -138,6 +139,7 @@ public class GameSettingsMenu extends Menu implements Initializable {
                 setup(cancelButton);
                 Controller.setGameMenu(new GameMenu());
                 window.setScene(Controller.getGameMenu().getScene());
+                Controller.send("change menu Game");
             }
         }else {
             String text = controller.loadSavedGame(loadGame.getValue());
@@ -145,6 +147,7 @@ public class GameSettingsMenu extends Menu implements Initializable {
                 setup(cancelButton);
                 Controller.setGameMenu(new GameMenu());
                 window.setScene(Controller.getGameMenu().getScene());
+                Controller.send("change menu Game");
             }
 
         }
