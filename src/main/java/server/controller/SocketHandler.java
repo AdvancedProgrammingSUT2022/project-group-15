@@ -108,6 +108,7 @@ public class SocketHandler extends Thread {
 
     private void changeMenu(String name) {
         menu = name;
+        System.out.println("you are now in " + name);
         switch (menu) {
             case "Game":
                 gameMenuController = new GameMenuController();

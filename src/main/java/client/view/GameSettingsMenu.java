@@ -1,10 +1,12 @@
 package client.view;
 
 import client.controller.Controller;
-import server.controller.GameSettingMenuController;
+import client.model.User;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
@@ -12,17 +14,18 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import server.model.GlobalThings;
-import server.model.User;
+
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
 public class GameSettingsMenu extends Menu implements Initializable {
 
-    private final GameSettingMenuController controller = new GameSettingMenuController();
+
 
     @FXML
     private Button cancelButton;
@@ -45,7 +48,7 @@ public class GameSettingsMenu extends Menu implements Initializable {
     @FXML
     private ChoiceBox<Integer> autoSave;
     @FXML
-    private ChoiceBox<String > loadGame;
+    private ChoiceBox<String> loadGame;
     @FXML
     private ChoiceBox<Integer> numberOfKeptSavedFiles;
     @FXML
@@ -73,17 +76,20 @@ public class GameSettingsMenu extends Menu implements Initializable {
         musicOn.visibleProperty().bind(GlobalThings.musicOnProperty());
         musicOn.disableProperty().bind(GlobalThings.musicOnProperty().not());
         numberOfPlayersBox.getItems().addAll(2, 3, 4, 5, 6, 7, 8, 9, 10);
-        mapWidth.getItems().addAll(6,8,10,12,14,16,18,20);
+        mapWidth.getItems().addAll(6, 8, 10, 12, 14, 16, 18, 20);
         mapWidth.setValue(10);
-        mapLength.getItems().addAll(6,8,10,12,14,16,18,20);
+        mapLength.getItems().addAll(6, 8, 10, 12, 14, 16, 18, 20);
         mapLength.setValue(10);
-        autoSave.getItems().addAll(0,3,5,7,10);
+        autoSave.getItems().addAll(0, 3, 5, 7, 10);
         autoSave.setValue(0);
-        numberOfKeptSavedFiles.getItems().addAll(1,2,3,4,5);
+        numberOfKeptSavedFiles.getItems().addAll(1, 2, 3, 4, 5);
         numberOfKeptSavedFiles.setValue(1);
         addSavedGames();
         addToolTips();
-        controller.inviteFriend(User.getLoggedInUser().getUsername(), friendsInGame);
+        String ans = (String) Controller.send("inviteFriend",User.getLoggedInUser().getUsername(),createArraylistOfUsers());
+        Label label = new Label(User.getLoggedInUser().getUsername());
+        friendsInGame.getChildren().add(label);
+
     }
 
     private void addSavedGames() {
@@ -124,7 +130,11 @@ public class GameSettingsMenu extends Menu implements Initializable {
 
 
     public void inviteFriend(MouseEvent mouseEvent) {
-        String out = controller.inviteFriend(usernameTextField.getText(), friendsInGame);
+        String out = (String) Controller.send("inviteFriend",usernameTextField.getText(),createArraylistOfUsers());
+        if (out.equals("done")){
+            Label label = new Label(usernameTextField.getText());
+            friendsInGame.getChildren().add(label);
+        }
         information.setText(out);
         usernameTextField.clear();
     }
@@ -132,7 +142,7 @@ public class GameSettingsMenu extends Menu implements Initializable {
 
     public void startGameWithFriend(MouseEvent mouseEvent) {
         if (loadGame.getValue().equals("none")) {
-            String text = controller.gameWithFriends(friendsInGame, mapLength.getValue(), mapWidth.getValue(),
+            String text = (String) Controller.send("gameWithFriends",createArraylistOfUsers(),mapLength.getValue(),mapWidth.getValue(),
                     autoSave.getValue(), numberOfKeptSavedFiles.getValue());
             information.setText(text);
             if (text.startsWith("a new game started with ")) {
@@ -141,9 +151,9 @@ public class GameSettingsMenu extends Menu implements Initializable {
                 window.setScene(Controller.getGameMenu().getScene());
                 Controller.send("change menu Game");
             }
-        }else {
-            String text = controller.loadSavedGame(loadGame.getValue());
-            if (text.endsWith("successfully")){
+        } else {
+            String text = (String) Controller.send("loadSavedGame",loadGame.getValue());
+            if (text.endsWith("successfully")) {
                 setup(cancelButton);
                 Controller.setGameMenu(new GameMenu());
                 window.setScene(Controller.getGameMenu().getScene());
@@ -154,7 +164,8 @@ public class GameSettingsMenu extends Menu implements Initializable {
     }
 
     public void findGame(MouseEvent mouseEvent) throws InterruptedException {
-        String out = controller.findGame(numberOfPlayersBox);
+        String out = (String) Controller.send("findGame",numberOfPlayersBox);
+
         information.setText(out);
         if (out.startsWith("error"))
             return;
@@ -168,14 +179,14 @@ public class GameSettingsMenu extends Menu implements Initializable {
                     e.printStackTrace();
                 }
                 cancelButton.setVisible(!cancelButton.isVisible());
-                HashMap<Integer, String> hashMap = new HashMap<>();
-                hashMap.put(1, User.getLoggedInUser().getUsername());
-                for (int i = 2; i <= numberOfPlayersBox.getValue(); i++) {
-                    if (User.getUsers().get(i - 2) != User.getLoggedInUser())
-                        hashMap.put(i, User.getUsers().get(i - 2).getUsername());
-                    else
-                        hashMap.put(i, User.getUsers().get(User.getUsers().size()-1).getUsername());
-                }
+//                HashMap<Integer, String> hashMap = new HashMap<>();
+//                hashMap.put(1, User.getLoggedInUser().getUsername());
+//                for (int i = 2; i <= numberOfPlayersBox.getValue(); i++) {
+//                    if (User.getUsers().get(i - 2) != User.getLoggedInUser())
+//                        hashMap.put(i, User.getUsers().get(i - 2).getUsername());
+//                    else
+//                        hashMap.put(i, User.getUsers().get(User.getUsers().size() - 1).getUsername());
+//                }
                 // TODO: 7/10/2022 phase 3
 
             }
@@ -189,6 +200,13 @@ public class GameSettingsMenu extends Menu implements Initializable {
 
     public void unmute() {
         GlobalThings.playMusic();
+    }
+    private ArrayList<String> createArraylistOfUsers(){
+        ArrayList<String> ans = new ArrayList<>();
+        for (Node child : friendsInGame.getChildren()) {
+            ans.add (((Label) child).getText());
+        }
+        return ans;
     }
 }
 //else if (command.startsWith("play game ")) {

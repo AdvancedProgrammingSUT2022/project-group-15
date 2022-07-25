@@ -18,17 +18,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class GameSettingMenuController {
-    public String inviteFriend(String username, VBox friendsInGame) {
-        if (friendsInGame.getChildren().size() >= 6)
+    public String inviteFriend(String username, ArrayList<String> friendsInGame) {
+        if (friendsInGame.size() >= 6)
             return "lobby is full";
         if (User.getUserByUsername(username) == null)
             return "no user with this name";
-        for (Node child : friendsInGame.getChildren()) {
-            if (((Label) child).getText().equals(username))
+        for (String s : friendsInGame) {
+            if (s.equals(username))
                 return "this user is already in lobby";
         }
-        Label label = new Label(username);
-        friendsInGame.getChildren().add(label);
         return "done";
     }
 
@@ -68,17 +66,17 @@ public class GameSettingMenuController {
 
     }
 
-    public String gameWithFriends(VBox friendsInGame, int length, int width, int autoSave, int keptSavedFiles) {
-        if (friendsInGame.getChildren().size() == 1)
+    public String gameWithFriends(ArrayList<String> friendsInGame, Double length, Double width, Double autoSave, Double keptSavedFiles) {
+        if (friendsInGame.size() == 1)
             return "no one is selected";
 
         HashMap<Integer, String> hashMap = new HashMap<>();
 
-        for (int i = 1; i <= friendsInGame.getChildren().size(); i++) {
-            hashMap.put(i, ((Label) friendsInGame.getChildren().get(i - 1)).getText());
+        for (int i = 1; i <= friendsInGame.size(); i++) {
+            hashMap.put(i,  friendsInGame.get(i - 1));
         }
 
-        return startGame(hashMap, length, width, autoSave, keptSavedFiles);
+        return startGame(hashMap, length.intValue(), width.intValue(), autoSave.intValue(), keptSavedFiles.intValue());
     }
 
     public String loadSavedGame(String name) {
