@@ -12,7 +12,7 @@ import static java.lang.Math.*;
 
 public class City {
     private String name;
-    private Civilization owner;
+    private transient Civilization owner;
     private int neededProduction;
     private int remainedTurns;
     private boolean isBuildingUnit;
@@ -252,7 +252,7 @@ public class City {
             }
 
         }
-        return ans + copyOfNumberOfCitizen + 1;
+        return ans + copyOfNumberOfCitizen + 1 + productionChange;
     }
 
     public int calculateFoodPerTurn() {

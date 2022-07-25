@@ -1,11 +1,13 @@
 package client.controller;
 
-import client.model.Request;
-import client.model.Response;
-import client.model.User;
+import client.model.*;
 import client.view.*;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.security.AnyTypePermission;
 import javafx.stage.Stage;
-import server.model.GlobalThings;
+import server.model.Game;
+
+
 
 import java.util.ArrayList;
 
@@ -47,6 +49,26 @@ public class Controller {
         request.addParameter(username);
         Response response = SOCKET_CONTROLLER.send(request);
         return User.fromJson((String) response.getAnswer());
+    }
+
+    public static Game getGame(){
+        Request request= new Request();
+        request.setMethodName("getGame");
+        Response response = SOCKET_CONTROLLER.send(request);
+        XStream xStream = new XStream();
+        xStream.addPermission(AnyTypePermission.ANY);
+        return (Game) xStream.fromXML((String) response.getAnswer());
+    }
+
+    public static Hex getHex(int x, int y){
+        Request request= new Request();
+        request.setMethodName("getHex");
+        request.addParameter(x);
+        request.addParameter(y);
+        Response response = SOCKET_CONTROLLER.send(request);
+        XStream xStream = new XStream();
+        xStream.addPermission(AnyTypePermission.ANY);
+        return (Hex) xStream.fromXML((String) response.getAnswer());
     }
 
     public void run(Stage primaryStage) {

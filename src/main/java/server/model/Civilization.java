@@ -18,7 +18,7 @@ public class Civilization {
     transient private User user;
     private String username;
     private boolean isYourTurn;
-    private Map visibilityMap;
+    private transient Map visibilityMap;
     private ArrayList<Technology> technologies = new ArrayList<>();
     private ArrayList<Technology> availableTechnologies = new ArrayList<>();
     private Technology technologyInProgress = Technology.AGRICULTURE;

@@ -62,7 +62,7 @@ public enum UnitName {
     private final int movement;
     private final String combatType;
     private final Resource resource;
-    private final Image image;
+    //private final Image image;
 
     public int getCost() {
         return cost;
@@ -92,9 +92,9 @@ public enum UnitName {
         return name;
     }
 
-    public Image getImage() {
-        return image;
-    }
+   // public Image getImage() {
+    //  return image;
+   // }
 
     public Resource getResource() {
         return resource;
@@ -119,10 +119,10 @@ public enum UnitName {
         this.range = range;
         this.movement = movement;
         this.resource = Resource;
-        if (name.equals("null") || name.equals("cityunit"))
-            this.image = new WritableImage(40, 40);
-        else
-            this.image = new Image(getClass().getResource("/units/" + Character.toUpperCase(name.charAt(0)) +
-                    name.substring(1) + "_(Civ5)" + ".png").toExternalForm());
+//        if (name.equals("null") || name.equals("cityunit"))
+//            this.image = new WritableImage(40, 40);
+//        else
+//            this.image = new Image(getClass().getResource("/units/" + Character.toUpperCase(name.charAt(0)) +
+//                    name.substring(1) + "_(Civ5)" + ".png").toExternalForm());
     }
 }

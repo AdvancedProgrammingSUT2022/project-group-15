@@ -13,8 +13,8 @@ import java.util.ArrayList;
 public class Game {
     private static Game game;
 
-    private final ArrayList<String> notificationHistory = new ArrayList<>();
-    private final ArrayList<Civilization> civilizations = new ArrayList<>();
+    private transient final ArrayList<String> notificationHistory = new ArrayList<>();
+    private transient final ArrayList<Civilization> civilizations = new ArrayList<>();
     private final ArrayList<City> originalCapitals = new ArrayList<>();
     private int turn;
     private int year;
@@ -22,7 +22,7 @@ public class Game {
     private int keptSavedFiles;
     private long idForSaving;
     private Civilization selectedCivilization;
-    public Map map;
+    public transient Map map;
 
     public int getYear() {
         return year;

@@ -1032,4 +1032,30 @@ public class GameMenuController {
             to.getStrategicResources().add(resource);
         }
     }
+
+    public int getGoldStorage(){
+        return Game.getGame().getSelectedCivilization().getGoldStorage();
+    }
+    public int getHappiness(){
+        return Game.getGame().getSelectedCivilization().getHappiness();
+    }
+
+    public int getScience(){
+        return Game.getGame().getSelectedCivilization().getScienceStorage();
+    }
+    public int getYear(){
+        return Game.getGame().getYear();
+    }
+    public int getTurn(){
+        return Game.getGame().getTurn();
+    }
+    public void adjustVisibility(){
+        Game.getGame().getSelectedCivilization().adjustVisibility();
+    }
+    public int getNumberOfRows(){
+        return Game.getGame().getRows();
+    }
+    public int getNumberOfColumns(){
+        return Game.getGame().getColumns();
+    }
 }

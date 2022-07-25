@@ -2,6 +2,8 @@ package client.view;
 
 
 import client.controller.Controller;
+import client.model.GlobalThings;
+import client.model.Hex;
 import server.controller.GameMenuController;
 import server.enums.Feature;
 import server.enums.HexVisibility;
@@ -29,7 +31,10 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Popup;
-import server.model.*;
+
+import server.model.City;
+import server.model.Civilization;
+import server.model.Game;
 import server.model.unit.SettlerUnit;
 import server.model.unit.Unit;
 import server.model.unit.WorkerUnit;
@@ -114,7 +119,7 @@ public class GameMenu extends Menu implements Initializable {
     }
 
     private void updateCurrentResearchStatus() {
-        if (Game.getGame().getSelectedCivilization().getCities().isEmpty()) {
+        if (Controller.getGame().getSelectedCivilization().getCities().isEmpty()) {
             currentResearchImageView.setVisible(false);
             currentResearchProgressBar.setVisible(false);
             return;
@@ -131,7 +136,7 @@ public class GameMenu extends Menu implements Initializable {
             currentResearchProgressBar.setVisible(true);
         }
 
-        currentResearchImageView.setImage(Game.getGame().getSelectedCivilization().getTechnologyInProgress().image);
+        //  currentResearchImageView.setImage(Game.getGame().getSelectedCivilization().getTechnologyInProgress().image);
         currentResearchProgressBar.setProgress((double) Game.getGame().getSelectedCivilization().getScienceStorage() / Game.getGame().getSelectedCivilization().getTechnologyInProgress().cost);
         int remainingTurns = (int) Math.ceil((Game.getGame().getSelectedCivilization().getTechnologyInProgress().cost - Game.getGame().getSelectedCivilization().getScienceStorage())
                 / (double) Game.getGame().getSelectedCivilization().getSciencePerTurn());
@@ -139,11 +144,11 @@ public class GameMenu extends Menu implements Initializable {
     }
 
     public void updateStatusBar() {
-        Gold.setText(Integer.toString(Game.getGame().getSelectedCivilization().getGoldStorage()));
-        science.setText(Integer.toString(Game.getGame().getSelectedCivilization().getScienceStorage()));
-        happiness.setText(Integer.toString(Game.getGame().getSelectedCivilization().getHappiness()));
-        turn.setText("Turn : " + Game.getGame().getTurn());
-        year.setText("Year : " + Game.getGame().getYear());
+        Gold.setText(Double.toString((Double) Controller.send("getGoldStorage")));
+        science.setText(Double.toString((Double) Controller.send("getScience")));
+        happiness.setText(Double.toString((Double) Controller.send("getHappiness")));
+        turn.setText("Turn : " + ((Double) Controller.send("getTurn")).intValue());
+        year.setText("Year : " + ((Double) Controller.send("getYear")).intValue());
     }
 
     public Group graphicalHex(Hex hex) {
@@ -151,12 +156,12 @@ public class GameMenu extends Menu implements Initializable {
         ImageView hexView;
         if (hex.getHexVisibility() == HexVisibility.FOG_OF_WAR) {
             hexView = new ImageView(GlobalThings.FOG_OF_WAR_IMAGE);
-        } else if (hex.getCity() != null && hex.getCity().getOwner().getVisibilityMap().isCenterOfCity(hex)) {
+        } else if (hex.getCity() != null && hex.isCenterOfCity()) {
             hexView = new ImageView(GlobalThings.CITY_IMAGE);
         } else if (hex.getFeature() != Feature.NULL) {
-            hexView = new ImageView(hex.getFeature().image);
+            hexView = new ImageView();//hex.getFeature().image);
         } else {
-            hexView = new ImageView(hex.getTerrain().image);
+            hexView = new ImageView();//hex.getTerrain().image);
         }
         hexView.setFitWidth(144);
         hexView.setFitHeight(144);
@@ -250,7 +255,7 @@ public class GameMenu extends Menu implements Initializable {
 
     private void addCity(Hex hex, Group group) {
         if (hex.getCity() != null) {
-            if (hex.getCity().getOwner().getVisibilityMap().isCenterOfCity(hex)) {
+            if (hex.isCenterOfCity()) {
                 Label label = new Label(hex.getCity().getName());
                 label.setStyle("-fx-background-color: purple;-fx-text-fill: #04e2ff");
                 label.setLayoutX(60);
@@ -262,7 +267,7 @@ public class GameMenu extends Menu implements Initializable {
     }
 
     private void addResourceAndRuin(Hex hex, Group group) {
-        ImageView resource = new ImageView(hex.getResource().image);
+        ImageView resource = new ImageView();//hex.getResource().image);
         resource.setFitHeight(40);
         resource.setFitWidth(40);
         resource.setY(5);
@@ -310,7 +315,7 @@ public class GameMenu extends Menu implements Initializable {
         String message = "terrain : " + hex.getTerrain().name + "\n"
                 + "feature : " + hex.getFeature().name + "\n"
                 + "resource : " + hex.getResource().name + "\n"
-                + "improvement : " + hex.getImprovement().name+"\n"
+                + "improvement : " + hex.getImprovement().name + "\n"
                 + "percent of improvement = " + hex.getPercentOfBuildingImprovement();
         if (hex.getCivilUnit() != null)
             message += "\n" + "civil unit : " + hex.getCivilUnit().getName().getName();
@@ -327,7 +332,7 @@ public class GameMenu extends Menu implements Initializable {
 
     private void addUnits(Hex hex, Group group) {
         if (hex.getCivilUnit() != null) {
-            ImageView civilUnit = new ImageView(hex.getCivilUnit().getName().getImage());
+            ImageView civilUnit = new ImageView();//hex.getCivilUnit().getName().getImage());
             civilUnit.setFitHeight(50);
             civilUnit.setFitWidth(50);
             civilUnit.setY(0);
@@ -339,7 +344,7 @@ public class GameMenu extends Menu implements Initializable {
             });
         }
         if (hex.getMilitaryUnit() != null) {
-            ImageView militaryUnit = new ImageView(hex.getMilitaryUnit().getName().getImage());
+            ImageView militaryUnit = new ImageView();//hex.getMilitaryUnit().getName().getImage());
             militaryUnit.setFitHeight(60);
             militaryUnit.setFitWidth(60);
             militaryUnit.setY(75);
@@ -358,15 +363,15 @@ public class GameMenu extends Menu implements Initializable {
     public void fillMap() {
         map.getChildren().clear();
         int j = 120;
-        Game.getGame().getSelectedCivilization().adjustVisibility();
-        for (ArrayList<Hex> hexArrayList : Game.getGame().getSelectedCivilization().getVisibilityMap().map) {
+        Controller.send("adjustVisibility");
+        for (int x = 0; x < ((Double) Controller.send("getNumberOfRows")).intValue(); x++) {
             int i = 100;
-            for (Hex hex : hexArrayList) {
-                Group hexView = graphicalHex(hex);
+            for (int y = 0; y < ((Double) Controller.send("getNumberOfColumns")).intValue(); y++) {
+                Group hexView = graphicalHex(Controller.getHex(x, y));
 
                 hexView.setLayoutX(i);
 
-                if (hexArrayList.indexOf(hex) % 2 == 1)
+                if (y % 2 == 1)
                     hexView.setLayoutY(j + 72);
                 else
                     hexView.setLayoutY(j);
@@ -507,7 +512,7 @@ public class GameMenu extends Menu implements Initializable {
                             Button improvementButton = new Button(improvement.name);
                             improvementButton.setOnAction(new EventHandler<ActionEvent>() {
                                 @Override
-                                public void handle(ActionEvent event){
+                                public void handle(ActionEvent event) {
                                     String message = controller.buildImprovement(improvement.name);
                                     updateAll();
                                     createPopupAndGlowForNode(message, null, false, false);
@@ -911,12 +916,12 @@ public class GameMenu extends Menu implements Initializable {
                     button.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
-                            createPopupAndGlowForNode("accept deal?",null,false,false);
+                            createPopupAndGlowForNode("accept deal?", null, false, false);
                             Button reject = new Button("reject");
                             reject.setOnAction(new EventHandler<ActionEvent>() {
                                 @Override
                                 public void handle(ActionEvent event) {
-                                    createPopupAndGlowForNode("ok",null,false,false);
+                                    createPopupAndGlowForNode("ok", null, false, false);
                                     popup.hide();
                                 }
                             });
@@ -928,7 +933,7 @@ public class GameMenu extends Menu implements Initializable {
                                     String message = controller.trade(choiceBox1.getValue(), choiceBox.getValue(),
                                             goldYouGet.getText(), goldYouLoss.getText(), civilization.getUsername());
                                     updateAll();
-                                    createPopupAndGlowForNode(message,null,false,false);
+                                    createPopupAndGlowForNode(message, null, false, false);
                                     popup.hide();
 
                                 }

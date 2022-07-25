@@ -29,7 +29,6 @@ public class SocketController {
 
     public Response send(Request request) {
         try {
-
             dataOutputStream.writeUTF(new Gson().toJson(request));
             dataOutputStream.flush();
             System.out.println("Waiting for response");

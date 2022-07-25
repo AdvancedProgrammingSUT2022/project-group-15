@@ -1,7 +1,9 @@
-package server.model;
+package client.model;
 
 
 import server.enums.*;
+import server.model.City;
+import server.model.Civilization;
 import server.model.unit.CivilUnit;
 import server.model.unit.MilitaryUnit;
 

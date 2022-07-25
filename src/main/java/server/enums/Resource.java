@@ -33,7 +33,7 @@ public enum Resource {
     public final int production;
     public final int gold;
     public final Improvement requiredImprovement;
-    public final Image image;
+//    public final Image image;
 
     /*
      1. scoring (can not be exchanged with other civilizations)
@@ -51,10 +51,10 @@ public enum Resource {
         this.production = production;
         this.requiredImprovement = requiredImprovement;
         this.type = type;
-        if (name.equals("null"))
-            this.image = new WritableImage(40, 40);
-        else
-            this.image = new Image(getClass().getResource("/gameResources/" + this.name + ".png").toExternalForm());
+//        if (name.equals("null"))
+//            this.image = new WritableImage(40, 40);
+//        else
+//            this.image = new Image(getClass().getResource("/gameResources/" + this.name + ".png").toExternalForm());
 
     }
 

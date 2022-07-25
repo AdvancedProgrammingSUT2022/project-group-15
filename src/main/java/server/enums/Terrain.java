@@ -22,7 +22,7 @@ public enum Terrain {
     public final int gold;
     public final int combatEffect;
     public final int movementPrice;
-    public final Image image;
+  //  public final Image image;
 
     Terrain(String name, int food, int production, int gold, int combatEffect, int movementPrice) {
         this.name = name;
@@ -31,7 +31,7 @@ public enum Terrain {
         this.gold = gold;
         this.combatEffect = combatEffect;
         this.movementPrice = movementPrice;
-        this.image = new Image(getClass().getResource("/tiles/" + this.name + ".png").toExternalForm());
+  //      this.image = new Image(getClass().getResource("/tiles/" + this.name + ".png").toExternalForm());
     }
 
     @Override

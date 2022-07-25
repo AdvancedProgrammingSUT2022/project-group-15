@@ -64,7 +64,7 @@ public enum Technology {
     public final ArrayList<Improvement> openingImprovements;
     public final ArrayList<Technology> prerequisiteTechnologies;
     public final ArrayList<Building> openingBuildings;
-    public final Image image;
+  //  public final Image image;
     public final int x;
     public final int y;
 
@@ -78,7 +78,7 @@ public enum Technology {
         this.openingBuildings = openingBuildings;
         this.x = x;
         this.y = y;
-        this.image = new Image(getClass().getResource("/Technologies/" + this.name + ".png").toExternalForm());
+     //   this.image = new Image(getClass().getResource("/Technologies/" + this.name + ".png").toExternalForm());
     }
 
     @Override

@@ -4,6 +4,7 @@ package server.controller;
 import com.google.gson.Gson;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.security.AnyTypePermission;
+import server.model.Game;
 import server.model.Request;
 import server.model.Response;
 import server.model.User;
@@ -64,6 +65,19 @@ public class SocketHandler extends Thread {
         if (methodName.equals("getUser")){
             Response response = new Response();
             response.setAnswer(User.getLoggedInUser().toJson());
+            return response;
+        }
+        if (methodName.equals("getGame")){
+            Response response = new Response();
+            response.setAnswer(new XStream().toXML(Game.getGame()));
+            return response;
+        }
+        if (methodName.equals("getHex")){
+            Response response = new Response();
+            int x = ((Double) request.getParameters().get(0)).intValue();
+            int y = ((Double) request.getParameters().get(1)).intValue();
+            XStream xStream = new XStream();
+            response.setAnswer(xStream.toXML(Game.getGame().getSelectedCivilization().getVisibilityMap().map.get(x).get(y)));
             return response;
         }
         Class<?>[] types = new Class[request.getParameters().size()];
