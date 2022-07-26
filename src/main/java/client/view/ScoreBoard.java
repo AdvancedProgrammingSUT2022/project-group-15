@@ -2,6 +2,7 @@ package client.view;
 
 import client.controller.Controller;
 import client.controller.SocketController;
+import client.enums.Avatar;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -35,23 +36,23 @@ public class ScoreBoard extends Menu implements Initializable {
         rankingColumn.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(scoreboard.getItems().indexOf(p.getValue()) + 1));
         rankingColumn.setPrefWidth(100);
 
-        TableColumn<User, Image> avatarColumn = new TableColumn<>("Avatar");
+        TableColumn<User, Avatar> avatarColumn = new TableColumn<>("Avatar");
         avatarColumn.setCellFactory(param -> {
             final ImageView imageview = new ImageView();
             imageview.setFitHeight(100);
             imageview.setFitWidth(100);
 
-            TableCell<User, Image> cell = new TableCell<User, Image>() {
-                public void updateItem(Image item, boolean empty) {
+            TableCell<User, Avatar> cell = new TableCell<User, Avatar>() {
+                public void updateItem(Avatar item, boolean empty) {
                     if (item != null) {
-                        imageview.setImage(item);
+                        imageview.setImage(item.image);
                     }
                 }
             };
             cell.setGraphic(imageview);
             return cell;
         });
-        avatarColumn.setCellValueFactory(new PropertyValueFactory<>("avatarImage"));
+        avatarColumn.setCellValueFactory(new PropertyValueFactory<>("avatar"));
         avatarColumn.setPrefWidth(100);
 
         TableColumn<User, String> usernameColumn = new TableColumn<>("Player");
