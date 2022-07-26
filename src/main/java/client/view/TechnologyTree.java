@@ -1,8 +1,7 @@
 package client.view;
 
 import client.controller.Controller;
-import server.controller.GameMenuController;
-import server.enums.Technology;
+import client.enums.Technology;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -20,7 +19,6 @@ public class TechnologyTree extends Menu implements Initializable {
     private ScrollPane scrollPane;
 
     public final ArrayList<TechnologyNode> technologyNodes = new ArrayList<>();
-    GameMenuController controller = new GameMenuController();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -35,7 +33,7 @@ public class TechnologyTree extends Menu implements Initializable {
 
         for (TechnologyNode technologyNode : technologyNodes) {
             technologyNode.setOnMouseClicked(e -> {
-                if (technologyNode.handleClick(controller)) {
+                if (technologyNode.handleClick()) {
                     for (TechnologyNode node : technologyNodes) {
                         node.updateNode();
                     }

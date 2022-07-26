@@ -1118,4 +1118,12 @@ public class GameMenuController {
     public int getSciencePerTurn() {
         return Game.getGame().getSelectedCivilization().getSciencePerTurn();
     }
+
+    public boolean hasTechnology(Technology technology) {
+        return Game.getGame().getSelectedCivilization().getTechnologies().contains(technology);
+    }
+
+    public boolean isAvailableTechnology(Technology technology) {
+        return Game.getGame().getSelectedCivilization().getAvailableTechnologies().contains(technology);
+    }
 }
