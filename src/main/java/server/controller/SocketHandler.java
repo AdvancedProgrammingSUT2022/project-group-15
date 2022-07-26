@@ -157,6 +157,11 @@ public class SocketHandler extends Thread {
                 method = scoreBoardController.getClass().getMethod(methodName, types);
                 answer = method.invoke(scoreBoardController, arguments);
                 break;
+            case "Friend":
+                method = friendShipController.getClass().getMethod(methodName, types);
+                answer = method.invoke(friendShipController, arguments);
+                break;
+
         }
         Response response = new Response();
         response.setAnswer(answer);

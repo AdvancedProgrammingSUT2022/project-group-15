@@ -44,6 +44,7 @@ public class FriendshipMenu extends Menu {
     public String send(MouseEvent mouseEvent) {
         String name = text.getText();
         String out = (String) Controller.send("sendReq" , name , Controller.getMyUser().getUsername());
+        System.out.println(out);
         return out;
     }
 

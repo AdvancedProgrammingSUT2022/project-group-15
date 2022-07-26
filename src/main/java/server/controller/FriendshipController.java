@@ -5,7 +5,7 @@ import server.model.User;
 public class FriendshipController {
 
     public String sendReq(String username, String name) {
-
+        System.out.println("find");
         if (User.getUserByUsername(username) == null) {
             return "not found";
         } else {
