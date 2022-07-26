@@ -2,6 +2,8 @@ package client.view;
 
 
 import client.controller.Controller;
+import client.enums.Terrain;
+import client.enums.UnitName;
 import client.model.GlobalThings;
 
 import server.controller.GameMenuController;
@@ -160,9 +162,9 @@ public class GameMenu extends Menu implements Initializable {
         } else if (hex.getCity() != null && hex.isCenterOfCity()) {
             hexView = new ImageView(GlobalThings.CITY_IMAGE);
         } else if (hex.getFeature() != Feature.NULL) {
-            hexView = new ImageView();//hex.getFeature().image);
+            hexView = new ImageView(client.enums.Feature.valueOf(hex.getFeature().name()).image);
         } else {
-            hexView = new ImageView();//hex.getTerrain().image);
+            hexView = new ImageView(Terrain.valueOf(hex.getTerrain().name()).image);
         }
         hexView.setFitWidth(144);
         hexView.setFitHeight(144);
@@ -173,8 +175,8 @@ public class GameMenu extends Menu implements Initializable {
                 return;
             }
             if (event.getButton() == MouseButton.SECONDARY) {
-                if (controller.getSelectedUnit() != null) {
-                    String message = controller.attackTo(hex.getCoordinatesInArray().get('x'), hex.getCoordinatesInArray().get('y'));
+                if (Controller.send("getSelectedUnit") != null) {
+                    String message = (String) Controller.send("attackTo",hex.getCoordinatesInArray().get('x'), hex.getCoordinatesInArray().get('y'));
                     if (message.equals("city has fallen")) {
                         message = message + ". what do you do with the captured city?";
                     }
@@ -184,7 +186,7 @@ public class GameMenu extends Menu implements Initializable {
                         button.setOnAction(new EventHandler<ActionEvent>() {
                             @Override
                             public void handle(ActionEvent event) {
-                                String message = controller.captureCity();
+                                String message = (String) Controller.send("captureCity");
                                 updateAll();
                                 createPopupAndGlowForNode(message, null, false, false);
                             }
@@ -194,7 +196,7 @@ public class GameMenu extends Menu implements Initializable {
                         button.setOnAction(new EventHandler<ActionEvent>() {
                             @Override
                             public void handle(ActionEvent event) {
-                                String message = controller.destroyCity();
+                                String message = (String) Controller.send("destroyCity");
                                 updateAll();
                                 createPopupAndGlowForNode(message, null, false, false);
                             }
@@ -205,7 +207,7 @@ public class GameMenu extends Menu implements Initializable {
 
                     fillMap();
                 } else if (controller.getSelectedCity() != null) {
-                    createPopupAndGlowForNode(controller.cityAttackTo(hex.getCoordinatesInArray().get('x'),
+                    createPopupAndGlowForNode((String) Controller.send("cityAttackTo",hex.getCoordinatesInArray().get('x'),
                             hex.getCoordinatesInArray().get('y')), null, false, true);
                     fillMap();
                 }
@@ -268,7 +270,7 @@ public class GameMenu extends Menu implements Initializable {
     }
 
     private void addResourceAndRuin(Hex hex, Group group) {
-        ImageView resource = new ImageView();//hex.getResource().image);
+        ImageView resource = new ImageView(client.enums.Resource.valueOf(hex.getResource().name()).image);
         resource.setFitHeight(40);
         resource.setFitWidth(40);
         resource.setY(5);
@@ -333,19 +335,19 @@ public class GameMenu extends Menu implements Initializable {
 
     private void addUnits(Hex hex, Group group) {
         if (hex.getCivilUnit() != null) {
-            ImageView civilUnit = new ImageView();//hex.getCivilUnit().getName().getImage());
+            ImageView civilUnit = new ImageView(UnitName.valueOf(hex.getCivilUnit().getName().name()).getImage());
             civilUnit.setFitHeight(50);
             civilUnit.setFitWidth(50);
             civilUnit.setY(0);
             civilUnit.setX(75);
             group.getChildren().add(civilUnit);
             civilUnit.setOnMouseClicked(event -> {
-                createPopupAndGlowForNode(controller.selectCivilUnit(hex.getCoordinatesInArray().get('x'), hex.getCoordinatesInArray().get('y'))
-                        , civilUnit, true, true);
+                createPopupAndGlowForNode((String) Controller.send("selectCivilUnit", hex.getCoordinatesInArray().get('x'),
+                        hex.getCoordinatesInArray().get('y')), civilUnit, true, true);
             });
         }
         if (hex.getMilitaryUnit() != null) {
-            ImageView militaryUnit = new ImageView();//hex.getMilitaryUnit().getName().getImage());
+            ImageView militaryUnit = new ImageView(UnitName.valueOf(hex.getMilitaryUnit().getName().name()).getImage());
             militaryUnit.setFitHeight(60);
             militaryUnit.setFitWidth(60);
             militaryUnit.setY(75);
@@ -365,9 +367,11 @@ public class GameMenu extends Menu implements Initializable {
         map.getChildren().clear();
         int j = 120;
         Controller.send("adjustVisibility");
-        for (int x = 0; x < ((Double) Controller.send("getNumberOfRows")).intValue(); x++) {
+        int maxX = ((Double) Controller.send("getNumberOfRows")).intValue();
+        int maxY = ((Double) Controller.send("getNumberOfColumns")).intValue();
+        for (int x = 0; x < maxX; x++) {
             int i = 100;
-            for (int y = 0; y < ((Double) Controller.send("getNumberOfColumns")).intValue(); y++) {
+            for (int y = 0; y < maxY; y++) {
                 Group hexView = graphicalHex(Controller.getHex(x, y));
 
                 hexView.setLayoutX(i);
@@ -426,7 +430,7 @@ public class GameMenu extends Menu implements Initializable {
         if (isUnit) {
             Button button = new Button("delete unit");
             button.setOnAction(event -> {
-                String message = controller.deleteSelectedUnit();
+                String message = (String) Controller.send("deleteSelectedUnit");
                 updateAll();
                 createPopupAndGlowForNode(message, null, false, false);
             });
@@ -435,7 +439,7 @@ public class GameMenu extends Menu implements Initializable {
             button.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    String message = controller.sleepSelectedUnit();
+                    String message = (String) Controller.send("sleepSelectedUnit");
                     updateAll();
                     createPopupAndGlowForNode(message, null, false, false);
                 }
@@ -445,7 +449,7 @@ public class GameMenu extends Menu implements Initializable {
             button.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    String message = controller.wakeUpSelectedUnit();
+                    String message = (String) Controller.send("wakeUpSelectedUnit");
                     updateAll();
                     createPopupAndGlowForNode(message, null, false, false);
                 }
@@ -455,7 +459,7 @@ public class GameMenu extends Menu implements Initializable {
             button.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    String message = controller.cancelSelectedUnitMission();
+                    String message = (String) Controller.send("cancelSelectedUnitMission");
                     updateAll();
                     createPopupAndGlowForNode(message, null, false, false);
                 }

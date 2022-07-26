@@ -1,9 +1,6 @@
 package server.controller;
 
 
-
-
-
 import server.enums.*;
 import server.model.City;
 import server.model.Civilization;
@@ -232,6 +229,10 @@ public class GameMenuController {
         return null;
     }
 
+    public String selectMilitaryUnit(Double x, Double y) {
+        return selectMilitaryUnit(x.intValue(), y.intValue());
+    }
+
     public String selectMilitaryUnit(int x, int y) {
         if (!Game.getGame().map.validCoordinateInArray(x, y)) {
             return Game.getGame().addNotification(Game.getGame().getTurnNumber(), "not valid coordinate");
@@ -246,6 +247,10 @@ public class GameMenuController {
                 "\nhealth percent : " + selectedUnit.getNowHealth() * 100 / selectedUnit.getTotalHealth();
 
         return Game.getGame().addNotification(Game.getGame().getTurnNumber(), message);
+    }
+
+    public String selectCivilUnit(Double x, Double y) {
+        return selectCivilUnit(x.intValue(), y.intValue());
     }
 
     public String selectCivilUnit(int x, int y) {
@@ -499,6 +504,10 @@ public class GameMenuController {
         return Game.getGame().addNotification(Game.getGame().getTurnNumber(), "Unit Deleted Successfully");
     }
 
+
+    public String attackTo(Double x, Double y) {
+        return attackTo(x.intValue(), y.intValue());
+    }
 
     public String attackTo(int x, int y) {
         if (selectedUnit == null) {
@@ -788,6 +797,10 @@ public class GameMenuController {
         return Game.getGame().addNotification(Game.getGame().getTurnNumber(), "unit is bought");
     }
 
+    public String cityAttackTo(Double x, Double y) {
+        return cityAttackTo(x.intValue(), y.intValue());
+    }
+
     public String cityAttackTo(int x, int y) {
         if (selectedCity == null)
             return Game.getGame().addNotification(Game.getGame().getTurnNumber(), "no city selected");
@@ -1033,29 +1046,35 @@ public class GameMenuController {
         }
     }
 
-    public int getGoldStorage(){
+    public int getGoldStorage() {
         return Game.getGame().getSelectedCivilization().getGoldStorage();
     }
-    public int getHappiness(){
+
+    public int getHappiness() {
         return Game.getGame().getSelectedCivilization().getHappiness();
     }
 
-    public int getScience(){
+    public int getScience() {
         return Game.getGame().getSelectedCivilization().getScienceStorage();
     }
-    public int getYear(){
+
+    public int getYear() {
         return Game.getGame().getYear();
     }
-    public int getTurn(){
+
+    public int getTurn() {
         return Game.getGame().getTurn();
     }
-    public void adjustVisibility(){
+
+    public void adjustVisibility() {
         Game.getGame().getSelectedCivilization().adjustVisibility();
     }
-    public int getNumberOfRows(){
+
+    public int getNumberOfRows() {
         return Game.getGame().getRows();
     }
-    public int getNumberOfColumns(){
+
+    public int getNumberOfColumns() {
         return Game.getGame().getColumns();
     }
 }

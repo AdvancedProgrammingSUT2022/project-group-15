@@ -68,7 +68,9 @@ public class SocketHandler extends Thread {
             }
         } catch (IOException | NoSuchMethodException | InvocationTargetException | IllegalAccessException exception) {
             // TODO : remove user from online users and set lastOnlineTime to LocalDateTime.now();
+            exception.printStackTrace();
         }
+
     }
 
     private Response handleRequest(Request request) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
@@ -93,6 +95,12 @@ public class SocketHandler extends Thread {
             int y = ((Double) request.getParameters().get(1)).intValue();
             XStream xStream = new XStream();
             response.setAnswer(xStream.toXML(Game.getGame().getSelectedCivilization().getVisibilityMap().map.get(x).get(y)));
+            return response;
+        }
+        if (methodName.equals("getSelectedUnit")){
+            Response response = new Response();
+            XStream xStream = new XStream();
+            response.setAnswer(xStream.toXML(gameMenuController.getSelectedUnit()));
             return response;
         }
         Class<?>[] types = new Class[request.getParameters().size()];

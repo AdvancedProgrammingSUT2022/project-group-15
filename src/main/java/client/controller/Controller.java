@@ -11,6 +11,7 @@ import com.thoughtworks.xstream.security.AnyTypePermission;
 import javafx.stage.Stage;
 import server.model.Game;
 import server.model.Hex;
+import server.model.unit.Unit;
 
 
 import java.util.ArrayList;
@@ -78,6 +79,14 @@ public class Controller {
         xStream.addPermission(AnyTypePermission.ANY);
         return (Hex) xStream.fromXML((String) response.getAnswer());
     }
+    public static Unit getSelectedUnit(){
+        Request request= new Request();
+        request.setMethodName("getSelectedUnit");
+        Response response = SOCKET_CONTROLLER.send(request);
+        XStream xStream = new XStream();
+        xStream.addPermission(AnyTypePermission.ANY);
+        return (Unit) xStream.fromXML((String) response.getAnswer());
+    }
 
     public void run(Stage primaryStage) {
         window = primaryStage;
@@ -87,6 +96,7 @@ public class Controller {
         window.getIcons().add(GlobalThings.CIVILIZATION_IMAGE);
         window.show();
     }
+
 
     public static MainMenu getMainMenu() {
         return mainMenu;
