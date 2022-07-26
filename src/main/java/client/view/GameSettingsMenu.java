@@ -13,7 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import server.model.GlobalThings;
+import client.model.GlobalThings;
 
 
 import java.io.File;

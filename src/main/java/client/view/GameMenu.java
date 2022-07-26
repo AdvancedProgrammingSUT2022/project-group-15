@@ -7,7 +7,6 @@ import client.enums.UnitName;
 import client.enums.Technology;
 import client.model.GlobalThings;
 
-import server.controller.GameMenuController;
 import server.enums.Feature;
 import server.enums.HexVisibility;
 import server.enums.Improvement;

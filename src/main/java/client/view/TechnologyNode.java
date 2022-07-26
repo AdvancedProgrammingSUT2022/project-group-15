@@ -4,7 +4,6 @@ import client.controller.Controller;
 import client.enums.Technology;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
-import server.model.Game;
 
 public class TechnologyNode extends Button {
     Technology technology;
