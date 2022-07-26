@@ -15,6 +15,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import server.controller.SocketHandler;
 
 import java.io.IOException;
 import java.net.URL;
@@ -36,6 +37,7 @@ public class LoginMenu extends Menu implements Initializable {
     @FXML
     private Text message;
 
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         checkIcon.setVisible(false);
@@ -53,7 +55,7 @@ public class LoginMenu extends Menu implements Initializable {
         });
 
         password.setOnKeyReleased(event -> {
-            if ((boolean) Controller.send("isStrong",password.getText())) {
+            if ((boolean) Controller.send("isStrong", password.getText())) {
                 password.setStyle("-fx-border-color: green");
             } else if (password.getText().length() != 0) {
                 password.setStyle("-fx-border-color: red");
@@ -78,12 +80,13 @@ public class LoginMenu extends Menu implements Initializable {
 
     public void login() {
         setup(username);
-        String loginResult = (String) Controller.send("login",username.getText(), password.getText());
-        if (!loginResult.equals("user logged in successfully!")) {
+        String loginResult = ((String) Controller.send("login", username.getText(), password.getText()));
+        if (!loginResult.startsWith("user logged")) {
             message.setFill(Paint.valueOf("red"));
             forbiddenIcon.setVisible(true);
             message.setText(loginResult);
         } else {
+            authToken = loginResult.substring(28);
             forbiddenIcon.setVisible(false);
             checkIcon.setVisible(true);
             message.setOpacity(1);
@@ -96,12 +99,13 @@ public class LoginMenu extends Menu implements Initializable {
 
     public void signUp() {
         setup(username);
-        String signupResult = (String) Controller.send("signUp",username.getText(), password.getText(), nickname.getText());
-        if (!signupResult.equals("user created successfully!")) {
+        String signupResult = ((String) Controller.send("signUp", username.getText(), password.getText(), nickname.getText()));
+        if (!signupResult.startsWith("user created")) {
             message.setFill(Paint.valueOf("red"));
             forbiddenIcon.setVisible(true);
             message.setText(signupResult);
         } else {
+            authToken = signupResult.substring(27);
             forbiddenIcon.setVisible(false);
             checkIcon.setVisible(true);
             message.setOpacity(1);

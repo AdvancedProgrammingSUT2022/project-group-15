@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Request {
     private String methodName;
-    private final ArrayList<Object> parameters= new ArrayList<>();
+    private final ArrayList<Object> parameters = new ArrayList<>();
 
 
     public String getMethodName() {
@@ -20,7 +20,7 @@ public class Request {
     }
 
 
-    public void addParameter(Object o){
+    public void addParameter(Object o) {
         parameters.add(o);
     }
 }

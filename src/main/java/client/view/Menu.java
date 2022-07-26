@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 public abstract class Menu {
     protected Stage window;
     protected Scene scene;
+    protected String authToken;
 
     public abstract Scene getScene();
 
