@@ -19,12 +19,12 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class SocketHandler extends Thread {
-    private static ArrayList<SocketHandler> onlinePlayers = new ArrayList<>();
+    private static final ArrayList<SocketHandler> onlinePlayers = new ArrayList<>();
 
     private User user = null;
-    private Socket socket;
-    private DataInputStream dataInputStream;
-    private DataOutputStream dataOutputStream;
+    private final Socket socket;
+    private final DataInputStream dataInputStream;
+    private final DataOutputStream dataOutputStream;
 
     private String menu = "Login";
 
@@ -70,7 +70,6 @@ public class SocketHandler extends Thread {
             // TODO : remove user from online users and set lastOnlineTime to LocalDateTime.now();
             exception.printStackTrace();
         }
-
     }
 
     private Response handleRequest(Request request) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {

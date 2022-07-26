@@ -35,7 +35,7 @@ public class ProfileMenuController {
         return "changes submitted";
     }
 
-    public void changeAvatar(Avatar avatar) {
-        User.getLoggedInUser().setAvatar(avatar);
+    public void changeAvatar(Double index) {
+        User.getLoggedInUser().setAvatar(Avatar.values()[index.intValue()]);
     }
 }

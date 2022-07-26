@@ -43,6 +43,7 @@ public class ProfileMenu extends Menu implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        Controller.updateUser();
         Tooltip.install(deleteAccount, new Tooltip("Delete Account"));
         Tooltip.install(logout, new Tooltip("Logout"));
         for (Avatar avatar : Avatar.values()) {
@@ -123,7 +124,7 @@ public class ProfileMenu extends Menu implements Initializable {
     }
 
     public void changeAvatar() {
-        Controller.send("changeAvatar", Avatar.values()[listOfAvatars.getSelectionModel().getSelectedIndex()]);
+        Controller.send("changeAvatar", listOfAvatars.getSelectionModel().getSelectedIndex());
         setup(avatar);
         window.setScene(getScene());
     }

@@ -166,7 +166,6 @@ public class User implements Comparable<User> {
 
     public static void setLoggedInUser(User loggedInUser) {
         User.loggedInUser = loggedInUser;
-        User.getLoggedInUser().setLastOnlineTime(LocalDateTime.now()); //TODO : delete this line
     }
 
     public Avatar getAvatar() {

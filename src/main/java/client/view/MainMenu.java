@@ -30,23 +30,20 @@ public class MainMenu extends Menu implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        Controller.updateUser();
         avatarImage.setImage(User.getLoggedInUser().getAvatar().image);
         username.setText(User.getLoggedInUser().getUsername());
         score.setText(String.valueOf(User.getLoggedInUser().getScore()));
-
         Tooltip.install(exitButton, new Tooltip("Exit"));
     }
 
     @Override
     public Scene getScene() {
-        if (scene == null) {
-            try {
-                AnchorPane root = FXMLLoader.load(new URL(this.getClass().getResource("/fxml/mainMenu.fxml").toExternalForm()));
-                scene = new Scene(root);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        try {
+            AnchorPane root = FXMLLoader.load(new URL(this.getClass().getResource("/fxml/mainMenu.fxml").toExternalForm()));
+            scene = new Scene(root);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return scene;
     }

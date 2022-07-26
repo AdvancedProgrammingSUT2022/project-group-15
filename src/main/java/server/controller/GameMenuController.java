@@ -1102,4 +1102,20 @@ public class GameMenuController {
     public int getNumberOfColumns() {
         return Game.getGame().getColumns();
     }
+
+    public boolean hasCity() {
+        return !Game.getGame().getSelectedCivilization().getCities().isEmpty();
+    }
+
+    public boolean hasTechnologyInProgress() {
+        return Game.getGame().getSelectedCivilization().getTechnologyInProgress() != null;
+    }
+
+    public Technology getTechnologyInProgress() {
+        return Game.getGame().getSelectedCivilization().getTechnologyInProgress();
+    }
+
+    public int getSciencePerTurn() {
+        return Game.getGame().getSelectedCivilization().getSciencePerTurn();
+    }
 }

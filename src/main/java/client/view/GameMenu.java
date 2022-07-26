@@ -4,6 +4,7 @@ package client.view;
 import client.controller.Controller;
 import client.enums.Terrain;
 import client.enums.UnitName;
+import client.enums.Technology;
 import client.model.GlobalThings;
 
 import server.controller.GameMenuController;
@@ -121,7 +122,7 @@ public class GameMenu extends Menu implements Initializable {
     }
 
     private void updateCurrentResearchStatus() {
-        if (Controller.getGame().getSelectedCivilization().getCities().isEmpty()) {
+        if (! (boolean) Controller.send("hasCity")) {
             currentResearchImageView.setVisible(false);
             currentResearchProgressBar.setVisible(false);
             return;
@@ -130,7 +131,7 @@ public class GameMenu extends Menu implements Initializable {
             currentResearchProgressBar.setVisible(true);
         }
 
-        if (Game.getGame().getSelectedCivilization().getTechnologyInProgress() == null) {
+        if (! (boolean) Controller.send("hasTechnologyInProgress")) {
             currentResearchProgressBar.setVisible(false);
             currentResearchImageView.setImage(new Image(getClass().getResource("/icons/gear.png").toExternalForm()));
             return;
@@ -138,11 +139,11 @@ public class GameMenu extends Menu implements Initializable {
             currentResearchProgressBar.setVisible(true);
         }
 
-        //  currentResearchImageView.setImage(Game.getGame().getSelectedCivilization().getTechnologyInProgress().image);
-        currentResearchProgressBar.setProgress((double) Game.getGame().getSelectedCivilization().getScienceStorage() / Game.getGame().getSelectedCivilization().getTechnologyInProgress().cost);
-        int remainingTurns = (int) Math.ceil((Game.getGame().getSelectedCivilization().getTechnologyInProgress().cost - Game.getGame().getSelectedCivilization().getScienceStorage())
-                / (double) Game.getGame().getSelectedCivilization().getSciencePerTurn());
-        currentResearchProgressBar.setTooltip(new Tooltip(remainingTurns + " turns to achieve " + Game.getGame().getSelectedCivilization().getTechnologyInProgress().name));
+        currentResearchImageView.setImage(((Technology) Controller.send("getTechnologyInProgress")).image);
+        currentResearchProgressBar.setProgress((double) Controller.send("getScience") / ((Technology) Controller.send("getTechnologyInProgress")).cost);
+        int remainingTurns = (int) Math.ceil((((Technology) Controller.send("getTechnologyInProgress")).cost - (double) Controller.send("getScience"))
+                / (double) Controller.send("getSciencePerTurn"));
+        currentResearchProgressBar.setTooltip(new Tooltip(remainingTurns + " turns to achieve " + ((Technology) Controller.send("getTechnologyInProgress")).name));
     }
 
     public void updateStatusBar() {
