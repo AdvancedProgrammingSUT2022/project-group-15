@@ -1,12 +1,16 @@
 package client.controller;
 
-import client.model.*;
+
+import client.model.GlobalThings;
+import client.model.Request;
+import client.model.Response;
+import client.model.User;
 import client.view.*;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.security.AnyTypePermission;
 import javafx.stage.Stage;
 import server.model.Game;
-
+import server.model.Hex;
 
 
 import java.util.ArrayList;

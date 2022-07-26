@@ -3,7 +3,7 @@ package client.view;
 
 import client.controller.Controller;
 import client.model.GlobalThings;
-import client.model.Hex;
+
 import server.controller.GameMenuController;
 import server.enums.Feature;
 import server.enums.HexVisibility;
@@ -35,6 +35,7 @@ import javafx.stage.Popup;
 import server.model.City;
 import server.model.Civilization;
 import server.model.Game;
+import server.model.Hex;
 import server.model.unit.SettlerUnit;
 import server.model.unit.Unit;
 import server.model.unit.WorkerUnit;

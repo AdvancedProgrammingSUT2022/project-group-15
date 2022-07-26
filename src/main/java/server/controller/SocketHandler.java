@@ -3,7 +3,6 @@ package server.controller;
 
 import com.google.gson.Gson;
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.security.AnyTypePermission;
 import server.model.Game;
 import server.model.Request;
 import server.model.Response;
@@ -12,14 +11,17 @@ import server.model.User;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.Socket;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class SocketHandler extends Thread {
+    private static ArrayList<SocketHandler> onlinePlayers = new ArrayList<>();
 
-
+    private User user = null;
     private Socket socket;
     private DataInputStream dataInputStream;
     private DataOutputStream dataOutputStream;
@@ -34,9 +36,22 @@ public class SocketHandler extends Thread {
     private ScoreBoardController scoreBoardController;
 
     public SocketHandler(Socket socket) throws IOException {
+        onlinePlayers.add(this);
         this.socket = socket;
         dataInputStream = new DataInputStream(socket.getInputStream());
         dataOutputStream = new DataOutputStream(socket.getOutputStream());
+    }
+
+    public static ArrayList<SocketHandler> getOnlinePlayers() {
+        return onlinePlayers;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
@@ -101,6 +116,11 @@ public class SocketHandler extends Thread {
             case "Login":
                 method = loginMenuController.getClass().getMethod(methodName, types);
                 answer = method.invoke(loginMenuController, arguments);
+                if (answer.getClass().equals(String.class)){
+                    if (((String)answer).endsWith("successfully!")){
+                        user = User.getUserByUsername((String) arguments[0]);
+                    }
+                }
                 break;
             case "Main":
                 method = mainMenuController.getClass().getMethod(methodName, types);

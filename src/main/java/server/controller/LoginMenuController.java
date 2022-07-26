@@ -51,6 +51,7 @@ public class LoginMenuController {
         }
 
         User.setLoggedInUser(User.getUserByUsername(username));
+
         return "user logged in successfully!";
     }
 
