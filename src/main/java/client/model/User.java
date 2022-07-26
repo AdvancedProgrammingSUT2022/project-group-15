@@ -10,21 +10,16 @@ import java.time.format.DateTimeFormatter;
 
 public class User implements Comparable<User> {
 
-    private static final Gson gson = createMyGson();
 
-    @Expose
+    private transient static final Gson gson = createMyGson();
+
+
     private Avatar avatar;
-    @Expose
     private LocalDateTime lastScoreChangedTime;
-    @Expose
     private LocalDateTime lastOnlineTime;
-    @Expose
     private String username;
-    @Expose
     private String password;
-    @Expose
     private String nickname;
-    @Expose
     private int score;
 
     /**

@@ -16,23 +16,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User implements Comparable<User> {
-    private static ArrayList<User> users = new ArrayList<>();
-    private static User loggedInUser = null;
-    private static final Gson gson = createMyGson();
+    private static transient ArrayList<User> users = new ArrayList<>();
+    private static transient User loggedInUser = null;
+    private static transient final Gson gson = createMyGson();
 
-    @Expose
     private Avatar avatar;
-    @Expose
     private LocalDateTime lastScoreChangedTime;
-    @Expose
     private LocalDateTime lastOnlineTime;
-    @Expose
     private String username;
-    @Expose
     private String password;
-    @Expose
     private String nickname;
-    @Expose
     private int score;
 
     private String authToken;
@@ -107,7 +100,7 @@ public class User implements Comparable<User> {
      * @author Parsa
      */
     private static Gson createMyGson() {
-        return new GsonBuilder().excludeFieldsWithoutExposeAnnotation().registerTypeAdapter(LocalDateTime.class, new JsonDeserializer<LocalDateTime>() {
+        return new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new JsonDeserializer<LocalDateTime>() {
             @Override
             public LocalDateTime deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
                     throws JsonParseException {
