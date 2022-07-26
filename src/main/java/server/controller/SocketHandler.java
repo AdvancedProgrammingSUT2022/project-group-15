@@ -13,6 +13,7 @@ import java.lang.reflect.Method;
 import java.net.Socket;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class SocketHandler extends Thread {
     private static final ArrayList<SocketHandler> onlinePlayers = new ArrayList<>();
@@ -80,7 +81,7 @@ public class SocketHandler extends Thread {
             changeMenu(methodName.substring(12));
             return new Response();
         }
-        if (methodName.equals("getUser")){
+        if (methodName.equals("getUser")) {
             Response response = new Response();
             response.setAnswer(User.getLoggedInUser().toJson());
             return response;
@@ -90,19 +91,19 @@ public class SocketHandler extends Thread {
             response.setAnswer(user.toJson());
             return response;
         }
-        if (methodName.equals("getGame")){
+        if (methodName.equals("getGame")) {
             Response response = new Response();
             response.setAnswer(xStream.toXML(Game.getGame()));
             return response;
         }
-        if (methodName.equals("getHex")){
+        if (methodName.equals("getHex")) {
             Response response = new Response();
             int x = ((Double) request.getParameters().get(0)).intValue();
             int y = ((Double) request.getParameters().get(1)).intValue();
             response.setAnswer( "the xml form of object is:" +  xStream.toXML(Game.getGame().getSelectedCivilization().getVisibilityMap().map.get(x).get(y)));
             return response;
         }
-        if (methodName.equals("getSelectedUnit")){
+        if (methodName.equals("getSelectedUnit")) {
             Response response = new Response();
             response.setAnswer(xStream.toXML(gameMenuController.getSelectedUnit()));
             return response;
@@ -128,9 +129,12 @@ public class SocketHandler extends Thread {
             case "Login":
                 method = loginMenuController.getClass().getMethod(methodName, types);
                 answer = method.invoke(loginMenuController, arguments);
-                if (answer.getClass().equals(String.class)){
-                    if (((String)answer).endsWith("successfully!")){
+                if (answer.getClass().equals(String.class)) {
+                    if (((String) answer).endsWith("successfully!")) {
                         user = User.getUserByUsername((String) arguments[0]);
+                        int random = (int) (Math.random() * 100);
+                        user.setAuthToken(user.getUsername() + user.getPassword() + user.getNickname() + String.valueOf(random));
+                        answer += user.getAuthToken();
                     }
                 }
                 break;
