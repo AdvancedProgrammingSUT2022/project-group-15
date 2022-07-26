@@ -18,7 +18,7 @@ import java.util.List;
 public class User implements Comparable<User> {
     private static transient ArrayList<User> users = new ArrayList<>();
     private static transient User loggedInUser = null;
-    private static transient final Gson gson = createMyGson();
+    private static transient final Gson gson = GlobalThings.gson;
 
     private Avatar avatar;
     private LocalDateTime lastScoreChangedTime;
@@ -91,30 +91,6 @@ public class User implements Comparable<User> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * creates a Gson that has been customized
-     *
-     * @return the customized Gson object
-     * @author Parsa
-     */
-    private static Gson createMyGson() {
-        return new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new JsonDeserializer<LocalDateTime>() {
-            @Override
-            public LocalDateTime deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
-                    throws JsonParseException {
-                return LocalDateTime.parse(json.getAsString(),
-                        DateTimeFormatter.ofPattern("d::MMM::uuuu HH::mm::ss"));
-            }
-        }).registerTypeAdapter(LocalDateTime.class, new JsonSerializer<LocalDateTime>() {
-            private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d::MMM::uuuu HH::mm::ss");
-
-            @Override
-            public JsonElement serialize(LocalDateTime localDateTime, Type srcType, JsonSerializationContext context) {
-                return new JsonPrimitive(formatter.format(localDateTime));
-            }
-        }).setPrettyPrinting().disableHtmlEscaping().create();
     }
 
     /**

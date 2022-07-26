@@ -1,7 +1,6 @@
 package client.model;
 
 import com.google.gson.*;
-import com.google.gson.annotations.Expose;
 import client.enums.Avatar;
 
 import java.lang.reflect.Type;
@@ -10,9 +9,7 @@ import java.time.format.DateTimeFormatter;
 
 public class User implements Comparable<User> {
 
-
-    private transient static final Gson gson = createMyGson();
-
+    private transient static final Gson gson = GlobalThings.gson;
 
     private Avatar avatar;
     private LocalDateTime lastScoreChangedTime;
@@ -21,30 +18,6 @@ public class User implements Comparable<User> {
     private String password;
     private String nickname;
     private int score;
-
-    /**
-     * creates a Gson that has been customized
-     *
-     * @return the customized Gson object
-     * @author Parsa
-     */
-    private static Gson createMyGson() {
-        return new GsonBuilder().excludeFieldsWithoutExposeAnnotation().registerTypeAdapter(LocalDateTime.class, new JsonDeserializer<LocalDateTime>() {
-            @Override
-            public LocalDateTime deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
-                    throws JsonParseException {
-                return LocalDateTime.parse(json.getAsString(),
-                        DateTimeFormatter.ofPattern("d::MMM::uuuu HH::mm::ss"));
-            }
-        }).registerTypeAdapter(LocalDateTime.class, new JsonSerializer<LocalDateTime>() {
-            private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d::MMM::uuuu HH::mm::ss");
-
-            @Override
-            public JsonElement serialize(LocalDateTime localDateTime, Type srcType, JsonSerializationContext context) {
-                return new JsonPrimitive(formatter.format(localDateTime));
-            }
-        }).setPrettyPrinting().disableHtmlEscaping().create();
-    }
 
     public static User fromJson(String json) {
         return gson.fromJson(json, User.class);
