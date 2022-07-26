@@ -90,7 +90,7 @@ public class User implements Comparable<User> {
         if (this.lastOnlineTime != null)
             return this.lastOnlineTime.format(DateTimeFormatter.ofPattern("d MMM, uuuu HH:mm:ss"));
         else
-            return "null";
+            return "online";
     }
 
     public static User getLoggedInUser() {

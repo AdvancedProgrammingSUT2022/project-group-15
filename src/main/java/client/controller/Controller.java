@@ -51,6 +51,10 @@ public class Controller {
         return User.fromJson((String) response.getAnswer());
     }
 
+    public static void updateUser() {
+        User.setLoggedInUser(getUser(User.getLoggedInUser().getUsername()));
+    }
+
     public static Game getGame(){
         Request request= new Request();
         request.setMethodName("getGame");

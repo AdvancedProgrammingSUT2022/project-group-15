@@ -2,6 +2,7 @@ package client.view;
 
 import client.controller.Controller;
 import client.enums.Avatar;
+import client.model.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -47,14 +48,14 @@ public class ProfileMenu extends Menu implements Initializable {
         for (Avatar avatar : Avatar.values()) {
             listOfAvatars.getItems().add(new ImageView(avatar.image));
         }
-//        avatar.imageProperty().bind(User.getLoggedInUser().avatarProperty());
-//        password.textProperty().bind(User.getLoggedInUser().passwordProperty());
-//        username.textProperty().bind(User.getLoggedInUser().usernameProperty());
-//        nickname.textProperty().bind(User.getLoggedInUser().nicknameProperty());
+        avatar.setImage(User.getLoggedInUser().getAvatar().image);
+        password.setText(User.getLoggedInUser().getPassword());
+        username.setText(User.getLoggedInUser().getUsername());
+        nickname.setText(User.getLoggedInUser().getNickname());
         saveChangesButton.setDisable(true);
 
         passwordField.setOnKeyReleased(event -> {
-            if ((boolean)Controller.send("isStrong",passwordField.getText())) {
+            if ((boolean) Controller.send("isStrong", passwordField.getText())) {
                 passwordField.setStyle("-fx-border-color: green");
             } else if (passwordField.getText().length() != 0) {
                 passwordField.setStyle("-fx-border-color: red");
@@ -78,13 +79,11 @@ public class ProfileMenu extends Menu implements Initializable {
 
     @Override
     public Scene getScene() {
-        if (scene == null) {
-            try {
-                AnchorPane root = FXMLLoader.load(new URL(this.getClass().getResource("/fxml/profileMenu.fxml").toExternalForm()));
-                scene = new Scene(root);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        try {
+            AnchorPane root = FXMLLoader.load(new URL(this.getClass().getResource("/fxml/profileMenu.fxml").toExternalForm()));
+            scene = new Scene(root);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return scene;
     }
@@ -109,7 +108,7 @@ public class ProfileMenu extends Menu implements Initializable {
     }
 
     public void submitChanges() {
-        String changeResult = (String) Controller.send("submitChanges",nicknameField.getText(), passwordField.getText());
+        String changeResult = (String) Controller.send("submitChanges", nicknameField.getText(), passwordField.getText());
         if (changeResult.equals("changes submitted")) {
             errorText.setOpacity(0);
             passwordField.clear();
@@ -124,8 +123,8 @@ public class ProfileMenu extends Menu implements Initializable {
     }
 
     public void changeAvatar() {
-//        User.getLoggedInUser().setAvatar(Avatar.values()[listOfAvatars.getSelectionModel().getSelectedIndex()]);
-//        User.saveUsers();
-        saveChangesButton.setDisable(passwordField.getText().isEmpty() && nicknameField.getText().isEmpty());
+        Controller.send("changeAvatar", Avatar.values()[listOfAvatars.getSelectionModel().getSelectedIndex()]);
+        setup(avatar);
+        window.setScene(getScene());
     }
 }

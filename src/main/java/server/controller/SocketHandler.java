@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.Socket;
+import java.time.LocalDateTime;
 
 public class SocketHandler extends Thread {
 
@@ -42,7 +43,6 @@ public class SocketHandler extends Thread {
     public void run() {
         try {
             while (true) {
-
                 Gson gson = new Gson();
                 String s = dataInputStream.readUTF();
                 Request request = gson.fromJson(s, Request.class);
@@ -51,8 +51,8 @@ public class SocketHandler extends Thread {
                 dataOutputStream.writeUTF(gson.toJson(response));
                 dataOutputStream.flush();
             }
-        } catch (IOException | NoSuchMethodException | InvocationTargetException | IllegalAccessException ignored) {
-            ignored.printStackTrace();
+        } catch (IOException | NoSuchMethodException | InvocationTargetException | IllegalAccessException exception) {
+            // TODO : remove user from online users and set lastOnlineTime to LocalDateTime.now();
         }
     }
 

@@ -1,7 +1,7 @@
 package client.view;
 
 import client.controller.Controller;
-import server.controller.ScoreBoardController;
+import client.controller.SocketController;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,21 +17,21 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import server.model.User;
+import client.model.User;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ScoreBoard extends Menu implements Initializable {
-    private final ScoreBoardController controller = new ScoreBoardController();
 
     @FXML private TableView<User> scoreboard;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         ObservableList<User> listOfUser = FXCollections.observableArrayList();
-        controller.loadSortedPlayers(listOfUser);
+        listOfUser.addAll((ArrayList<User>) Controller.send("loadSortedUsers"));
         TableColumn<User, Integer> rankingColumn = new TableColumn<>("Rank");
         rankingColumn.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(scoreboard.getItems().indexOf(p.getValue()) + 1));
         rankingColumn.setPrefWidth(100);

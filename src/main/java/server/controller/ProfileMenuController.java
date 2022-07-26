@@ -1,6 +1,7 @@
 package server.controller;
 
 
+import server.enums.Avatar;
 import server.model.User;
 
 
@@ -32,5 +33,9 @@ public class ProfileMenuController {
             User.getLoggedInUser().setPassword(password);
         }
         return "changes submitted";
+    }
+
+    public void changeAvatar(Avatar avatar) {
+        User.getLoggedInUser().setAvatar(avatar);
     }
 }
