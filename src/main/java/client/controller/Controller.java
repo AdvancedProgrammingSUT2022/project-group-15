@@ -14,8 +14,6 @@ import server.model.Hex;
 import server.model.unit.Unit;
 
 
-import java.util.ArrayList;
-
 public class Controller {
     private static Stage window = null;
     private static final LoginMenu loginMenu = new LoginMenu();

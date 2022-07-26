@@ -27,7 +27,6 @@ public class MainMenu extends Menu implements Initializable {
     @FXML
     private Label score;
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Controller.updateUser();
