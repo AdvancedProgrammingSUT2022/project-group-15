@@ -318,6 +318,10 @@ public class GameMenuController {
         return Game.getGame().addNotification(Game.getGame().getTurnNumber(), ans.toString());
     }
 
+    public String moveSelectedUnitTo(Double x, Double y) {
+        return moveSelectedUnitTo(x.intValue(), y.intValue());
+    }
+
     public String moveSelectedUnitTo(int x, int y) {
         if (selectedUnit == null)
             return Game.getGame().addNotification(Game.getGame().getTurnNumber(), "no selected unit");
@@ -709,6 +713,10 @@ public class GameMenuController {
         return Game.getGame().addNotification(Game.getGame().getTurnNumber(), "No city with this name");
     }
 
+    public String lockCitizenToHex(Double x, Double y) {
+        return lockCitizenToHex(x.intValue(), y.intValue());
+    }
+
     public String lockCitizenToHex(int x, int y) {
         if (!Game.getGame().map.validCoordinateInArray(x, y))
             return Game.getGame().addNotification(Game.getGame().getTurnNumber(), "Coordinate not valid");
@@ -731,6 +739,10 @@ public class GameMenuController {
 
     }
 
+    public String removeCitizenFromWork(Double x, Double y) {
+        return removeCitizenFromWork(x.intValue(), y.intValue());
+    }
+
     public String removeCitizenFromWork(int x, int y) {
         if (!Game.getGame().map.validCoordinateInArray(x, y))
             return Game.getGame().addNotification(Game.getGame().getTurnNumber(), "Coordinate not valid");
@@ -746,6 +758,10 @@ public class GameMenuController {
 
         selectedCity.removeCitizenFromHex(x, y);
         return Game.getGame().addNotification(Game.getGame().getTurnNumber(), "done! citizen is not working any more");
+    }
+
+    public String buyHex(Double x, Double y) {
+        return buyHex(x.intValue(), y.intValue());
     }
 
     public String buyHex(int x, int y) {
@@ -902,6 +918,9 @@ public class GameMenuController {
         return Game.getGame().addNotification(Game.getGame().getTurnNumber(), "Cheat code accepted : You won!");
     }
 
+    public String cheatFoundCityOn(Double x, Double y) {
+        return cheatFoundCityOn(x.intValue(),y.intValue());
+    }
     public String cheatFoundCityOn(int x, int y) {
         SettlerUnit settlerUnit = new SettlerUnit(x, y, Game.getGame().getSelectedCivilization(), UnitName.SETTLER);
         settlerUnit.foundCity();
@@ -951,7 +970,7 @@ public class GameMenuController {
 
     }
 
-    public void discard(boolean isUnit) {
+    public void discard(Boolean isUnit) {
         if (isUnit)
             selectedUnit = null;
         else
@@ -962,8 +981,8 @@ public class GameMenuController {
         return selectedUnit;
     }
 
-    public City getSelectedCity() {
-        return selectedCity;
+    public Boolean hasSelectedCity() {
+        return selectedCity!=null;
     }
 
     public String getAvailableUnitsInCity() {
@@ -995,6 +1014,9 @@ public class GameMenuController {
         return "destroyed !!!";
     }
 
+    public String selectUnit(Double turn) {
+        return selectUnit(turn.intValue());
+    }
     public String selectUnit(int turn) {
         selectedUnit = Game.getGame().getSelectedCivilization().getUnits().get(turn - 1);
         if (selectedUnit instanceof CivilUnit)
@@ -1004,9 +1026,12 @@ public class GameMenuController {
 
     }
 
-    public City selectCity(int turn) {
+    public String selectCity(Double turn) {
+        return selectCity(turn.intValue());
+    }
+    public String selectCity(int turn) {
 
-        return Game.getGame().getSelectedCivilization().getCities().get(turn - 1);
+        return Game.getGame().getSelectedCivilization().getCities().get(turn - 1).getName();
     }
 
     public String trade(String resourceYouGetName, String resourceYouLossName, String goldYouGet, String goldYouLoss, String usernameOfOther) {

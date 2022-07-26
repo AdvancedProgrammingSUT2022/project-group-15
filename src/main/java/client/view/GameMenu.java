@@ -50,7 +50,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class GameMenu extends Menu implements Initializable {
-    private final GameMenuController controller = new GameMenuController();
     @FXML
     public VBox cityInfo;
     @FXML
@@ -176,7 +175,7 @@ public class GameMenu extends Menu implements Initializable {
             }
             if (event.getButton() == MouseButton.SECONDARY) {
                 if (Controller.send("getSelectedUnit") != null) {
-                    String message = (String) Controller.send("attackTo",hex.getCoordinatesInArray().get('x'), hex.getCoordinatesInArray().get('y'));
+                    String message = (String) Controller.send("attackTo", hex.getCoordinatesInArray().get('x'), hex.getCoordinatesInArray().get('y'));
                     if (message.equals("city has fallen")) {
                         message = message + ". what do you do with the captured city?";
                     }
@@ -206,15 +205,16 @@ public class GameMenu extends Menu implements Initializable {
                     }
 
                     fillMap();
-                } else if (controller.getSelectedCity() != null) {
-                    createPopupAndGlowForNode((String) Controller.send("cityAttackTo",hex.getCoordinatesInArray().get('x'),
+                } else if ((Boolean) Controller.send("hasSelectedCity")) {
+                    createPopupAndGlowForNode((String) Controller.send("cityAttackTo", hex.getCoordinatesInArray().get('x'),
                             hex.getCoordinatesInArray().get('y')), null, false, true);
                     fillMap();
                 }
 
             } else {
-                if (controller.getSelectedUnit() != null) {
-                    createPopupAndGlowForNode(controller.moveSelectedUnitTo(hex.getCoordinatesInArray().get('x'), hex.getCoordinatesInArray().get('y')), null, false, false);
+                if (Controller.getSelectedUnit() != null) {
+                    createPopupAndGlowForNode((String) Controller.send("moveSelectedUnitTo", hex.getCoordinatesInArray().get('x'),
+                            hex.getCoordinatesInArray().get('y')), null, false, false);
                     updateAll();
                 } else
                     createPopupAndGlowForNode(hexInfo(hex), hexView, false, false);
@@ -243,13 +243,13 @@ public class GameMenu extends Menu implements Initializable {
         isSelectingTile = false;
         switch (codeForFunction) {
             case 1:
-                createPopupAndGlowForNode(controller.removeCitizenFromWork(x, y), null, false, false);
+                createPopupAndGlowForNode((String) Controller.send("removeCitizenFromWork", x, y), null, false, false);
                 break;
             case 2:
-                createPopupAndGlowForNode(controller.lockCitizenToHex(x, y), null, false, false);
+                createPopupAndGlowForNode((String) Controller.send("lockCitizenToHex", x, y), null, false, false);
                 break;
             case 3:
-                createPopupAndGlowForNode(controller.buyHex(x, y), null, false, false);
+                createPopupAndGlowForNode((String) Controller.send("buyHex", x, y), null, false, false);
                 break;
         }
         fillMap();
@@ -263,7 +263,7 @@ public class GameMenu extends Menu implements Initializable {
                 label.setStyle("-fx-background-color: purple;-fx-text-fill: #04e2ff");
                 label.setLayoutX(60);
                 label.setLayoutY(5);
-                label.setOnMouseClicked(event -> createCityPage(hex.getCity()));
+                label.setOnMouseClicked(event -> createCityPage(hex.getCity().getName()));
                 group.getChildren().add(label);
             }
         }
@@ -287,10 +287,10 @@ public class GameMenu extends Menu implements Initializable {
         }
     }
 
-    private void createCityPage(City city) {
+    private void createCityPage(String cityName) {
         Popup popup = new Popup();
         popupVBox.getChildren().clear();
-        popupLabel.setText(controller.selectCity(city.getName()));
+        popupLabel.setText((String) Controller.send("selectCity", cityName));
         popupHBox.setVisible(true);
         popup.getContent().add(popupHBox);
 
@@ -309,7 +309,7 @@ public class GameMenu extends Menu implements Initializable {
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                        controller.discard(false);
+                        Controller.send("discard", false);
                     }
                 }).start());
     }
@@ -356,7 +356,7 @@ public class GameMenu extends Menu implements Initializable {
             militaryUnit.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    createPopupAndGlowForNode(controller.selectMilitaryUnit(hex.getCoordinatesInArray().get('x'),
+                    createPopupAndGlowForNode((String) Controller.send("selectMilitaryUnit", hex.getCoordinatesInArray().get('x'),
                             hex.getCoordinatesInArray().get('y')), militaryUnit, true, true);
                 }
             });
@@ -419,7 +419,7 @@ public class GameMenu extends Menu implements Initializable {
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                        controller.discard(isUnit);
+                        Controller.send("discard", isUnit);
                     }
                 }).start();
             }
@@ -465,12 +465,12 @@ public class GameMenu extends Menu implements Initializable {
                 }
             });
             popupVBox.getChildren().add(button);
-            Unit unit = controller.getSelectedUnit();
+            Unit unit = Controller.getSelectedUnit();
             if (unit instanceof SettlerUnit) {
 
                 button = new Button("found city");
                 button.setOnAction(event -> {
-                    String message = controller.foundCity();
+                    String message = (String) Controller.send("foundCity");
                     updateAll();
                     createPopupAndGlowForNode(message, null, false, false);
                 });
@@ -481,7 +481,7 @@ public class GameMenu extends Menu implements Initializable {
                 button.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
-                        String message = controller.removeJungleOrSwamp();
+                        String message = (String) Controller.send("removeJungleOrSwamp");
                         updateAll();
                         createPopupAndGlowForNode(message, null, false, false);
                     }
@@ -491,7 +491,7 @@ public class GameMenu extends Menu implements Initializable {
                 button.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
-                        String message = controller.removeRoute();
+                        String message = (String) Controller.send("removeRoute");
                         updateAll();
                         createPopupAndGlowForNode(message, null, false, false);
                     }
@@ -501,7 +501,7 @@ public class GameMenu extends Menu implements Initializable {
                 button.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
-                        String message = controller.repair();
+                        String message = (String) Controller.send("repair");
                         updateAll();
                         createPopupAndGlowForNode(message, null, false, false);
                     }
@@ -518,7 +518,7 @@ public class GameMenu extends Menu implements Initializable {
                             improvementButton.setOnAction(new EventHandler<ActionEvent>() {
                                 @Override
                                 public void handle(ActionEvent event) {
-                                    String message = controller.buildImprovement(improvement.name);
+                                    String message = (String) Controller.send("buildImprovement", improvement.name);
                                     updateAll();
                                     createPopupAndGlowForNode(message, null, false, false);
                                 }
@@ -533,7 +533,7 @@ public class GameMenu extends Menu implements Initializable {
                 button.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
-                        String message = controller.alertSelectedUnit();
+                        String message = (String) Controller.send("alertSelectedUnit");
                         updateAll();
                         createPopupAndGlowForNode(message, null, false, false);
                     }
@@ -543,7 +543,7 @@ public class GameMenu extends Menu implements Initializable {
                 button.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
-                        String message = controller.fortifySelectedUnit();
+                        String message = (String) Controller.send("fortifySelectedUnit");
                         updateAll();
                         createPopupAndGlowForNode(message, null, false, false);
                     }
@@ -553,7 +553,7 @@ public class GameMenu extends Menu implements Initializable {
                 button.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
-                        String message = controller.fortifySelectedUnitTillHeal();
+                        String message = (String) Controller.send("fortifySelectedUnitTillHeal");
                         updateAll();
                         createPopupAndGlowForNode(message, null, false, false);
                     }
@@ -563,7 +563,7 @@ public class GameMenu extends Menu implements Initializable {
                 button.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
-                        String message = controller.garrisonSelectedUnit();
+                        String message = (String) Controller.send("garrisonSelectedUnit");
                         updateAll();
                         createPopupAndGlowForNode(message, null, false, false);
                     }
@@ -573,7 +573,7 @@ public class GameMenu extends Menu implements Initializable {
                 button.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
-                        String message = controller.setupRangedSelectedUnit();
+                        String message = (String) Controller.send("setupRangedSelectedUnit");
                         updateAll();
                         createPopupAndGlowForNode(message, null, false, false);
                     }
@@ -583,7 +583,7 @@ public class GameMenu extends Menu implements Initializable {
                 button.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
-                        String message = controller.pillage();
+                        String message = (String) Controller.send("pillage");
                         updateAll();
                         createPopupAndGlowForNode(message, null, false, false);
                     }
@@ -593,7 +593,7 @@ public class GameMenu extends Menu implements Initializable {
         } else {
             Button button = new Button("choose unit");
             button.setOnAction(event -> {
-                String message = controller.getAvailableUnitsInCity();
+                String message = (String) Controller.send("getAvailableUnitsInCity");
                 if (message.startsWith("error"))
                     createPopupAndGlowForNode(message, null, false, false);
                 else {
@@ -601,7 +601,8 @@ public class GameMenu extends Menu implements Initializable {
                     popupVBox.getChildren().clear();
                     for (String unit : units) {
                         Button unitButton = new Button(unit);
-                        unitButton.setOnAction(event1 -> createPopupAndGlowForNode(controller.chooseProductionForUnit(unit), null, false, false));
+                        unitButton.setOnAction(event1 -> createPopupAndGlowForNode((String) Controller.send
+                                ("chooseProductionForUnit", unit), null, false, false));
                         popupVBox.getChildren().add(unitButton);
                     }
                 }
@@ -609,7 +610,7 @@ public class GameMenu extends Menu implements Initializable {
             popupVBox.getChildren().add(button);
             button = new Button("buy unit");
             button.setOnAction(event -> {
-                String message = controller.getAvailableUnitsInCity();
+                String message = (String) Controller.send("getAvailableUnitsInCity");
                 if (message.startsWith("error"))
                     createPopupAndGlowForNode(message, null, false, false);
                 else {
@@ -618,7 +619,7 @@ public class GameMenu extends Menu implements Initializable {
                     for (String unit : units) {
                         Button unitButton = new Button(unit);
                         unitButton.setOnAction(event12 -> {
-                            String message1 = controller.buyUnit(unit);
+                            String message1 = (String) Controller.send("buyUnit", unit);
                             updateAll();
                             createPopupAndGlowForNode(message1, null, false, false);
                         });
@@ -629,7 +630,7 @@ public class GameMenu extends Menu implements Initializable {
             popupVBox.getChildren().add(button);
             button = new Button("buy building");
             button.setOnAction(event -> {
-                String message = controller.getAvailableBuildingsForCity();
+                String message = (String) Controller.send("getAvailableBuildingsForCity");
                 if (message.startsWith("error"))
                     createPopupAndGlowForNode(message, null, false, false);
                 else if (message.length() == 0)
@@ -641,7 +642,7 @@ public class GameMenu extends Menu implements Initializable {
                         Button unitButton = new Button(building.split(" :")[0]);
                         unitButton.setTooltip(new Tooltip(building));
                         unitButton.setOnAction(event12 -> {
-                            String message1 = controller.buyBuilding(building.split(" :")[0]);
+                            String message1 = (String) Controller.send("buyBuilding", building.split(" :")[0]);
                             updateAll();
                             createPopupAndGlowForNode(message1, null, false, false);
                         });
@@ -652,7 +653,7 @@ public class GameMenu extends Menu implements Initializable {
             popupVBox.getChildren().add(button);
             button = new Button("choose building");
             button.setOnAction(event -> {
-                String message = controller.getAvailableBuildingsForCity();
+                String message = (String) Controller.send("getAvailableBuildingsForCity");
                 if (message.startsWith("error"))
                     createPopupAndGlowForNode(message, null, false, false);
                 else if (message.length() == 0)
@@ -664,7 +665,7 @@ public class GameMenu extends Menu implements Initializable {
                         Button unitButton = new Button(building.split(" :")[0]);
                         unitButton.setTooltip(new Tooltip(building));
                         unitButton.setOnAction(event12 -> {
-                            String message1 = controller.buildBuilding(building.split(" :")[0]);
+                            String message1 = (String) Controller.send("buildBuilding", building.split(" :")[0]);
                             updateAll();
                             createPopupAndGlowForNode(message1, null, false, false);
                         });
@@ -723,7 +724,7 @@ public class GameMenu extends Menu implements Initializable {
     }
 
     public void goToGameMenu(MouseEvent mouseEvent) {
-
+        Controller.send("change menu GameSetting");
         window.setScene(Controller.getGameSettingsMenu().getScene());
     }
 
@@ -737,7 +738,8 @@ public class GameMenu extends Menu implements Initializable {
 
     public void cityPanel(MouseEvent mouseEvent) {
         popup.getContent().clear();
-        String message = controller.showCitiesPanel().trim();
+        String message = (String) Controller.send("showCitiesPanel");
+        message = message.trim();
         String[] units = message.split("\n");
         for (String unit : units) {
             Label label = new Label(unit);
@@ -746,7 +748,7 @@ public class GameMenu extends Menu implements Initializable {
                 @Override
                 public void handle(MouseEvent event) {
                     popup.hide();
-                    createCityPage(controller.selectCity(Integer.parseInt(unit.substring(0, 1))));
+                    createCityPage((String) Controller.send("selectCity", Integer.parseInt(unit.substring(0, 1))));
                 }
             });
             popup.getContent().add(label);
@@ -771,7 +773,8 @@ public class GameMenu extends Menu implements Initializable {
 
     public void unitPanel(MouseEvent mouseEvent) {
         popup.getContent().clear();
-        String message = controller.showUnitsPanel().trim();
+        String message = (String) Controller.send("showUnitsPanel");
+        message = message.trim();
         String[] units = message.split("\n");
         for (String unit : units) {
             Label label = new Label(unit);
@@ -780,7 +783,8 @@ public class GameMenu extends Menu implements Initializable {
                 @Override
                 public void handle(MouseEvent event) {
                     popup.hide();
-                    createPopupAndGlowForNode(controller.selectUnit(Integer.parseInt(unit.substring(0, 1))), null, true, true);
+                    createPopupAndGlowForNode((String) Controller.send("selectUnit", Integer.parseInt(unit.substring(0, 1)))
+                            , null, true, true);
                 }
             });
             popup.getContent().add(label);
@@ -793,13 +797,13 @@ public class GameMenu extends Menu implements Initializable {
 
 
     public synchronized void nextTurn() {
-        String message = controller.changeTurn(false);
+        String message = (String) Controller.send("changeTurn", false);
         createPopupAndGlowForNode(message, null, false, false);
         if (message.startsWith("congratulations")) {
             scene.setOnMouseMoved(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    controller.clean();
+                    Controller.send("clean");
                     Controller.setGameSettingsMenu(new GameSettingsMenu());
                     window.setScene(Controller.getGameSettingsMenu().getScene());
                 }
@@ -830,7 +834,7 @@ public class GameMenu extends Menu implements Initializable {
 
     public void demographicPanel(MouseEvent mouseEvent) {
         popup.getContent().clear();
-        popupLabel.setText(controller.showDemographicsPanel());
+        popupLabel.setText((String) Controller.send("showDemographicsPanel"));
         popupHBox.setVisible(true);
         popup.getContent().add(popupLabel);
         popup.setX(window.getX() + 480);
@@ -870,9 +874,9 @@ public class GameMenu extends Menu implements Initializable {
                 @Override
                 public void handle(ActionEvent event) {
                     if (warOrPiece.getText().equals("piece")) {
-                        createPopupAndGlowForNode(controller.piece(civilization.getUser().getNickname()), null, false, false);
+                        createPopupAndGlowForNode((String) Controller.send("piece", civilization.getUser().getNickname()), null, false, false);
                     } else {
-                        createPopupAndGlowForNode(controller.declareWar(civilization.getUser().getNickname()), null, false, false);
+                        createPopupAndGlowForNode((String) Controller.send("declareWar", civilization.getUser().getNickname()), null, false, false);
                     }
                     popup.hide();
                 }
@@ -935,7 +939,7 @@ public class GameMenu extends Menu implements Initializable {
                             accept.setOnAction(new EventHandler<ActionEvent>() {
                                 @Override
                                 public void handle(ActionEvent event) {
-                                    String message = controller.trade(choiceBox1.getValue(), choiceBox.getValue(),
+                                    String message = (String) Controller.send("trade", choiceBox1.getValue(), choiceBox.getValue(),
                                             goldYouGet.getText(), goldYouLoss.getText(), civilization.getUsername());
                                     updateAll();
                                     createPopupAndGlowForNode(message, null, false, false);
@@ -978,33 +982,33 @@ public class GameMenu extends Menu implements Initializable {
             int amount = Integer.parseInt(matcher.group("amount"));
             switch (matcher.group("flag")) {
                 case "turn":
-                    result = controller.cheatIncreaseTurn(amount);
+                    result = (String) Controller.send("cheatIncreaseTurn", amount);
                     break;
                 case "gold":
-                    result = controller.cheatIncreaseGold(amount);
+                    result = (String) Controller.send("cheatIncreaseGold", amount);
                     break;
                 case "science":
-                    result = controller.cheatIncreaseScience(amount);
+                    result = (String) Controller.send("cheatIncreaseScience", amount);
                     break;
                 case "citizens":
-                    result = controller.cheatIncreaseCitizens(amount);
+                    result = (String) Controller.send("cheatIncreaseCitizens", amount);
                     break;
                 case "score":
-                    result = controller.cheatIncreaseScore(amount);
+                    result = (String) Controller.send("cheatIncreaseScore", amount);
                     break;
             }
         } else if (command.equals("cheat open all technologies")) {
-            result = controller.cheatOpenAllTechnologies();
+            result = (String) Controller.send("cheatOpenAllTechnologies");
         } else if (command.equals("cheat make the whole map visible")) {
-            result = controller.cheatMakeMapDetermined();
+            result = (String) Controller.send("cheatMakeMapDetermined");
         } else if (command.equals("cheat win")) {
-            result = controller.cheatWin();
+            result = (String) Controller.send("cheatWin");
         } else if ((matcher = getMatcher(command, "^cheat found city on (?<x>\\d+) (?<y>\\d+)$")) != null) {
-            result = controller.cheatFoundCityOn(Integer.parseInt(matcher.group("x")), Integer.parseInt(matcher.group("y")));
+            result = (String) Controller.send("cheatFoundCityOn", Integer.parseInt(matcher.group("x")), Integer.parseInt(matcher.group("y")));
         } else if ((command.equals("cheat increase health of selected unit$"))) {
-            result = controller.cheatIncreaseHealthOfSelectedUnit();
+            result = (String) Controller.send("cheatIncreaseHealthOfSelectedUnit");
         } else if ((command.equals("cheat increase power of selected unit"))) {
-            result = controller.cheatIncreasePowerOfSelectedUnit();
+            result = (String) Controller.send("cheatIncreasePowerOfSelectedUnit");
         }
         createPopupAndGlowForNode(result, null, false, false);
         cheatTextField.clear();
@@ -1033,22 +1037,17 @@ public class GameMenu extends Menu implements Initializable {
         Button button = new Button("resume");
         button.setStyle("-fx-base: red;");
         button.setOnAction(event -> popup.hide());
-        Button button1 = new Button("save");
-        button1.setStyle("-fx-base: red;");
-        button1.setOnAction(event -> {
-            popup.hide();
-            createPopupAndGlowForNode(controller.save(), null, false, false);
-        });
+
+
         Button button2 = new Button("menu");
         button2.setStyle("-fx-base: red;");
         button2.setOnAction(event -> {
             popup.hide();
-            controller.clean();
+            Controller.send("clean");
             Controller.setGameSettingsMenu(new GameSettingsMenu());
             window.setScene(Controller.getGameSettingsMenu().getScene());
         });
         popupVBox.getChildren().add(button);
-        popupVBox.getChildren().add(button1);
         popupVBox.getChildren().add(button2);
         popupVBox.setVisible(true);
         popup.getContent().add(popupVBox);
@@ -1072,7 +1071,8 @@ public class GameMenu extends Menu implements Initializable {
 
     public void openMilitaryPanel(MouseEvent mouseEvent) {
         popup.getContent().clear();
-        String message = controller.showUnitsPanel().trim();
+        String message = (String) Controller.send("showUnitsPanel");
+        message = message.trim();
         String[] units = message.split("\n");
         for (String unit : units) {
             Label label = new Label(unit);
@@ -1081,7 +1081,8 @@ public class GameMenu extends Menu implements Initializable {
                 @Override
                 public void handle(MouseEvent event) {
                     popup.hide();
-                    createPopupAndGlowForNode(controller.selectUnit(Integer.parseInt(unit.substring(0, 1))), null, true, true);
+                    createPopupAndGlowForNode((String) Controller.send("selectUnit", Integer.parseInt(unit.substring(0, 1)))
+                            , null, true, true);
                 }
             });
             popup.getContent().add(label);
@@ -1094,7 +1095,8 @@ public class GameMenu extends Menu implements Initializable {
 
     public void openEconomicPanel(MouseEvent mouseEvent) {
         popup.getContent().clear();
-        String message = controller.showCitiesPanel().trim();
+        String message = (String) Controller.send("showCitiesPanel");
+        message = message.trim();
         String[] units = message.split("\n");
         for (String unit : units) {
             Label label = new Label(unit);
@@ -1103,7 +1105,7 @@ public class GameMenu extends Menu implements Initializable {
                 @Override
                 public void handle(MouseEvent event) {
                     popup.hide();
-                    createCityPage(controller.selectCity(Integer.parseInt(unit.substring(0, 1))));
+                    createCityPage((String) Controller.send("selectCity", Integer.parseInt(unit.substring(0, 1))));
                 }
             });
             popup.getContent().add(label);
