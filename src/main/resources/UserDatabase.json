@@ -16,5 +16,15 @@
     "password": "a",
     "nickname": "a",
     "score": 0
+  },
+  {
+    "avatar": "AVATAR_2",
+    "lastScoreChangedTime": "26::Jul::2022 20::44::27",
+    "lastOnlineTime": "27::Jul::2022 00::20::11",
+    "username": "parsa",
+    "password": "parsa1234",
+    "nickname": "parsa",
+    "score": 0,
+    "authToken": "parsaparsa1234parsa31"
   }
 ]

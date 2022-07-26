@@ -12,6 +12,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.Socket;
 import java.time.LocalDateTime;
+import java.util.Collections;
+
 
 public class SocketHandler extends Thread {
 
@@ -55,15 +57,15 @@ public class SocketHandler extends Thread {
             while (true) {
                 Gson gson = GlobalThings.gson;
                 String s = dataInputStream.readUTF();
-                System.out.println(s); // TODO : delete this line
+                System.out.println("<<REQUEST>> : \n" + s); // TODO : delete this line
                 Request request = gson.fromJson(s, Request.class);
                 System.out.println("New request from " + socket);
                 Response response = handleRequest(request);
+                System.out.println("<<RESPONSE>> : \n" + gson.toJson(response)); // TODO : delete this line
                 dataOutputStream.writeUTF(gson.toJson(response));
                 dataOutputStream.flush();
             }
         } catch (IOException | NoSuchMethodException | InvocationTargetException | IllegalAccessException exception) {
-            exception.printStackTrace();
             user.setLastOnlineTime(LocalDateTime.now());
             serverController.removeSocket(this);
             // TODO : send updated list of users to online users
@@ -72,11 +74,18 @@ public class SocketHandler extends Thread {
 
     private Response handleRequest(Request request) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         String methodName = request.getMethodName();
+        if (methodName.equals("getUserByIndex")) {
+            int index = ((Double) request.getParameters().get(0)).intValue();
+            Response res = new Response();
+            Collections.sort(User.getUsers());
+            res.setAnswer(User.getUsers().get(index).toJson());
+            return res;
+        }
         if (methodName.startsWith("change menu")) {
             changeMenu(methodName.substring(12));
             return new Response();
         }
-        if (methodName.equals("getUser")){
+        if (methodName.equals("getUser")) {
             Response response = new Response();
             response.setAnswer(User.getUserByUsername((String) request.getParameters().get(0)).toJson());
             return response;
@@ -86,19 +95,19 @@ public class SocketHandler extends Thread {
             response.setAnswer(user.toJson());
             return response;
         }
-        if (methodName.equals("getGame")){
+        if (methodName.equals("getGame")) {
             Response response = new Response();
             response.setAnswer(xStream.toXML(Game.getGame()));
             return response;
         }
-        if (methodName.equals("getHex")){
+        if (methodName.equals("getHex")) {
             Response response = new Response();
             int x = ((Double) request.getParameters().get(0)).intValue();
             int y = ((Double) request.getParameters().get(1)).intValue();
-            response.setAnswer( "the xml form of object is:" +  xStream.toXML(Game.getGame().getSelectedCivilization().getVisibilityMap().map.get(x).get(y)));
+            response.setAnswer( "the xml form of object is:" + xStream.toXML(Game.getGame().getSelectedCivilization().getVisibilityMap().map.get(x).get(y)));
             return response;
         }
-        if (methodName.equals("getSelectedUnit")){
+        if (methodName.equals("getSelectedUnit")) {
             Response response = new Response();
             response.setAnswer(xStream.toXML(gameMenuController.getSelectedUnit()));
             return response;
@@ -124,9 +133,13 @@ public class SocketHandler extends Thread {
             case "Login":
                 method = loginMenuController.getClass().getMethod(methodName, types);
                 answer = method.invoke(loginMenuController, arguments);
-                if (answer.getClass().equals(String.class)){
-                    if (((String)answer).endsWith("successfully!")){
+                if (answer.getClass().equals(String.class)) {
+                    if (((String) answer).endsWith("successfully!")) {
                         user = User.getUserByUsername((String) arguments[0]);
+                        user.setLastOnlineTime(null);
+                        int random = (int) (Math.random() * 100);
+                        user.setAuthToken(user.getUsername() + user.getPassword() + user.getNickname() + String.valueOf(random));
+                        answer += user.getAuthToken();
                     }
                 }
                 break;
@@ -138,7 +151,7 @@ public class SocketHandler extends Thread {
                 method = profileMenuController.getClass().getMethod(methodName, types);
                 answer = method.invoke(profileMenuController, arguments);
                 break;
-            case "ScoreBoard":
+            case "Score":
                 method = scoreBoardController.getClass().getMethod(methodName, types);
                 answer = method.invoke(scoreBoardController, arguments);
                 break;
@@ -167,7 +180,7 @@ public class SocketHandler extends Thread {
             case "Profile":
                 profileMenuController = new ProfileMenuController(user);
                 break;
-            case "ScoreBoard":
+            case "Score":
                 scoreBoardController = new ScoreBoardController();
                 break;
         }
