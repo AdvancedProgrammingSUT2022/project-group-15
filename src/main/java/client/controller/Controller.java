@@ -77,7 +77,7 @@ public class Controller {
         Response response = SOCKET_CONTROLLER.send(request);
         XStream xStream = new XStream();
         xStream.addPermission(AnyTypePermission.ANY);
-        return (Hex) xStream.fromXML((String) response.getAnswer());
+        return (Hex) xStream.fromXML(((String) response.getAnswer()).substring(26));
     }
     public static Unit getSelectedUnit(){
         Request request= new Request();

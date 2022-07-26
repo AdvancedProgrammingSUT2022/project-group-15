@@ -3,6 +3,7 @@ package client.controller;
 import client.model.Request;
 import client.model.Response;
 import com.google.gson.Gson;
+import com.google.gson.stream.MalformedJsonException;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.security.AnyTypePermission;
 
@@ -28,15 +29,19 @@ public class SocketController {
     }
 
     public Response send(Request request) {
+        String data = "";
         try {
             dataOutputStream.writeUTF(new Gson().toJson(request));
             dataOutputStream.flush();
             System.out.println("Waiting for response");
-            Response response = new Gson().fromJson(dataInputStream.readUTF(), Response.class);
+            data = dataInputStream.readUTF();
+            Response response = new Gson().fromJson(data, Response.class);
             System.out.println("response received");
             return response;
-        }catch (IOException e){
-            throw new RuntimeException();
+        }catch (Exception e){
+            System.out.println(data);
+            e.printStackTrace();
+            return send(request);
         }
     }
 

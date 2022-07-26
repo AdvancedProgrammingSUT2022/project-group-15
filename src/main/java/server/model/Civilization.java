@@ -31,7 +31,7 @@ public class Civilization {
     private HashSet<Resource> luxuryResources = new HashSet<>();
     private City capital;
     private transient ArrayList<Unit> units = new ArrayList<>();
-    private transient ArrayList<City> cities = new ArrayList<>();
+    private ArrayList<City> cities = new ArrayList<>();
     private int goldStorage = 30;
     private int scienceStorage = 0;
     private int sciencePerTurn = 0;

@@ -26,6 +26,10 @@ public class SocketHandler extends Thread {
     private final DataInputStream dataInputStream;
     private final DataOutputStream dataOutputStream;
 
+    private final XStream xStream = new XStream();
+
+    private Gson gson = new Gson();
+
     private String menu = "Login";
 
     private GameMenuController gameMenuController;
@@ -58,7 +62,6 @@ public class SocketHandler extends Thread {
     public void run() {
         try {
             while (true) {
-                Gson gson = new Gson();
                 String s = dataInputStream.readUTF();
                 Request request = gson.fromJson(s, Request.class);
                 System.out.println("New request from " + socket);
@@ -67,6 +70,7 @@ public class SocketHandler extends Thread {
                 dataOutputStream.flush();
             }
         } catch (IOException | NoSuchMethodException | InvocationTargetException | IllegalAccessException exception) {
+            exception.printStackTrace();
             user.setLastOnlineTime(LocalDateTime.now());
             onlinePlayers.remove(this);
             // TODO : send updated list of users to online users
@@ -86,20 +90,18 @@ public class SocketHandler extends Thread {
         }
         if (methodName.equals("getGame")){
             Response response = new Response();
-            response.setAnswer(new XStream().toXML(Game.getGame()));
+            response.setAnswer(xStream.toXML(Game.getGame()));
             return response;
         }
         if (methodName.equals("getHex")){
             Response response = new Response();
             int x = ((Double) request.getParameters().get(0)).intValue();
             int y = ((Double) request.getParameters().get(1)).intValue();
-            XStream xStream = new XStream();
-            response.setAnswer(xStream.toXML(Game.getGame().getSelectedCivilization().getVisibilityMap().map.get(x).get(y)));
+            response.setAnswer( "the xml form of object is:" +  xStream.toXML(Game.getGame().getSelectedCivilization().getVisibilityMap().map.get(x).get(y)));
             return response;
         }
         if (methodName.equals("getSelectedUnit")){
             Response response = new Response();
-            XStream xStream = new XStream();
             response.setAnswer(xStream.toXML(gameMenuController.getSelectedUnit()));
             return response;
         }

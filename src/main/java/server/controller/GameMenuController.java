@@ -867,8 +867,8 @@ public class GameMenuController {
         return Game.getGame().addNotification(Game.getGame().getTurnNumber(), "Cheat code accepted : " + amount + " turns passed");
     }
 
-    public String cheatIncreaseGold(int amount) {
-        Game.getGame().getSelectedCivilization().setGoldStorage(Game.getGame().getSelectedCivilization().getGoldStorage() + amount);
+    public String cheatIncreaseGold(Double amount) {
+        Game.getGame().getSelectedCivilization().setGoldStorage(Game.getGame().getSelectedCivilization().getGoldStorage() + amount.intValue());
         return Game.getGame().addNotification(Game.getGame().getTurnNumber(), "Cheat code accepted : Your gold storage increased by " + amount);
     }
 

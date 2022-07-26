@@ -1,16 +1,8 @@
 package client.model;
 
 public class Response {
-    private String type;
     private Object answer;
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
 
     public Object getAnswer() {
         return answer;

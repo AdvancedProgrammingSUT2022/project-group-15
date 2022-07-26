@@ -272,7 +272,7 @@ public class GameMenu extends Menu implements Initializable {
 
     private void addCity(Hex hex, Group group) {
         if (hex.getCity() != null) {
-            
+
             if (hex.isCenterOfCity()) {
                 Label label = new Label(hex.getCity().getName());
                 label.setStyle("-fx-background-color: purple;-fx-text-fill: #04e2ff");
@@ -397,6 +397,11 @@ public class GameMenu extends Menu implements Initializable {
                     hexView.setLayoutY(j);
                 map.getChildren().add(hexView);
                 i += 108;
+                try {
+                    Thread.sleep(7);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
             try {
                 Thread.sleep(30);
@@ -781,10 +786,10 @@ public class GameMenu extends Menu implements Initializable {
 
     private String cityNames() {
         String message = "";
-        if (Game.getGame().getSelectedCivilization().getCities().size() == 0)
+        if (Controller.getGame().getSelectedCivilization().getCities().size() == 0)
             return "no city";
         else {
-            for (City city : Game.getGame().getSelectedCivilization().getCities()) {
+            for (City city : Controller.getGame().getSelectedCivilization().getCities()) {
                 message += city.getName() + "\n";
             }
             return message;
@@ -824,6 +829,7 @@ public class GameMenu extends Menu implements Initializable {
                 @Override
                 public void handle(MouseEvent event) {
                     Controller.send("clean");
+                    Controller.send("change menu GameSetting");
                     Controller.setGameSettingsMenu(new GameSettingsMenu());
                     window.setScene(Controller.getGameSettingsMenu().getScene());
                 }
@@ -871,8 +877,8 @@ public class GameMenu extends Menu implements Initializable {
         popup.setY(window.getY() + 105);
         popup.setAutoHide(true);
         popup.show(window);
-        Civilization nowCivilization = Game.getGame().getSelectedCivilization();
-        for (Civilization civilization : Game.getGame().getCivilizations()) {
+        Civilization nowCivilization = Controller.getGame().getSelectedCivilization();
+        for (Civilization civilization : Controller.getGame().getCivilizations()) {
             if (civilization == nowCivilization)
                 continue;
             HBox hBox = new HBox();
@@ -918,10 +924,10 @@ public class GameMenu extends Menu implements Initializable {
                     label1.setTextFill(Color.WHITE);
                     vBox.getChildren().add(label1);
                     ChoiceBox<String> choiceBox = new ChoiceBox<String>();
-                    for (Resource resource : Game.getGame().getSelectedCivilization().getStrategicResources()) {
+                    for (Resource resource : Controller.getGame().getSelectedCivilization().getStrategicResources()) {
                         choiceBox.getItems().add(resource.name);
                     }
-                    for (Resource resource : Game.getGame().getSelectedCivilization().getLuxuryResources()) {
+                    for (Resource resource : Controller.getGame().getSelectedCivilization().getLuxuryResources()) {
                         choiceBox.getItems().add(resource.name);
                     }
                     Label label2 = new Label("other resources");
@@ -1064,6 +1070,7 @@ public class GameMenu extends Menu implements Initializable {
         button2.setOnAction(event -> {
             popup.hide();
             Controller.send("clean");
+            Controller.send("change menu GameSetting");
             Controller.setGameSettingsMenu(new GameSettingsMenu());
             window.setScene(Controller.getGameSettingsMenu().getScene());
         });
