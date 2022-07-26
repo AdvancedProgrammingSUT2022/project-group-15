@@ -92,6 +92,7 @@ public class ProfileMenu extends Menu implements Initializable {
 
     public void openMainMenu() {
         setup(avatar);
+        Controller.send("change menu Main");
         window.setScene(Controller.getMainMenu().getScene());
     }
 
@@ -102,6 +103,7 @@ public class ProfileMenu extends Menu implements Initializable {
 
     public void logout() {
         Controller.send("logout");
+        Controller.send("change menu Login");
         setup(avatar);
         Controller.getLoginMenu().setScene(null);
         window.setScene(Controller.getLoginMenu().getScene());

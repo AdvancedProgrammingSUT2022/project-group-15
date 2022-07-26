@@ -1,29 +1,20 @@
 [
   {
-    "avatar": "AVATAR_6",
-    "lastScoreChangedTime": "23::Jul::2022 22::42::43",
-    "lastOnlineTime": "26::Jul::2022 19::33::10",
-    "username": "a",
-    "password": "a",
-    "nickname": "amir",
-    "score": 0
-  },
-  {
-    "avatar": "AVATAR_4",
-    "lastScoreChangedTime": "23::Jul::2022 22::44::46",
-    "lastOnlineTime": "23::Jul::2022 22::42::43",
-    "username": "ali",
-    "password": "aliqwrqweq12",
-    "nickname": "aliNick",
-    "score": 0
-  },
-  {
     "avatar": "AVATAR_8",
     "lastScoreChangedTime": "25::Jul::2022 18::15::09",
     "lastOnlineTime": "26::Jul::2022 20::15::41",
     "username": "parsa",
     "password": "parsa1234",
     "nickname": "parsa",
+    "score": 0
+  },
+  {
+    "avatar": "AVATAR_8",
+    "lastScoreChangedTime": "25::Jul::2022 18::15::09",
+    "lastOnlineTime": "26::Jul::2022 20::15::41",
+    "username": "a",
+    "password": "a",
+    "nickname": "a",
     "score": 0
   }
 ]

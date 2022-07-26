@@ -1,6 +1,7 @@
 package server.controller;
 
 
+import client.controller.Controller;
 import server.enums.Avatar;
 import server.model.User;
 
