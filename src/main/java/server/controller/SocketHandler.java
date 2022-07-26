@@ -13,6 +13,7 @@ import java.lang.reflect.Method;
 import java.net.Socket;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 public class SocketHandler extends Thread {
@@ -60,15 +61,15 @@ public class SocketHandler extends Thread {
             while (true) {
                 Gson gson = GlobalThings.gson;
                 String s = dataInputStream.readUTF();
-                System.out.println(s); // TODO : delete this line
+                System.out.println("<<REQUEST>> : \n" + s); // TODO : delete this line
                 Request request = gson.fromJson(s, Request.class);
                 System.out.println("New request from " + socket);
                 Response response = handleRequest(request);
+                System.out.println("<<RESPONSE>> : \n" + gson.toJson(response)); // TODO : delete this line
                 dataOutputStream.writeUTF(gson.toJson(response));
                 dataOutputStream.flush();
             }
         } catch (IOException | NoSuchMethodException | InvocationTargetException | IllegalAccessException exception) {
-            exception.printStackTrace();
             user.setLastOnlineTime(LocalDateTime.now());
             onlinePlayers.remove(this);
             // TODO : send updated list of users to online users
@@ -77,6 +78,13 @@ public class SocketHandler extends Thread {
 
     private Response handleRequest(Request request) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         String methodName = request.getMethodName();
+        if (methodName.equals("getUserByIndex")) {
+            int index = ((Double) request.getParameters().get(0)).intValue();
+            Response res = new Response();
+            Collections.sort(User.getUsers());
+            res.setAnswer(User.getUsers().get(index).toJson());
+            return res;
+        }
         if (methodName.startsWith("change menu")) {
             changeMenu(methodName.substring(12));
             return new Response();
@@ -100,7 +108,7 @@ public class SocketHandler extends Thread {
             Response response = new Response();
             int x = ((Double) request.getParameters().get(0)).intValue();
             int y = ((Double) request.getParameters().get(1)).intValue();
-            response.setAnswer( "the xml form of object is:" +  xStream.toXML(Game.getGame().getSelectedCivilization().getVisibilityMap().map.get(x).get(y)));
+            response.setAnswer( "the xml form of object is:" + xStream.toXML(Game.getGame().getSelectedCivilization().getVisibilityMap().map.get(x).get(y)));
             return response;
         }
         if (methodName.equals("getSelectedUnit")) {
@@ -132,6 +140,7 @@ public class SocketHandler extends Thread {
                 if (answer.getClass().equals(String.class)) {
                     if (((String) answer).endsWith("successfully!")) {
                         user = User.getUserByUsername((String) arguments[0]);
+                        user.setLastOnlineTime(null);
                         int random = (int) (Math.random() * 100);
                         user.setAuthToken(user.getUsername() + user.getPassword() + user.getNickname() + String.valueOf(random));
                         answer += user.getAuthToken();
@@ -146,7 +155,7 @@ public class SocketHandler extends Thread {
                 method = profileMenuController.getClass().getMethod(methodName, types);
                 answer = method.invoke(profileMenuController, arguments);
                 break;
-            case "ScoreBoard":
+            case "Score":
                 method = scoreBoardController.getClass().getMethod(methodName, types);
                 answer = method.invoke(scoreBoardController, arguments);
                 break;
@@ -175,7 +184,7 @@ public class SocketHandler extends Thread {
             case "Profile":
                 profileMenuController = new ProfileMenuController();
                 break;
-            case "ScoreBoard":
+            case "Score":
                 scoreBoardController = new ScoreBoardController();
                 break;
         }

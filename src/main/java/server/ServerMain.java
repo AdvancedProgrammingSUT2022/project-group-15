@@ -12,6 +12,7 @@ public class ServerMain {
     private LinkedList<SocketHandler> socketHandlers = new LinkedList<>();
     private ArrayList<User> players = new ArrayList<User>();
     private LinkedList<SocketHandler> socketHandlersPlaying = new LinkedList<>();
+
     public static void main(String[] args) throws IOException {
         ServerSocket serverSocket = new ServerSocket(13000);
         System.out.println("server listening...");

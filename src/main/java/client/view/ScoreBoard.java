@@ -21,7 +21,6 @@ import client.model.User;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ScoreBoard extends Menu implements Initializable {
@@ -31,7 +30,7 @@ public class ScoreBoard extends Menu implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         ObservableList<User> listOfUser = FXCollections.observableArrayList();
-        listOfUser.addAll((ArrayList<User>) Controller.send("loadSortedUsers"));
+        listOfUser.addAll(Controller.getAllUsers());
         TableColumn<User, Integer> rankingColumn = new TableColumn<>("Rank");
         rankingColumn.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(scoreboard.getItems().indexOf(p.getValue()) + 1));
         rankingColumn.setPrefWidth(100);

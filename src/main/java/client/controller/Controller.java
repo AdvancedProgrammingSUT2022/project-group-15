@@ -13,6 +13,8 @@ import server.model.Game;
 import server.model.Hex;
 import server.model.unit.Unit;
 
+import java.util.ArrayList;
+
 
 public class Controller {
     private static Stage window = null;
@@ -44,6 +46,18 @@ public class Controller {
         }
         Response response = SOCKET_CONTROLLER.send(request);
         return response.getAnswer();
+    }
+
+    public static ArrayList<User> getAllUsers() {
+        ArrayList<User> users = new ArrayList<>();
+        int numberOfUsers = ((Double) Controller.send("getNumberOfUsers")).intValue();
+        for (int i = 0; i < numberOfUsers; i++) {
+            Request request = new Request();
+            request.setMethodName("getUserByIndex");
+            request.addParameter(i);
+            users.add(User.fromJson((String) SOCKET_CONTROLLER.send(request).getAnswer()));
+        }
+        return users;
     }
 
     public static User getUser(String username) {

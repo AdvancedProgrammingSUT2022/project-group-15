@@ -3,7 +3,6 @@ package server.model;
 public class Response {
     private Object answer;
 
-
     public Object getAnswer() {
         return answer;
     }
