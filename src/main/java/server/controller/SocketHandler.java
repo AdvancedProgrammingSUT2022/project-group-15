@@ -3,15 +3,11 @@ package server.controller;
 
 import com.google.gson.Gson;
 import com.thoughtworks.xstream.XStream;
-import server.model.Game;
-import server.model.Request;
-import server.model.Response;
-import server.model.User;
+import server.model.*;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.Socket;
@@ -52,14 +48,13 @@ public class SocketHandler extends Thread {
 
     public void setUser(User user) {
         this.user = user;
-
     }
 
     @Override
     public void run() {
         try {
             while (true) {
-                Gson gson = new Gson();
+                Gson gson = GlobalThings.gson;
                 String s = dataInputStream.readUTF();
                 Request request = gson.fromJson(s, Request.class);
                 System.out.println("New request from " + socket);
