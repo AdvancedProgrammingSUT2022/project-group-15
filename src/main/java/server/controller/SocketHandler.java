@@ -36,6 +36,7 @@ public class SocketHandler extends Thread {
     private MainMenuController mainMenuController;
     private ProfileMenuController profileMenuController;
     private ScoreBoardController scoreBoardController;
+    private FriendshipController friendShipController;
 
     public SocketHandler(Socket socket) throws IOException {
         this.socket = socket;
@@ -186,6 +187,9 @@ public class SocketHandler extends Thread {
                 break;
             case "Score":
                 scoreBoardController = new ScoreBoardController();
+                break;
+            case "Friend":
+                friendShipController = new FriendshipController();
                 break;
         }
     }

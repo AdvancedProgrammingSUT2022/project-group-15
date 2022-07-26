@@ -23,12 +23,14 @@ public class Controller {
     private static final ProfileMenu profileMenu = new ProfileMenu();
     private static GameMenu gameMenu = new GameMenu();
     private static GameSettingsMenu gameSettingsMenu = new GameSettingsMenu();
+    private static FriendshipMenu friendshipMenu = new FriendshipMenu();
     private static final ScoreBoard scoreboard = new ScoreBoard();
     private static final TechnologyTree technologyTree = new TechnologyTree();
-
-
     private static final SocketController SOCKET_CONTROLLER = new SocketController();
 
+    public static FriendshipMenu getFriendshipMenu() {
+        return friendshipMenu;
+    }
 
     public static ProfileMenu getProfileMenu() {
         return profileMenu;

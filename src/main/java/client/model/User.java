@@ -2,10 +2,10 @@ package client.model;
 
 import com.google.gson.*;
 import client.enums.Avatar;
-
 import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 public class User implements Comparable<User> {
 
@@ -18,6 +18,8 @@ public class User implements Comparable<User> {
     private String password;
     private String nickname;
     private int score;
+    ArrayList<String> friendReqs = new ArrayList<>();
+    ArrayList<String> friends = new ArrayList<>();
 
     public static User fromJson(String json) {
         return gson.fromJson(json, User.class);
