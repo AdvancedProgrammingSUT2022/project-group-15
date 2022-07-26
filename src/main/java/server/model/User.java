@@ -187,14 +187,6 @@ public class User implements Comparable<User> {
         return this.getUsername().compareTo(o.getUsername());
     }
 
-    public LocalDateTime getLastScoreChanged() {
-        return lastScoreChangedTime;
-    }
-
-    public void setLastScoreChanged(LocalDateTime lastScoreChanged) {
-        this.lastScoreChangedTime = lastScoreChanged;
-    }
-
 
     public static User fromJson(String json) {
         return gson.fromJson(json, User.class);
@@ -210,6 +202,7 @@ public class User implements Comparable<User> {
 
     public void setLastOnlineTime(LocalDateTime lastOnlineTime) {
         this.lastOnlineTime = lastOnlineTime;
+        saveUsers();
     }
 
     public String getOnlineTime() {
