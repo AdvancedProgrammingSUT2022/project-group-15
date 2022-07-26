@@ -1,7 +1,7 @@
 package client.view;
 
-import server.controller.GameMenuController;
-import server.enums.Technology;
+import client.controller.Controller;
+import client.enums.Technology;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
 import server.model.Game;
@@ -20,14 +20,14 @@ public class TechnologyNode extends Button {
     }
 
     public void updateNode() {
-        int remainingTurns = (int) Math.ceil((this.technology.cost - Game.getGame().getSelectedCivilization().getScienceStorage())
-                / (double) Game.getGame().getSelectedCivilization().getSciencePerTurn());
+        int remainingTurns = (int) Math.ceil((this.technology.cost - (double) Controller.send("getScience"))
+                / (double) Controller.send("getSciencePerTurn"));
         this.setTooltip(new Tooltip(this.technology.toString() + "\n" + remainingTurns + " Turns"));
-        if (technology == Game.getGame().getSelectedCivilization().getTechnologyInProgress()) {
+        if (technology == Controller.send("getTechnologyInProgress")) {
             this.setStyle("-fx-border-color: blue");
-        } else if (Game.getGame().getSelectedCivilization().getTechnologies().contains(technology)) {
+        } else if ((boolean) Controller.send("hasTechnology", this.technology)) {
             this.setStyle("-fx-border-color: gold");
-        } else if (Game.getGame().getSelectedCivilization().getAvailableTechnologies().contains(technology)) {
+        } else if ((boolean) Controller.send("isAvailableTechnology", this.technology)) {
             this.setStyle("-fx-border-color: green");
         } else {
             this.setStyle("-fx-border-color: gray; -fx-cursor: default;");
@@ -39,9 +39,9 @@ public class TechnologyNode extends Button {
      * @return true if technologyInProgress changed
      * @author parsa
      */
-    public boolean handleClick(GameMenuController controller) {
-        if (Game.getGame().getSelectedCivilization().getAvailableTechnologies().contains(technology)) {
-            controller.buyNewTechnology(this.technology);
+    public boolean handleClick() {
+        if ((boolean) Controller.send("isAvailableTechnology", this.technology)) {
+            Controller.send("buyNewTechnology", this.technology);
             return true;
         }
         return false;

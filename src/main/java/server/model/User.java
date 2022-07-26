@@ -35,6 +35,8 @@ public class User implements Comparable<User> {
     @Expose
     private int score;
 
+    private String authToken;
+
     public User(String username, String password, String nickname, int score) {
         setAvatar(Avatar.getRandomAvatar());
         this.lastScoreChangedTime = LocalDateTime.now();
@@ -255,5 +257,12 @@ public class User implements Comparable<User> {
 
     public void setScore(int score) {
         this.score = score;
+    }
+    public String getAuthToken() {
+        return authToken;
+    }
+
+    public void setAuthToken(String authToken) {
+        this.authToken = authToken;
     }
 }

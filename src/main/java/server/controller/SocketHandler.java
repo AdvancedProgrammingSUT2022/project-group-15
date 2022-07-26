@@ -56,6 +56,7 @@ public class SocketHandler extends Thread {
 
     public void setUser(User user) {
         this.user = user;
+
     }
 
     @Override
