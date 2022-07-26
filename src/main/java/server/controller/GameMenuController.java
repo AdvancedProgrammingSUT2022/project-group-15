@@ -78,7 +78,7 @@ public class GameMenuController {
 
     }
 
-    public String changeTurn(boolean ignoreNeedCommand) {
+    public String changeTurn(Boolean ignoreNeedCommand) {
         for (Unit unit : Game.getGame().getSelectedCivilization().getUnits()) {
             if (unit.needsCommand())
                 if (!ignoreNeedCommand)
@@ -919,8 +919,9 @@ public class GameMenuController {
     }
 
     public String cheatFoundCityOn(Double x, Double y) {
-        return cheatFoundCityOn(x.intValue(),y.intValue());
+        return cheatFoundCityOn(x.intValue(), y.intValue());
     }
+
     public String cheatFoundCityOn(int x, int y) {
         SettlerUnit settlerUnit = new SettlerUnit(x, y, Game.getGame().getSelectedCivilization(), UnitName.SETTLER);
         settlerUnit.foundCity();
@@ -982,7 +983,7 @@ public class GameMenuController {
     }
 
     public Boolean hasSelectedCity() {
-        return selectedCity!=null;
+        return selectedCity != null;
     }
 
     public String getAvailableUnitsInCity() {
@@ -1017,6 +1018,7 @@ public class GameMenuController {
     public String selectUnit(Double turn) {
         return selectUnit(turn.intValue());
     }
+
     public String selectUnit(int turn) {
         selectedUnit = Game.getGame().getSelectedCivilization().getUnits().get(turn - 1);
         if (selectedUnit instanceof CivilUnit)
@@ -1029,6 +1031,7 @@ public class GameMenuController {
     public String selectCity(Double turn) {
         return selectCity(turn.intValue());
     }
+
     public String selectCity(int turn) {
 
         return Game.getGame().getSelectedCivilization().getCities().get(turn - 1).getName();
@@ -1118,4 +1121,5 @@ public class GameMenuController {
     public int getSciencePerTurn() {
         return Game.getGame().getSelectedCivilization().getSciencePerTurn();
     }
+
 }

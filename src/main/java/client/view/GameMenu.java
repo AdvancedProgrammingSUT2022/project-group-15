@@ -118,7 +118,19 @@ public class GameMenu extends Menu implements Initializable {
     private void updateAll() {
         updateStatusBar();
         updateCurrentResearchStatus();
-        fillMap();
+        while (true) {
+            try {
+                fillMap();
+                break;
+            } catch (Exception e) {
+                System.out.println("a problem please wait");
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        }
     }
 
     private void updateCurrentResearchStatus() {
@@ -139,11 +151,11 @@ public class GameMenu extends Menu implements Initializable {
             currentResearchProgressBar.setVisible(true);
         }
 
-        currentResearchImageView.setImage(((Technology) Controller.send("getTechnologyInProgress")).image);
-        currentResearchProgressBar.setProgress((double) Controller.send("getScience") / ((Technology) Controller.send("getTechnologyInProgress")).cost);
-        int remainingTurns = (int) Math.ceil((((Technology) Controller.send("getTechnologyInProgress")).cost - (double) Controller.send("getScience"))
-                / (double) Controller.send("getSciencePerTurn"));
-        currentResearchProgressBar.setTooltip(new Tooltip(remainingTurns + " turns to achieve " + ((Technology) Controller.send("getTechnologyInProgress")).name));
+        currentResearchImageView.setImage((Technology.valueOf((String) Controller.send("getTechnologyInProgress"))).image);
+        currentResearchProgressBar.setProgress((double) Controller.send("getScience") / ((Technology.valueOf((String) Controller.send("getTechnologyInProgress"))).cost));
+        int remainingTurns = (int) Math.ceil((((Technology.valueOf((String) Controller.send("getTechnologyInProgress"))).cost - (double) Controller.send("getScience"))
+                / (double) Controller.send("getSciencePerTurn")));
+        currentResearchProgressBar.setTooltip(new Tooltip(remainingTurns + " turns to achieve " + ((Technology.valueOf((String) Controller.send("getTechnologyInProgress"))).name)));
     }
 
     public void updateStatusBar() {
@@ -155,6 +167,7 @@ public class GameMenu extends Menu implements Initializable {
     }
 
     public Group graphicalHex(Hex hex) {
+
         Group group = new Group();
         ImageView hexView;
         if (hex.getHexVisibility() == HexVisibility.FOG_OF_WAR) {
@@ -259,6 +272,7 @@ public class GameMenu extends Menu implements Initializable {
 
     private void addCity(Hex hex, Group group) {
         if (hex.getCity() != null) {
+            
             if (hex.isCenterOfCity()) {
                 Label label = new Label(hex.getCity().getName());
                 label.setStyle("-fx-background-color: purple;-fx-text-fill: #04e2ff");
@@ -373,7 +387,7 @@ public class GameMenu extends Menu implements Initializable {
         for (int x = 0; x < maxX; x++) {
             int i = 100;
             for (int y = 0; y < maxY; y++) {
-                Group hexView = graphicalHex(Controller.getHex(x, y));
+                Group hexView = graphicalHex(Controller.getHex(x,y));
 
                 hexView.setLayoutX(i);
 
@@ -383,6 +397,11 @@ public class GameMenu extends Menu implements Initializable {
                     hexView.setLayoutY(j);
                 map.getChildren().add(hexView);
                 i += 108;
+            }
+            try {
+                Thread.sleep(30);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
             j += 144;
         }
@@ -512,7 +531,7 @@ public class GameMenu extends Menu implements Initializable {
                 button.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
-                        ArrayList<Improvement> improvements = Game.getGame().getSelectedCivilization().getOpenedImprovements();
+                        ArrayList<Improvement> improvements = Controller.getGame().getSelectedCivilization().getOpenedImprovements();
                         popupVBox.getChildren().clear();
                         for (Improvement improvement : improvements) {
                             Button improvementButton = new Button(improvement.name);

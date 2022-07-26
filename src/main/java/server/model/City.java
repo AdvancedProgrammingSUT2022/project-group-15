@@ -25,7 +25,7 @@ public class City {
     private int productionPerTurn;
     private int goldPerTurn;
     private int sciencePerTurn;
-    private final ArrayList<Hex> cityHexes = new ArrayList<>();
+    private transient final ArrayList<Hex> cityHexes = new ArrayList<>();
     private RangedMilitary cityUnit;
     private int unemployedCitizens = 1;
     private final ArrayList<Building> availableBuildings = new ArrayList<>();

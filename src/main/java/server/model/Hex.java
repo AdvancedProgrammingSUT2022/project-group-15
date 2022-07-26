@@ -6,6 +6,7 @@ import server.model.unit.CivilUnit;
 import server.model.unit.MilitaryUnit;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 public class Hex {
     private boolean hasRuins;
@@ -228,8 +229,9 @@ public class Hex {
     public boolean isCenterOfCity() {
         if (city == null)
             return false;
-        if (city.getCoordinatesOfCenterInArray().get('x') == this.getCoordinatesInArray().get('x') &&
-                city.getCoordinatesOfCenterInArray().get('y') == this.getCoordinatesInArray().get('y'))
+
+        if ( (Objects.equals(city.getCoordinatesOfCenterInArray().get('x'), this.getCoordinatesInArray().get('x')))&&
+                (Objects.equals(city.getCoordinatesOfCenterInArray().get('y'), this.getCoordinatesInArray().get('y'))))
             return true;
         return false;
     }

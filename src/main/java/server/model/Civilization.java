@@ -19,9 +19,9 @@ public class Civilization {
     private String username;
     private boolean isYourTurn;
     private transient Map visibilityMap;
-    private ArrayList<Technology> technologies = new ArrayList<>();
-    private ArrayList<Technology> availableTechnologies = new ArrayList<>();
-    private Technology technologyInProgress = Technology.AGRICULTURE;
+    private transient ArrayList<Technology> technologies = new ArrayList<>();
+    private transient ArrayList<Technology> availableTechnologies = new ArrayList<>();
+    private transient Technology technologyInProgress = Technology.AGRICULTURE;
     private ArrayList<UnitName> openedUnits = new ArrayList<>(Arrays.asList(UnitName.WORKER, UnitName.SETTLER, UnitName.WARRIOR, UnitName.SCOUT));
     private ArrayList<Resource> openedResources = new ArrayList<>();
     private ArrayList<Feature> openedFeatures = new ArrayList<>();
@@ -30,8 +30,8 @@ public class Civilization {
     private ArrayList<Resource> strategicResources = new ArrayList<>();
     private HashSet<Resource> luxuryResources = new HashSet<>();
     private City capital;
-    private ArrayList<Unit> units = new ArrayList<>();
-    private ArrayList<City> cities = new ArrayList<>();
+    private transient ArrayList<Unit> units = new ArrayList<>();
+    private transient ArrayList<City> cities = new ArrayList<>();
     private int goldStorage = 30;
     private int scienceStorage = 0;
     private int sciencePerTurn = 0;

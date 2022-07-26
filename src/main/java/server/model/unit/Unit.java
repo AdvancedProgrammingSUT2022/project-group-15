@@ -15,8 +15,8 @@ import static java.lang.Math.min;
 
 public abstract class Unit {
     protected HashMap<Character, Integer> coordinatesInMap = new HashMap<>();
-    protected ArrayList<Hex> PlanedToGo = null;
-    protected Civilization owner;
+    protected transient ArrayList<Hex> PlanedToGo = null;
+    protected transient Civilization owner;
     protected int movementSpeed;
     protected int remainingMovement;
     protected int experience;
