@@ -129,15 +129,4 @@ public class Controller {
     public static Stage getWindow() {
         return window;
     }
-
-    /**
-     * add a message to the notification history
-     *
-     * @param turnNumber turn number to be mentioned at the beginning of notification
-     * @param message    the body of notification
-     * @return the message
-     * @author Parsa
-     */
-
-
 }

@@ -1,5 +1,6 @@
 package client.controller;
 
+import client.model.GlobalThings;
 import client.model.Request;
 import client.model.Response;
 import com.google.gson.Gson;
@@ -29,10 +30,11 @@ public class SocketController {
 
     public Response send(Request request) {
         try {
-            dataOutputStream.writeUTF(new Gson().toJson(request));
+            Gson gson = GlobalThings.gson;
+            dataOutputStream.writeUTF(gson.toJson(request));
             dataOutputStream.flush();
             System.out.println("Waiting for response");
-            Response response = new Gson().fromJson(dataInputStream.readUTF(), Response.class);
+            Response response = gson.fromJson(dataInputStream.readUTF(), Response.class);
             System.out.println("response received");
             return response;
         }catch (IOException e){

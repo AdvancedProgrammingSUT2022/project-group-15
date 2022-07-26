@@ -56,6 +56,7 @@ public class SocketHandler extends Thread {
             while (true) {
                 Gson gson = GlobalThings.gson;
                 String s = dataInputStream.readUTF();
+                System.out.println(s); // TODO : delete this line
                 Request request = gson.fromJson(s, Request.class);
                 System.out.println("New request from " + socket);
                 Response response = handleRequest(request);

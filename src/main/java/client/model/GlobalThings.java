@@ -1,5 +1,6 @@
 package client.model;
 
+import com.google.gson.*;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.image.Image;
@@ -7,6 +8,9 @@ import javafx.scene.image.Image;
 import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class GlobalThings {
     public static int mapHeight = 110;
@@ -65,5 +69,31 @@ public class GlobalThings {
     public static void pauseMusic() {
         setMusicOn(false);
         clip.stop();
+    }
+
+    public static Gson gson = createMyGson();
+
+    /**
+     * creates a Gson that has been customized
+     *
+     * @return the customized Gson object
+     * @author Parsa
+     */
+    private static Gson createMyGson() {
+        return new GsonBuilder().excludeFieldsWithoutExposeAnnotation().registerTypeAdapter(LocalDateTime.class, new JsonDeserializer<LocalDateTime>() {
+            @Override
+            public LocalDateTime deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+                    throws JsonParseException {
+                return LocalDateTime.parse(json.getAsString(),
+                        DateTimeFormatter.ofPattern("d::MMM::uuuu HH::mm::ss"));
+            }
+        }).registerTypeAdapter(LocalDateTime.class, new JsonSerializer<LocalDateTime>() {
+            private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d::MMM::uuuu HH::mm::ss");
+
+            @Override
+            public JsonElement serialize(LocalDateTime localDateTime, Type srcType, JsonSerializationContext context) {
+                return new JsonPrimitive(formatter.format(localDateTime));
+            }
+        }).setPrettyPrinting().disableHtmlEscaping().create();
     }
 }
