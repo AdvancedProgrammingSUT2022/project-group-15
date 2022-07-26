@@ -50,7 +50,6 @@ public class LoginMenuController {
             return "Username and password didn't match!";
         }
 
-        User.setLoggedInUser(User.getUserByUsername(username));
 
         return "user logged in successfully!";
     }
@@ -59,9 +58,9 @@ public class LoginMenuController {
      * @return true if a user is logged in
      * @author Parsa
      */
-    public boolean isUserLoggedIn() {
-        return User.getLoggedInUser() != null;
-    }
+//    public boolean isUserLoggedIn() {
+//        return User.getLoggedInUser() != null;
+//    }
 
     public boolean isStrong(String password) {
         return password.length() >= 6 && password.matches(".*\\w+.*") && password.matches(".*\\d+.*");

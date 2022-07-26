@@ -82,7 +82,7 @@ public class SocketHandler extends Thread {
         }
         if (methodName.equals("getUser")){
             Response response = new Response();
-            response.setAnswer(User.getLoggedInUser().toJson());
+            response.setAnswer(User.getUserByUsername((String) request.getParameters().get(0)).toJson());
             return response;
         }
         if (methodName.equals("getMyUser")){
@@ -169,7 +169,7 @@ public class SocketHandler extends Thread {
                 mainMenuController = new MainMenuController();
                 break;
             case "Profile":
-                profileMenuController = new ProfileMenuController();
+                profileMenuController = new ProfileMenuController(user);
                 break;
             case "ScoreBoard":
                 scoreBoardController = new ScoreBoardController();

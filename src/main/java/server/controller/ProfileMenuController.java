@@ -1,19 +1,23 @@
 package server.controller;
 
 
-import client.controller.Controller;
+
 import server.enums.Avatar;
 import server.model.User;
 
 
 public class ProfileMenuController {
-
-    public void logout() {
-        User.setLoggedInUser(null);
+    User user;
+    public ProfileMenuController(User user) {
+        this.user = user;
     }
 
-    public void deleteCurrentPlayerAccount() {
-        User.deleteAccountOfLoggedInPlayer();
+    public void logout() {
+        ;
+    }
+
+    public void deleteCurrentPlayerAccount(User user) {
+        User.deleteAccountOfLoggedInPlayer(user);
     }
 
     public boolean isStrong(String password) {
@@ -25,18 +29,18 @@ public class ProfileMenuController {
             if (User.getUserByNickname(nickname) != null) {
                 return "nickname exists!";
             }
-            User.getLoggedInUser().setNickname(nickname);
+            user.setNickname(nickname);
         }
         if (password.length() != 0) {
             if (!isStrong(password)) {
                 return "password is weak!";
             }
-            User.getLoggedInUser().setPassword(password);
+            user.setPassword(password);
         }
         return "changes submitted";
     }
 
     public void changeAvatar(Double index) {
-        User.getLoggedInUser().setAvatar(Avatar.values()[index.intValue()]);
+        user.setAvatar(Avatar.values()[index.intValue()]);
     }
 }

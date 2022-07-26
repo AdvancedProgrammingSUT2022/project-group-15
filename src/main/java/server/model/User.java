@@ -17,7 +17,7 @@ import java.util.List;
 
 public class User implements Comparable<User> {
     private static transient ArrayList<User> users = new ArrayList<>();
-    private static transient User loggedInUser = null;
+
     private static transient final Gson gson = GlobalThings.gson;
 
     private Avatar avatar;
@@ -113,8 +113,8 @@ public class User implements Comparable<User> {
         }
     }
 
-    public static void deleteAccountOfLoggedInPlayer() {
-        users.remove(User.getLoggedInUser());
+    public static void deleteAccountOfLoggedInPlayer(User user) {
+        users.remove(user);
         saveUsers();
     }
 
@@ -135,9 +135,7 @@ public class User implements Comparable<User> {
         return users;
     }
 
-    public static void setLoggedInUser(User loggedInUser) {
-        User.loggedInUser = loggedInUser;
-    }
+
 
     public Avatar getAvatar() {
         return avatar;
@@ -183,9 +181,12 @@ public class User implements Comparable<User> {
             return "null";
     }
 
-    public static User getLoggedInUser() {
-        return loggedInUser;
-    }
+//    public static User getLoggedInUser() {
+//        return loggedInUser;
+//    }
+//    public static void setLoggedInUser(User loggedInUser) {
+//        User.loggedInUser = loggedInUser;
+//    }
 
 
     public LocalDateTime getLastScoreChangedTime() {

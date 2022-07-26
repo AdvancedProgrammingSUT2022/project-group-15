@@ -38,14 +38,14 @@ public class MainMenuController {
      * @author Parsa
      */
     public void logout() {
-        User.setLoggedInUser(null);
+       // User.setLoggedInUser(null);
     }
 
     public boolean isGameStarted() {
         return Game.getGame() != null;
     }
 
-    public User getLoggedInPlayer() {
-        return User.getLoggedInUser();
-    }
+//    public User getLoggedInPlayer() {
+//        return User.getLoggedInUser();
+//    }
 }
