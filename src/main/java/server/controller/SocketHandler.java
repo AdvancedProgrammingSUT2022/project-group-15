@@ -67,8 +67,9 @@ public class SocketHandler extends Thread {
                 dataOutputStream.flush();
             }
         } catch (IOException | NoSuchMethodException | InvocationTargetException | IllegalAccessException exception) {
-            // TODO : remove user from online users and set lastOnlineTime to LocalDateTime.now();
-            exception.printStackTrace();
+            user.setLastOnlineTime(LocalDateTime.now());
+            onlinePlayers.remove(this);
+            // TODO : send updated list of users to online users
         }
     }
 
