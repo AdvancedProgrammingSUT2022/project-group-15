@@ -12,11 +12,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.Socket;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 public class SocketHandler extends Thread {
-    private static final ArrayList<SocketHandler> onlinePlayers = new ArrayList<>();
 
+    ServerController serverController;
     private User user = null;
     private final Socket socket;
     private final DataInputStream dataInputStream;
@@ -34,16 +33,13 @@ public class SocketHandler extends Thread {
     private ProfileMenuController profileMenuController;
     private ScoreBoardController scoreBoardController;
 
-    public SocketHandler(Socket socket) throws IOException {
-        onlinePlayers.add(this);
+    public SocketHandler(Socket socket, ServerController serverController) throws IOException {
+        this.serverController = serverController;
         this.socket = socket;
         dataInputStream = new DataInputStream(socket.getInputStream());
         dataOutputStream = new DataOutputStream(socket.getOutputStream());
     }
 
-    public static ArrayList<SocketHandler> getOnlinePlayers() {
-        return onlinePlayers;
-    }
 
     public User getUser() {
         return user;
@@ -69,7 +65,7 @@ public class SocketHandler extends Thread {
         } catch (IOException | NoSuchMethodException | InvocationTargetException | IllegalAccessException exception) {
             exception.printStackTrace();
             user.setLastOnlineTime(LocalDateTime.now());
-            onlinePlayers.remove(this);
+            serverController.removeSocket(this);
             // TODO : send updated list of users to online users
         }
     }
