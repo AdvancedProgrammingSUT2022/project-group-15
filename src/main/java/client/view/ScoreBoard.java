@@ -78,7 +78,7 @@ public class ScoreBoard extends Menu implements Initializable {
             @Override
             protected void updateItem(User item, boolean empty) {
                 super.updateItem(item, empty);
-                if (item != null && item.getUsername().equals(User.getLoggedInUser().getUsername())) {
+                if (item != null && item.getUsername().equals(Controller.getMyUser().getUsername())) {
                     setStyle("-fx-background-color: rgba(209,77,250,0.73);");
                 }
             }

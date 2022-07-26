@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class User implements Comparable<User> {
-    private static User loggedInUser = null;
+
     private static final Gson gson = createMyGson();
 
     @Expose
@@ -93,13 +93,7 @@ public class User implements Comparable<User> {
             return "online";
     }
 
-    public static User getLoggedInUser() {
-        return loggedInUser;
-    }
 
-    public static void setLoggedInUser(User loggedInUser) {
-        User.loggedInUser = loggedInUser;
-    }
 
     public LocalDateTime getLastScoreChangedTime() {
         return lastScoreChangedTime;

@@ -30,10 +30,11 @@ public class MainMenu extends Menu implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Controller.updateUser();
-        avatarImage.setImage(User.getLoggedInUser().getAvatar().image);
-        username.setText(User.getLoggedInUser().getUsername());
-        score.setText(String.valueOf(User.getLoggedInUser().getScore()));
+      //  Controller.updateUser();
+        User user = Controller.getMyUser();
+        avatarImage.setImage(user.getAvatar().image);
+        username.setText(user.getUsername());
+        score.setText(String.valueOf(user.getScore()));
         Tooltip.install(exitButton, new Tooltip("Exit"));
     }
 

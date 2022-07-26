@@ -129,7 +129,7 @@ public class LoginMenu extends Menu implements Initializable {
         checkIconFade.play();
         messageFade.play();
         Controller.send("change menu Main");
-        User.setLoggedInUser(Controller.getUser(username.getText()));
+
     }
 
 //    @Override

@@ -86,8 +86,8 @@ public class GameSettingsMenu extends Menu implements Initializable {
         numberOfKeptSavedFiles.setValue(1);
         addSavedGames();
         addToolTips();
-        String ans = (String) Controller.send("inviteFriend",User.getLoggedInUser().getUsername(),createArraylistOfUsers());
-        Label label = new Label(User.getLoggedInUser().getUsername());
+        String ans = (String) Controller.send("inviteFriend",Controller.getMyUser().getUsername(),createArraylistOfUsers());
+        Label label = new Label(Controller.getMyUser().getUsername());
         friendsInGame.getChildren().add(label);
 
     }

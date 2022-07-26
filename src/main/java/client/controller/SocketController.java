@@ -38,7 +38,7 @@ public class SocketController {
             Response response = new Gson().fromJson(data, Response.class);
             System.out.println("response received");
             return response;
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(data);
             e.printStackTrace();
             return send(request);

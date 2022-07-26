@@ -43,16 +43,17 @@ public class ProfileMenu extends Menu implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Controller.updateUser();
+        //Controller.updateUser();
         Tooltip.install(deleteAccount, new Tooltip("Delete Account"));
         Tooltip.install(logout, new Tooltip("Logout"));
         for (Avatar avatar : Avatar.values()) {
             listOfAvatars.getItems().add(new ImageView(avatar.image));
         }
-        avatar.setImage(User.getLoggedInUser().getAvatar().image);
-        password.setText(User.getLoggedInUser().getPassword());
-        username.setText(User.getLoggedInUser().getUsername());
-        nickname.setText(User.getLoggedInUser().getNickname());
+        User user = Controller.getMyUser();
+        avatar.setImage(user.getAvatar().image);
+        password.setText(user.getPassword());
+        username.setText(user.getUsername());
+        nickname.setText(user.getNickname());
         saveChangesButton.setDisable(true);
 
         passwordField.setOnKeyReleased(event -> {

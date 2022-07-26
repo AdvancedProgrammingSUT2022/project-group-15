@@ -56,9 +56,16 @@ public class Controller {
         return User.fromJson((String) response.getAnswer());
     }
 
-    public static void updateUser() {
-        User.setLoggedInUser(getUser(User.getLoggedInUser().getUsername()));
+    public static User getMyUser() {
+        Request request = new Request();
+        request.setMethodName("getMyUser");
+        Response response = SOCKET_CONTROLLER.send(request);
+        return User.fromJson((String) response.getAnswer());
     }
+//
+//    public static void updateUser() {
+//        User.setLoggedInUser(getUser(User.getLoggedInUser().getUsername()));
+//    }
 
     public static Game getGame(){
         Request request= new Request();
@@ -87,6 +94,8 @@ public class Controller {
         xStream.addPermission(AnyTypePermission.ANY);
         return (Unit) xStream.fromXML((String) response.getAnswer());
     }
+
+
 
     public void run(Stage primaryStage) {
         window = primaryStage;

@@ -89,6 +89,11 @@ public class SocketHandler extends Thread {
             response.setAnswer(User.getLoggedInUser().toJson());
             return response;
         }
+        if (methodName.equals("getMyUser")){
+            Response response = new Response();
+            response.setAnswer(user.toJson());
+            return response;
+        }
         if (methodName.equals("getGame")){
             Response response = new Response();
             response.setAnswer(xStream.toXML(Game.getGame()));
