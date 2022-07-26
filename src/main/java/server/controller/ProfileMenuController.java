@@ -13,10 +13,10 @@ public class ProfileMenuController {
     }
 
     public void logout() {
-        ;
+        user = null;
     }
 
-    public void deleteCurrentPlayerAccount(User user) {
+    public void deleteCurrentPlayerAccount() {
         User.deleteAccountOfLoggedInPlayer(user);
     }
 
@@ -41,6 +41,8 @@ public class ProfileMenuController {
     }
 
     public void changeAvatar(Double index) {
+        System.out.println(user.getUsername());
         user.setAvatar(Avatar.values()[index.intValue()]);
+        System.out.println(user.getAvatar());
     }
 }

@@ -7,7 +7,6 @@ import java.io.IOException;
 public class ServerMain {
 
     public static void main(String[] args) throws IOException {
-        ServerController serverController = new ServerController();
-        serverController.run();
+        ServerController.getInstance().run();
     }
 }

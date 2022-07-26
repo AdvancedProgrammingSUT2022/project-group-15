@@ -2,10 +2,7 @@ package server.controller;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.security.AnyTypePermission;
-import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
 
 import server.model.Civilization;
 import server.model.Game;
@@ -27,6 +24,12 @@ public class GameSettingMenuController {
             if (s.equals(username))
                 return "this user is already in lobby";
         }
+  //      if ()
+//        for (SocketHandler socketHandler : ServerController.getInstance().getSocketHandlers()) {
+//            if(socketHandler.getUser().getUsername().equals(username))
+//                socketHandler.sendInvite();
+//        }
+
         return "done";
     }
 

@@ -15,13 +15,13 @@ import java.net.Socket;
 
 public class SocketController {
 
-    private Socket socket;
+
     private DataInputStream dataInputStream;
     private DataOutputStream dataOutputStream;
 
     public SocketController() {
         try {
-            this.socket = new Socket("localhost", 13000);
+            Socket socket = new Socket("localhost", 13000);
             dataInputStream = new DataInputStream(socket.getInputStream());
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
         } catch (IOException e) {

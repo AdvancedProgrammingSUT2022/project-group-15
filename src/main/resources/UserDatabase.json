@@ -1,21 +1,22 @@
 [
   {
-    "avatar": "AVATAR_8",
+    "avatar": "AVATAR_10",
     "lastScoreChangedTime": "25::Jul::2022 18::15::09",
-    "lastOnlineTime": "26::Jul::2022 20::15::41",
+    "lastOnlineTime": "27::Jul::2022 01::17::22",
     "username": "parsa",
     "password": "parsa1234",
     "nickname": "parsa",
-    "score": 0
+    "score": 0,
+    "authToken": "parsaparsa1234parsa7"
   },
   {
-    "avatar": "AVATAR_2",
+    "avatar": "AVATAR_3",
     "lastScoreChangedTime": "25::Jul::2022 18::15::09",
-    "lastOnlineTime": "26::Jul::2022 23::03::42",
     "username": "a",
     "password": "a",
     "nickname": "a",
-    "score": 0
+    "score": 0,
+    "authToken": "aaa99"
   },
   {
     "avatar": "AVATAR_2",

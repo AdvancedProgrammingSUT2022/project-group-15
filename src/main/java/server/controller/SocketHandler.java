@@ -17,7 +17,9 @@ import java.util.Collections;
 
 public class SocketHandler extends Thread {
 
-    ServerController serverController;
+    private boolean isYourTurn = true;
+    private boolean isPlayingGame = false;
+
     private User user = null;
     private final Socket socket;
     private final DataInputStream dataInputStream;
@@ -35,8 +37,7 @@ public class SocketHandler extends Thread {
     private ProfileMenuController profileMenuController;
     private ScoreBoardController scoreBoardController;
 
-    public SocketHandler(Socket socket, ServerController serverController) throws IOException {
-        this.serverController = serverController;
+    public SocketHandler(Socket socket) throws IOException {
         this.socket = socket;
         dataInputStream = new DataInputStream(socket.getInputStream());
         dataOutputStream = new DataOutputStream(socket.getOutputStream());
@@ -67,7 +68,7 @@ public class SocketHandler extends Thread {
             }
         } catch (IOException | NoSuchMethodException | InvocationTargetException | IllegalAccessException exception) {
             user.setLastOnlineTime(LocalDateTime.now());
-            serverController.removeSocket(this);
+            ServerController.getInstance().removeSocket(this);
             // TODO : send updated list of users to online users
         }
     }
@@ -167,9 +168,12 @@ public class SocketHandler extends Thread {
         switch (menu) {
             case "Game":
                 gameMenuController = new GameMenuController();
+                isPlayingGame = true;
+                isYourTurn = Game.getGame().getSelectedCivilization().getUsername().equals(user.getUsername());
                 break;
             case "GameSetting":
                 gameSettingMenuController = new GameSettingMenuController();
+                //todo
                 break;
             case "Login":
                 loginMenuController = new LoginMenuController();

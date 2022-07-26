@@ -26,7 +26,6 @@ import java.util.ResourceBundle;
 public class GameSettingsMenu extends Menu implements Initializable {
 
 
-
     @FXML
     private Button cancelButton;
     @FXML
@@ -86,7 +85,7 @@ public class GameSettingsMenu extends Menu implements Initializable {
         numberOfKeptSavedFiles.setValue(1);
         addSavedGames();
         addToolTips();
-        String ans = (String) Controller.send("inviteFriend",Controller.getMyUser().getUsername(),createArraylistOfUsers());
+        String ans = (String) Controller.send("inviteFriend", Controller.getMyUser().getUsername(), createArraylistOfUsers());
         Label label = new Label(Controller.getMyUser().getUsername());
         friendsInGame.getChildren().add(label);
 
@@ -130,8 +129,8 @@ public class GameSettingsMenu extends Menu implements Initializable {
 
 
     public void inviteFriend(MouseEvent mouseEvent) {
-        String out = (String) Controller.send("inviteFriend",usernameTextField.getText(),createArraylistOfUsers());
-        if (out.equals("done")){
+        String out = (String) Controller.send("inviteFriend", usernameTextField.getText(), createArraylistOfUsers());
+        if (out.equals("done")) {
             Label label = new Label(usernameTextField.getText());
             friendsInGame.getChildren().add(label);
         }
@@ -142,7 +141,7 @@ public class GameSettingsMenu extends Menu implements Initializable {
 
     public void startGameWithFriend(MouseEvent mouseEvent) {
         if (loadGame.getValue().equals("none")) {
-            String text = (String) Controller.send("gameWithFriends",createArraylistOfUsers(),mapLength.getValue(),mapWidth.getValue(),
+            String text = (String) Controller.send("gameWithFriends", createArraylistOfUsers(), mapLength.getValue(), mapWidth.getValue(),
                     autoSave.getValue(), numberOfKeptSavedFiles.getValue());
             information.setText(text);
             if (text.startsWith("a new game started with ")) {
@@ -153,7 +152,7 @@ public class GameSettingsMenu extends Menu implements Initializable {
 
             }
         } else {
-            String text = (String) Controller.send("loadSavedGame",loadGame.getValue());
+            String text = (String) Controller.send("loadSavedGame", loadGame.getValue());
             if (text.endsWith("successfully")) {
                 setup(cancelButton);
                 Controller.send("change menu Game");
@@ -166,7 +165,7 @@ public class GameSettingsMenu extends Menu implements Initializable {
     }
 
     public void findGame(MouseEvent mouseEvent) throws InterruptedException {
-        String out = (String) Controller.send("findGame",numberOfPlayersBox);
+        String out = (String) Controller.send("findGame", numberOfPlayersBox);
 
         information.setText(out);
         if (out.startsWith("error"))
@@ -203,10 +202,11 @@ public class GameSettingsMenu extends Menu implements Initializable {
     public void unmute() {
         GlobalThings.playMusic();
     }
-    private ArrayList<String> createArraylistOfUsers(){
+
+    private ArrayList<String> createArraylistOfUsers() {
         ArrayList<String> ans = new ArrayList<>();
         for (Node child : friendsInGame.getChildren()) {
-            ans.add (((Label) child).getText());
+            ans.add(((Label) child).getText());
         }
         return ans;
     }
