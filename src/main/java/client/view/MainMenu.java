@@ -70,6 +70,13 @@ public class MainMenu extends Menu implements Initializable {
         Controller.send("change menu GameSetting");
         window.setScene(Controller.getGameSettingsMenu().getScene());
     }
+
+    public void openFrienshipMenu(MouseEvent mouseEvent) {
+        setup(avatarImage);
+        Controller.send("change menu Friend");
+        window.setScene(Controller.getFriendshipMenu().getScene());
+
+    }
 }
 
 

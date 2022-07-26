@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.image.ImageView?>
+<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" styleClass="backgroundPane"
+            stylesheets="@../css/friendshipMenu.css" fx:controller="client.view.FriendshipMenu" prefHeight="720.0"
+            prefWidth="1280.0">
+    <Group fx:id="friendsName">
+        <Rectangle layoutX="330" layoutY="50" width="600" height="175" styleClass="Rectangle"/>
+        <Pane fx:id="friendsNamesBox" layoutX="200" layoutY="110"/>
+        <Label layoutX="520" layoutY="65" text="friends" styleClass="text"/>
+    </Group>
+    <Group fx:id="searchPlayer" >
+        <Rectangle layoutX="150" layoutY="275" width="360" height="360" styleClass="Rectangle"/>
+        <VBox fx:id="searchNameFounded" layoutX="190" layoutY="360" spacing="10"/>
+        <Label layoutX="230" layoutY="295" text="search panel" styleClass="text"/>
+        <TextField fx:id="text" layoutX="190" layoutY="495" prefWidth="280"
+                    promptText="username..."/>
+        <Button layoutX="170" layoutY="550" text="send" onMouseClicked="#send" styleClass="Button"/>
+    </Group>
+    <Group fx:id="friendRequests">
+        <Rectangle layoutX="750" layoutY="275" width="360" height="360" styleClass="Rectangle"/>
+        <Label layoutX="830" layoutY="295" text="friend requests" styleClass="text"/>
+        <VBox fx:id="friendRequestBox" layoutX="790" layoutY="360"/>
+    </Group>
+    <Button layoutX="20" layoutY="640" text="back" styleClass="Button" onMouseClicked="#send"/>
+
+
+
+</AnchorPane>

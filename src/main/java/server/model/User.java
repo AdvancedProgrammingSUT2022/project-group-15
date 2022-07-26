@@ -27,8 +27,17 @@ public class User implements Comparable<User> {
     private String password;
     private String nickname;
     private int score;
-
     private String authToken;
+    private ArrayList<String> friendReqs = new ArrayList<>();
+    private ArrayList<String> friends = new ArrayList<>();
+
+    public ArrayList<String> getFriendReqs() {
+        return friendReqs;
+    }
+
+    public ArrayList<String> getFriends() {
+        return friends;
+    }
 
     public User(String username, String password, String nickname, int score) {
         setAvatar(Avatar.getRandomAvatar());
@@ -136,7 +145,6 @@ public class User implements Comparable<User> {
     }
 
 
-
     public Avatar getAvatar() {
         return avatar;
     }
@@ -228,6 +236,7 @@ public class User implements Comparable<User> {
     public void setScore(int score) {
         this.score = score;
     }
+
     public String getAuthToken() {
         return authToken;
     }

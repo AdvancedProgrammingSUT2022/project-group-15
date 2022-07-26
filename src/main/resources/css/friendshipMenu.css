@@ -1,0 +1,33 @@
+.backgroundPane {
+    -fx-background-image: url(../backgrounds/menus_background.jpg);
+}
+
+.Button {
+    -fx-background-color: red;
+    -fx-text-fill: white;
+    -fx-pref-width: 150;
+    -fx-pref-height: 35;
+    -fx-font-size: 13;
+    -fx-border-width: 3;
+    -fx-border-color: black;
+    -fx-border-radius: 4;
+    -fx-background-radius: 6;
+    -fx-cursor: HAND;
+}
+
+.Rectangle {
+    -fx-fill: blue;
+}
+
+.text {
+    -fx-font-size: 25;
+    -fx-text-fill: black;
+    -fx-background-color: white;
+    -fx-border-width: 4;
+    -fx-border-color: black;
+    -fx-border-radius: 5;
+    -fx-background-radius: 8;
+    -fx-pref-width: 200;
+    -fx-pref-height: 35;
+    -fx-alignment: center;
+}
