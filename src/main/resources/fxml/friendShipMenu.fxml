@@ -8,6 +8,8 @@
 
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.text.Text?>
 <AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" styleClass="backgroundPane"
             stylesheets="@../css/friendshipMenu.css" fx:controller="client.view.FriendshipMenu" prefHeight="720.0"
             prefWidth="1280.0">
@@ -15,22 +17,31 @@
         <Rectangle layoutX="330" layoutY="50" width="600" height="175" styleClass="Rectangle"/>
         <Pane fx:id="friendsNamesBox" layoutX="200" layoutY="110"/>
         <Label layoutX="520" layoutY="65" text="friends" styleClass="text"/>
+        <Text fx:id="names" layoutX="500" layoutY="135" styleClass="text"/>
+
     </Group>
-    <Group fx:id="searchPlayer" >
+    <Group fx:id="searchPlayer">
         <Rectangle layoutX="150" layoutY="275" width="360" height="360" styleClass="Rectangle"/>
         <VBox fx:id="searchNameFounded" layoutX="190" layoutY="360" spacing="10"/>
         <Label layoutX="230" layoutY="295" text="search panel" styleClass="text"/>
+        <Label fx:id="popup" layoutX="270" layoutY="380" text="" style="-fx-stroke: black"
+               alignment="CENTER"/>
+
         <TextField fx:id="text" layoutX="190" layoutY="495" prefWidth="280"
-                    promptText="username..."/>
-        <Button layoutX="170" layoutY="550" text="send" onMouseClicked="#send" styleClass="Button"/>
+                   promptText="username..."/>
+        <Button layoutX="250" layoutY="550" text="send" onMouseClicked="#send" styleClass="Button"/>
     </Group>
     <Group fx:id="friendRequests">
         <Rectangle layoutX="750" layoutY="275" width="360" height="360" styleClass="Rectangle"/>
         <Label layoutX="830" layoutY="295" text="friend requests" styleClass="text"/>
         <VBox fx:id="friendRequestBox" layoutX="790" layoutY="360"/>
     </Group>
-    <Button layoutX="20" layoutY="640" text="back" styleClass="Button" onMouseClicked="#send"/>
-
-
+    <ImageView fitHeight="79.0" fitWidth="98.0" layoutX="26.0" layoutY="21.0" onMouseClicked="#openMainMenu"
+               pickOnBounds="true" preserveRatio="true" styleClass="back-button">
+        <cursor>
+            <Cursor fx:constant="HAND"/>
+        </cursor>
+        <Image url="@../icons/back-icon.png"/>
+    </ImageView>
 
 </AnchorPane>
