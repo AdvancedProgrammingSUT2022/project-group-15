@@ -103,7 +103,7 @@ public enum Technology {
             }
         }
         if (!openingBuildings.isEmpty()) {
-            result.append("opening improvements : \n");
+            result.append("opening buildings : \n");
             for (Building building : openingBuildings) {
                 result.append("\t").append(building.name).append("\n");
             }

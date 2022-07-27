@@ -22,7 +22,7 @@ public class TechnologyNode extends Button {
         int remainingTurns = (int) Math.ceil((this.technology.cost - (double) Controller.send("getScience"))
                 / (double) Controller.send("getSciencePerTurn"));
         this.setTooltip(new Tooltip(this.technology.toString() + "\n" + remainingTurns + " Turns"));
-        if (technology == Controller.send("getTechnologyInProgress")) {
+        if (technology.name == Technology.valueOf((String) Controller.send("getTechnologyInProgress")).name) {
             this.setStyle("-fx-border-color: blue");
         } else if ((boolean) Controller.send("hasTechnology", this.technology.name)) {
             this.setStyle("-fx-border-color: gold");
