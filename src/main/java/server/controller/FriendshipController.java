@@ -17,23 +17,27 @@ public class FriendshipController {
                 return "already sent";
             } else {
                 User.getUserByUsername(username).getFriendReqs().add(name);
-                return "friend req sent";
+                return "friend req sent" + "\n" + "username : " + User.getUserByUsername(username).getUsername() + "\n" + "nickname : " + User.getUserByUsername(username).getNickname();
             }
         }
     }
-    public ArrayList<String> allReqs(String name){
+
+    public ArrayList<String> allReqs(String name) {
         return User.getUserByUsername(name).getFriendReqs();
     }
-    public void delete(String name){
+
+    public void delete(String name) {
         User.getUserByUsername(User.getUserByUsername(name).getFriendReqs().get(0)).getFriends().add(name);
         User.getUserByUsername(name).getFriends().add(User.getUserByUsername(name).getFriendReqs().get(0));
         User.getUserByUsername(name).getFriendReqs().remove(0);
     }
-    public void deleteAgain(String name){
+
+    public void deleteAgain(String name) {
         System.out.println("sallllllam");
         User.getUserByUsername(name).getFriendReqs().remove(0);
     }
-    public ArrayList<String> friend(String name){
+
+    public ArrayList<String> friend(String name) {
         System.out.println("salam");
         return User.getUserByUsername(name).getFriends();
     }
