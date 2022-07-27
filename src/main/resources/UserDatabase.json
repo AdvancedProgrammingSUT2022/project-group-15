@@ -2,12 +2,12 @@
   {
     "avatar": "AVATAR_4",
     "lastScoreChangedTime": "27::Jul::2022 03::31::13",
-    "lastOnlineTime": "27::Jul::2022 11::44::10",
+    "lastOnlineTime": "27::Jul::2022 13::30::52",
     "username": "b",
     "password": "b",
     "nickname": "b",
     "score": 0,
-    "authToken": "bbb1122b25",
+    "authToken": "bbb71",
     "friendReqs": [
       "a"
     ],
@@ -16,12 +16,12 @@
   {
     "avatar": "AVATAR_1",
     "lastScoreChangedTime": "27::Jul::2022 03::32::59",
-    "lastOnlineTime": "27::Jul::2022 12::19::51",
+    "lastOnlineTime": null,
     "username": "a",
     "password": "a",
     "nickname": "a",
     "score": 0,
-    "authToken": "aaa21",
+    "authToken": "aaa13",
     "friendReqs": [],
     "friends": []
   },

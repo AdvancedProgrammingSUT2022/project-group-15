@@ -12,6 +12,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.Socket;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 
 
@@ -21,6 +22,7 @@ public class SocketHandler extends Thread {
     private boolean isPlayingGame = false;
 
     private User user = null;
+    private ArrayList<SocketHandler> waitingInLobbyWithYou = new ArrayList<>();
     private final Socket socket;
     private final DataInputStream dataInputStream;
     private final DataOutputStream dataOutputStream;
@@ -40,6 +42,7 @@ public class SocketHandler extends Thread {
 
     public SocketHandler(Socket socket) throws IOException {
         this.socket = socket;
+        waitingInLobbyWithYou.add(this);
         dataInputStream = new DataInputStream(socket.getInputStream());
         dataOutputStream = new DataOutputStream(socket.getOutputStream());
     }
@@ -71,14 +74,27 @@ public class SocketHandler extends Thread {
                 dataOutputStream.flush();
             }
         } catch (IOException | NoSuchMethodException | InvocationTargetException | IllegalAccessException exception) {
-            user.setLastOnlineTime(LocalDateTime.now());
+            if (user != null)
+                user.setLastOnlineTime(LocalDateTime.now());
+            System.out.println(this.user);
+            System.out.println(ServerController.getInstance().getSocketHandlers().size());
             ServerController.getInstance().removeSocket(this);
+            System.out.println(ServerController.getInstance().getSocketHandlers().size());
             // TODO : send updated list of users to online users
         }
     }
 
     private Response handleRequest(Request request) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         String methodName = request.getMethodName();
+        if (methodName.startsWith("reject invite from")){
+            String username = methodName.substring(19);
+            for (SocketHandler socketHandler : ServerController.getInstance().getSocketHandlers()) {
+                if (socketHandler.user.getUsername().equals(username)){
+                    socketHandler.sendCommand(user.getUsername() + " has rejected your invite");
+                }
+            }
+            return new Response();
+        }
         if (methodName.equals("getUserByIndex")) {
             int index = ((Double) request.getParameters().get(0)).intValue();
             Response res = new Response();
@@ -95,7 +111,7 @@ public class SocketHandler extends Thread {
             response.setAnswer(User.getUserByUsername((String) request.getParameters().get(0)).toJson());
             return response;
         }
-        if (methodName.equals("getMyUser")){
+        if (methodName.equals("getMyUser")) {
             Response response = new Response();
             response.setAnswer(user.toJson());
             return response;
@@ -109,7 +125,7 @@ public class SocketHandler extends Thread {
             Response response = new Response();
             int x = ((Double) request.getParameters().get(0)).intValue();
             int y = ((Double) request.getParameters().get(1)).intValue();
-            response.setAnswer( "the xml form of object is:" + xStream.toXML(Game.getGame().getSelectedCivilization().getVisibilityMap().map.get(x).get(y)));
+            response.setAnswer("the xml form of object is:" + xStream.toXML(Game.getGame().getSelectedCivilization().getVisibilityMap().map.get(x).get(y)));
             return response;
         }
         if (methodName.equals("getSelectedUnit")) {
@@ -201,8 +217,9 @@ public class SocketHandler extends Thread {
                 break;
         }
     }
-    public void sendCommand(String command){
-        Response response= new Response();
+
+    public void sendCommand(String command) {
+        Response response = new Response();
         response.setAnswer(command);
         commandSender.sendCommand(response);
     }

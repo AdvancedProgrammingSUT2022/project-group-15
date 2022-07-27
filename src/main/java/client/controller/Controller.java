@@ -40,7 +40,7 @@ public class Controller {
         return scoreboard;
     }
 
-    public static Object send(String method, Object... parameters) {
+    public static synchronized Object send(String method, Object... parameters) {
         Request request = new Request();
         request.setMethodName(method);
         for (Object parameter : parameters) {

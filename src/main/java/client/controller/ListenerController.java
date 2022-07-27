@@ -5,7 +5,10 @@ import client.model.Request;
 import client.model.Response;
 import com.google.gson.Gson;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -16,18 +19,18 @@ import java.io.DataOutputStream;
 import java.net.Socket;
 import java.util.HashMap;
 
-public class ListenerController extends Thread{
+public class ListenerController extends Thread {
 
     private DataInputStream dataInputStream;
     private DataOutputStream dataOutputStream;
 
-    public ListenerController(){
+    public ListenerController() {
         this.setDaemon(true);
         try {
             Socket socket = new Socket("localhost", 13000);
             dataInputStream = new DataInputStream(socket.getInputStream());
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -35,7 +38,6 @@ public class ListenerController extends Thread{
     @Override
     public void run() {
         try {
-
 
             while (true) {
                 Gson gson = GlobalThings.gson;
@@ -47,29 +49,60 @@ public class ListenerController extends Thread{
                 handel(response);
             }
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     private void handel(Response response) {
         String command = (String) response.getAnswer();
-        if (command.startsWith("invite from")){
+        if (command.startsWith("invite from")) {
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
                     HBox hBox = new HBox();
                     hBox.setStyle("-fx-background-color: purple");
-                    Label label = new Label(command + " do you accept");
+                    Label label = new Label(command + " do you accept?");
                     label.setFont(new Font(40));
                     label.setStyle("-fx-fill: yellow");
+                    Button accept = new Button("accept");
+                    accept.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent event) {
+
+                        }
+                    });
+                    Button reject = new Button("reject");
+                    reject.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent event) {
+                            Controller.send("reject invite from " + command.substring(12));
+                            ((AnchorPane) Controller.getWindow().getScene().getRoot()).getChildren().remove(hBox);
+                        }
+                    });
+
                     hBox.getChildren().add(label);
+                    hBox.getChildren().add(accept);
+                    hBox.getChildren().add(reject);
                     hBox.setAlignment(Pos.CENTER);
-                    ((AnchorPane)Controller.getWindow().getScene().getRoot()).getChildren().add(hBox);
+                    hBox.setPrefHeight(720);
+                    hBox.setPrefWidth(1280);
+                    ((AnchorPane) Controller.getWindow().getScene().getRoot()).getChildren().add(hBox);
                 }
             });
+            return;
         }
-        switch (command){
+
+        if (command.endsWith("has rejected your invite")) {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    ((Label)((AnchorPane) Controller.getWindow().getScene().getRoot()).getChildren().get(9)).setText(command);
+                }
+            });
+            return;
+        }
+        switch (command) {
 
 
         }

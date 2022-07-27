@@ -35,6 +35,9 @@ public class GameSettingMenuController {
 
 
         for (SocketHandler socketHandler : ServerController.getInstance().getSocketHandlers()) {
+            System.out.println("number of user : "+ServerController.getInstance().getSocketHandlers().size() );
+            if (socketHandler.getUser()==null)
+                continue;
             if (socketHandler.getUser().getUsername().equals(username)) {
 
                 socketHandler.sendCommand("invite from " + user.getUsername());
