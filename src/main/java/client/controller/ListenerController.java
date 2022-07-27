@@ -22,6 +22,7 @@ public class ListenerController extends Thread{
     private DataOutputStream dataOutputStream;
 
     public ListenerController(){
+        this.setDaemon(true);
         try {
             Socket socket = new Socket("localhost", 13000);
             dataInputStream = new DataInputStream(socket.getInputStream());
