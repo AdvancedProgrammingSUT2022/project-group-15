@@ -15,6 +15,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import server.model.User;
 
 import java.awt.*;
 import java.io.IOException;
@@ -47,9 +48,19 @@ public class FriendshipMenu extends Menu {
     }
 
     public void initialize() throws IOException {
+        ArrayList<String> allFriends = (ArrayList<String>) Controller.send("friend", Controller.getMyUser().getUsername());
+        String name = "";
+        for (int i = 0; i < allFriends.size(); i++) {
+            name += allFriends.get(i) + "\t";
+            if (i % 4 == 0 && i > 0) name += "\n";
+        }
+        names.setText(name);
+        names.setVisible(true);
         reqs = (ArrayList<String>) Controller.send("allReqs", Controller.getMyUser().getUsername());
-        button.setStyle("-fx-stroke: green;");
-        button1.setStyle("-fx-stroke: red;");
+        button.setStyle("-fx-border-color: black;-fx-background-color: green");
+        button1.setStyle("-fx-border-color: black;-fx-background-color: red");
+        button.setVisible(true);
+        button1.setVisible(true);
         if (reqs.size() > 0) {
             label.setText(reqs.get(0));
             label.setFont(Font.font(15));
@@ -85,11 +96,14 @@ public class FriendshipMenu extends Menu {
     }
 
     public void updateAll() {
+        reqs = (ArrayList<String>) Controller.send("allReqs", Controller.getMyUser().getUsername());
         if (reqs.size() > 0) {
             Text text = new Text();
             javafx.scene.control.Button button = new javafx.scene.control.Button("accept");
             javafx.scene.control.Button button1 = new javafx.scene.control.Button("reject");
             javafx.scene.control.Label label = new javafx.scene.control.Label();
+            button.setStyle("-fx-border-color: black;-fx-background-color: green");
+            button1.setStyle("-fx-border-color: black;-fx-background-color: red");
             label.setText(reqs.get(0));
             label.setFont(Font.font(15));
             friendRequestBox.setSpacing(10);
@@ -113,8 +127,10 @@ public class FriendshipMenu extends Menu {
         String name = text.getText();
         String out = (String) Controller.send("sendReq", name, Controller.getMyUser().getUsername());
         popup.setText(out);
-        popup.setVisible(true);
-        System.out.println(out);
+        searchNameFounded.getChildren().add(popup);
+        searchNameFounded.setAlignment(Pos.CENTER);
+        searchNameFounded.setVisible(true);
+
         return out;
     }
 
