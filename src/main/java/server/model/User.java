@@ -83,7 +83,6 @@ public class User implements Comparable<User> {
      */
     public static void addUser(String username, String password, String nickname) {
         users.add(new User(username, password, nickname, 0));
-        saveUsers();
     }
 
     /**
@@ -124,7 +123,6 @@ public class User implements Comparable<User> {
 
     public static void deleteAccountOfLoggedInPlayer(User user) {
         users.remove(user);
-        saveUsers();
     }
 
 
@@ -137,7 +135,6 @@ public class User implements Comparable<User> {
     public void changeScore(int amount) {
         this.score = getScore() + amount;
         setLastScoreChangedTime(LocalDateTime.now());
-        saveUsers();
     }
 
     public static ArrayList<User> getUsers() {
@@ -179,7 +176,6 @@ public class User implements Comparable<User> {
 
     public void setLastOnlineTime(LocalDateTime lastOnlineTime) {
         this.lastOnlineTime = lastOnlineTime;
-        saveUsers();
     }
 
     public String getOnlineTime() {

@@ -5,7 +5,7 @@ import server.model.User;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.Scanner;
 
 public class ServerController {
 
@@ -30,6 +30,14 @@ public class ServerController {
     }
 
     public void run() throws IOException {
+        User.loadUsers();
+        new Thread(() -> {
+            Scanner scanner = new Scanner(System.in);
+            if (scanner.nextLine().equals("exit")) {
+                User.saveUsers();
+                System.exit(0);
+            }
+        }).start();
         ServerSocket serverSocket = new ServerSocket(13000);
         System.out.println("server listening...");
         while (true) {
@@ -41,7 +49,6 @@ public class ServerController {
             socketHandlers.add(socketHandler);
         }
     }
-
 
     public void removeSocket(SocketHandler socketHandler) {
         socketHandlers.remove(socketHandler);
