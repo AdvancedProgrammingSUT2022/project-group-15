@@ -1,43 +1,25 @@
 [
   {
-    "avatar": "AVATAR_10",
-    "lastScoreChangedTime": "25::Jul::2022 18::15::09",
-    "lastOnlineTime": "27::Jul::2022 01::17::22",
-    "username": "parsa",
-    "password": "parsa1234",
-    "nickname": "parsa",
+    "avatar": "AVATAR_4",
+    "lastScoreChangedTime": "27::Jul::2022 03::31::13",
+    "username": "b",
+    "password": "b",
+    "nickname": "b",
     "score": 0,
-    "authToken": "parsaparsa1234parsa7"
+    "authToken": "bbb1122b25",
+    "friendReqs": [
+      "a"
+    ],
+    "friends": []
   },
   {
-    "avatar": "AVATAR_3",
-    "lastScoreChangedTime": "25::Jul::2022 18::15::09",
-    "lastOnlineTime": "27::Jul::2022 03::29::10",
+    "avatar": "AVATAR_1",
+    "lastScoreChangedTime": "27::Jul::2022 03::32::59",
     "username": "a",
     "password": "a",
     "nickname": "a",
     "score": 0,
-    "authToken": "aaa64"
-  },
-  {
-    "avatar": "AVATAR_2",
-    "lastScoreChangedTime": "26::Jul::2022 20::44::27",
-    "lastOnlineTime": "27::Jul::2022 00::20::11",
-    "username": "parsa",
-    "password": "parsa1234",
-    "nickname": "parsa",
-    "score": 0,
-    "authToken": "parsaparsa1234parsa31"
-  },
-  {
-    "avatar": "AVATAR_4",
-    "lastScoreChangedTime": "27::Jul::2022 03::31::13",
-    "lastOnlineTime": "27::Jul::2022 03::31::21",
-    "username": "b",
-    "password": "bb1122",
-    "nickname": "b",
-    "score": 0,
-    "authToken": "bbb1122b25",
+    "authToken": "aaa97",
     "friendReqs": [],
     "friends": []
   }

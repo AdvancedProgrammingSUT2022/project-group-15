@@ -36,6 +36,8 @@ public class ServerController {
             SocketHandler socketHandler = new SocketHandler(serverSocket.accept());
             System.out.println("New connection made");
             socketHandler.start();
+            CommandSender commandSender = new CommandSender(serverSocket.accept());
+            socketHandler.setCommandSender(commandSender);
             socketHandlers.add(socketHandler);
         }
     }

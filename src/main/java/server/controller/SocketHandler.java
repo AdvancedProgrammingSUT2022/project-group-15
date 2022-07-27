@@ -16,7 +16,7 @@ import java.util.Collections;
 
 
 public class SocketHandler extends Thread {
-
+    private CommandSender commandSender;
     private boolean isYourTurn = true;
     private boolean isPlayingGame = false;
 
@@ -44,6 +44,9 @@ public class SocketHandler extends Thread {
         dataOutputStream = new DataOutputStream(socket.getOutputStream());
     }
 
+    public void setCommandSender(CommandSender commandSender) {
+        this.commandSender = commandSender;
+    }
 
     public User getUser() {
         return user;
@@ -178,7 +181,7 @@ public class SocketHandler extends Thread {
                 isYourTurn = Game.getGame().getSelectedCivilization().getUsername().equals(user.getUsername());
                 break;
             case "GameSetting":
-                gameSettingMenuController = new GameSettingMenuController();
+                gameSettingMenuController = new GameSettingMenuController(user);
                 //todo
                 break;
             case "Login":
@@ -198,6 +201,10 @@ public class SocketHandler extends Thread {
                 break;
         }
     }
-
+    public void sendCommand(String command){
+        Response response= new Response();
+        response.setAnswer(command);
+        commandSender.sendCommand(response);
+    }
 
 }

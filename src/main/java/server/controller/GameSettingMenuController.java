@@ -15,6 +15,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class GameSettingMenuController {
+    User user;
+
+    public GameSettingMenuController(User user) {
+        this.user = user;
+    }
+
     public String inviteFriend(String username, ArrayList<String> friendsInGame) {
         if (friendsInGame.size() >= 6)
             return "lobby is full";
@@ -24,13 +30,19 @@ public class GameSettingMenuController {
             if (s.equals(username))
                 return "this user is already in lobby";
         }
-  //      if ()
-//        for (SocketHandler socketHandler : ServerController.getInstance().getSocketHandlers()) {
-//            if(socketHandler.getUser().getUsername().equals(username))
-//                socketHandler.sendInvite();
-//        }
+        if (username.equals(user.getUsername()))
+            return "done";
 
-        return "done";
+
+        for (SocketHandler socketHandler : ServerController.getInstance().getSocketHandlers()) {
+            if (socketHandler.getUser().getUsername().equals(username)) {
+
+                socketHandler.sendCommand("invite from " + user.getUsername());
+                return "wait for response from other player";
+            }
+        }
+
+        return "player is not online";
     }
 
     public String findGame(ChoiceBox<Integer> numberOfPlayersBox) {
@@ -76,7 +88,7 @@ public class GameSettingMenuController {
         HashMap<Integer, String> hashMap = new HashMap<>();
 
         for (int i = 1; i <= friendsInGame.size(); i++) {
-            hashMap.put(i,  friendsInGame.get(i - 1));
+            hashMap.put(i, friendsInGame.get(i - 1));
         }
 
         return startGame(hashMap, length.intValue(), width.intValue(), autoSave.intValue(), keptSavedFiles.intValue());
