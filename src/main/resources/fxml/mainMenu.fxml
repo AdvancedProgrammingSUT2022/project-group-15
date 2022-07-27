@@ -73,7 +73,7 @@
             <Image url="@../icons/Civilization-Logo.png" />
         </image>
     </ImageView>
-    <ImageView fitHeight="60.0" fitWidth="50.0" layoutX="1210.0" layoutY="8.0" onMouseClicked="#openFrienshipMenu">
+    <ImageView fitHeight="60.0" fitWidth="50.0" layoutX="1210.0" layoutY="8.0" onMouseClicked="#openFrienshipMenu" styleClass="exit-button">
         <image>
             <Image url="@../icons/friend.png" />
         </image>

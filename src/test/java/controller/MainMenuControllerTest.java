@@ -22,12 +22,12 @@ public class MainMenuControllerTest {
     @Mock
     User user;
 
-    @Test
-    public void logoutTest() {
-        User.setLoggedInUser(user);
-        controller.logout();
-        Assert.assertNull(User.getLoggedInUser());
-    }
+//    @Test
+//    public void logoutTest() {
+//        User.setLoggedInUser(user);
+//        controller.logout();
+//        Assert.assertNull(User.getLoggedInUser());
+//    }
 
     @Test
     public void isGameStartedTest() {

@@ -1,47 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
-<?import javafx.scene.shape.Rectangle?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Text?>
-<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" styleClass="backgroundPane"
-            stylesheets="@../css/friendshipMenu.css" fx:controller="client.view.FriendshipMenu" prefHeight="720.0"
-            prefWidth="1280.0">
+
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" styleClass="backgroundPane" stylesheets="@../css/friendshipMenu.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.FriendshipMenu">
     <Group fx:id="friendsName">
-        <Rectangle layoutX="330" layoutY="50" width="600" height="175" styleClass="Rectangle"/>
-        <Pane fx:id="friendsNamesBox" layoutX="200" layoutY="110"/>
-        <Label layoutX="520" layoutY="65" text="friends" styleClass="text"/>
-        <Text fx:id="names" layoutX="500" layoutY="135" styleClass="text"/>
+        <Rectangle height="175" layoutX="330" layoutY="50" styleClass="Rectangle" width="600" />
+        <Pane fx:id="friendsNamesBox" layoutX="200" layoutY="110" />
+        <Label layoutX="520" layoutY="65" styleClass="text" text="friends" />
+        <Text fx:id="names" layoutX="500" layoutY="135" styleClass="text" />
 
     </Group>
     <Group fx:id="searchPlayer">
-        <Rectangle layoutX="150" layoutY="275" width="360" height="360" styleClass="Rectangle"/>
-        <VBox fx:id="searchNameFounded" layoutX="190" layoutY="360" spacing="10"/>
-        <Label layoutX="230" layoutY="295" text="search panel" styleClass="text"/>
-        <Label fx:id="popup" layoutX="270" layoutY="380" text="" style="-fx-stroke: black"
-               alignment="CENTER"/>
+        <Rectangle height="360" layoutX="150" layoutY="275" styleClass="Rectangle" width="360" />
+        <VBox fx:id="searchNameFounded" layoutX="190" layoutY="360" spacing="10" />
+        <Label layoutX="230" layoutY="295" styleClass="text" text="search panel" />
+        <Label fx:id="popup" alignment="CENTER" layoutX="200.0" layoutY="378.0" style="-fx-stroke: black" text="" />
 
-        <TextField fx:id="text" layoutX="190" layoutY="495" prefWidth="280"
-                   promptText="username..."/>
-        <Button layoutX="250" layoutY="550" text="send" onMouseClicked="#send" styleClass="Button"/>
+        <TextField fx:id="text" layoutX="200.0" layoutY="492.0" prefWidth="280" promptText="username..." />
+        <Button layoutX="225.0" layoutY="550.0" onMouseClicked="#send" styleClass="Button" text="send" />
     </Group>
     <Group fx:id="friendRequests">
-        <Rectangle layoutX="750" layoutY="275" width="360" height="360" styleClass="Rectangle"/>
-        <Label layoutX="830" layoutY="295" text="friend requests" styleClass="text"/>
-        <VBox fx:id="friendRequestBox" layoutX="790" layoutY="360"/>
+        <Rectangle height="360" layoutX="750" layoutY="275" styleClass="Rectangle" width="360" />
+        <Label layoutX="830" layoutY="295" styleClass="text" text="friend requests" />
+        <VBox fx:id="friendRequestBox" layoutX="790" layoutY="360" />
     </Group>
-    <ImageView fitHeight="79.0" fitWidth="98.0" layoutX="26.0" layoutY="21.0" onMouseClicked="#openMainMenu"
-               pickOnBounds="true" preserveRatio="true" styleClass="back-button">
+    <ImageView fitHeight="79.0" fitWidth="98.0" layoutX="26.0" layoutY="21.0" onMouseClicked="#openMainMenu" pickOnBounds="true" preserveRatio="true" styleClass="back-button">
         <cursor>
-            <Cursor fx:constant="HAND"/>
+            <Cursor fx:constant="HAND" />
         </cursor>
-        <Image url="@../icons/back-icon.png"/>
+        <Image url="@../icons/back-icon.png" />
     </ImageView>
 
 </AnchorPane>

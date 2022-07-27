@@ -94,6 +94,6 @@ public class GlobalThings {
             public JsonElement serialize(LocalDateTime localDateTime, Type srcType, JsonSerializationContext context) {
                 return new JsonPrimitive(formatter.format(localDateTime));
             }
-        }).setPrettyPrinting().disableHtmlEscaping().create();
+        }).setPrettyPrinting().serializeNulls().disableHtmlEscaping().create();
     }
 }

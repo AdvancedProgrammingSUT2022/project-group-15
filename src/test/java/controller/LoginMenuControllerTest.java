@@ -83,15 +83,15 @@ public class LoginMenuControllerTest {
 //        Assert.assertEquals("user logged in successfully!", controller.login(matcher));
     }
 
-    @Test
-    public void checkIsUserLoggedInFalse() {
-        theMock.when(() -> User.getLoggedInUser()).thenReturn(null);
-        Assert.assertFalse(controller.isUserLoggedIn());
-    }
-
-    @Test
-    public void checkIsUserLoggedInTrue() {
-        theMock.when(() -> User.getLoggedInUser()).thenReturn(user);
-        Assert.assertTrue(controller.isUserLoggedIn());
-    }
+//    @Test
+//    public void checkIsUserLoggedInFalse() {
+//        theMock.when(() -> User.getLoggedInUser()).thenReturn(null);
+//        Assert.assertFalse(controller.isUserLoggedIn());
+//    }
+//
+//    @Test
+//    public void checkIsUserLoggedInTrue() {
+//        theMock.when(() -> User.getLoggedInUser()).thenReturn(user);
+//        Assert.assertTrue(controller.isUserLoggedIn());
+//    }
 }
