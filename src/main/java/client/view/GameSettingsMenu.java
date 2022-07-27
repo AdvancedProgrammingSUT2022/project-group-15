@@ -144,13 +144,8 @@ public class GameSettingsMenu extends Menu implements Initializable {
             String text = (String) Controller.send("gameWithFriends", createArraylistOfUsers(), mapLength.getValue(), mapWidth.getValue(),
                     autoSave.getValue(), numberOfKeptSavedFiles.getValue());
             information.setText(text);
-            if (text.startsWith("a new game started with ")) {
-                Controller.send("change menu Game");
-                setup(cancelButton);
-                Controller.setGameMenu(new GameMenu());
-                window.setScene(Controller.getGameMenu().getScene());
 
-            }
+
         } else {
             String text = (String) Controller.send("loadSavedGame", loadGame.getValue());
             if (text.endsWith("successfully")) {

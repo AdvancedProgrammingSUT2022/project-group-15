@@ -114,7 +114,7 @@ public class GameMenu extends Menu implements Initializable {
         });
     }
 
-    private void updateAll() {
+    public void updateAll() {
         updateStatusBar();
         updateCurrentResearchStatus();
         while (true) {

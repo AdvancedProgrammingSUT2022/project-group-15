@@ -3,7 +3,9 @@ package client.controller;
 import client.model.GlobalThings;
 import client.model.Request;
 import client.model.Response;
+import client.view.GameMenu;
 import client.view.GameSettingsMenu;
+import client.view.Menu;
 import com.google.gson.Gson;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -67,7 +69,7 @@ public class ListenerController extends Thread {
                     hBox.setStyle("-fx-background-color: purple");
                     Label label = new Label(command + " do you accept?");
                     label.setFont(new Font(40));
-                    label.setStyle("-fx-fill: yellow");
+                    label.setStyle("-fx-text-fill: yellow");
                     Button accept = new Button("accept");
                     accept.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
@@ -130,11 +132,46 @@ public class ListenerController extends Thread {
                 }
 
             });
-
+            return;
         }
-        switch (command) {
 
-
+        if (command.equals("game started")) {
+            Controller.send("change menu Game");
+            Platform.runLater(() -> {
+                Controller.setGameMenu(new GameMenu());
+                Controller.getWindow().setScene(Controller.getGameMenu().getScene());
+            });
+            return;
         }
+
+        if (command.startsWith("not your turn. turn for : ")) {
+            Platform.runLater(() -> {
+                HBox hBox = new HBox();
+                hBox.toBack();
+                hBox.getChildren().clear();
+                hBox.setStyle("-fx-background-color: purple");
+                Label label = new Label(command);
+                label.setFont(new Font(40));
+                label.setStyle("-fx-text-fill: yellow");
+                hBox.getChildren().add(label);
+                hBox.setAlignment(Pos.CENTER);
+                hBox.setPrefHeight(720);
+                hBox.setPrefWidth(1280);
+                ((AnchorPane) Controller.getWindow().getScene().getRoot()).getChildren().add(hBox);
+            });
+            return;
+        }
+        if (command.equals("its your turn")) {
+            Platform.runLater(() -> {
+                if (((AnchorPane) Controller.getWindow().getScene().getRoot()).getChildren().
+                        get(((AnchorPane) Controller.getWindow().getScene().getRoot()).getChildren().size() - 1) instanceof HBox)
+                    ((AnchorPane) Controller.getWindow().getScene().getRoot()).getChildren().remove(
+                            ((AnchorPane) Controller.getWindow().getScene().getRoot()).getChildren().size() - 1);
+                Controller.getGameMenu().updateAll();
+            });
+            return;
+        }
+
+
     }
 }

@@ -65,17 +65,18 @@ public class SocketHandler extends Thread {
             while (true) {
                 Gson gson = GlobalThings.gson;
                 String s = dataInputStream.readUTF();
-                System.out.println("<<REQUEST>> : \n" + s); // TODO : delete this line
+                //System.out.println("<<REQUEST>> : \n" + s); // TODO : delete this line
                 Request request = gson.fromJson(s, Request.class);
-                System.out.println("New request from " + socket);
+                //System.out.println("New request from " + socket);
                 Response response = handleRequest(request);
-                System.out.println("<<RESPONSE>> : \n" + gson.toJson(response)); // TODO : delete this line
+               // System.out.println("<<RESPONSE>> : \n" + gson.toJson(response)); // TODO : delete this line
                 dataOutputStream.writeUTF(gson.toJson(response));
                 dataOutputStream.flush();
             }
         } catch (IOException | NoSuchMethodException | InvocationTargetException | IllegalAccessException exception) {
             if (user != null)
                 user.setLastOnlineTime(LocalDateTime.now());
+            exception.printStackTrace();
             ServerController.getInstance().removeSocket(this);
             // TODO : send updated list of users to online users
         }
@@ -83,19 +84,19 @@ public class SocketHandler extends Thread {
 
     private Response handleRequest(Request request) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         String methodName = request.getMethodName();
-        if (methodName.equals("getPlayersInLobby")){
+        if (methodName.equals("getPlayersInLobby")) {
             Response response = new Response();
             ArrayList<String> usernames = new ArrayList<>();
             for (SocketHandler socketHandler : waitingInLobbyWithYou) {
                 usernames.add(socketHandler.user.getUsername());
             }
             response.setAnswer(usernames);
-            return response ;
+            return response;
         }
-        if (methodName.startsWith("accept invite from")){
+        if (methodName.startsWith("accept invite from")) {
             String username = methodName.substring(19);
             for (SocketHandler socketHandler : ServerController.getInstance().getSocketHandlers()) {
-                if (socketHandler.user.getUsername().equals(username)){
+                if (socketHandler.user.getUsername().equals(username)) {
                     socketHandler.waitingInLobbyWithYou.add(this);
                     this.waitingInLobbyWithYou = socketHandler.waitingInLobbyWithYou;
                     socketHandler.sendCommand(user.getUsername() + " has accepted your invite");
@@ -106,10 +107,10 @@ public class SocketHandler extends Thread {
             }
             return new Response();
         }
-        if (methodName.startsWith("reject invite from")){
+        if (methodName.startsWith("reject invite from")) {
             String username = methodName.substring(19);
             for (SocketHandler socketHandler : ServerController.getInstance().getSocketHandlers()) {
-                if (socketHandler.user.getUsername().equals(username)){
+                if (socketHandler.user.getUsername().equals(username)) {
                     socketHandler.sendCommand(user.getUsername() + " has rejected your invite");
                 }
             }
@@ -166,10 +167,30 @@ public class SocketHandler extends Thread {
             case "Game":
                 method = gameMenuController.getClass().getMethod(methodName, types);
                 answer = method.invoke(gameMenuController, arguments);
+                if (answer instanceof String) {
+                    if (((String) answer).startsWith("change turn done \nIt's now your turn "))
+                        updateMapForClients();
+                }
                 break;
             case "GameSetting":
                 method = gameSettingMenuController.getClass().getMethod(methodName, types);
                 answer = method.invoke(gameSettingMenuController, arguments);
+                if (answer instanceof String) {
+                    if (((String) answer).startsWith("a new game started with ")) {
+                        new Thread(()->{
+                            try {
+                                Thread.sleep(100);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                            for (SocketHandler socketHandler : waitingInLobbyWithYou) {
+                                socketHandler.sendCommand("game started");
+                            }
+                            updateMapForClients();
+                        }).start();
+
+                    }
+                }
                 break;
             case "Login":
                 method = loginMenuController.getClass().getMethod(methodName, types);
@@ -182,6 +203,7 @@ public class SocketHandler extends Thread {
                         user.setAuthToken(user.getUsername() + user.getPassword() + user.getNickname() + String.valueOf(random));
                         answer += user.getAuthToken();
                     }
+
                 }
                 break;
             case "Main":
@@ -205,6 +227,17 @@ public class SocketHandler extends Thread {
         Response response = new Response();
         response.setAnswer(answer);
         return response;
+    }
+
+    private void updateMapForClients() {
+        for (SocketHandler socketHandler : waitingInLobbyWithYou) {
+            if (socketHandler.user.getUsername().equals(Game.getGame().getSelectedCivilization().getUsername())) {
+                socketHandler.sendCommand("its your turn");
+            }
+            else {
+                socketHandler.sendCommand("not your turn. turn for : " + Game.getGame().getSelectedCivilization().getUsername());
+            }
+        }
     }
 
     private void changeMenu(String name) {
