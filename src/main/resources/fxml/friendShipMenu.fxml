@@ -34,7 +34,7 @@
         <Rectangle height="360" layoutX="750" layoutY="275" styleClass="Rectangle" width="360" />
         <Label layoutX="830" layoutY="295" styleClass="text" text="friend requests" />
         <VBox fx:id="friendRequestBox" layoutX="790" layoutY="360" />
-    </Group>
+      </Group>
     <ImageView fitHeight="79.0" fitWidth="98.0" layoutX="26.0" layoutY="21.0" onMouseClicked="#openMainMenu" pickOnBounds="true" preserveRatio="true" styleClass="back-button">
         <cursor>
             <Cursor fx:constant="HAND" />
