@@ -11,7 +11,6 @@ public class LoginMenuController {
      * @author Parsa
      */
     public String signUp(String username, String password, String nickname) {
-        User.loadUsers();
 
         if (username.isEmpty() || password.isEmpty() || nickname.isEmpty()) {
             return  "please fill the fields!";
@@ -41,7 +40,6 @@ public class LoginMenuController {
      * @author Parsa
      */
     public String login(String username, String password) {
-        User.loadUsers();
         if (username.isEmpty() || password.isEmpty()) {
             return "please fill the fields!";
         }

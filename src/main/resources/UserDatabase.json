@@ -14,27 +14,31 @@
     "friends": []
   },
   {
-    "avatar": "AVATAR_1",
+    "avatar": "AVATAR_2",
     "lastScoreChangedTime": "27::Jul::2022 03::32::59",
-    "lastOnlineTime": "27::Jul::2022 12::19::51",
+    "lastOnlineTime": "27::Jul::2022 12::48::53",
     "username": "a",
     "password": "a",
     "nickname": "a",
     "score": 0,
-    "authToken": "aaa21",
+    "authToken": "aaa33",
     "friendReqs": [],
-    "friends": []
+    "friends": [
+      "parsa"
+    ]
   },
   {
-    "avatar": "AVATAR_9",
+    "avatar": "AVATAR_8",
     "lastScoreChangedTime": "27::Jul::2022 11::39::50",
-    "lastOnlineTime": "27::Jul::2022 11::41::10",
+    "lastOnlineTime": "27::Jul::2022 12::48::48",
     "username": "parsa",
     "password": "parsa1234",
     "nickname": "parsa bashari",
     "score": 0,
-    "authToken": "parsaparsa1234parsa bashari38",
+    "authToken": "parsaparsa1234parsa bashari18",
     "friendReqs": [],
-    "friends": []
+    "friends": [
+      "a"
+    ]
   }
 ]

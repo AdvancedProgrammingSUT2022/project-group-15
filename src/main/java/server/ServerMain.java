@@ -1,6 +1,7 @@
 package server;
 
 import server.controller.ServerController;
+import server.model.User;
 
 import java.io.IOException;
 
