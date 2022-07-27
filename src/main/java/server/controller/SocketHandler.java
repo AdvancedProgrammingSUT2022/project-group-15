@@ -76,16 +76,36 @@ public class SocketHandler extends Thread {
         } catch (IOException | NoSuchMethodException | InvocationTargetException | IllegalAccessException exception) {
             if (user != null)
                 user.setLastOnlineTime(LocalDateTime.now());
-            System.out.println(this.user);
-            System.out.println(ServerController.getInstance().getSocketHandlers().size());
             ServerController.getInstance().removeSocket(this);
-            System.out.println(ServerController.getInstance().getSocketHandlers().size());
             // TODO : send updated list of users to online users
         }
     }
 
     private Response handleRequest(Request request) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         String methodName = request.getMethodName();
+        if (methodName.equals("getPlayersInLobby")){
+            Response response = new Response();
+            ArrayList<String> usernames = new ArrayList<>();
+            for (SocketHandler socketHandler : waitingInLobbyWithYou) {
+                usernames.add(socketHandler.user.getUsername());
+            }
+            response.setAnswer(usernames);
+            return response ;
+        }
+        if (methodName.startsWith("accept invite from")){
+            String username = methodName.substring(19);
+            for (SocketHandler socketHandler : ServerController.getInstance().getSocketHandlers()) {
+                if (socketHandler.user.getUsername().equals(username)){
+                    socketHandler.waitingInLobbyWithYou.add(this);
+                    this.waitingInLobbyWithYou = socketHandler.waitingInLobbyWithYou;
+                    socketHandler.sendCommand(user.getUsername() + " has accepted your invite");
+                    for (SocketHandler handler : waitingInLobbyWithYou) {
+                        handler.sendCommand("update players");
+                    }
+                }
+            }
+            return new Response();
+        }
         if (methodName.startsWith("reject invite from")){
             String username = methodName.substring(19);
             for (SocketHandler socketHandler : ServerController.getInstance().getSocketHandlers()) {

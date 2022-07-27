@@ -3,6 +3,7 @@ package client.controller;
 import client.model.GlobalThings;
 import client.model.Request;
 import client.model.Response;
+import client.view.GameSettingsMenu;
 import com.google.gson.Gson;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -12,11 +13,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ListenerController extends Thread {
@@ -69,7 +72,8 @@ public class ListenerController extends Thread {
                     accept.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
-
+                            Controller.send("accept invite from " + command.substring(12));
+                            ((AnchorPane) Controller.getWindow().getScene().getRoot()).getChildren().remove(hBox);
                         }
                     });
                     Button reject = new Button("reject");
@@ -97,10 +101,36 @@ public class ListenerController extends Thread {
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
-                    ((Label)((AnchorPane) Controller.getWindow().getScene().getRoot()).getChildren().get(9)).setText(command);
+                    ((Label) ((AnchorPane) Controller.getWindow().getScene().getRoot()).getChildren().get(9)).setText(command);
                 }
             });
             return;
+        }
+        if (command.endsWith("has accepted your invite")) {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    ((Label) ((AnchorPane) Controller.getWindow().getScene().getRoot()).getChildren().get(9)).setText(command);
+                }
+            });
+            return;
+        }
+        if (command.equals("update players")) {
+            ArrayList<String> usernames = (ArrayList<String>) Controller.send("getPlayersInLobby");
+            Controller.send("change menu GameSetting");
+            Platform.runLater(() -> {
+
+                Controller.setGameSettingsMenu(new GameSettingsMenu());
+                Controller.getWindow().setScene(Controller.getGameSettingsMenu().getScene());
+                VBox vBox = ((VBox) ((AnchorPane) Controller.getWindow().getScene().getRoot()).getChildren().get(20));
+                vBox.getChildren().clear();
+                for (String username : usernames) {
+                    Label label = new Label(username);
+                    vBox.getChildren().add(label);
+                }
+
+            });
+
         }
         switch (command) {
 
