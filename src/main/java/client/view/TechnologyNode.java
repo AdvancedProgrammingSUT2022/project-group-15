@@ -24,9 +24,9 @@ public class TechnologyNode extends Button {
         this.setTooltip(new Tooltip(this.technology.toString() + "\n" + remainingTurns + " Turns"));
         if (technology == Controller.send("getTechnologyInProgress")) {
             this.setStyle("-fx-border-color: blue");
-        } else if ((boolean) Controller.send("hasTechnology", this.technology)) {
+        } else if ((boolean) Controller.send("hasTechnology", this.technology.name)) {
             this.setStyle("-fx-border-color: gold");
-        } else if ((boolean) Controller.send("isAvailableTechnology", this.technology)) {
+        } else if ((boolean) Controller.send("isAvailableTechnology", this.technology.name)) {
             this.setStyle("-fx-border-color: green");
         } else {
             this.setStyle("-fx-border-color: gray; -fx-cursor: default;");
@@ -39,8 +39,8 @@ public class TechnologyNode extends Button {
      * @author parsa
      */
     public boolean handleClick() {
-        if ((boolean) Controller.send("isAvailableTechnology", this.technology)) {
-            Controller.send("buyNewTechnology", this.technology);
+        if ((boolean) Controller.send("isAvailableTechnology", this.technology.name)) {
+            Controller.send("buyNewTechnology", this.technology.name);
             return true;
         }
         return false;

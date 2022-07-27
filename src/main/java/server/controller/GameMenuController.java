@@ -145,27 +145,8 @@ public class GameMenuController {
         return Game.getGame().addNotification(Game.getGame().getTurnNumber(), message);
     }
 
-    public String buyNewTechnology(String technologyName) {
-        Technology technology = null;
-        for (Technology tech : Technology.values()) {
-            if (tech.name.equals(technologyName)) {
-                technology = tech;
-            }
-        }
-
-        if (technology == null) {
-            return Game.getGame().addNotification(Game.getGame().getTurnNumber(), "Invalid technology name!");
-        }
-
-        if (!Game.getGame().getSelectedCivilization().getAvailableTechnologies().contains(technology)) {
-            return Game.getGame().addNotification(Game.getGame().getTurnNumber(), "This technology is not available for you! (Open prerequisites first)");
-        }
-
-        Game.getGame().getSelectedCivilization().setTechnologyInProgress(technology);
-        return Game.getGame().addNotification(Game.getGame().getTurnNumber(), technologyName + " activated! (is your technology in progress)");
-    }
-
-    public void buyNewTechnology(Technology technology) {
+    public void buyNewTechnology(String technologyName) {
+        Technology technology = Technology.getTechnologyByName(technologyName);
         Game.getGame().getSelectedCivilization().setTechnologyInProgress(technology);
     }
 
@@ -1122,12 +1103,13 @@ public class GameMenuController {
         return Game.getGame().getSelectedCivilization().getSciencePerTurn();
     }
 
-    public boolean hasTechnology(Technology technology) {
+    public boolean hasTechnology(String technologyName) {
+        Technology technology = Technology.getTechnologyByName(technologyName);
         return Game.getGame().getSelectedCivilization().getTechnologies().contains(technology);
     }
 
-    public boolean isAvailableTechnology(Technology technology) {
+    public boolean isAvailableTechnology(String technologyName) {
+        Technology technology = Technology.getTechnologyByName(technologyName);
         return Game.getGame().getSelectedCivilization().getAvailableTechnologies().contains(technology);
     }
-
 }

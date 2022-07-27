@@ -81,6 +81,15 @@ public enum Technology {
      //   this.image = new Image(getClass().getResource("/Technologies/" + this.name + ".png").toExternalForm());
     }
 
+    public static Technology getTechnologyByName(String technologyName) {
+        for (Technology technology : Technology.values()) {
+            if (technology.name.equals(technologyName)) {
+                return technology;
+            }
+        }
+        return null;
+    }
+
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder("name : " + this.name + "\ncost (science) : " + this.cost + "\n");
